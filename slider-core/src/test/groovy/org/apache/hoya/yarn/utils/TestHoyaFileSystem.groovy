@@ -43,7 +43,7 @@ class TestHoyaFileSystem extends HoyaTestBase {
   public void testHoyaBasePathDefaultValue() throws Throwable {
     Configuration configuration = defaultConfiguration()
     FileSystem fileSystem = FileSystem.get(configuration)
-    assertEquals new HoyaFileSystem(fileSystem, configuration).getBaseHoyaPath(), new Path(fileSystem.getHomeDirectory(), ".hoya")
+    assertEquals new HoyaFileSystem(fileSystem, configuration).getBaseHoyaPath(), new Path(fileSystem.getHomeDirectory(), ".slider")
   }
 
   @Test

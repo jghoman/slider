@@ -90,7 +90,7 @@ class TestClientResourceRegistration {
     String hostname = "nosuchhost:0"
     conf.set(YarnConfiguration.RM_ADDRESS, hostname)
     YarnConfiguration yc = new YarnConfiguration()
-    ConfigHelper.mergeConfigurations(yc, conf, "hoya-client")
+    ConfigHelper.mergeConfigurations(yc, conf, "slider-client")
     InetSocketAddress addr = HoyaUtils.getRmAddress(yc)
     assert HoyaUtils.isAddressDefined(addr)
   }

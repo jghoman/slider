@@ -51,7 +51,7 @@ class TestBuildSetup extends HoyaTestUtils implements FuntestProperties {
   public static final File HOYA_CONF_DIRECTORY = new File(
       HOYA_CONF_DIR).canonicalFile
   public static final File HOYA_CONF_XML = new File(HOYA_CONF_DIRECTORY,
-                                                    "hoya-client.xml").canonicalFile
+                                                    "slider-client.xml").canonicalFile
 */
 
 
