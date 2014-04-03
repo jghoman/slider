@@ -3,6 +3,9 @@
   "metadata": {
   },
   "global": {
+    "agent.conf": "/slider/agent/conf/agent.ini",
+    "agent.version": "/slider/agent/version",
+    "application.def": "/slider/storm_v091.tar",
     "config_types": "storm-site",
     "java_home": "/usr/jdk64/jdk1.7.0_45",
     "package_list": "files/apache-storm-0.9.1.2.1.1.0-237.tar.gz",

@@ -162,20 +162,23 @@ public class AgentProviderService extends AbstractProviderService implements
     log.info("Using " + scriptPath + " for agent.");
     String appDef = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
-    LocalResource appDefRes = hoyaFileSystem.createAmResource(new Path(appDef),
-                                                              LocalResourceType.ARCHIVE);
+    LocalResource appDefRes = hoyaFileSystem.createAmResource(
+        hoyaFileSystem.getFileSystem().resolvePath(new Path(appDef)),
+        LocalResourceType.ARCHIVE);
     localResources.put(AgentKeys.APP_DEFINITION_DIR, appDefRes);
 
     String agentConf = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
-    LocalResource agentConfRes = hoyaFileSystem.createAmResource(new Path(agentConf),
-                                                                 LocalResourceType.FILE);
+    LocalResource agentConfRes = hoyaFileSystem.createAmResource(
+        hoyaFileSystem.getFileSystem().resolvePath(new Path(agentConf)),
+        LocalResourceType.FILE);
     localResources.put(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
 
     String agentVer = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_VERSION);
-    LocalResource agentVerRes = hoyaFileSystem.createAmResource(new Path(agentVer),
-                                                                LocalResourceType.FILE);
+    LocalResource agentVerRes = hoyaFileSystem.createAmResource(
+        hoyaFileSystem.getFileSystem().resolvePath(new Path(agentVer)),
+        LocalResourceType.FILE);
     localResources.put(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
 
     ctx.setLocalResources(localResources);

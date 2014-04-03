@@ -3,6 +3,9 @@
   "metadata": {
   },
   "global": {
+    "agent.conf": "/slider/agent/conf/agent.ini",
+    "agent.version": "/slider/agent/version",
+    "application.def": "/slider/accumulo_v15.tar",
     "config_types": "accumulo-site",
     "java_home": "/usr/jdk64/jdk1.7.0_45",
     "package_list": "files/accumulo-1.5.1-bin.tar.gz",
