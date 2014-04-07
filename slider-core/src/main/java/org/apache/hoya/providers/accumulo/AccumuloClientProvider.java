@@ -128,44 +128,6 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
     return UUID.randomUUID().toString();
   }
 
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException,
-                                                                       IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(AccumuloKeys.ROLE_MASTER)) {
-      // master role
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-master.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_TABLET)) {
-      // worker settings
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-tablet.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_GARBAGE_COLLECTOR)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-gc.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_TRACER)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-tracer.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_MONITOR)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-monitor.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
-  }
-
   public void setDatabasePath(Map<String, String> sitexml, String dataPath) {
     Path path = new Path(dataPath);
     URI parentUri = path.toUri();

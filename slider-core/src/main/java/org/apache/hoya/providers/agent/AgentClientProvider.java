@@ -81,24 +81,7 @@ public class AgentClientProvider extends AbstractClientProvider
   @Override
   public Configuration getDefaultClusterConfiguration() throws
       FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-        "org/apache/hoya/providers/agent/agent.xml");
-  }
-
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role;
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-      HoyaException,
-      IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-
-    return rolemap;
+    return ConfigHelper.loadMandatoryResource(RESOURCE_BASE + "agent.xml");
   }
 
   @Override //Client

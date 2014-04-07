@@ -88,31 +88,6 @@ public class HBaseClientProvider extends AbstractClientProvider implements
     return ConfigHelper.loadMandatoryResource(
       "org/apache/hoya/providers/hbase/hbase.xml");
   }
-  
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException, IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(HBaseKeys.ROLE_MASTER)) {
-      // master role
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        PROVIDER_RESOURCE_BASE +"hbase/role-hbase-master.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(HBaseKeys.ROLE_WORKER)) {
-      // worker settings
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        PROVIDER_RESOURCE_BASE +"hbase/role-hbase-worker.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
-  }
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws

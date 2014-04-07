@@ -119,26 +119,6 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
       "org/apache/hoya/providers/hoyaam/cluster.xml");
   }
 
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException,
-                                                                       FileNotFoundException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(COMPONENT_AM)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        AM_ROLE_CONFIG_RESOURCE);
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
-  }
-
 
   @Override //Client
   public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
