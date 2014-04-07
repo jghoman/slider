@@ -52,8 +52,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions.INSTANCE_SECRET;
-
 /**
  * Client-side accumulo provider
  */
@@ -100,29 +98,6 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                              createAccumuloPassword());
   }
 
-
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly emtpy map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-
-    Configuration conf = ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/accumulo/accumulo.xml");
-
-    //make up a password
-    conf.set(OPTION_ACCUMULO_PASSWORD, createAccumuloPassword());
-
-    //create an instance ID
-    conf.set(
-      OptionKeys.SITE_XML_PREFIX + INSTANCE_SECRET,
-      createAccumuloPassword());
-    return conf;
-
-  }
 
   public String createAccumuloPassword() {
     return UUID.randomUUID().toString();

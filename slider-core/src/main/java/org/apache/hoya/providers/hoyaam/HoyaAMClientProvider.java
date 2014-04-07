@@ -38,13 +38,11 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,19 +102,6 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
   @Override
   public List<ProviderRole> getRoles() {
     return ROLES;
-  }
-
-
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly empty map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/hoyaam/cluster.xml");
   }
 
 

@@ -58,9 +58,6 @@ public abstract class AbstractClientProvider extends Configured {
     super(conf);
   }
 
-  public AbstractClientProvider() {
-  }
-
   public abstract String getName();
 
   public abstract List<ProviderRole> getRoles();
@@ -111,9 +108,6 @@ public abstract class AbstractClientProvider extends Configured {
                                                                     IOException {
     //default: do nothing
   }
-
-  public abstract Configuration getDefaultClusterConfiguration() throws
-                                                          FileNotFoundException;
 
 
   /**

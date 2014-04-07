@@ -38,7 +38,6 @@ import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,18 +75,6 @@ public class HBaseClientProvider extends AbstractClientProvider implements
     return HBaseRoles.getRoles();
   }
 
-
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly empty map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/hbase/hbase.xml");
-  }
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
