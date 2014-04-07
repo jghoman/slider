@@ -29,7 +29,6 @@ public interface HoyaActions {
   String ACTION_CREATE = "create";
   String ACTION_DESTROY = "destroy";
   String ACTION_ECHO = "echo";
-  String ACTION_EMERGENCY_FORCE_KILL = "emergency-force-kill";
   String ACTION_EXISTS = "exists";
   String ACTION_FLEX = "flex";
   String ACTION_FREEZE = "freeze";
@@ -37,11 +36,8 @@ public interface HoyaActions {
   String ACTION_HELP = "help";
   String ACTION_KILL_CONTAINER = "kill-container";
   String ACTION_LIST = "list";
-  String ACTION_MIGRATE = "migrate";
-  String ACTION_MONITOR = "monitor";
   String ACTION_PREFLIGHT = "preflight";
   String ACTION_RECONFIGURE = "reconfigure";
-  String ACTION_REIMAGE = "reimage";
   String ACTION_STATUS = "status";
   String ACTION_THAW = "thaw";
   String ACTION_USAGE = "usage";
@@ -54,8 +50,6 @@ public interface HoyaActions {
       "Create a live Hoya cluster";
   String DESCRIBE_ACTION_DESTROY =
         "Destroy a frozen Hoya cluster)";
-  String DESCRIBE_ACTION_FORCE_KILL =
-          "Force kill an application by its YARN application ID";
   String DESCRIBE_ACTION_EXISTS =
             "Probe for a cluster running";
   String DESCRIBE_ACTION_FLEX = "Flex a Hoya cluster";

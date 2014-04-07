@@ -38,7 +38,7 @@ import org.apache.hoya.yarn.params.ActionCreateArgs
 import org.apache.hoya.yarn.params.ActionDestroyArgs
 import org.apache.hoya.yarn.params.ActionExistsArgs
 import org.apache.hoya.yarn.params.ActionFlexArgs
-import org.apache.hoya.yarn.params.ActionForceKillArgs
+
 import org.apache.hoya.yarn.params.ActionFreezeArgs
 import org.apache.hoya.yarn.params.ActionGetConfArgs
 import org.apache.hoya.yarn.params.ActionListArgs
@@ -194,11 +194,11 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
    * 
    */
   @Test
-  public void testEmergencyKillSplit() throws Throwable {
+  public void testStatusSplit() throws Throwable {
 
     String appId = "application_1381252124398_0013"
     ClientArgs ca = createClientArgs([
-        ACTION_EMERGENCY_FORCE_KILL,
+        ACTION_STATUS,
         "--manager", "rhel:8032",
         "--filesystem", "hdfs://rhel:9090",
         "-S","java.security.krb5.realm=LOCAL",
@@ -208,34 +208,6 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
         appId
     ])
     assert appId == ca.clusterName
-  }
-  
-  /**
-   * Test a force kill command where appID == all
-   * @throws Throwable
-   * 
-   */
-  @Test
-  public void testEmergencyKillAll() throws Throwable {
-
-    String appId = ActionForceKillArgs.ALL
-    ClientArgs ca = createClientArgs([
-        ACTION_EMERGENCY_FORCE_KILL,
-        appId
-    ])
-    assert appId == ca.clusterName
-    assert ca.coreAction instanceof ActionForceKillArgs
-  }
-  /**
-   * Test a force kill command without args
-   * @throws Throwable
-   * 
-   */
-  @Test
-  public void testEmergencyKillNeedsOneArg() throws Throwable {
-    assertParseFails([
-        ACTION_EMERGENCY_FORCE_KILL,
-    ])
   }
   
   @Test

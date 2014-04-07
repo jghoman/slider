@@ -210,8 +210,6 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
       exitCode = actionThaw(clusterName, serviceArgs.getActionThawArgs());
     } else if (HoyaActions.ACTION_DESTROY.equals(action)) {
       exitCode = actionDestroy(clusterName);
-    } else if (HoyaActions.ACTION_EMERGENCY_FORCE_KILL.equals(action)) {
-      exitCode = actionEmergencyForceKill(clusterName);
     } else if (HoyaActions.ACTION_EXISTS.equals(action)) {
       exitCode = actionExists(clusterName,
                               serviceArgs.getActionExistsArgs().live);
@@ -289,17 +287,6 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     log.info("Destroyed cluster {}", clustername);
     return EXIT_SUCCESS;
   }
-
-  /**
-   * Force kill a yarn application by ID. 
-   */
-  public int actionEmergencyForceKill(String appId) throws YarnException,
-                                                      IOException {
-    verifyManagerSet();
-    yarnClient.emergencyForceKill(appId);
-    return EXIT_SUCCESS;
-  }
-  
   
   /**
    * AM to commit an asynchronous suicide

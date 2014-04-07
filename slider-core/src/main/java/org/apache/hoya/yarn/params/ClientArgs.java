@@ -51,8 +51,6 @@ public class ClientArgs extends CommonArgs {
   private final ActionDestroyArgs actionDestroyArgs = new ActionDestroyArgs();
   private final ActionExistsArgs actionExistsArgs = new ActionExistsArgs();
   private final ActionFlexArgs actionFlexArgs = new ActionFlexArgs();
-  private final ActionForceKillArgs actionForceKillArgs =
-    new ActionForceKillArgs();
   private final ActionFreezeArgs actionFreezeArgs = new ActionFreezeArgs();
   private final ActionGetConfArgs actionGetConfArgs = new ActionGetConfArgs();
   private final ActionKillContainerArgs actionKillContainerArgs =
@@ -82,7 +80,6 @@ public class ClientArgs extends CommonArgs {
       actionDestroyArgs,
       actionExistsArgs,
       actionFlexArgs,
-      actionForceKillArgs,
       actionFreezeArgs,
       actionGetConfArgs,
       actionKillContainerArgs,
@@ -135,10 +132,6 @@ public class ClientArgs extends CommonArgs {
 
   public ActionFlexArgs getActionFlexArgs() {
     return actionFlexArgs;
-  }
-
-  public ActionForceKillArgs getActionForceKillArgs() {
-    return actionForceKillArgs;
   }
 
   public ActionFreezeArgs getActionFreezeArgs() {
@@ -195,9 +188,6 @@ public class ClientArgs extends CommonArgs {
 
     } else if (HoyaActions.ACTION_DESTROY.equals(action)) {
       bindCoreAction(actionDestroyArgs);
-
-    } else if (HoyaActions.ACTION_EMERGENCY_FORCE_KILL.equals(action)) {
-      bindCoreAction(actionForceKillArgs);
 
     } else if (HoyaActions.ACTION_EXISTS.equals(action)) {
       bindCoreAction(actionExistsArgs);
