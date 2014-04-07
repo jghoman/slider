@@ -398,19 +398,6 @@ resilience to failures.
 Container IDs can be determined from the application instance status JSON document.
 
 
-### `emergency-force-kill <applicationID>`
-
-This attempts to force kill any YARN application referenced by application ID.
-There is no attempt to notify the running AM. 
-
-If the application ID is `all` then all slider instances belonging to the current
-user are killed.
-
-
-Example
-
-    slider emergency-force-kill application_1386596138212_0001
-
 ### `am-suicide <name> [--exitcode code] [--message message] [--wait time]`
 
 This operation is purely for testing Slider Application Master restart;
