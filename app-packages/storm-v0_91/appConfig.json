@@ -61,7 +61,7 @@
     "site.storm-site.nimbus.reassign": "true",
     "site.storm-site.storm.messaging.transport": "backtype.storm.messaging.netty.Context",
     "site.storm-site.logviewer.appender.name": "A1",
-    "site.storm-site.nimbus.host": "${NN_HOST}",
+    "site.storm-site.nimbus.host": "${NIMBUS_HOST}",
     "site.storm-site.ui.port": "8744",
     "site.storm-site.supervisor.slots.ports": "[6700, 6701]",
     "site.storm-site.nimbus.file.copy.expiration.secs": "600",

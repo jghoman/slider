@@ -20,6 +20,7 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
@@ -81,6 +82,7 @@ public class AgentProviderService extends AbstractProviderService implements
   private static String LABEL_MAKER = "___";
   private AgentClientProvider clientProvider;
   private Map<String, ComponentInstanceState> componentStatuses = new HashMap<String, ComponentInstanceState>();
+  private Map<String,List<String>> roleHostMapping = new HashMap<String, List<String>>();
   private AtomicInteger taskId = new AtomicInteger(0);
 
   public AgentProviderService() {
@@ -185,6 +187,7 @@ public class AgentProviderService extends AbstractProviderService implements
 
     List<String> commandList = new ArrayList<String>();
     String label = getContainerLabel(container, role);
+    setRoleHostMapping(role, container.getNodeId().getHost());
     CommandLineBuilder operation = new CommandLineBuilder();
 
     operation.add(AgentKeys.PYTHON_EXE);
@@ -207,6 +210,19 @@ public class AgentProviderService extends AbstractProviderService implements
                               role,
                               container.getId().toString(),
                               getClusterInfoPropertyValue(OptionKeys.APPLICATION_NAME)));
+  }
+
+  protected void setRoleHostMapping(String role, String host) {
+    List<String> hosts = roleHostMapping.get(role);
+    if ( hosts == null ) {
+      hosts = new ArrayList<String>();
+    }
+    hosts.add(host);
+    roleHostMapping.put(role, hosts);
+  }
+
+  private List<String> getHostsForRole (String role) {
+    return roleHostMapping.get(role);
   }
 
   private String getContainerLabel(Container container, String role) {
@@ -407,18 +423,14 @@ public class AgentProviderService extends AbstractProviderService implements
   }
 
   private void setInstallCommandConfigurations(ExecutionCommand cmd) {
-    Map<String, Map<String, String>> configurations = new TreeMap<String, Map<String, String>>();
-    Map<String, String> config = new HashMap<String, String>();
-    addDefaultGlobalConfig(config);
-    config.put("app_install_dir", "${AGENT_WORK_ROOT}/app/install");
-    configurations.put("global", config);
+    ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
+    Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
     cmd.setConfigurations(configurations);
   }
 
   protected void addStartCommand(String roleName, HeartBeatResponse response, String scriptPath) throws HoyaException {
     assert getStateAccessor().isApplicationLive();
     ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
-    ConfTreeOperations resourcesConf = getStateAccessor().getResourcesSnapshot();
     ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();
 
     ExecutionCommand cmd = new ExecutionCommand(AgentCommandType.EXECUTION_COMMAND);
@@ -437,13 +449,16 @@ public class AgentProviderService extends AbstractProviderService implements
 
     setCommandParameters(scriptPath, cmd);
 
-    Map<String, Map<String, String>> configurations = new TreeMap<String, Map<String, String>>();
+    Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
 
-    Map<String, String> tokens = new HashMap<String, String>();
-    String nnuri = appConf.get("site.fs.defaultFS");
-    tokens.put("${NN_URI}", nnuri);
-    tokens.put("${NN_HOST}", URI.create(nnuri).getHost());
-    tokens.put("${ZK_HOST}", appConf.get("zookeeper.hosts"));
+    cmd.setConfigurations(configurations);
+    response.addExecutionCommand(cmd);
+  }
+
+  private Map<String, Map<String, String>> buildCommandConfigurations(ConfTreeOperations appConf) {
+
+    Map<String, Map<String, String>> configurations = new TreeMap<String, Map<String, String>>();
+    Map<String, String> tokens = getStandardTokenMap(appConf);
 
     List<String> configs = getApplicationConfigurationTypes(appConf);
 
@@ -453,8 +468,16 @@ public class AgentProviderService extends AbstractProviderService implements
                             configurations, tokens);
     }
 
-    cmd.setConfigurations(configurations);
-    response.addExecutionCommand(cmd);
+    return configurations;
+  }
+
+  private Map<String, String> getStandardTokenMap(ConfTreeOperations appConf) {
+    Map<String, String> tokens = new HashMap<String, String>();
+    String nnuri = appConf.get("site.fs.defaultFS");
+    tokens.put("${NN_URI}", nnuri);
+    tokens.put("${NN_HOST}", URI.create(nnuri).getHost());
+    tokens.put("${ZK_HOST}", appConf.get("zookeeper.hosts"));
+    return tokens;
   }
 
   private List<String> getApplicationConfigurationTypes(ConfTreeOperations appConf) {
@@ -479,8 +502,18 @@ public class AgentProviderService extends AbstractProviderService implements
     if (configName.equals("global")) {
       addDefaultGlobalConfig(config);
     }
+    // add role hosts to tokens
+    addRoleRelatedTokens(tokens);
     providerUtils.propagateSiteOptions(sourceConfig, config, configName, tokens);
     configurations.put(configName, config);
+  }
+
+  protected void addRoleRelatedTokens(Map<String, String> tokens) {
+    for (Map.Entry<String, List<String>> entry : roleHostMapping.entrySet()) {
+      String tokenName = entry.getKey().toUpperCase() + "_HOST";
+      String hosts = StringUtils.join(",", entry.getValue());
+      tokens.put("${" + tokenName + "}", hosts);
+    }
   }
 
   private void addDefaultGlobalConfig(Map<String, String> config) {

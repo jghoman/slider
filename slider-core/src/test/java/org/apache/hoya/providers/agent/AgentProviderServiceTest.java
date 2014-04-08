@@ -19,6 +19,8 @@
 package org.apache.hoya.providers.agent;
 
 import junit.framework.TestCase;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FilterFileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
@@ -40,12 +42,17 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.hoya.yarn.model.mock.MockContainerId;
+import org.apache.hoya.yarn.model.mock.MockFileSystem;
+import org.apache.hoya.yarn.model.mock.MockNodeId;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createNiceMock;
@@ -84,9 +91,14 @@ public class AgentProviderServiceTest {
     MapOperations resourceComponent = new MapOperations();
     MapOperations appComponent = new MapOperations();
     Path containerTmpDirPath = new Path(".", "test");
-    expect(hoyaFileSystem.createAmResource(anyObject(Path.class), anyObject(LocalResourceType.class)))
-        .andReturn(createNiceMock(LocalResource.class));
+    FileSystem mockFs = new MockFileSystem();
+    expect(hoyaFileSystem.getFileSystem())
+        .andReturn(new FilterFileSystem(mockFs)).anyTimes();
+    expect(hoyaFileSystem.createAmResource(anyObject(Path.class),
+                                           anyObject(LocalResourceType.class)))
+        .andReturn(createNiceMock(LocalResource.class)).anyTimes();
     expect(container.getId()).andReturn(new MockContainerId(1)).anyTimes();
+    expect(container.getNodeId()).andReturn(new MockNodeId("localhost")).anyTimes();
     StateAccessForProviders access = createNiceMock(StateAccessForProviders.class);
 
     AgentProviderService mockAps = Mockito.spy(aps);
@@ -142,5 +154,18 @@ public class AgentProviderServiceTest {
     hb.setHostname("mockcontainer_1___HBASE_MASTER");
     HeartBeatResponse hbr = mockAps.handleHeartBeat(hb);
     TestCase.assertEquals(2, hbr.getResponseId());
+  }
+
+  @Test
+  public void testRoleHostMapping() throws Exception {
+    AgentProviderService aps = new AgentProviderService();
+    aps.setRoleHostMapping("FIRST_ROLE", "FIRST_HOST");
+    aps.setRoleHostMapping("SECOND_ROLE", "SECOND_HOST");
+    aps.setRoleHostMapping("SECOND_ROLE", "THIRD_HOST");
+    Map<String,String> tokens = new HashMap<String, String>();
+    aps.addRoleRelatedTokens(tokens);
+    TestCase.assertEquals(2, tokens.size());
+    TestCase.assertEquals("FIRST_HOST", tokens.get("${FIRST_ROLE_HOST}"));
+    TestCase.assertEquals("SECOND_HOST,THIRD_HOST", tokens.get("${SECOND_ROLE_HOST}"));
   }
 }
