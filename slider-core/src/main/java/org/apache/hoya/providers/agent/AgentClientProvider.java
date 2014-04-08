@@ -32,12 +32,10 @@ import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +53,8 @@ public class AgentClientProvider extends AbstractClientProvider
   protected static final Logger log =
     LoggerFactory.getLogger(AgentClientProvider.class);
   protected static final String NAME = "agent";
+  private static final String RESOURCE_BASE =
+    PROVIDER_RESOURCE_BASE_ROOT + NAME + "/";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
 
 
@@ -70,35 +70,6 @@ public class AgentClientProvider extends AbstractClientProvider
   @Override
   public List<ProviderRole> getRoles() {
     return AgentRoles.getRoles();
-  }
-
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   *
-   * @return a possibly empty map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-      FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-        "org/apache/hoya/providers/agent/agent.xml");
-  }
-
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role;
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-      HoyaException,
-      IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-
-    return rolemap;
   }
 
   @Override //Client

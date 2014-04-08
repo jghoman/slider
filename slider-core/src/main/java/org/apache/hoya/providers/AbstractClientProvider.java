@@ -58,9 +58,6 @@ public abstract class AbstractClientProvider extends Configured {
     super(conf);
   }
 
-  public AbstractClientProvider() {
-  }
-
   public abstract String getName();
 
   public abstract List<ProviderRole> getRoles();
@@ -98,21 +95,7 @@ public abstract class AbstractClientProvider extends Configured {
       }
     }
   }
-  
-  
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Deprecated
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                         HoyaException,
-                                                                         IOException {
-    return new HashMap<String, String>();
-  }
+
 
   /**
    * Any provider-side alteration of a configuration can take place here.
@@ -125,9 +108,6 @@ public abstract class AbstractClientProvider extends Configured {
                                                                     IOException {
     //default: do nothing
   }
-
-  public abstract Configuration getDefaultClusterConfiguration() throws
-                                                          FileNotFoundException;
 
 
   /**

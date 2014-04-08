@@ -38,7 +38,6 @@ import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,43 +75,6 @@ public class HBaseClientProvider extends AbstractClientProvider implements
     return HBaseRoles.getRoles();
   }
 
-
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly empty map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/hbase/hbase.xml");
-  }
-  
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException, IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(HBaseKeys.ROLE_MASTER)) {
-      // master role
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        PROVIDER_RESOURCE_BASE +"hbase/role-hbase-master.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(HBaseKeys.ROLE_WORKER)) {
-      // worker settings
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        PROVIDER_RESOURCE_BASE +"hbase/role-hbase-worker.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
-  }
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws

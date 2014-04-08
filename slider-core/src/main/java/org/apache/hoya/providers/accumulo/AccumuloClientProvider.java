@@ -52,8 +52,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions.INSTANCE_SECRET;
-
 /**
  * Client-side accumulo provider
  */
@@ -101,69 +99,8 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
   }
 
 
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly emtpy map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-
-    Configuration conf = ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/accumulo/accumulo.xml");
-
-    //make up a password
-    conf.set(OPTION_ACCUMULO_PASSWORD, createAccumuloPassword());
-
-    //create an instance ID
-    conf.set(
-      OptionKeys.SITE_XML_PREFIX + INSTANCE_SECRET,
-      createAccumuloPassword());
-    return conf;
-
-  }
-
   public String createAccumuloPassword() {
     return UUID.randomUUID().toString();
-  }
-
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException,
-                                                                       IOException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(AccumuloKeys.ROLE_MASTER)) {
-      // master role
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-master.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_TABLET)) {
-      // worker settings
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-tablet.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_GARBAGE_COLLECTOR)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-gc.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_TRACER)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-tracer.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    } else if (rolename.equals(AccumuloKeys.ROLE_MONITOR)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        TEMPLATE_PATH +"role-accumulo-monitor.xml");
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
   }
 
   public void setDatabasePath(Map<String, String> sitexml, String dataPath) {
