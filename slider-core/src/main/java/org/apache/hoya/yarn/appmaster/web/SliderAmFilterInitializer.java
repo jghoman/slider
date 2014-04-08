@@ -24,6 +24,7 @@ import org.apache.hadoop.http.FilterContainer;
 import org.apache.hadoop.http.FilterInitializer;
 import org.apache.hadoop.http.HttpConfig;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
+import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.webapp.util.WebAppUtils;
 
 import java.util.HashMap;
@@ -34,9 +35,11 @@ public class SliderAmFilterInitializer extends FilterInitializer {
   private static final String FILTER_CLASS = SliderAmIpFilter.class.getCanonicalName();
   private static final String HTTPS_PREFIX = "https://";
   private static final String HTTP_PREFIX = "http://";
+  private Configuration configuration;
 
   @Override
   public void initFilter(FilterContainer container, Configuration conf) {
+    configuration = conf;
     Map<String, String> params = new HashMap<String, String>();
     String proxy = WebAppUtils.getProxyHostAndPort(conf);
     String[] parts = proxy.split(":");
@@ -55,6 +58,11 @@ public class SliderAmFilterInitializer extends FilterInitializer {
   }
 
   private String getHttpSchemePrefix() {
-    return HttpConfig.isSecure() ? HTTPS_PREFIX : HTTP_PREFIX;
+    return HttpConfig.Policy.HTTPS_ONLY ==
+           HttpConfig.Policy.fromString(configuration
+                                          .get(
+                                            YarnConfiguration.YARN_HTTP_POLICY_KEY,
+                                            YarnConfiguration.YARN_HTTP_POLICY_DEFAULT))
+           ? HTTPS_PREFIX : HTTP_PREFIX;
   }
 }
