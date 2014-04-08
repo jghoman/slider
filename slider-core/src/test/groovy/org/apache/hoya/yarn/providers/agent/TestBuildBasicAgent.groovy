@@ -58,13 +58,13 @@ class TestBuildBasicAgent extends AgentTestBase {
         true,
         false)
     buildAgentCluster("test_build_basic_agent_node_only",
-        [(AgentKeys.ROLE_NODE): 5],
+        [(ROLE_NODE): 5],
         [
             ARG_OPTION, CONTROLLER_URL, "http://localhost",
             ARG_PACKAGE, ".",
             ARG_OPTION, SCRIPT_PATH, "agent/scripts/agent.py",
-            ARG_COMP_OPT, AgentKeys.ROLE_NODE, SCRIPT_PATH, "agent/scripts/agent.py",
-            ARG_RES_COMP_OPT, AgentKeys.ROLE_NODE, ResourceKeys.COMPONENT_PRIORITY, "1",
+            ARG_COMP_OPT, ROLE_NODE, SCRIPT_PATH, "agent/scripts/agent.py",
+            ARG_RES_COMP_OPT, ROLE_NODE, ResourceKeys.COMPONENT_PRIORITY, "1",
         ],
         true, false,
         false)
@@ -73,9 +73,9 @@ class TestBuildBasicAgent extends AgentTestBase {
     def rs = "hbase-rs"
     ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
         [
-            (AgentKeys.ROLE_NODE): 5,
-            (master)             : 1,
-            (rs)                 : 5
+            (ROLE_NODE) : 5,
+            (master)    : 1,
+            (rs)        : 5
         ],
         [
             ARG_OPTION, CONTROLLER_URL, "http://localhost",
@@ -84,12 +84,12 @@ class TestBuildBasicAgent extends AgentTestBase {
             ARG_COMP_OPT, rs, SCRIPT_PATH, "agent/scripts/agent.py",
             ARG_RES_COMP_OPT, master, ResourceKeys.COMPONENT_PRIORITY, "2",
             ARG_RES_COMP_OPT, rs, ResourceKeys.COMPONENT_PRIORITY, "3",
-            ARG_COMP_OPT, master, AgentKeys.SERVICE_NAME, "HBASE",
-            ARG_COMP_OPT, rs, AgentKeys.SERVICE_NAME, "HBASE",
+            ARG_COMP_OPT, master, SERVICE_NAME, "HBASE",
+            ARG_COMP_OPT, rs, SERVICE_NAME, "HBASE",
             ARG_COMP_OPT, master, AgentKeys.APP_HOME, "/share/hbase/hbase-0.96.1-hadoop2",
             ARG_COMP_OPT, rs, AgentKeys.APP_HOME, "/share/hbase/hbase-0.96.1-hadoop2",
-            ARG_COMP_OPT, AgentKeys.ROLE_NODE, SCRIPT_PATH, "agent/scripts/agent.py",
-            ARG_RES_COMP_OPT, AgentKeys.ROLE_NODE, ResourceKeys.COMPONENT_PRIORITY, "1",
+            ARG_COMP_OPT, ROLE_NODE, SCRIPT_PATH, "agent/scripts/agent.py",
+            ARG_RES_COMP_OPT, ROLE_NODE, ResourceKeys.COMPONENT_PRIORITY, "1",
         ],
         true, false,
         false)
@@ -99,7 +99,7 @@ class TestBuildBasicAgent extends AgentTestBase {
     def resource = instanceD.getResourceOperations()
 
 
-    def agentComponent = resource.getMandatoryComponent(AgentKeys.ROLE_NODE)
+    def agentComponent = resource.getMandatoryComponent(ROLE_NODE)
     agentComponent.getMandatoryOption(ResourceKeys.COMPONENT_PRIORITY)
 
     def masterC = resource.getMandatoryComponent(master)
@@ -108,28 +108,24 @@ class TestBuildBasicAgent extends AgentTestBase {
     def rscomponent = resource.getMandatoryComponent(rs)
     assert "5" == rscomponent.getMandatoryOption(ResourceKeys.COMPONENT_INSTANCES)
 
-    // now create an instance with no role priority for the rs
+    // now create an instance with no role priority for the newnode role
     try {
       def name2 = clustername + "-2"
       buildAgentCluster(name2,
           [
-              (AgentKeys.ROLE_NODE): 5,
-              "role3"             : 1,
-              "newnode"                 : 5
+              (ROLE_NODE) : 5,
+              "role3"     : 1,
+              "newnode"   : 5
           ],
           [
-              ARG_COMP_OPT, AgentKeys.ROLE_NODE, AgentKeys.SERVICE_NAME, "HBASE",
-              ARG_COMP_OPT, "role3", AgentKeys.SERVICE_NAME, "HBASE",
-              ARG_COMP_OPT, "newnode", AgentKeys.SERVICE_NAME, "HBASE",
-              //ARG_RES_COMP_OPT, AgentKeys.ROLE_NODE, ResourceKeys.YARN_CORES, "1",
+              ARG_COMP_OPT, ROLE_NODE, SERVICE_NAME, "HBASE",
+              ARG_COMP_OPT, "role3", SERVICE_NAME, "HBASE",
+              ARG_COMP_OPT, "newnode", SERVICE_NAME, "HBASE",
               ARG_RES_COMP_OPT, "role3", ResourceKeys.COMPONENT_PRIORITY, "2",
-              //ARG_RES_COMP_OPT, "newnode", ResourceKeys.YARN_CORES, "1",
           ],
           true, false,
           false)
       failWithBuildSucceeding(name2, "no priority for one role")
-
-      fail("Expected an exception")
     } catch (BadConfigException expected) {
     }
     
@@ -138,13 +134,14 @@ class TestBuildBasicAgent extends AgentTestBase {
       def name3 = clustername + "-3"
       buildAgentCluster(name3,
           [
-              (AgentKeys.ROLE_NODE): 5,
-              (master)             : 1,
-              (rs)                 : 5
+              (ROLE_NODE) : 5,
+              (master)    : 1,
+              (rs)        : 5
           ],
           [
               ARG_RES_COMP_OPT, master, ResourceKeys.COMPONENT_PRIORITY, "2",
-              ARG_RES_COMP_OPT, rs, ResourceKeys.COMPONENT_PRIORITY, "2"],
+              ARG_RES_COMP_OPT, rs, ResourceKeys.COMPONENT_PRIORITY, "2"
+          ],
 
           true, false,
           false)
@@ -181,6 +178,19 @@ class TestBuildBasicAgent extends AgentTestBase {
         "")
 
     assert jvmopts == opt
+
+    // now create an instance with no component options, hence no
+    // entry in the app config
+      def name5 = clustername + "-5"
+      buildAgentCluster(name5,
+          [
+              "role"  : 1,
+          ],
+          [
+              ARG_RES_COMP_OPT, "role", ResourceKeys.COMPONENT_PRIORITY, "3",
+          ],
+          true, false,
+          false)
   }
 
   public AggregateConf loadInstanceDefinition(String name) {
