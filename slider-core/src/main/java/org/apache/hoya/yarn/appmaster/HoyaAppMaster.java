@@ -19,6 +19,12 @@
 package org.apache.hoya.yarn.appmaster;
 
 import com.google.protobuf.BlockingService;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.x.discovery.ServiceDiscovery;
+import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.Path;
@@ -107,6 +113,9 @@ import org.apache.hoya.yarn.service.CompoundLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
+import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.server.services.curator.CuratorClientService;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -244,6 +253,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
    */
   private ProviderService providerService;
 
+  private RegistryBinderService<ServiceInstanceData> registry;
+  
   /**
    * Record of the max no. of cores allowed in this cluster
    */
@@ -315,7 +326,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
 
     //look at settings of Hadoop Auth, to pick up a problem seen once
     checkAndWarnForAuthTokenProblems();
-
+   
+    //init all child services
     super.serviceInit(conf);
   }
   
@@ -364,6 +376,19 @@ public class HoyaAppMaster extends CompoundLaunchedService
     return exitCode;
   }
 
+
+  /**
+   * Initialize a newly created service then add it. 
+   * Because the service is not started, this MUST be done before
+   * the AM itself starts, or it is explicitly added after
+   * @param service the service to init
+   */
+  public Service initAndAddService(Service service) {
+    service.init(getConfig());
+    addService(service);
+    return service;
+  }
+
   /* =================================================================== */
 
   /**
@@ -408,9 +433,9 @@ public class HoyaAppMaster extends CompoundLaunchedService
     
     conf = new YarnConfiguration(serviceConf);
     //get our provider
-    MapOperations globalOptions =
+    MapOperations globalInternalOptions =
       instanceDefinition.getInternalOperations().getGlobalOptions();
-    String providerType = globalOptions.getMandatoryOption(
+    String providerType = globalInternalOptions.getMandatoryOption(
       OptionKeys.INTERNAL_PROVIDER_NAME);
     log.info("Cluster provider type is {}", providerType);
     HoyaProviderFactory factory =
@@ -418,8 +443,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
         providerType);
     providerService = factory.createServerProvider();
     // init the provider BUT DO NOT START IT YET
-    providerService.init(getConfig());
-    addService(providerService);
+    initAndAddService(providerService);
     
     InetSocketAddress address = HoyaUtils.getRmSchedulerAddress(conf);
     log.info("RM is at {}", address);
@@ -431,7 +455,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
      */
     appMasterContainerID = ConverterUtils.toContainerId(
       HoyaUtils.mandatoryEnvVariable(
-        ApplicationConstants.Environment.CONTAINER_ID.name()));
+        ApplicationConstants.Environment.CONTAINER_ID.name())
+                                                       );
     appAttemptID = appMasterContainerID.getApplicationAttemptId();
 
     ApplicationId appid = appAttemptID.getApplicationId();
@@ -487,12 +512,12 @@ public class HoyaAppMaster extends CompoundLaunchedService
       //wrap it for the app state model
       rmOperationHandler = new AsyncRMOperationHandler(asyncRMClient);
       //now bring it up
-      runChildService(asyncRMClient);
+      deployChildService(asyncRMClient);
 
 
       //nmclient relays callbacks back to this class
       nmClientAsync = new NMClientAsyncImpl("nmclient", this);
-      runChildService(nmClientAsync);
+      deployChildService(nmClientAsync);
 
       //bring up the Hoya RPC service
       startHoyaRPCServer();
@@ -600,7 +625,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
     }
     String rolesTmpSubdir = appMasterContainerID.toString() + "/roles";
 
-    String amTmpDir = globalOptions.getMandatoryOption(OptionKeys.INTERNAL_AM_TMP_DIR);
+    String amTmpDir = globalInternalOptions.getMandatoryOption(OptionKeys.INTERNAL_AM_TMP_DIR);
 
     Path tmpDirPath = new Path(amTmpDir);
     Path launcherTmpDirPath = new Path(tmpDirPath, rolesTmpSubdir);
@@ -614,7 +639,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
                                           envVars,
                                           launcherTmpDirPath);
 
-    runChildService(launchService);
+    deployChildService(launchService);
 
     appState.noteAMLaunched();
 
@@ -627,7 +652,27 @@ public class HoyaAppMaster extends CompoundLaunchedService
     // brings up the service
     launchProviderService(instanceDefinition, confDir);
 
+    // registry
 
+    String zkHosts =
+      globalInternalOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_HOSTS);
+    String zkPath = "/yarnservices";
+    RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+    CuratorFramework curator =
+      CuratorFrameworkFactory.newClient(zkHosts, retryPolicy);
+    
+    //deploy this before discovery so it not only starts first -it stops last
+    deployChildService(new CuratorClientService("client of " + zkHosts,
+                                                curator));
+    ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder =
+      ServiceDiscoveryBuilder.builder(ServiceInstanceData.class);
+    discoveryBuilder.client(curator);
+    discoveryBuilder.basePath(zkPath);
+    ServiceDiscovery<ServiceInstanceData> discovery = discoveryBuilder.build();
+    registry = new RegistryBinderService<ServiceInstanceData>(discovery);
+    deployChildService(registry);
+    //now the registry is running, so register services
+    
     try {
       //now block waiting to be told to exit the process
       waitForAMCompletionSignal();
@@ -806,7 +851,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
       NUM_RPC_HANDLERS,
       blockingService,
       null));
-    runChildService(rpcService);
+    deployChildService(rpcService);
   }
 
 

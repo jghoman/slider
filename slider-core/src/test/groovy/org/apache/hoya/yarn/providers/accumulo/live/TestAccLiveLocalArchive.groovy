@@ -24,7 +24,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.hoya.providers.accumulo.AccumuloKeys
-import org.apache.hoya.tools.ZKIntegration
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.apache.hadoop.yarn.api.records.YarnApplicationState

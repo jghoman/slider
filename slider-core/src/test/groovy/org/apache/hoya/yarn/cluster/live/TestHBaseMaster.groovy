@@ -27,7 +27,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.providers.hbase.HBaseKeys
-import org.apache.hoya.tools.ZKIntegration
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase

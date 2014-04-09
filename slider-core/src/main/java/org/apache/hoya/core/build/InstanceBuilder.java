@@ -44,9 +44,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.hoya.api.OptionKeys.*;
+import static org.apache.hoya.api.OptionKeys.INTERNAL_ZOOKEEPER_PORT;
 
 /**
  * Build up the instance of a cluster.
@@ -250,9 +252,18 @@ public class InstanceBuilder {
       globalAppOptions.put(ZOOKEEPER_PATH, zookeeperRoot);
       globalAppOptions.put(ZOOKEEPER_HOSTS, zkhosts);
       globalAppOptions.put(ZOOKEEPER_PORT, Integer.toString(zkport));
+
+
+      MapOperations globalInstanceOptions =
+        instanceDescription.getInternalOperations().getGlobalOptions();
+      globalInstanceOptions.put(INTERNAL_ZOOKEEPER_HOSTS, zkhosts);
+      globalInstanceOptions.put(INTERNAL_ZOOKEEPER_PORT, Integer.toString(zkport));
     }
   }
-
+  
+  public static String createDefaultYarnAppPath(String appName, String userName, String clustername ) {
+    return String.format(Locale.ENGLISH, "/yarnapps_%s_%s_%s", appName, userName, clustername); 
+  }
 
   /**
    * Class to execute the snapshotting of the configuration directory

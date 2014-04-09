@@ -16,27 +16,27 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.utils
+package org.apache.slider.server.services.curator;
 
-import org.apache.slider.core.registry.zk.ZKCallback
-import org.apache.zookeeper.WatchedEvent
+import com.google.common.base.Preconditions;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.slider.server.services.ClosingService;
 
-class GroovyZKIntegration {
+public class CuratorClientService extends ClosingService {
 
-/**
- * Create a ZK watcher callback that forwards the event to the
- * specific closure
- * @param closure closure to invoke
- * @return a callback which can be registered
- */
-  static ZKCallback watcher(Closure closure) {
-    return new ZKCallback() {
-      @Override
-      void process(WatchedEvent event) {
-        closure(event);
-      }
-    }
+  private final CuratorFramework client;
 
 
+  public CuratorClientService(String name,
+                              CuratorFramework client) {
+    super(name, client);
+    this.client = Preconditions.checkNotNull(client, "null client");
   }
+
+  @Override
+  protected void serviceStart() throws Exception {
+    client.start();
+    super.serviceStart();
+  }
+
 }

@@ -23,8 +23,8 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
-import org.apache.hoya.tools.BlockingZKWatcher
-import org.apache.hoya.tools.ZKIntegration
+import org.apache.slider.core.registry.zk.BlockingZKWatcher
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.MicroZKCluster
 

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.tools;
+package org.apache.slider.core.registry.zk;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;

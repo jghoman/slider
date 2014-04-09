@@ -18,6 +18,7 @@
 
 package org.apache.hoya.yarn.service;
 
+import com.google.common.base.Preconditions;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.Service;
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
@@ -80,12 +81,18 @@ public class CompoundLaunchedService extends CompoundService
     return LauncherExitCodes.EXIT_SUCCESS;
   }
 
+  @Override
+  public void addService(Service service) {
+    Preconditions.checkNotNull(service, "null service");
+    super.addService(service);
+  }
+
   /**
    * Run a child service -initing and starting it if this
    * service has already passed those parts of its own lifecycle
    * @param service the service to start
    */
-  protected void runChildService(Service service) {
+  protected void deployChildService(Service service) {
     service.init(getConfig());
     if (isInState(STATE.STARTED)) {
       service.start();

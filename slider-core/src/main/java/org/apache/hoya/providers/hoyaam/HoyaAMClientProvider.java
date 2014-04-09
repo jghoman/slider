@@ -20,6 +20,10 @@ package org.apache.hoya.providers.hoyaam;
 
 import com.beust.jcommander.JCommander;
 import com.google.gson.GsonBuilder;
+import org.apache.curator.CuratorZookeeperClient;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.x.discovery.ServiceInstance;
+import org.apache.curator.x.discovery.server.entity.ServiceNames;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
@@ -159,6 +163,32 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                      tempPath,
                      libdir,
                      GSON_JAR);
+    HoyaUtils.putJar(providerResources,
+                     hoyaFileSystem,
+                     ServiceInstance.class,
+                     tempPath,
+                     libdir,
+                     "curator-x-discovery.jar");
+    HoyaUtils.putJar(providerResources,
+                     hoyaFileSystem,
+                     ServiceNames.class,
+                     tempPath,
+                     libdir,
+                     "curator-x-discovery-service.jar");
+    HoyaUtils.putJar(providerResources,
+                     hoyaFileSystem,
+                     CuratorFramework.class,
+                     tempPath,
+                     libdir,
+                     "curator-framework.jar");
+    HoyaUtils.putJar(providerResources,
+                     hoyaFileSystem,
+                     CuratorZookeeperClient.class,
+                     tempPath,
+                     libdir,
+                     "curator-client.jar");
+
+    
     launcher.addLocalResources(providerResources);
     //also pick up all env variables from a map
     launcher.copyEnvVars(

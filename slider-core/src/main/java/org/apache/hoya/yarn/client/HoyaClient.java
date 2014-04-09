@@ -103,6 +103,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -466,7 +467,9 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     String zookeeperRoot = buildInfo.getAppZKPath();
     if (isUnset(zookeeperRoot)) {
       zookeeperRoot =
-        "/yarnapps_" + getAppName() + "_" + getUsername() + "_" + clustername;
+        String.format(Locale.ENGLISH, "/yarnapps_%s_%s_%s", getAppName(),
+                      getUsername(), clustername);
+      
     }
     builder.addZKPaths(buildInfo.getZKhosts(),
                        zookeeperRoot,

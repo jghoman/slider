@@ -115,10 +115,13 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
 
     // policy here depends on YARN behavior
     if (!status.getInfoBool(StatusKeys.INFO_AM_RESTART_SUPPORTED)) {
+      log.info("No lossless AM Restart")
       // kill hbase masters for OS/X tests to pass
       killAllMasterServers();
       // expect hbase connection to have failed
       assertNoHBaseMaster(hoyaClient, clientConf)
+    } else {
+      log.info("Lossless AM Restart")
     }
     // await cluster startup
     ApplicationReport report = hoyaClient.applicationReport

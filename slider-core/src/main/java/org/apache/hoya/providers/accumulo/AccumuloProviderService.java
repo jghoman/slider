@@ -43,7 +43,7 @@ import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.BlockingZKWatcher;
+import org.apache.slider.core.registry.zk.BlockingZKWatcher;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
