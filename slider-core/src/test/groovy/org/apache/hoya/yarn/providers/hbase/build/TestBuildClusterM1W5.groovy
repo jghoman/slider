@@ -64,7 +64,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
     //but the cluster is still there for the default
     assert 0 == hoyaClient.actionExists(clustername, false)
 
-    def serviceRegistryClient = hoyaClient.serviceRegistryClient
+    def serviceRegistryClient = hoyaClient.YARNRegistryClient
     ApplicationReport report = serviceRegistryClient.findInstance(clustername)
     assert report == null;
 

@@ -123,6 +123,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -270,7 +271,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
   private RoleLaunchService launchService;
   
   //username -null if it is not known/not to be set
-  private String hoyaUsername;
+  private String hadoop_user_name;
   
   private HoyaAMWebApp webApp;
 
@@ -492,8 +493,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
     // if not a secure cluster, extract the username -it will be
     // propagated to workers
     if (!UserGroupInformation.isSecurityEnabled()) {
-      hoyaUsername = System.getenv(HADOOP_USER_NAME);
-      log.info(HADOOP_USER_NAME + "='{}'", hoyaUsername);
+      hadoop_user_name = System.getenv(HADOOP_USER_NAME);
+      log.info(HADOOP_USER_NAME + "='{}'", hadoop_user_name);
     }
 
     Map<String, String> envVars;
@@ -619,8 +620,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
       // build up environment variables that the AM wants set in every container
       // irrespective of provider and role.
       envVars = new HashMap<String, String>();
-      if (hoyaUsername != null) {
-        envVars.put(HADOOP_USER_NAME, hoyaUsername);
+      if (hadoop_user_name != null) {
+        envVars.put(HADOOP_USER_NAME, hadoop_user_name);
       }
     }
     String rolesTmpSubdir = appMasterContainerID.toString() + "/roles";
@@ -655,7 +656,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
     // registry
 
     String zkHosts =
-      globalInternalOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_HOSTS);
+      globalInternalOptions.getMandatoryOption(OptionKeys.INTERNAL_ZOOKEEPER_CONNECTION);
     String zkPath = "/yarnservices";
     RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
     CuratorFramework curator =
@@ -671,7 +672,11 @@ public class HoyaAppMaster extends CompoundLaunchedService
     ServiceDiscovery<ServiceInstanceData> discovery = discoveryBuilder.build();
     registry = new RegistryBinderService<ServiceInstanceData>(discovery);
     deployChildService(registry);
-    //now the registry is running, so register services
+    
+    // the registry is running, so register services
+    URL amWeb = new URL(appMasterTrackingUrl);
+    registry.register("sliderAM", hadoop_user_name + "_", amWeb, null);
+    
     
     try {
       //now block waiting to be told to exit the process
@@ -1429,8 +1434,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
    * Get the username for the hoya cluster as set in the environment
    * @return the username or null if none was set/it is a secure cluster
    */
-  public String getHoyaUsername() {
-    return hoyaUsername;
+  public String getHadoop_user_name() {
+    return hadoop_user_name;
   }
 
   /**

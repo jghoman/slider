@@ -86,7 +86,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     String username = hoyaClient.username
-    def serviceRegistryClient = hoyaClient.serviceRegistryClient
+    def serviceRegistryClient = hoyaClient.YARNRegistryClient
     describe("list of all applications")
     logApplications(apps)
     describe("apps of user $username")

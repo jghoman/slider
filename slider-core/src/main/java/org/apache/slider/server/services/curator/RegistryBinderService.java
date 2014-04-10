@@ -24,10 +24,15 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
+import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.slider.server.services.ClosingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * YARN service for Curator service discovery; the discovery instance's
@@ -35,8 +40,13 @@ import java.net.URL;
  * @param <Payload> the payload of the operation
  */
 public class RegistryBinderService<Payload> extends ClosingService {
+  protected static final Logger log =
+    LoggerFactory.getLogger(RegistryBinderService.class);
 
   private final ServiceDiscovery<Payload> discovery;
+
+  private final Map<String, ServiceInstance<Payload>> entries =
+    new HashMap<String, ServiceInstance<Payload>>();
 
   /**
    * Create an instance
@@ -49,7 +59,6 @@ public class RegistryBinderService<Payload> extends ClosingService {
       Preconditions.checkNotNull(discovery, "null discovery arg");
   }
 
-
   @Override
   protected void serviceStart() throws Exception {
     super.serviceStart();
@@ -57,19 +66,28 @@ public class RegistryBinderService<Payload> extends ClosingService {
   }
 
   /**
-   * register an instance -only 
-   * @param id
-   * @param name
-   * @param url
-   * @param payload
+   * register an instance -only valid once the service is started
+   * @param id ID -must be unique
+   * @param name name
+   * @param url URL
+   * @param payload payload (may be null)
    * @return the instance
-   * @throws Exception
+   * @throws Exception on registration problems
    */
   public ServiceInstance<Payload> register(String id,
                                            String name,
                                            URL url,
                                            Payload payload) throws Exception {
+    Preconditions.checkNotNull(id, "null `id` arg");
+    Preconditions.checkNotNull(name, "null `name` arg");
+    Preconditions.checkNotNull(url, "null `url` arg");
     Preconditions.checkState(isInState(STATE.STARTED), "Not started: " + this);
+
+    if (lookup(id) != null) {
+      throw new BadClusterStateException(
+        "existing entry for service id %s name %s %s",
+        id, name, url);
+    }
     int port = url.getPort();
     if (port == 0) {
       throw new IOException("Port undefined in " + url);
@@ -78,17 +96,27 @@ public class RegistryBinderService<Payload> extends ClosingService {
     ServiceInstance<Payload> instance = builder()
       .name(name)
       .id(id)
-      .payload(
-        payload)
+      .payload(payload)
       .port(port)
-      .serviceType(
-        ServiceType.DYNAMIC)
-      .uriSpec(
-        uriSpec)
+      .serviceType(ServiceType.DYNAMIC)
+      .uriSpec(uriSpec)
       .build();
+    log.info("registering{}", instance.toString());
     discovery.registerService(instance);
+    synchronized (this) {
+      entries.put(id, instance);
+    }
     return instance;
+  }
 
+  /**
+   * Get the registered instance by its ID
+   * @param id ID
+   * @return instance or null
+   */
+  public synchronized ServiceInstance<Payload> lookup(String id) {
+    Preconditions.checkNotNull(id, "null `id` arg");
+    return entries.get(id);
   }
 
   /**
@@ -107,4 +135,5 @@ public class RegistryBinderService<Payload> extends ClosingService {
       throw new IOException(e);
     }
   }
+  
 }

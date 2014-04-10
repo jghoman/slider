@@ -55,7 +55,7 @@ import org.apache.hoya.core.launch.LaunchedApplication;
 import org.apache.hoya.core.launch.RunningApplication;
 import org.apache.hoya.core.persist.ConfPersister;
 import org.apache.hoya.core.persist.LockAcquireFailedException;
-import org.apache.hoya.core.registry.ServiceRegistryClient;
+import org.apache.hoya.core.registry.YARNRegistryClient;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
@@ -90,6 +90,7 @@ import org.apache.hoya.yarn.params.ClientArgs;
 import org.apache.hoya.yarn.params.HoyaAMArgs;
 import org.apache.hoya.yarn.params.LaunchArgsAccessor;
 import org.apache.hoya.yarn.service.CompoundLaunchedService;
+import org.apache.slider.core.registry.zk.ZKPathBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,7 +104,6 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -133,7 +133,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
    * Yarn client service
    */
   private HoyaYarnClientImpl yarnClient;
-  private ServiceRegistryClient serviceRegistryClient;
+  private YARNRegistryClient YARNRegistryClient;
   private AggregateConf launchedInstanceDefinition;
 
   /**
@@ -183,8 +183,8 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     
     //here the superclass is inited; getConfig returns a non-null value
     hoyaFileSystem = new HoyaFileSystem(conf);
-    serviceRegistryClient =
-      new ServiceRegistryClient(yarnClient, getUsername(), conf);
+    YARNRegistryClient =
+      new YARNRegistryClient(yarnClient, getUsername(), conf);
   }
 
   /**
@@ -463,17 +463,19 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     builder.propagatePrincipals();
     builder.setImageDetails(buildInfo.getImage(), buildInfo.getAppHomeDir());
 
-        
+
+    ZKPathBuilder zkPaths = new ZKPathBuilder(getAppName(),
+                                              getUsername(),
+                                              clustername,
+                                              buildInfo.getZKhosts(),
+                                              buildInfo.getZKport());
     String zookeeperRoot = buildInfo.getAppZKPath();
-    if (isUnset(zookeeperRoot)) {
-      zookeeperRoot =
-        String.format(Locale.ENGLISH, "/yarnapps_%s_%s_%s", getAppName(),
-                      getUsername(), clustername);
+    
+    if (isSet(zookeeperRoot)) {
+      zkPaths.setAppPath(zookeeperRoot);
       
     }
-    builder.addZKPaths(buildInfo.getZKhosts(),
-                       zookeeperRoot,
-                       buildInfo.getZKport());
+    builder.addZKBinding(zkPaths);
 
     //then propagate any package URI
     if (buildInfo.packageURI != null) {
@@ -1153,7 +1155,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
   @VisibleForTesting
   public List<ApplicationReport> listHoyaInstances(String user)
     throws YarnException, IOException {
-    return serviceRegistryClient.listInstances();
+    return YARNRegistryClient.listInstances();
   }
 
   /**
@@ -1320,8 +1322,8 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
    * Get at the service registry operations
    * @return registry client -valid after the service is inited.
    */
-  public ServiceRegistryClient getServiceRegistryClient() {
-    return serviceRegistryClient;
+  public YARNRegistryClient getYARNRegistryClient() {
+    return YARNRegistryClient;
   }
 
   /**
@@ -1334,7 +1336,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
   private ApplicationReport findInstance(String appname) throws
                                                         YarnException,
                                                         IOException {
-    return serviceRegistryClient.findInstance(appname);
+    return YARNRegistryClient.findInstance(appname);
   }
   
   private RunningApplication findApplication(String appname) throws
@@ -1354,7 +1356,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
   private List<ApplicationReport> findAllLiveInstances(String appname)
     throws YarnException, IOException {
     
-    return serviceRegistryClient.findAllLiveInstances(appname);
+    return YARNRegistryClient.findAllLiveInstances(appname);
   }
 
 
