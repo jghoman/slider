@@ -213,11 +213,11 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                                            HoyaException {
     String[] jars =
       {
-        "zookeeper.jar",
+      /*  "zookeeper.jar",*/
       };
     Class<?>[] classes = {
       //zk
-      org.apache.zookeeper.ClientCnxn.class
+/*      org.apache.zookeeper.ClientCnxn.class*/
     };
     ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
                                     libdir, jars,

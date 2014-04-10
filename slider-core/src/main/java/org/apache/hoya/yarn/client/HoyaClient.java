@@ -84,6 +84,7 @@ import org.apache.hoya.yarn.params.ActionFlexArgs;
 import org.apache.hoya.yarn.params.ActionFreezeArgs;
 import org.apache.hoya.yarn.params.ActionGetConfArgs;
 import org.apache.hoya.yarn.params.ActionKillContainerArgs;
+import org.apache.hoya.yarn.params.ActionRegistryArgs;
 import org.apache.hoya.yarn.params.ActionStatusArgs;
 import org.apache.hoya.yarn.params.ActionThawArgs;
 import org.apache.hoya.yarn.params.ClientArgs;
@@ -232,6 +233,9 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
 
     } else if (HoyaActions.ACTION_LIST.equals(action)) {
       exitCode = actionList(clusterName);
+    } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {     
+      exitCode = actionRegistry(clusterName,
+                                serviceArgs.getActionRegistryArgs());
     } else if (HoyaActions.ACTION_STATUS.equals(action)) {     
       exitCode = actionStatus(clusterName,
                               serviceArgs.getActionStatusArgs());
@@ -479,7 +483,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
 
     //then propagate any package URI
     if (buildInfo.packageURI != null) {
-      appConf.set(AgentKeys.PACKAGE_PATH, buildInfo.packageURI.toString());
+      appConf.set(AgentKeys.PACKAGE_PATH, buildInfo.packageURI);
     }
 
     // provider to validate what there is
@@ -1169,8 +1173,8 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     String user = UserGroupInformation.getCurrentUser().getUserName();
     List<ApplicationReport> instances = listHoyaInstances(user);
 
-    if (clustername == null || clustername.isEmpty()) {
-      log.info("Hoya instances for {}: {}",
+    if (isUnset(clustername)) {
+      log.info("Instances for {}: {}",
                (user != null ? user : "all users"),
                instances.size());
       for (ApplicationReport report : instances) {
@@ -1197,6 +1201,49 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
    */
   public void logAppReport(ApplicationReport report) {
     log.info(HoyaUtils.appReportToString(report, "\n"));
+  }
+
+
+  /**
+   * Status operation
+   *
+   * @param clustername cluster name
+   * @param outfile filename : if not null indicates output is to be saved
+   * to this file
+   * @return 0 -for success, else an exception is thrown
+   * @throws YarnException
+   * @throws IOException
+   */
+  @VisibleForTesting
+  public int actionRegistry(String clustername,
+                            ActionRegistryArgs registryArgs) throws
+                                                             YarnException,
+                                                             IOException {
+    verifyManagerSet();
+
+    String user = UserGroupInformation.getCurrentUser().getUserName();
+    List<ApplicationReport> instances = listHoyaInstances(user);
+
+    if (isUnset(clustername)) {
+      log.info("Instances for {}: {}",
+               (user != null ? user : "all users"),
+               instances.size());
+      for (ApplicationReport report : instances) {
+        logAppReport(report);
+      }
+      return EXIT_SUCCESS;
+    } else {
+      HoyaUtils.validateClusterName(clustername);
+      log.debug("Listing cluster named {}", clustername);
+      ApplicationReport report =
+        findClusterInInstanceList(instances, clustername);
+      if (report != null) {
+        logAppReport(report);
+        return EXIT_SUCCESS;
+      } else {
+        throw unknownClusterException(clustername);
+      }
+    }
   }
 
   /**

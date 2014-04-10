@@ -56,6 +56,7 @@ public class ClientArgs extends CommonArgs {
   private final ActionKillContainerArgs actionKillContainerArgs =
     new ActionKillContainerArgs();
   private final ActionListArgs actionListArgs = new ActionListArgs();
+  private final ActionRegistryArgs actionRegistryArgs = new ActionRegistryArgs();
   private final ActionStatusArgs actionStatusArgs = new ActionStatusArgs();
   private final ActionThawArgs actionThawArgs = new ActionThawArgs();
   private final ActionVersionArgs actionVersionArgs = new ActionVersionArgs();
@@ -84,6 +85,7 @@ public class ClientArgs extends CommonArgs {
       actionGetConfArgs,
       actionKillContainerArgs,
       actionListArgs,
+      actionRegistryArgs,
       actionStatusArgs,
       actionThawArgs,
       actionHelpArgs,
@@ -150,6 +152,10 @@ public class ClientArgs extends CommonArgs {
     return actionListArgs;
   }
 
+  public ActionRegistryArgs getActionRegistryArgs() {
+    return actionRegistryArgs;
+  }
+
   public ActionStatusArgs getActionStatusArgs() {
     return actionStatusArgs;
   }
@@ -207,6 +213,9 @@ public class ClientArgs extends CommonArgs {
 
     } else if (HoyaActions.ACTION_LIST.equals(action)) {
       bindCoreAction(actionListArgs);
+
+    } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {
+      bindCoreAction(actionRegistryArgs);
 
     } else if (HoyaActions.ACTION_STATUS.equals(action)) {
       bindCoreAction(actionStatusArgs);

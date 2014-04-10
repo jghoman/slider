@@ -16,27 +16,20 @@
  * limitations under the License.
  */
 
-package org.apache.slider.server.services.curator;
+package org.apache.hoya.yarn.params;
 
-import com.google.common.base.Preconditions;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.slider.server.services.ClosingService;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+import org.apache.hoya.yarn.HoyaActions;
 
-public class CuratorClientService extends ClosingService {
+@Parameters(commandNames = {HoyaActions.ACTION_REGISTRY},
+            commandDescription = HoyaActions.DESCRIBE_ACTION_REGISTRY)
 
-  private final CuratorFramework client;
-
-
-  public CuratorClientService(String name,
-                              CuratorFramework client) {
-    super(name, client);
-    this.client = Preconditions.checkNotNull(client, "null client");
-  }
-
+public class ActionRegistryArgs extends AbstractActionArgs {
   @Override
-  protected void serviceStart() throws Exception {
-    client.start();
-    super.serviceStart();
+  public String getActionName() {
+    return HoyaActions.ACTION_REGISTRY;
   }
+
 
 }

@@ -41,6 +41,7 @@ import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
+import org.apache.slider.core.registry.zk.ZKUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +50,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.hoya.api.OptionKeys.*;
-import static org.apache.hoya.api.OptionKeys.INTERNAL_ZOOKEEPER_PORT;
 
 /**
  * Build up the instance of a cluster.
@@ -255,16 +255,12 @@ public class InstanceBuilder {
       MapOperations globalInstanceOptions =
         instanceDescription.getInternalOperations().getGlobalOptions();
       globalInstanceOptions.put(INTERNAL_ZOOKEEPER_CONNECTION,
-                                zkBinding.getQuorum());
-      globalInstanceOptions.put(INTERNAL_ZOOKEEPER_PORT, Integer.toString(
-        zkBinding.getPort()));
+                                ZKUtils.buildConnectionString(
+                                  zkBinding.getQuorum(), zkBinding.getPort())
+                               );
       globalInstanceOptions.put(INTERNAL_ZOOKEEPER_PATH,
                                 zkBinding.getRegistryPath());
     }
-  }
-  
-  public static String createDefaultYarnAppPath(String appName, String userName, String clustername ) {
-    return String.format(Locale.ENGLISH, "/yarnapps_%s_%s_%s", appName, userName, clustername); 
   }
 
   /**

@@ -92,12 +92,14 @@ public class CompoundLaunchedService extends CompoundService
    * service has already passed those parts of its own lifecycle
    * @param service the service to start
    */
-  protected void deployChildService(Service service) {
+  protected boolean deployChildService(Service service) {
     service.init(getConfig());
+    addService(service);
     if (isInState(STATE.STARTED)) {
       service.start();
+      return true;
     }
-    addService(service);
+    return false;
   }
 
   protected void requireArgumentSet(String argname, String argfield)

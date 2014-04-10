@@ -18,6 +18,7 @@
 
 package org.apache.slider.server.services;
 
+import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.service.AbstractService;
 
 import java.io.Closeable;
@@ -52,14 +53,8 @@ public class ClosingService extends AbstractService {
    */
   @Override
   protected void serviceStop() throws Exception {
-
-    if (closeable != null) {
-      try {
-        closeable.close();
-      } finally {
-        closeable = null;
-      }
-    }
+    IOUtils.closeStream(closeable);
+    closeable = null;
 
   }
 }

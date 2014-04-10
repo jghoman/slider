@@ -44,7 +44,7 @@ import static org.apache.hoya.api.ResourceKeys.YARN_CORES;
 import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY;
 
 public abstract class AbstractClientProvider extends Configured {
-  protected static final Logger log =
+  private static final Logger log =
     LoggerFactory.getLogger(AbstractClientProvider.class);
   protected static final ProviderUtils providerUtils =
     new ProviderUtils(log);

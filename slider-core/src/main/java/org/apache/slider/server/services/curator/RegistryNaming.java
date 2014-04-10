@@ -16,33 +16,21 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.params;
+package org.apache.slider.server.services.curator;
 
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import java.util.Locale;
 
-@Parameters(commandNames = {HoyaActions.ACTION_LIST},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_LIST)
+public class RegistryNaming {
 
-public class ActionListArgs extends AbstractActionArgs {
-  @Override
-  public String getActionName() {
-    return HoyaActions.ACTION_LIST;
+  public static String SLIDER_UUID = "b71ff114-37f7-45e7-99d2-f95efb81f2f9";
+
+  public static String SLIDER_INSTANCE_NAME_FORMAT =
+    SLIDER_UUID + "-%s-%s";
+
+  public static String createUniqueInstanceId(String instanceName,
+                                      String userName,
+                                      String serviceName) {
+    return String.format(Locale.ENGLISH, SLIDER_INSTANCE_NAME_FORMAT, userName,
+                         instanceName);
   }
-
-  
-  /**
-   * Get the min #of params expected
-   * @return the min number of params in the {@link #parameters} field
-   */
-  public int getMinParams() {
-    return 0;
-  }
-
-  @Override
-  public int getMaxParams() {
-    return 2;
-  }
-
 }

@@ -19,11 +19,6 @@
 package org.apache.hoya.yarn.appmaster;
 
 import com.google.protobuf.BlockingService;
-import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
@@ -114,8 +109,9 @@ import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
 import org.apache.slider.core.registry.ServiceInstanceData;
-import org.apache.slider.server.services.curator.CuratorClientService;
+import org.apache.slider.server.services.curator.CuratorHelper;
 import org.apache.slider.server.services.curator.RegistryBinderService;
+import org.apache.slider.server.services.curator.RegistryNaming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -272,6 +268,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
   
   //username -null if it is not known/not to be set
   private String hadoop_user_name;
+  private String service_user_name;
   
   private HoyaAMWebApp webApp;
 
@@ -494,7 +491,10 @@ public class HoyaAppMaster extends CompoundLaunchedService
     // propagated to workers
     if (!UserGroupInformation.isSecurityEnabled()) {
       hadoop_user_name = System.getenv(HADOOP_USER_NAME);
+      service_user_name = hadoop_user_name;
       log.info(HADOOP_USER_NAME + "='{}'", hadoop_user_name);
+    } else {
+      service_user_name = UserGroupInformation.getCurrentUser().getUserName();
     }
 
     Map<String, String> envVars;
@@ -654,28 +654,25 @@ public class HoyaAppMaster extends CompoundLaunchedService
     launchProviderService(instanceDefinition, confDir);
 
     // registry
-
-    String zkHosts =
+    String zkConnection =
       globalInternalOptions.getMandatoryOption(OptionKeys.INTERNAL_ZOOKEEPER_CONNECTION);
-    String zkPath = "/yarnservices";
-    RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-    CuratorFramework curator =
-      CuratorFrameworkFactory.newClient(zkHosts, retryPolicy);
-    
-    //deploy this before discovery so it not only starts first -it stops last
-    deployChildService(new CuratorClientService("client of " + zkHosts,
-                                                curator));
+    String zkPath = globalInternalOptions.getMandatoryOption(
+      OptionKeys.INTERNAL_ZOOKEEPER_PATH);
+
+    CuratorHelper curatorHelper = new CuratorHelper(conf, zkConnection);
+
     ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder =
-      ServiceDiscoveryBuilder.builder(ServiceInstanceData.class);
-    discoveryBuilder.client(curator);
-    discoveryBuilder.basePath(zkPath);
-    ServiceDiscovery<ServiceInstanceData> discovery = discoveryBuilder.build();
-    registry = new RegistryBinderService<ServiceInstanceData>(discovery);
-    deployChildService(registry);
-    
+        curatorHelper.createDiscoveryBuilder(zkPath);
+    //registry will start curator as well as the binder, in the correct order
+    registry = curatorHelper.createRegistryBinderService(discoveryBuilder);
+    boolean started = deployChildService(registry);
+    assert started: "registry is not yet live";
+
     // the registry is running, so register services
     URL amWeb = new URL(appMasterTrackingUrl);
-    registry.register("sliderAM", hadoop_user_name + "_", amWeb, null);
+    String appRegistryName =
+      RegistryNaming.createUniqueInstanceId(clustername, service_user_name, "web");
+    registry.register(appRegistryName, "web", amWeb, null);
     
     
     try {

@@ -19,13 +19,13 @@
 package org.apache.slider.server.services.curator;
 
 import com.google.common.base.Preconditions;
+import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
 import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.slider.server.services.ClosingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ import java.util.Map;
  * start/close methods are tied to the lifecycle of this service
  * @param <Payload> the payload of the operation
  */
-public class RegistryBinderService<Payload> extends ClosingService {
+public class RegistryBinderService<Payload> extends CuratorService {
   protected static final Logger log =
     LoggerFactory.getLogger(RegistryBinderService.class);
 
@@ -50,19 +50,31 @@ public class RegistryBinderService<Payload> extends ClosingService {
 
   /**
    * Create an instance
+   * @param curator. Again, does not need to be started
    * @param discovery discovery instance -not yet started
    */
-  public RegistryBinderService(ServiceDiscovery<Payload> discovery) {
-    super("RegistryBinderService", discovery);
+  public RegistryBinderService(CuratorFramework curator, ServiceDiscovery<Payload> discovery) {
+    super("RegistryBinderService", curator);
 
     this.discovery =
       Preconditions.checkNotNull(discovery, "null discovery arg");
+  }
+
+
+  public ServiceDiscovery<Payload> getDiscovery() {
+    return discovery;
   }
 
   @Override
   protected void serviceStart() throws Exception {
     super.serviceStart();
     discovery.start();
+  }
+
+  @Override
+  protected void serviceStop() throws Exception {
+    closeCuratorComponent(discovery);
+    super.serviceStop();
   }
 
   /**
@@ -101,8 +113,9 @@ public class RegistryBinderService<Payload> extends ClosingService {
       .serviceType(ServiceType.DYNAMIC)
       .uriSpec(uriSpec)
       .build();
-    log.info("registering{}", instance.toString());
+    log.info("registering {}", instance.toString());
     discovery.registerService(instance);
+    log.info("registration completed {}", instance.toString());
     synchronized (this) {
       entries.put(id, instance);
     }

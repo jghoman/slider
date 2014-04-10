@@ -38,6 +38,7 @@ public interface HoyaActions {
   String ACTION_LIST = "list";
   String ACTION_PREFLIGHT = "preflight";
   String ACTION_RECONFIGURE = "reconfigure";
+  String ACTION_REGISTRY = "registry";
   String ACTION_STATUS = "status";
   String ACTION_THAW = "thaw";
   String ACTION_USAGE = "usage";
@@ -64,6 +65,8 @@ public interface HoyaActions {
                   "List running Hoya clusters";
   String DESCRIBE_ACTION_MONITOR =
                     "Monitor a running cluster";
+  String DESCRIBE_ACTION_REGISTRY =
+                      "Query the registry of a YARN cluster";
   String DESCRIBE_ACTION_STATUS =
                       "Get the status of a cluster";
   String DESCRIBE_ACTION_THAW =
