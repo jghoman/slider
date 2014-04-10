@@ -19,19 +19,23 @@
 package org.apache.slider.server.services.curator;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
 import org.apache.hoya.exceptions.BadClusterStateException;
+import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,15 +51,19 @@ public class RegistryBinderService<Payload> extends CuratorService {
 
   private final Map<String, ServiceInstance<Payload>> entries =
     new HashMap<String, ServiceInstance<Payload>>();
+  private final String basePath;
 
   /**
    * Create an instance
    * @param curator. Again, does not need to be started
    * @param discovery discovery instance -not yet started
    */
-  public RegistryBinderService(CuratorFramework curator, ServiceDiscovery<Payload> discovery) {
+  public RegistryBinderService(CuratorFramework curator,
+                               String basePath,
+                               ServiceDiscovery<Payload> discovery) {
     super("RegistryBinderService", curator);
 
+    this.basePath = basePath;
     this.discovery =
       Preconditions.checkNotNull(discovery, "null discovery arg");
   }
@@ -148,5 +156,20 @@ public class RegistryBinderService<Payload> extends CuratorService {
       throw new IOException(e);
     }
   }
-  
+
+
+  public String pathForInstance(String name) {
+    return ZKPaths.makePath(basePath, name);
+  }
+
+  public List<String> instanceIDs(String servicename) throws Exception {
+    List<String> instanceIds;
+
+    try {
+      instanceIds = getCurator().getChildren().forPath(pathForInstance(servicename));
+    } catch (KeeperException.NoNodeException e) {
+      instanceIds = Lists.newArrayList();
+    }
+    return instanceIds;
+  }
 }

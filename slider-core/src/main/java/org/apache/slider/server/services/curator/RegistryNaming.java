@@ -22,15 +22,21 @@ import java.util.Locale;
 
 public class RegistryNaming {
 
-  public static String SLIDER_UUID = "b71ff114-37f7-45e7-99d2-f95efb81f2f9";
+  public static String SLIDER_INSTANCE_NAME_FORMAT = "%s.%s";
 
-  public static String SLIDER_INSTANCE_NAME_FORMAT =
-    SLIDER_UUID + "-%s-%s";
-
+  public static String createRegistryName(String instanceName,
+                                          String userName,
+                                          String serviceName) {
+    return serviceName;
+  }
+  
   public static String createUniqueInstanceId(String instanceName,
                                       String userName,
-                                      String serviceName) {
+                                      String serviceName,
+                                      int appId) {
     return String.format(Locale.ENGLISH, SLIDER_INSTANCE_NAME_FORMAT, userName,
                          instanceName);
   }
+  
+  
 }

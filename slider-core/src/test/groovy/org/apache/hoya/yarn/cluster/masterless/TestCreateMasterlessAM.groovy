@@ -20,16 +20,17 @@ package org.apache.hoya.yarn.cluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.curator.x.discovery.ServiceInstance
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.registry.ServiceInstanceData
 import org.junit.Test
 
 /**
@@ -97,6 +98,26 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     ApplicationReport instance = serviceRegistryClient.findInstance(clustername)
     logReport(instance)
     assert instance != null
+
+    
+    //switch to the ZK-based registry
+
+    describe "service registry names"
+    def names = hoyaClient.listRegistryNames(clustername)
+    log.info("number of names: ${names.size()}")
+    names.each {String it -> log.info( it) }
+    describe "service registry instance IDs"
+
+    def instanceIds = hoyaClient.listRegistryInstanceIDs(clustername)
+    
+    log.info("number of instanceIds: ${instanceIds.size()}")
+    instanceIds.each {String it -> log.info( it) }
+
+    describe "service registry slider instances"
+    def instances = hoyaClient.listRegistryInstances(clustername)
+    instances.each { ServiceInstance<ServiceInstanceData> svc ->
+      log.info svc.toString()
+    }
 
     //now kill that cluster
     assert 0 == clusterActionFreeze(hoyaClient, clustername)

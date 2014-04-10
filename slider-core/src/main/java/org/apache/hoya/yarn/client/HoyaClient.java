@@ -19,6 +19,8 @@
 package org.apache.hoya.yarn.client;
 
 import com.google.common.annotations.VisibleForTesting;
+import org.apache.curator.x.discovery.ServiceDiscovery;
+import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -90,8 +92,10 @@ import org.apache.hoya.yarn.params.ActionThawArgs;
 import org.apache.hoya.yarn.params.ClientArgs;
 import org.apache.hoya.yarn.params.HoyaAMArgs;
 import org.apache.hoya.yarn.params.LaunchArgsAccessor;
-import org.apache.hoya.yarn.service.CompoundLaunchedService;
+import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
+import org.apache.slider.core.registry.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +106,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetSocketAddress;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,7 +117,7 @@ import java.util.Properties;
  * Client service for Hoya
  */
 
-public class HoyaClient extends CompoundLaunchedService implements RunService,
+public class HoyaClient extends AbstractSliderLaunchedService implements RunService,
                                                           HoyaExitCodes,
                                                           HoyaKeys,
                                                           ErrorStrings {
@@ -136,20 +141,14 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
   private HoyaYarnClientImpl yarnClient;
   private YARNRegistryClient YARNRegistryClient;
   private AggregateConf launchedInstanceDefinition;
+  private RegistryBinderService<ServiceInstanceData> registry;
 
   /**
    * Constructor
    */
   public HoyaClient() {
-    // make sure all the yarn configs get loaded
-    new YarnConfiguration();
+    super("Slider Client");
     log.debug("Hoya constructed");
-  }
-
-  @Override
-  // Service
-  public String getName() {
-    return "Hoya";
   }
 
   @Override
@@ -178,14 +177,12 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     yarnClient = new HoyaYarnClientImpl();
     addService(yarnClient);
 
-    
-    
     super.serviceInit(conf);
     
     //here the superclass is inited; getConfig returns a non-null value
-    hoyaFileSystem = new HoyaFileSystem(conf);
+    hoyaFileSystem = new HoyaFileSystem(getConfig());
     YARNRegistryClient =
-      new YARNRegistryClient(yarnClient, getUsername(), conf);
+      new YARNRegistryClient(yarnClient, getUsername(), getConfig());
   }
 
   /**
@@ -568,7 +565,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
    * @throws HoyaException
    * @throws UnknownClusterException if the file is not found
    */
-  private AggregateConf loadInstanceDefinitionUnresolved(String name,
+  public AggregateConf loadInstanceDefinitionUnresolved(String name,
                                                          Path clusterDirectory) throws
                                                                       IOException,
                                                                       HoyaException {
@@ -582,6 +579,31 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
       throw UnknownClusterException.unknownCluster(name, e);
     }
   }
+    /**
+   * Load the instance definition. 
+   * @param name
+   * @param resolved flag to indicate the cluster should be resolved
+   * @return the loaded configuration
+   * @throws IOException
+   * @throws HoyaException
+   * @throws UnknownClusterException if the file is not found
+   */
+  public AggregateConf loadInstanceDefinition(String name, boolean resolved) throws
+                                                                      IOException,
+                                                                      HoyaException {
+
+    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(name);
+    AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
+      name,
+      clusterDirectory);
+    if (resolved) {
+      instanceDefinition.resolve();
+    }
+    return instanceDefinition;
+
+  }
+  
+  
 
 
   /**
@@ -1219,33 +1241,100 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
                             ActionRegistryArgs registryArgs) throws
                                                              YarnException,
                                                              IOException {
-    verifyManagerSet();
+    Collection<ServiceInstance<ServiceInstanceData>> instances =
+      listRegistryInstances(clustername);
 
-    String user = UserGroupInformation.getCurrentUser().getUserName();
-    List<ApplicationReport> instances = listHoyaInstances(user);
-
-    if (isUnset(clustername)) {
-      log.info("Instances for {}: {}",
-               (user != null ? user : "all users"),
-               instances.size());
-      for (ApplicationReport report : instances) {
-        logAppReport(report);
-      }
+    Collection<ServiceInstance<ServiceInstanceData>> i = instances;
+    
       return EXIT_SUCCESS;
-    } else {
-      HoyaUtils.validateClusterName(clustername);
-      log.debug("Listing cluster named {}", clustername);
-      ApplicationReport report =
-        findClusterInInstanceList(instances, clustername);
-      if (report != null) {
-        logAppReport(report);
-        return EXIT_SUCCESS;
-      } else {
-        throw unknownClusterException(clustername);
-      }
-    }
   }
 
+  /**
+   * List names in the registry
+   * @param clustername
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public Collection<String> listRegistryNames(
+    String clustername) throws IOException, YarnException {
+    Collection<String> names;
+    try {
+      verifyManagerSet();
+
+      maybeStartRegistry(clustername);
+      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
+      names = discovery.queryForNames();
+    } catch (IOException e) {
+      throw e;
+    } catch (YarnException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+    return names;
+  }
+
+  /**
+   * List instances in the registry
+   * @param clustername
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public Collection<ServiceInstance<ServiceInstanceData>> listRegistryInstances(
+    String clustername) throws IOException, YarnException {
+    Collection<ServiceInstance<ServiceInstanceData>> instances;
+    try {
+      maybeStartRegistry(clustername);
+      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
+      instances = discovery.queryForInstances(HoyaKeys.APP_TYPE);
+    } catch (IOException e) {
+      throw e;
+    } catch (YarnException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+    return instances;
+  }
+  
+  /**
+   * List instances in the registry
+   * @param clustername
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public List<String> listRegistryInstanceIDs(
+    String clustername) throws IOException, YarnException {
+    Collection<ServiceInstance<ServiceInstanceData>> instances;
+    try {
+
+      maybeStartRegistry(clustername);
+      return registry.instanceIDs(HoyaKeys.APP_TYPE);
+    } catch (IOException e) {
+      throw e;
+    } catch (YarnException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+  
+  
+
+  public RegistryBinderService<ServiceInstanceData> maybeStartRegistry(String clustername) throws
+                                                                                           HoyaException,
+                                                                                           IOException {
+    AggregateConf instanceDefinition =
+      loadInstanceDefinition(clustername, false);
+    if (registry==null) {
+      registry = startRegistrationService(instanceDefinition);
+    }
+    return registry;
+  }
+  
   /**
    * Implement the islive action: probe for a cluster of the given name existing
    * @return exit code

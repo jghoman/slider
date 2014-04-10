@@ -38,23 +38,8 @@ public class ServiceInstanceData implements Serializable {
   /**
    * External view of the service: public information
    */
-  public Map<String, String> externalView = new HashMap<String, String>();
+//  public Map<String, String> externalView = new HashMap<String, String>();
 
-  /**
-   * Create a builder. This is already pre-prepared with address, registration
-   * time and a (random) UUID
-   * @return a builder
-   * @throws IOException IO problems, including enumerating network ports
-   */
-  public static ServiceInstanceBuilder<ServiceInstanceData> builder() throws
-                                                                     IOException {
-    try {
-      return ServiceInstance.builder();
-    } catch (IOException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new IOException(e);
-    }
-  }
+
 }
 

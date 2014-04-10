@@ -22,6 +22,7 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -61,7 +62,7 @@ public class CuratorHelper extends Configured {
     RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
     return retryPolicy;
   }
-  
+
   private CuratorFramework createCurator(String connectionString) {
     CuratorFramework curator =
       CuratorFrameworkFactory.newClient(connectionString,
@@ -76,16 +77,18 @@ public class CuratorHelper extends Configured {
    */
   public CuratorService createCuratorClientService() {
     CuratorService curatorService =
-      new CuratorService("Curator "  ,
-                               curator);
+      new CuratorService("Curator ", curator);
     return curatorService;
   }
 
-  public ServiceDiscoveryBuilder<ServiceInstanceData> createDiscoveryBuilder(String basePath) {
+  /**
+   * Create a discovery builder bonded to this curator
+   * @return
+   */
+  public ServiceDiscoveryBuilder<ServiceInstanceData> createDiscoveryBuilder() {
     ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder =
       ServiceDiscoveryBuilder.builder(ServiceInstanceData.class);
     discoveryBuilder.client(curator);
-    discoveryBuilder.basePath(basePath);
     return discoveryBuilder;
   }
 
@@ -95,9 +98,13 @@ public class CuratorHelper extends Configured {
    */
 
   public RegistryBinderService<ServiceInstanceData> createRegistryBinderService(
+    String basePath,
     ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder) {
-    return new RegistryBinderService<ServiceInstanceData>(curator, discoveryBuilder.build());
+    discoveryBuilder.basePath(basePath);
+    return new RegistryBinderService<ServiceInstanceData>(curator,
+                                                          basePath,
+                                                          discoveryBuilder.build());
   }
 
 
- }
+}

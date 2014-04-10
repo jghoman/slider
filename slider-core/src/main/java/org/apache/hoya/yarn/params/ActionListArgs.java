@@ -18,7 +18,6 @@
 
 package org.apache.hoya.yarn.params;
 
-import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import org.apache.hoya.yarn.HoyaActions;
 
@@ -31,7 +30,6 @@ public class ActionListArgs extends AbstractActionArgs {
     return HoyaActions.ACTION_LIST;
   }
 
-  
   /**
    * Get the min #of params expected
    * @return the min number of params in the {@link #parameters} field
@@ -42,7 +40,6 @@ public class ActionListArgs extends AbstractActionArgs {
 
   @Override
   public int getMaxParams() {
-    return 2;
+    return 1;
   }
-
 }
