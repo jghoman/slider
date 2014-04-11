@@ -58,18 +58,27 @@ public abstract class AbstractSliderLaunchedService extends
     String zkPath = globalInternalOptions.getMandatoryOption(
       OptionKeys.INTERNAL_ZOOKEEPER_PATH);
 
+    return startRegistrationService(zkConnection, zkPath);
+
+  }
+
+  /**
+   * Start the registration service
+   * @param zkConnection
+   * @param zkPath
+   * @return
+   */
+  public RegistryBinderService<ServiceInstanceData> startRegistrationService(
+    String zkConnection, String zkPath) {
     CuratorHelper curatorHelper =
       new CuratorHelper(getConfig(), zkConnection);
 
-    ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder =
-      curatorHelper.createDiscoveryBuilder();
     //registry will start curator as well as the binder, in the correct order
     RegistryBinderService<ServiceInstanceData> registryBinderService =
-      curatorHelper.createRegistryBinderService(zkPath, discoveryBuilder);
+      curatorHelper.createRegistryBinderService(zkPath);
     boolean started = deployChildService(registryBinderService);
     return registryBinderService;
-
   }
-  
-  
+
+
 }

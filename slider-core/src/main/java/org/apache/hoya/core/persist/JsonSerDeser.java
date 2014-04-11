@@ -33,10 +33,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Support for marshalling objects to and from JSON.
@@ -129,6 +131,17 @@ public class JsonSerDeser<T> {
   public T fromInstance(T instance) throws IOException {
     return fromJson(toJson(instance));
   }
+
+  /**
+   * Deserialize from a byte array
+   * @param b
+   * @return
+   * @throws IOException
+   */
+  public T fromBytes(byte[] b) throws IOException {
+    String json = new String(b, 0, b.length, UTF_8);
+    return fromJson(json);
+  }
   
   /**
    * Load from a Hadoop filesystem
@@ -142,11 +155,14 @@ public class JsonSerDeser<T> {
   public T load(FileSystem fs, Path path)
     throws IOException, JsonParseException, JsonMappingException {
     FileStatus status = fs.getFileStatus(path);
-    byte[] b = new byte[(int) status.getLen()];
+    long len = status.getLen();
+    byte[] b = new byte[(int) len];
     FSDataInputStream dataInputStream = fs.open(path);
     int count = dataInputStream.read(b);
-    String json = new String(b, 0, count, UTF_8);
-    return fromJson(json);
+    if (count != len) {
+      throw new EOFException("Read finished prematurely");
+    }
+    return fromBytes(b);
   }
 
 

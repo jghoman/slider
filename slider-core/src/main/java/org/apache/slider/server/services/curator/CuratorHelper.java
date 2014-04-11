@@ -22,7 +22,6 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -107,4 +106,18 @@ public class CuratorHelper extends Configured {
   }
 
 
+  /**
+   * Create an instance -including the initial binder
+   * @param basePath base path
+   * @return the binder service
+   */
+  public RegistryBinderService<ServiceInstanceData> createRegistryBinderService(
+    String basePath) {
+    ServiceDiscoveryBuilder<ServiceInstanceData> discoveryBuilder =
+      createDiscoveryBuilder();
+    //registry will start curator as well as the binder, in the correct order
+    RegistryBinderService<ServiceInstanceData> registryBinderService =
+      createRegistryBinderService(basePath, discoveryBuilder);
+    return registryBinderService;
+  }
 }

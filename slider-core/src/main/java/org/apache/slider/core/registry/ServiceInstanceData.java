@@ -38,7 +38,7 @@ public class ServiceInstanceData implements Serializable {
   /**
    * External view of the service: public information
    */
-//  public Map<String, String> externalView = new HashMap<String, String>();
+  public Map<String, String> externalView = new HashMap<String, String>();
 
 
 }

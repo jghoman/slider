@@ -95,6 +95,7 @@ import org.apache.hoya.yarn.params.LaunchArgsAccessor;
 import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.slider.core.registry.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
+import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +107,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -1230,9 +1232,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * Status operation
    *
    * @param clustername cluster name
-   * @param outfile filename : if not null indicates output is to be saved
-   * to this file
-   * @return 0 -for success, else an exception is thrown
+   * @param registryArgs registry Arguments
    * @throws YarnException
    * @throws IOException
    */
@@ -1241,12 +1241,14 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                             ActionRegistryArgs registryArgs) throws
                                                              YarnException,
                                                              IOException {
-    Collection<ServiceInstance<ServiceInstanceData>> instances =
+    List<CuratorServiceInstance<ServiceInstanceData>> instances =
       listRegistryInstances(clustername);
 
-    Collection<ServiceInstance<ServiceInstanceData>> i = instances;
-    
-      return EXIT_SUCCESS;
+    for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
+      log.info("{} at http://{}:{}/", instance.id, instance.address,
+               instance.port);
+    }
+    return EXIT_SUCCESS;
   }
 
   /**
@@ -1282,13 +1284,18 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @throws IOException
    * @throws YarnException
    */
-  public Collection<ServiceInstance<ServiceInstanceData>> listRegistryInstances(
+  public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances(
     String clustername) throws IOException, YarnException {
-    Collection<ServiceInstance<ServiceInstanceData>> instances;
+    List<CuratorServiceInstance<ServiceInstanceData>> instances;
     try {
-      maybeStartRegistry(clustername);
-      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
-      instances = discovery.queryForInstances(HoyaKeys.APP_TYPE);
+      List<String> instanceIDs = listRegistryInstanceIDs(clustername);
+      instances = new ArrayList<CuratorServiceInstance<ServiceInstanceData>>(
+        instanceIDs.size());
+      for (String instanceID : instanceIDs) {
+        CuratorServiceInstance instance =
+          registry.queryForInstance(HoyaKeys.APP_TYPE, instanceID);
+        instances.add(instance);
+      }
     } catch (IOException e) {
       throw e;
     } catch (YarnException e) {
@@ -1321,9 +1328,14 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
       throw new IOException(e);
     }
   }
-  
-  
 
+  /**
+   * Start the registry if it is not there yet
+   * @param clustername name of the cluster
+   * @return the registry service
+   * @throws HoyaException
+   * @throws IOException
+   */
   public RegistryBinderService<ServiceInstanceData> maybeStartRegistry(String clustername) throws
                                                                                            HoyaException,
                                                                                            IOException {

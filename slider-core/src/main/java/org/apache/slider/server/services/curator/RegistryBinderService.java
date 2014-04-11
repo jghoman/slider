@@ -27,12 +27,14 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
+import org.apache.hoya.core.persist.JsonSerDeser;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +54,9 @@ public class RegistryBinderService<Payload> extends CuratorService {
   private final Map<String, ServiceInstance<Payload>> entries =
     new HashMap<String, ServiceInstance<Payload>>();
   private final String basePath;
+
+  JsonSerDeser<CuratorServiceInstance> deser = new JsonSerDeser<CuratorServiceInstance>(
+    CuratorServiceInstance.class);
 
   /**
    * Create an instance
@@ -94,8 +99,8 @@ public class RegistryBinderService<Payload> extends CuratorService {
    * @return the instance
    * @throws Exception on registration problems
    */
-  public ServiceInstance<Payload> register(String id,
-                                           String name,
+  public ServiceInstance<Payload> register(String name,
+                                           String id,
                                            URL url,
                                            Payload payload) throws Exception {
     Preconditions.checkNotNull(id, "null `id` arg");
@@ -158,18 +163,44 @@ public class RegistryBinderService<Payload> extends CuratorService {
   }
 
 
-  public String pathForInstance(String name) {
+  public String pathForName(String name) {
     return ZKPaths.makePath(basePath, name);
+  }
+
+
+  private String pathForInstance(String name, String id) {
+    return ZKPaths.makePath(pathForName(name), id);
   }
 
   public List<String> instanceIDs(String servicename) throws Exception {
     List<String> instanceIds;
 
     try {
-      instanceIds = getCurator().getChildren().forPath(pathForInstance(servicename));
+      instanceIds = getCurator().getChildren().forPath(pathForName(servicename));
     } catch (KeeperException.NoNodeException e) {
       instanceIds = Lists.newArrayList();
     }
     return instanceIds;
+  }
+
+
+  /**
+   * Return a service instance POJO
+   *
+   * @param name name of the service
+   * @param id ID of the instance
+   * @return the instance or <code>null</code> if not found
+   * @throws Exception errors
+   */
+  public CuratorServiceInstance queryForInstance(String name, String id) throws
+                                                                     Exception {
+    String path = pathForInstance(name, id);
+    try {
+      byte[] bytes = getCurator().getData().forPath(path);
+      return deser.fromBytes(bytes);
+    } catch (KeeperException.NoNodeException ignore) {
+      // ignore
+    }
+    return null;
   }
 }

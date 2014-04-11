@@ -659,7 +659,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     String registryId =
       RegistryNaming.createUniqueInstanceId(clustername, service_user_name, serviceName, id);
     
-    registry.register(registryId, appRegistryName, amWeb, null);
+    registry.register(appRegistryName, registryId, amWeb, null);
 
 
     // launch the provider; this is expected to trigger a callback that
