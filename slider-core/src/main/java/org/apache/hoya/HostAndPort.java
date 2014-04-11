@@ -17,6 +17,8 @@
 
 package org.apache.hoya;
 
+import java.util.Locale;
+
 /**
  * Class that carries hostname and port
  */
@@ -53,8 +55,8 @@ public class HostAndPort {
   }
   
   public int compareTo(HostAndPort other) {
-    int compare = this.getHostname().toLowerCase().
-      compareTo(other.getHostname().toLowerCase());
+    int compare = this.getHostname().toLowerCase(Locale.ENGLISH).
+      compareTo(other.getHostname().toLowerCase(Locale.ENGLISH));
     if (compare != 0) return compare;
     compare = this.getPort() - other.getPort();
     return compare;
