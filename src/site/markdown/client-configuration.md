@@ -52,7 +52,7 @@ configuration file `hoya-client.xml`.
 Core JVM options can be set in the environment variable `SLIDER_JVM_OPTS`;
 if unset the `bin/hoya` script will use the default values that were
 current when that version of Hoya was released. These values may change
-across versions, and may in fact be "".
+across versions, and may in fact be.
 
 At the time of writing, the default values were:
 
