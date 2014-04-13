@@ -104,7 +104,7 @@ This is for demos only, otherwise you lose the clusters and their databases.
 
     hdfs dfs -rm -r hdfs://master:9090/user/home/stevel/.hoya
 
-## Create a Hoya Cluster
+## Create a Slider Cluster
  
  
     slider  create cl1 \

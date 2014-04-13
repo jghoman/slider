@@ -28,6 +28,7 @@ import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.ConfPersister
 import org.apache.hoya.exceptions.BadConfigException
+import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.hoya.yarn.client.HoyaClient
 import org.junit.Test
@@ -43,6 +44,26 @@ class TestBuildBasicAgent extends AgentTestBase {
   @Override
   void checkTestAssumptions(YarnConfiguration conf) {
 
+  }
+
+  private static class TestResources {
+    static File hoya_core = new File(new File(".").absoluteFile, "src/test/python");
+    static String app_def = "appdef_1.tar"
+    static File app_def_path = new File(hoya_core, app_def)
+    static String agt_conf = "agent.ini"
+    static File agt_conf_path = new File(hoya_core, agt_conf)
+
+    static public File getAppDef() {
+      return app_def_path;
+    }
+
+    static public File getAgentConf() {
+      return agt_conf_path;
+    }
+
+    static public File getAgentImg() {
+      return app_def_path;
+    }
   }
 
   @Test
@@ -62,6 +83,8 @@ class TestBuildBasicAgent extends AgentTestBase {
         [
             ARG_OPTION, CONTROLLER_URL, "http://localhost",
             ARG_PACKAGE, ".",
+            ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
             ARG_OPTION, SCRIPT_PATH, "agent/scripts/agent.py",
             ARG_COMP_OPT, ROLE_NODE, SCRIPT_PATH, "agent/scripts/agent.py",
             ARG_RES_COMP_OPT, ROLE_NODE, ResourceKeys.COMPONENT_PRIORITY, "1",
@@ -73,13 +96,15 @@ class TestBuildBasicAgent extends AgentTestBase {
     def rs = "hbase-rs"
     ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
         [
-            (ROLE_NODE) : 5,
-            (master)    : 1,
-            (rs)        : 5
+            (ROLE_NODE): 5,
+            (master): 1,
+            (rs): 5
         ],
         [
             ARG_OPTION, CONTROLLER_URL, "http://localhost",
             ARG_OPTION, PACKAGE_PATH, ".",
+            ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
             ARG_COMP_OPT, master, SCRIPT_PATH, "agent/scripts/agent.py",
             ARG_COMP_OPT, rs, SCRIPT_PATH, "agent/scripts/agent.py",
             ARG_RES_COMP_OPT, master, ResourceKeys.COMPONENT_PRIORITY, "2",
@@ -113,9 +138,9 @@ class TestBuildBasicAgent extends AgentTestBase {
       def name2 = clustername + "-2"
       buildAgentCluster(name2,
           [
-              (ROLE_NODE) : 5,
-              "role3"     : 1,
-              "newnode"   : 5
+              (ROLE_NODE): 5,
+              "role3": 1,
+              "newnode": 5
           ],
           [
               ARG_COMP_OPT, ROLE_NODE, SERVICE_NAME, "HBASE",
@@ -128,15 +153,15 @@ class TestBuildBasicAgent extends AgentTestBase {
       failWithBuildSucceeding(name2, "no priority for one role")
     } catch (BadConfigException expected) {
     }
-    
+
     //duplicate priorities
     try {
       def name3 = clustername + "-3"
       buildAgentCluster(name3,
           [
-              (ROLE_NODE) : 5,
-              (master)    : 1,
-              (rs)        : 5
+              (ROLE_NODE): 5,
+              (master): 1,
+              (rs): 5
           ],
           [
               ARG_RES_COMP_OPT, master, ResourceKeys.COMPONENT_PRIORITY, "2",
@@ -156,10 +181,13 @@ class TestBuildBasicAgent extends AgentTestBase {
     def jvmopts = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
     buildAgentCluster(cluster4,
         [
-            (master)             : 1,
-            (rs)                 : 5
+            (master): 1,
+            (rs): 5
         ],
         [
+            ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
+            ARG_PACKAGE, ".",
             ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_OPTS, jvmopts,
             ARG_COMP_OPT, master, RoleKeys.JVM_OPTS, jvmopts,
             ARG_COMP_OPT, rs, RoleKeys.JVM_OPTS, jvmopts,
@@ -181,16 +209,19 @@ class TestBuildBasicAgent extends AgentTestBase {
 
     // now create an instance with no component options, hence no
     // entry in the app config
-      def name5 = clustername + "-5"
-      buildAgentCluster(name5,
-          [
-              "role"  : 1,
-          ],
-          [
-              ARG_RES_COMP_OPT, "role", ResourceKeys.COMPONENT_PRIORITY, "3",
-          ],
-          true, false,
-          false)
+    def name5 = clustername + "-5"
+    buildAgentCluster(name5,
+        [
+            "role": 1,
+        ],
+        [
+            ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
+            ARG_PACKAGE, ".",
+            ARG_RES_COMP_OPT, "role", ResourceKeys.COMPONENT_PRIORITY, "3",
+        ],
+        true, false,
+        false)
   }
 
   public AggregateConf loadInstanceDefinition(String name) {
@@ -201,6 +232,91 @@ class TestBuildBasicAgent extends AgentTestBase {
     AggregateConf instanceDefinition = new AggregateConf();
     persister.load(instanceDefinition)
     return instanceDefinition
+  }
+
+  @Test
+  public void testBadAgentArgs() throws Throwable {
+    def clustername = "test_bad_template_args"
+    createMiniCluster(
+        clustername,
+        configuration,
+        1,
+        1,
+        1,
+        true,
+        false)
+
+    try {
+      def badArgs1 = "test_bad_agent_args-1"
+      buildAgentCluster(clustername,
+          [:],
+          [
+              ARG_OPTION, CONTROLLER_URL, "http://localhost",
+              ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+              ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
+              ARG_RESOURCES, TEST_FILES + "good/resources.json",
+              ARG_TEMPLATE, TEST_FILES + "good/appconf.json"
+          ],
+          true, false,
+          false)
+      failWithBuildSucceeding(badArgs1, "missing package home or image path")
+    } catch (HoyaException expected) {
+      assert expected.message.contains("Either agent package path or image root must be provided")
+    }
+
+    try {
+      def badArgs1 = "test_bad_agent_args-2"
+      buildAgentCluster(clustername,
+          [:],
+          [
+              ARG_OPTION, CONTROLLER_URL, "http://localhost",
+              ARG_IMAGE, "file://" + TestResources.getAgentImg().absolutePath + ".badfile",
+              ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+              ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
+              ARG_RESOURCES, TEST_FILES + "good/resources.json",
+              ARG_TEMPLATE, TEST_FILES + "good/appconf.json"
+          ],
+          true, false,
+          false)
+      failWithBuildSucceeding(badArgs1, "bad image path")
+    } catch (HoyaException expected) {
+      assert expected.message.contains("Both application image path and home dir have been provided")
+    }
+
+    try {
+      def badArgs1 = "test_bad_agent_args-3"
+      buildAgentCluster(clustername,
+          [:],
+          [
+              ARG_OPTION, CONTROLLER_URL, "http://localhost",
+              ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
+              ARG_RESOURCES, TEST_FILES + "good/resources.json",
+              ARG_TEMPLATE, TEST_FILES + "good/appconf.json"
+          ],
+          true, false,
+          false)
+      failWithBuildSucceeding(badArgs1, "bad app def file")
+    } catch (HoyaException expected) {
+      assert expected.message.contains("Application definition must be provided")
+    }
+
+    try {
+      def badArgs1 = "test_bad_agent_args-5"
+      buildAgentCluster(clustername,
+          [:],
+          [
+              ARG_OPTION, CONTROLLER_URL, "http://localhost",
+              ARG_PACKAGE, ".",
+              ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+              ARG_RESOURCES, TEST_FILES + "good/resources.json",
+              ARG_TEMPLATE, TEST_FILES + "good/appconf.json"
+          ],
+          true, false,
+          false)
+      failWithBuildSucceeding(badArgs1, "bad agent conf file")
+    } catch (HoyaException expected) {
+      assert expected.message.contains("Agent config must be provided")
+    }
   }
 
   @Test
@@ -220,6 +336,8 @@ class TestBuildBasicAgent extends AgentTestBase {
         [:],
         [
             ARG_OPTION, CONTROLLER_URL, "http://localhost",
+            ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
             ARG_PACKAGE, ".",
             ARG_RESOURCES, TEST_FILES + "good/resources.json",
             ARG_TEMPLATE, TEST_FILES + "good/appconf.json"
@@ -227,8 +345,8 @@ class TestBuildBasicAgent extends AgentTestBase {
         true, false,
         false)
   }
-  
-  
+
+
   @Test
   public void testBadTemplates() throws Throwable {
 
@@ -242,9 +360,9 @@ class TestBuildBasicAgent extends AgentTestBase {
         1,
         true,
         false)
-    
+
     try {
-      
+
 
       def badArgs1 = "test_build_template_args_bad-1"
       buildAgentCluster(badArgs1,
@@ -279,9 +397,9 @@ class TestBuildBasicAgent extends AgentTestBase {
       failWithBuildSucceeding(bad2, "a bad app conf")
     } catch (BadConfigException expected) {
     }
-    
+
     try {
-      
+
       def bad3 = "test_build_template_args_bad-3"
       buildAgentCluster(bad3,
           [:],

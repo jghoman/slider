@@ -393,11 +393,9 @@ public class HoyaAppMaster extends CompoundLaunchedService
     appState.updateInstanceDefinition(instanceDefinition);
     File confDir = getLocalConfDir();
     if (!confDir.exists() || !confDir.isDirectory()) {
-      log.error("Bad conf dir {}", confDir);
+      log.info("Conf dir {} does not exist.", confDir);
       File parentFile = confDir.getParentFile();
-      log.error("Parent dir {}:\n{}", parentFile, HoyaUtils.listDir(parentFile));
-      throw new BadCommandArgumentsException(
-        "Configuration directory %s doesn't exist", confDir);
+      log.info("Parent dir {}:\n{}", parentFile, HoyaUtils.listDir(parentFile));
     }
 
     Configuration serviceConf = getConfig();

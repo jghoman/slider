@@ -351,7 +351,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
 
   /**
    * Build up the AggregateConfiguration for an application instance then
-   * persiste it
+   * persists it
    * @param clustername name of the cluster
    * @param buildInfo the arguments needed to build the cluster
    * @throws YarnException
@@ -369,7 +369,6 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
 
 
     Path appconfdir = buildInfo.getConfdir();
-    requireArgumentSet(Arguments.ARG_CONFDIR, appconfdir);
     // Provider
     String providerName = buildInfo.getProvider();
     requireArgumentSet(Arguments.ARG_PROVIDER, providerName);
@@ -457,7 +456,7 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     appConf.merge(cmdLineResourceOptions);
     resources.mergeComponents(buildInfo.getResourceCompOptionMap());
 
-    builder.init(appconfdir, provider.getName(), instanceDefinition);
+    builder.init(provider.getName(), instanceDefinition);
     builder.propagateFilename();
     builder.propagatePrincipals();
     builder.setImageDetails(buildInfo.getImage(), buildInfo.getAppHomeDir());

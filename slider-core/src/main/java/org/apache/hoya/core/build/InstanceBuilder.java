@@ -94,11 +94,10 @@ public class InstanceBuilder {
 
   /**
    * Initial part of the build process
-   * @param configSrcDir
+   * @param instanceConf
    * @param provider
    */
   public void init(
-    Path configSrcDir,
     String provider,
     AggregateConf instanceConf) {
 
