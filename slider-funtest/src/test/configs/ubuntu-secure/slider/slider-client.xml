@@ -58,7 +58,7 @@
   <property>
     <name>slider.test.hbase.tar</name>
     <description>Path to the HBase Tar file in HDFS</description>
-    <value>hdfs://ubuntu:9090/hbase.tar.gz</value>
+    <value>hdfs://ubuntu:9090/hbase-0.98.1-bin.tar.gz</value>
   </property>
 
   <property>

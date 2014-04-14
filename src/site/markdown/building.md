@@ -56,20 +56,20 @@ to have a local version of Hadoop -so that we can find and fix bugs/add features
 Hadoop as well in Slider.
 
 
-To build and install locally, check out apache svn/github, branch `release-2.2.0`,
+To build and install locally, check out apache svn/github, branch `release-2.4.0`,
 and create a branch off that tag
 
     git clone git://git.apache.org/hadoop-common.git 
     cd hadoop-common
     git remote rename origin apache
     git fetch --tags apache
-    git checkout release-2.2.0 -- 
-    git checkout -b release-2.2.0
+    git checkout release-2.4.0 -- 
+    git checkout -b release-2.4.0
 
 
 For the scripts below, set the `HADOOP_VERSION` variable to the version
 
-    export HADOOP_VERSION=2.2.0
+    export HADOOP_VERSION=2.4.0
     
 or, for building against a pre-release version of Hadoop 2.4
  
@@ -97,8 +97,7 @@ Then expand this
 
 This creates an expanded version of Hadoop. You can now actually run Hadoop
 from this directory. Do note that unless you have the native code built for
-your target platform, Hadoop will be slower. For installations, use
-the Apache Hadoop 2.2 package or Hortownworks HDP-2.0.
+your target platform, Hadoop will be slower. 
 
 ## building a compatible HBase version
 
@@ -177,7 +176,7 @@ In the accumulo project directory, build it
     mvn clean install -Passemble -DskipTests -Dmaven.javadoc.skip=true \
      -Dhadoop.profile=2 
      
-The default Hadoop version for accumulo-1.5.1 is hadoop 2.2.0; to build
+The default Hadoop version for accumulo-1.5.1 is hadoop 2.4.0; to build
 against a different version use the command
      
     mvn clean install -Passemble -DskipTests -Dmaven.javadoc.skip=true \
