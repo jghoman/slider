@@ -44,6 +44,10 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,46 +152,43 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                                 String libdir,
                                                                 Path tempPath)
     throws IOException, HoyaException {
-    
+
+    Class<?>[] classes = {
+      JCommander.class,
+      GsonBuilder.class,
+      
+      CuratorFramework.class,
+      CuratorZookeeperClient.class,
+      ServiceInstance.class,
+      ServiceNames.class,
+
+      JacksonJaxbJsonProvider.class,
+      JsonFactory.class,
+      JsonNodeFactory.class,
+      JaxbAnnotationIntrospector.class,
+      
+    };
+    String[] jars =
+      {
+        JCOMMANDER_JAR,
+        GSON_JAR,
+        
+        "curator-framework.jar",
+        "curator-client.jar",
+        "curator-x-discovery.jar",
+        "curator-x-discovery-service.jar",
+        
+        "jackson-jaxrs",
+        "jackson-core-asl",
+        "jackson-mapper-asl",
+        "jackson-xc",
+        
+      };
     Map<String, LocalResource> providerResources =
       new HashMap<String, LocalResource>();
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     JCommander.class,
-                     tempPath,
-                     libdir,
-                     JCOMMANDER_JAR);
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     GsonBuilder.class,
-                     tempPath,
-                     libdir,
-                     GSON_JAR);
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     ServiceInstance.class,
-                     tempPath,
-                     libdir,
-                     "curator-x-discovery.jar");
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     ServiceNames.class,
-                     tempPath,
-                     libdir,
-                     "curator-x-discovery-service.jar");
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     CuratorFramework.class,
-                     tempPath,
-                     libdir,
-                     "curator-framework.jar");
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     CuratorZookeeperClient.class,
-                     tempPath,
-                     libdir,
-                     "curator-client.jar");
-
+    ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
+                                    libdir, jars,
+                                    classes);
     
     launcher.addLocalResources(providerResources);
     //also pick up all env variables from a map
