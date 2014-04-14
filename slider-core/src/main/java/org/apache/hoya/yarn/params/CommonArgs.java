@@ -121,7 +121,7 @@ public abstract class CommonArgs extends ArgOps implements HoyaActions,
       throw new BadCommandArgumentsException(e, "%s in %s",
                                              e.toString(),
                                              (getArgs() != null
-                                              ? (HoyaUtils.join(getArgs(), " "))
+                                              ? (HoyaUtils.join(getArgs(), " ", false))
                                               : "[]"));
     }
     //now copy back to this class some of the attributes that are common to all

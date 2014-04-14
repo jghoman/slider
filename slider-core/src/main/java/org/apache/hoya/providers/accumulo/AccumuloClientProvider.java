@@ -148,9 +148,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
       globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_PORT);
     //parse the hosts
     String[] hostlist = zkHosts.split(",", 0);
-    String quorum = HoyaUtils.join(hostlist, ":" + zkPort + ",");
-    //this quorum has a trailing comma
-    quorum = quorum.substring(0, quorum.length() - 1);
+    String quorum = HoyaUtils.join(hostlist, ":" + zkPort + ",", false);
     sitexml.put(AccumuloConfigFileOptions.ZOOKEEPER_HOST, quorum);
 
     return sitexml;
