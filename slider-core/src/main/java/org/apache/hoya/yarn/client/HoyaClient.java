@@ -50,6 +50,7 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AppMasterLauncher;
+import org.apache.hoya.core.launch.ClasspathConstructor;
 import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.core.launch.LaunchedApplication;
 import org.apache.hoya.core.launch.RunningApplication;
@@ -777,11 +778,12 @@ public class HoyaClient extends CompoundLaunchedService implements RunService,
     // build the environment
     amLauncher.putEnv(
       HoyaUtils.buildEnvMap(hoyaAMResourceComponent));
-    String classpath = HoyaUtils.buildClasspath(relativeConfDir,
-                                                libdir,
-                                                getConfig(),
-                                                getUsingMiniMRCluster());
-    amLauncher.setEnv("CLASSPATH", classpath);
+    ClasspathConstructor classpath = HoyaUtils.buildClasspath(relativeConfDir,
+                                                              libdir,
+                                                              getConfig(),
+                                                              getUsingMiniMRCluster());
+    amLauncher.setEnv("CLASSPATH",
+                      classpath.buildClasspath());
     if (log.isDebugEnabled()) {
       log.debug("AM classpath={}", classpath);
       log.debug("Environment Map:\n{}",

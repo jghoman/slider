@@ -157,7 +157,7 @@ public abstract class AbstractLauncher extends Configured {
   public ContainerLaunchContext completeContainerLaunch() throws IOException {
     dumpLocalResources();
 
-    String cmdStr = HoyaUtils.join(commands, " ");
+    String cmdStr = HoyaUtils.join(commands, " ", false);
     log.debug("Completed setting up container command {}", cmdStr);
     containerLaunchContext.setCommands(commands);
 

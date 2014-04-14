@@ -119,7 +119,7 @@ public class ForkedProcessService extends AbstractService implements
                                            HoyaException {
     assert process == null;
     this.commands = commands;
-    this.commandLine = HoyaUtils.join(commands, " ");
+    this.commandLine = HoyaUtils.join(commands, " ", false);
     this.environment = environment;
     process = new RunLongLivedApp(log, commands);
     process.setApplicationEventHandler(this);
