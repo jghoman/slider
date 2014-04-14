@@ -27,5 +27,5 @@ __author__ = [
     "Slider"
 ]
 __license__ = "Apache License v2.0"
-__contributors__ = "see http://incubator.apache.org/slider/contributors"
+__contributors__ = "TBD"
 

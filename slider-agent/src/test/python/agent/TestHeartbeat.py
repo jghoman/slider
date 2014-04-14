@@ -22,13 +22,11 @@ from unittest import TestCase
 import unittest
 from agent.Heartbeat import Heartbeat
 from agent.ActionQueue import ActionQueue
-from agent.LiveStatus import LiveStatus
 from agent.AgentConfig import AgentConfig
 import socket
 import os
 import time
 from mock.mock import patch, MagicMock, call
-from agent.StackVersionsFileHandler import StackVersionsFileHandler
 import StringIO
 import sys
 

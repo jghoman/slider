@@ -25,7 +25,6 @@ import threading
 import pprint
 import os
 
-from LiveStatus import LiveStatus
 from shell import shellRunner
 from AgentConfig import AgentConfig
 from CommandStatusDict import CommandStatusDict
@@ -100,8 +99,6 @@ class ActionQueue(threading.Thread):
     try:
       if command['commandType'] == self.EXECUTION_COMMAND:
         self.execute_command(command)
-      elif command['commandType'] == self.STATUS_COMMAND:
-        self.execute_status_command(command)
       else:
         logger.error("Unrecognized command " + pprint.pformat(command))
     except Exception, err:
@@ -182,45 +179,6 @@ class ActionQueue(threading.Thread):
       if command.has_key('configurationTags'):
         roleResult['configurationTags'] = command['configurationTags']
     self.commandStatuses.put_command_status(command, roleResult)
-
-
-  def execute_status_command(self, command):
-    '''
-    Executes commands of type STATUS_COMMAND
-    '''
-    try:
-      cluster = command['clusterName']
-      service = command['serviceName']
-      component = command['componentName']
-      configurations = command['configurations']
-      if configurations.has_key('global'):
-        globalConfig = configurations['global']
-      else:
-        globalConfig = {}
-
-      command_format = self.determine_command_format_version(command)
-
-      livestatus = LiveStatus(cluster, service, component,
-                              globalConfig, self.config)
-      component_status = None
-      if command_format == self.COMMAND_FORMAT_V2:
-        # For custom services, responsibility to determine service status is
-        # delegated to python scripts
-        component_status = self.customServiceOrchestrator.requestComponentStatus(
-          command)
-
-      result = livestatus.build(forsed_component_status=component_status)
-      logger.debug("Got live status for component " + component + \
-                   " of service " + str(service) + \
-                   " of cluster " + str(cluster))
-      logger.debug(pprint.pformat(result))
-      if result is not None:
-        self.commandStatuses.put_command_status(command, result)
-    except Exception, err:
-      traceback.print_exc()
-      logger.warn(err)
-    pass
-
 
   # Store action result to agent response queue
   def result(self):

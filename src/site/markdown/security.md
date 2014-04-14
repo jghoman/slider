@@ -14,7 +14,7 @@
   
 # Security
 
-This document discusses the design, implementation and use of Hoya
+This document discusses the design, implementation and use of Slider
 to deploy secure applications on a secure Hadoop cluster.
 
 ### Important:
@@ -27,18 +27,18 @@ listed at the bottom.
 
 ## Concepts
 
-Hoya runs in secure clusters, but with restrictions 
+Slider runs in secure clusters, but with restrictions
 
 1. The keytabs to allow a worker to authenticate with the master must
-   be distributed in advance: Hoya does not attempt to pass these around.
-1. Until the location of Hoya node instances can be strictly limited to
+   be distributed in advance: Slider does not attempt to pass these around.
+1. Until the location of Slider node instances can be strictly limited to
   a set of nodes (a future YARN feature), the keytabs must be passed to
   all the nodes in the cluster in advance, *and made available to the
   user creating the cluster*
 1. due to the way that HBase and accumulo authenticate worker nodes to
   the masters, any HBase node running on a server must authenticate as
   the same principal, and so have equal access rights to the HBase cluster.
-1. As the data directories for a hoya cluster are created under the home
+1. As the data directories for a slider cluster are created under the home
   directories of that user, the principals representing all role instances
   in the clusters *MUST* have read/write access to these files. This can be
   done with a shortname that matches that of the user, or by requesting
@@ -70,7 +70,7 @@ Hoya runs in secure clusters, but with restrictions
 
 ### Initial Non-requirements
 *  secure audit trail of cluster operations.
-*  multiple authorized users being granted rights to a Hoya Cluster (YARN admins can always kill the Slider application instance.
+*  multiple authorized users being granted rights to a Slider Cluster (YARN admins can always kill the Slider application instance.
 *  More than one HBase cluster in the YARN cluster belonging to a single user (irrespective of how they are started).
 *  Any way to revoke certificates/rights of running containers.
 

@@ -21,15 +21,15 @@ This document covers how the client application is itself configured.
 The client application can be configured
 
 1. On the command line, which can set client options and JVM system properties.
-2. With Hadoop-style configuration options in the file `hoya-client.xml`
+2. With Hadoop-style configuration options in the file `slider-client.xml`
  in the configuration directory`conf/` dir
 2. Or, if the environment variable `SLIDER_CONF_DIR` is set, in the
- file `$SLIDER_CONF_DIR/hoya-client.xml`
+ file `$SLIDER_CONF_DIR/slider-client.xml`
 1. Logging is defined in the `log4j.properties` file in the same configuration
 directory.
 1. VM options can be defined in `SLIDER_JVM_OPTS`
 
-The options defined in a Hoya cluster configuration are only used by the client
+The options defined in a Slider cluster configuration are only used by the client
 when creating a cluster -not for the actual client itself.
 
 ## Introduction
@@ -45,21 +45,21 @@ It cannot rely on local `HADOOP_PREFIX/conf/hadoop-site.xml` and
 work on client machines that may not have Hadoop and YARN installed.
 
 Instead all client-side (non-JVM) options can be predefined in the
-configuration file `hoya-client.xml`. 
+configuration file `slider-client.xml`. 
 
-## Setting Hoya JVM options
+## Setting Slider JVM options
 
 Core JVM options can be set in the environment variable `SLIDER_JVM_OPTS`;
-if unset the `bin/hoya` script will use the default values that were
-current when that version of Hoya was released. These values may change
-across versions, and may in fact be "".
+if unset the `bin/slider` script will use the default values that were
+current when that version of Slider was released. These values may change
+across versions, and may in fact be.
 
 At the time of writing, the default values were:
 
-    "-Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -Xmx256m -Dhoya.confdir=${confdir}"
+    "-Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -Xmx256m -Dslider.confdir=${confdir}"
 
 To allow some Java system properties to be set without editing this
-environment variable, such system properties may be set on the Hoya command
+environment variable, such system properties may be set on the Slider command
 line through the `-S` parameter. For example, the following two operations are
 equivalent in terms of setting the system property `java.security.krb5.realm`
 to the value `LOCAL`.
@@ -68,7 +68,7 @@ to the value `LOCAL`.
 
 and
 
-    hoya -S java.security.krb5.realm=LOCAL
+    slider -S java.security.krb5.realm=LOCAL
 
 Note that the first declaration invalidates all default JVM options; if any of
 those were desired, they should be included in the new definition.
@@ -82,7 +82,7 @@ environment variable guarantees that they are always set.
 
 ## Setting Slider client options on the command line with the `-D` parameter
 
-The hoya client is configured via Hadoop-style configuration options. 
+The slider client is configured via Hadoop-style configuration options. 
 To be precise, all standard Hadoop-common, hadoop-hdfs client and hadoop-yar
 client-side options control how Slider communicates with the Hadoop YARN cluster.
 
@@ -121,19 +121,19 @@ shortcut commands to aid their use
 If these shortcuts are used and the options are also defined via `-D`
 declarations, the order of assignment is undefined.
     
-# Defining Hadoop and Slider Options in the `hoya-client.xml` file.
+# Defining Hadoop and Slider Options in the `slider-client.xml` file.
 
-In the Slider installation, alongside the `bin/hoya` script is
+In the Slider installation, alongside the `bin/slider` script is
 a configuration directory `conf`. This contains the files:
 
 1. `log4j.properties`
-1. `hoya-client.xml`
+1. `slider-client.xml`
 
 The `log4j.properties` file is not covered here -it is a standard Log4J file.
 At the time of writing, this log configuration file is used on both the
 client and the server.
 
-The `hoya-client.xml` file is a hadoop-formatted XML options file, which
+The `slider-client.xml` file is a hadoop-formatted XML options file, which
 is read by the Slider client -but not by they Slider Application Master.
 
 Here is an example file:
@@ -157,7 +157,7 @@ Here is an example file:
 This defines both the filesystem and the YARN RM, and so obviates the need
 to declare either on the command line.
 
-If an option is defined in the `hoya-client.xml` file and on the command line
+If an option is defined in the `slider-client.xml` file and on the command line
 -be it by a `-D key=value` declaration or a `--manager` or `--filesystem` 
 definition. (this holds even if the value is declared with `<final>true</final>`).
 
@@ -165,15 +165,15 @@ definition. (this holds even if the value is declared with `<final>true</final>`
 
 The environment variable `SLIDER_CONF_DIR` can be used to declare an alternate
 configuration directory. If set, the directory it identifies will be used
-as the source of the `log4j.properties` and `hoya-client.xml` files.
+as the source of the `log4j.properties` and `slider-client.xml` files.
 
 ## Slider Client Configuration options
 
 As well as standard YARN and Hadoop configuration options, Slider supports
-a limited number of hoya-specific configuration parameters.
+a limited number of slider-specific configuration parameters.
 
     <property>
-      <name>hoya.yarn.security</name>
+      <name>slider.yarn.security</name>
       <value>false</value>
     </property>
     
@@ -230,14 +230,14 @@ priority
 
 Default value: `1`.
 
-    bin/hoya thaw cl1 -D slider.yarn.queue.priority=5
+    bin/slider thaw cl1 -D slider.yarn.queue.priority=5
 
 
 
 #### `slider.cluster.directory.permissions`
 
 An octal-format (`chmod`-style) permissions mask for the directory
-that contains the cluster specification `${user.home}/.hoya/clusters/${clustername}`
+that contains the cluster specification `${user.home}/.slider/clusters/${clustername}`
 
     <property>
       <name>slider.cluster.directory.permissions</name>
@@ -247,7 +247,7 @@ that contains the cluster specification `${user.home}/.hoya/clusters/${clusterna
 #### `slider.data.directory.permissions`
 
 An octal-format (`chmod`-style) permissions mask for the directory
-that contains the application data `${user.home}/.hoya/clusters/${clustername}/database`
+that contains the application data `${user.home}/.slider/clusters/${clustername}/database`
 
     <property>
       <name>slider.data.directory.permissions</name>
@@ -257,7 +257,7 @@ that contains the application data `${user.home}/.hoya/clusters/${clustername}/d
 
 ## Debugging configuration issues
 
-If the hoya packages are set to log at debug level in the log4j configuration
+If the slider packages are set to log at debug level in the log4j configuration
 file, details on properties will be part of the copious output.
 
 

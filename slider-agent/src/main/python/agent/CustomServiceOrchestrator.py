@@ -27,7 +27,6 @@ from AgentConfig import AgentConfig
 from AgentException import AgentException
 from PythonExecutor import PythonExecutor
 import hostname
-from LiveStatus import LiveStatus
 
 
 logger = logging.getLogger()
@@ -40,24 +39,13 @@ class CustomServiceOrchestrator():
   """
 
   SCRIPT_TYPE_PYTHON = "PYTHON"
-  COMMAND_NAME_STATUS = "STATUS"
 
   def __init__(self, config, controller):
     self.config = config
     self.tmp_dir = config.getResolvedPath(AgentConfig.APP_TASK_DIR)
     self.python_executor = PythonExecutor(self.tmp_dir, config)
-    self.status_commands_stdout = os.path.join(self.tmp_dir,
-                                               'status_command_stdout.txt')
-    self.status_commands_stderr = os.path.join(self.tmp_dir,
-                                               'status_command_stderr.txt')
     self.base_dir = os.path.join(
       config.getResolvedPath(AgentConfig.APP_PACKAGE_DIR), "package")
-    # Clean up old status command files if any
-    try:
-      os.unlink(self.status_commands_stdout)
-      os.unlink(self.status_commands_stderr)
-    except OSError:
-      pass # Ignore fail
 
 
   def runCommand(self, command, tmpoutfile, tmperrfile,
@@ -71,12 +59,8 @@ class CustomServiceOrchestrator():
       script_type = command['commandParams']['script_type']
       script = command['commandParams']['script']
       timeout = int(command['commandParams']['command_timeout'])
-      task_id = "status"
-      try:
-        task_id = command['taskId']
-        command_name = command['roleCommand']
-      except KeyError:
-        pass # Status commands have no taskId
+      task_id = command['taskId']
+      command_name = command['roleCommand']
 
       if forsed_command_name is not None: # If not supplied as an argument
         command_name = forsed_command_name
@@ -132,24 +116,6 @@ class CustomServiceOrchestrator():
     return ret
 
 
-  def requestComponentStatus(self, command):
-    """
-     Component status is determined by exit code, returned by runCommand().
-     Exit code 0 means that component is running and any other exit code means that
-     component is not running
-    """
-    override_output_files = True # by default, we override status command output
-    if logger.level == logging.DEBUG:
-      override_output_files = False
-    res = self.runCommand(command, self.status_commands_stdout,
-                          self.status_commands_stderr, self.COMMAND_NAME_STATUS,
-                          override_output_files=override_output_files)
-    if res['exitcode'] == 0:
-      return LiveStatus.LIVE_STATUS
-    else:
-      return LiveStatus.DEAD_STATUS
-
-
   def resolve_script_path(self, base_dir, script, script_type):
     """
     Encapsulates logic of script location determination.
@@ -179,7 +145,6 @@ class CustomServiceOrchestrator():
       file_path = os.path.join(self.tmp_dir, "status_command.json")
     else:
       task_id = command['taskId']
-      #command['clusterHostInfo'] = manifestGenerator.decompressClusterHostInfo(command['clusterHostInfo'])
       file_path = os.path.join(self.tmp_dir, "command-{0}.json".format(task_id))
       # Json may contain passwords, that's why we need proper permissions
     if os.path.isfile(file_path):

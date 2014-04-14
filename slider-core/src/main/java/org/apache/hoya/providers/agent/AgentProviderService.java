@@ -82,7 +82,7 @@ public class AgentProviderService extends AbstractProviderService implements
   private static String LABEL_MAKER = "___";
   private AgentClientProvider clientProvider;
   private Map<String, ComponentInstanceState> componentStatuses = new HashMap<String, ComponentInstanceState>();
-  private Map<String,List<String>> roleHostMapping = new HashMap<String, List<String>>();
+  private Map<String, List<String>> roleHostMapping = new HashMap<String, List<String>>();
   private AtomicInteger taskId = new AtomicInteger(0);
 
   public AgentProviderService() {
@@ -177,11 +177,13 @@ public class AgentProviderService extends AbstractProviderService implements
     localResources.put(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
 
     String agentVer = instanceDefinition.getAppConfOperations().
-        getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_VERSION);
-    LocalResource agentVerRes = hoyaFileSystem.createAmResource(
-        hoyaFileSystem.getFileSystem().resolvePath(new Path(agentVer)),
-        LocalResourceType.FILE);
-    localResources.put(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
+        getGlobalOptions().getOption(AgentKeys.AGENT_VERSION, null);
+    if (agentVer != null) {
+      LocalResource agentVerRes = hoyaFileSystem.createAmResource(
+          hoyaFileSystem.getFileSystem().resolvePath(new Path(agentVer)),
+          LocalResourceType.FILE);
+      localResources.put(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
+    }
 
     ctx.setLocalResources(localResources);
 
@@ -214,14 +216,14 @@ public class AgentProviderService extends AbstractProviderService implements
 
   protected void setRoleHostMapping(String role, String host) {
     List<String> hosts = roleHostMapping.get(role);
-    if ( hosts == null ) {
+    if (hosts == null) {
       hosts = new ArrayList<String>();
     }
     hosts.add(host);
     roleHostMapping.put(role, hosts);
   }
 
-  private List<String> getHostsForRole (String role) {
+  private List<String> getHostsForRole(String role) {
     return roleHostMapping.get(role);
   }
 

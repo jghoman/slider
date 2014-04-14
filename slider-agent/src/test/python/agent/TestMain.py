@@ -202,7 +202,6 @@ class TestMain(unittest.TestCase):
     exists_mock.return_value = False
     main.stop_agent()
     kill_mock.assert_called_with(int(pid), signal.SIGTERM)
-    _exit_mock.assert_called_with(0)
 
     # Restore
     kill_mock.reset_mock()
@@ -278,8 +277,9 @@ class TestMain(unittest.TestCase):
   @patch.object(Controller, "__init__")
   @patch.object(Controller, "start")
   @patch.object(Controller, "join")
+  @patch.object(Controller, "is_alive")
   @patch("optparse.OptionParser.parse_args")
-  def test_main(self, parse_args_mock, join_mock, start_mock,
+  def test_main(self, parse_args_mock, isAlive_mock, join_mock, start_mock,
                 Controller_init_mock, AgentConfig_set_mock,
                 try_to_connect_mock,
                 update_log_level_mock, write_pid_mock,
@@ -287,6 +287,7 @@ class TestMain(unittest.TestCase):
                 update_config_from_file_mock, stop_mock,
                 bind_signal_handlers_mock, setup_logging_mock):
       Controller_init_mock.return_value = None
+      isAlive_mock.return_value = False
       parse_args_mock.return_value = (
           TestMain.AgentOptions("agent", "host1", "8080", True), [])
       tmpdir = tempfile.gettempdir()

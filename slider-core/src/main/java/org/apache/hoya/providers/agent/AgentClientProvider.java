@@ -20,8 +20,8 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
@@ -42,19 +42,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * This class implements  the client-side aspects
- * of the agent deployer
- */
+/** This class implements  the client-side aspects of the agent deployer */
 public class AgentClientProvider extends AbstractClientProvider
-              implements AgentKeys, HoyaKeys {
+    implements AgentKeys, HoyaKeys {
 
 
   protected static final Logger log =
-    LoggerFactory.getLogger(AgentClientProvider.class);
+      LoggerFactory.getLogger(AgentClientProvider.class);
   protected static final String NAME = "agent";
-  private static final String RESOURCE_BASE =
-    PROVIDER_RESOURCE_BASE_ROOT + NAME + "/";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
 
 
@@ -88,18 +83,32 @@ public class AgentClientProvider extends AbstractClientProvider
                                                 clusterDirPath,
                                                 generatedConfDirPath, secure);
 
-  }
+    String appDef = instanceDefinition.getAppConfOperations().
+        getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
+    hoyaFileSystem.verifyFileExists(new Path(appDef));
 
+    String agentConf = instanceDefinition.getAppConfOperations().
+        getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
+    hoyaFileSystem.verifyFileExists(new Path(agentConf));
+
+    String appHome = instanceDefinition.getAppConfOperations().
+        getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
+    if (appHome == null || appHome.equals("")) {
+      String agentImage = instanceDefinition.getInternalOperations().
+          get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
+      hoyaFileSystem.verifyFileExists(new Path(agentImage));
+    }
+  }
 
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-                                                                           HoyaException {
+      HoyaException {
     super.validateInstanceDefinition(instanceDefinition);
     log.debug("Validating conf {}", instanceDefinition);
     ConfTreeOperations resources =
-      instanceDefinition.getResourceOperations();
+        instanceDefinition.getResourceOperations();
     ConfTreeOperations appConf =
-      instanceDefinition.getAppConfOperations();
+        instanceDefinition.getAppConfOperations();
 
     providerUtils.validateNodeCount(instanceDefinition, ROLE_NODE,
                                     0, -1);
@@ -109,7 +118,7 @@ public class AgentClientProvider extends AbstractClientProvider
     Map<Integer, String> priorityMap = new HashMap<Integer, String>();
     for (String name : names) {
       MapOperations component = resources.getMandatoryComponent(name);
-      
+
       //look for the app configuration -optional- 
       MapOperations appComponent = appConf.getComponent(name);
       int count = component.getMandatoryOptionInt(
@@ -117,7 +126,7 @@ public class AgentClientProvider extends AbstractClientProvider
       // Validate count against the metainfo.xml
 
       int priority =
-        component.getMandatoryOptionInt(ResourceKeys.COMPONENT_PRIORITY);
+          component.getMandatoryOptionInt(ResourceKeys.COMPONENT_PRIORITY);
       if (priority <= 0) {
         throw new BadConfigException("Component %s %s value out of range %d",
                                      name,
@@ -128,13 +137,38 @@ public class AgentClientProvider extends AbstractClientProvider
       String existing = priorityMap.get(priority);
       if (existing != null) {
         throw new BadConfigException(
-          "Component %s has a %s value %d which duplicates that of %s",
-          name,
-          ResourceKeys.COMPONENT_PRIORITY,
-          priority,
-          existing);
+            "Component %s has a %s value %d which duplicates that of %s",
+            name,
+            ResourceKeys.COMPONENT_PRIORITY,
+            priority,
+            existing);
       }
       priorityMap.put(priority, name);
+    }
+
+    try {
+      // Validate the app definition
+      instanceDefinition.getAppConfOperations().
+          getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
+    } catch (BadConfigException bce) {
+      throw new HoyaException("Application definition must be provided." + bce.getMessage(), bce);
+    }
+
+    String appHome = instanceDefinition.getAppConfOperations().
+        getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
+    String agentImage = instanceDefinition.getInternalOperations().
+        get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
+
+    if ((appHome == null || appHome.equals("")) && (agentImage == null || agentImage.equals(""))) {
+      throw new HoyaException("Either agent package path or image root must be provided");
+    }
+
+    try {
+      // Validate the agent config
+      instanceDefinition.getAppConfOperations().
+          getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
+    } catch (BadConfigException bce) {
+      throw new HoyaException("Agent config must be provided." + bce.getMessage(), bce);
     }
   }
 
@@ -148,15 +182,7 @@ public class AgentClientProvider extends AbstractClientProvider
                                           Configuration clientConfExtras,
                                           String libdir,
                                           Path tempPath) throws
-                                                         IOException,
-                                                         HoyaException {
-
-    //load in the template site config
-    log.debug("Loading template configuration from {}, saving to ",
-              originConfDirPath, generatedConfDirPath);
-
-    Map<String, LocalResource> providerResources;
-    launcher.submitDirectory(generatedConfDirPath,
-                             HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+      IOException,
+      HoyaException {
   }
 }

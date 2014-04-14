@@ -22,39 +22,33 @@ import os
 import time
 import subprocess
 import hostname
-from Hardware import Hardware
 from AgentConfig import AgentConfig
 
 
-firstContact = True
 class Register:
-  """ Registering with the server. Get the hardware profile and 
-  declare success for now """
   def __init__(self, config):
-    self.hardware = Hardware()
     self.config = config
 
   def build(self, id='-1'):
-    global clusterId, clusterDefinitionRevision, firstContact
-    timestamp = int(time.time()*1000)
-   
+    global clusterId, clusterDefinitionRevision
+    timestamp = int(time.time() * 1000)
+
     version = self.read_agent_version()
 
-    register = { 'responseId'        : int(id),
-                 'timestamp'         : timestamp,
-                 'hostname'          : self.config.getLabel(),
-                 'currentPingPort'   : 8670,
-                 'publicHostname'    : hostname.public_hostname(),
-                 'hardwareProfile'   : self.hardware.get(),
-                 'agentEnv'          : {},
-                 'agentVersion'      : version
-               }
+    register = {'responseId': int(id),
+                'timestamp': timestamp,
+                'hostname': self.config.getLabel(),
+                'publicHostname': hostname.public_hostname(),
+                'agentVersion': version
+    }
     return register
 
   def read_agent_version(self):
     ver_file = self.config.getResolvedPath(AgentConfig.VERSION_FILE)
-    f = open(ver_file, "r")
-    version = f.read().strip()
-    f.close()
-    return version
-  
+    if os.path.isfile(ver_file):
+      f = open(ver_file, "r")
+      version = f.read().strip()
+      f.close()
+      return version
+
+    return "1"

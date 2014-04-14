@@ -52,6 +52,7 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AppMasterLauncher;
+import org.apache.hoya.core.launch.ClasspathConstructor;
 import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.core.launch.LaunchedApplication;
 import org.apache.hoya.core.launch.RunningApplication;
@@ -355,7 +356,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
 
   /**
    * Build up the AggregateConfiguration for an application instance then
-   * persiste it
+   * persists it
    * @param clustername name of the cluster
    * @param buildInfo the arguments needed to build the cluster
    * @throws YarnException
@@ -373,7 +374,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
 
 
     Path appconfdir = buildInfo.getConfdir();
-    requireArgumentSet(Arguments.ARG_CONFDIR, appconfdir);
     // Provider
     String providerName = buildInfo.getProvider();
     requireArgumentSet(Arguments.ARG_PROVIDER, providerName);
@@ -461,7 +461,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     appConf.merge(cmdLineResourceOptions);
     resources.mergeComponents(buildInfo.getResourceCompOptionMap());
 
-    builder.init(appconfdir, provider.getName(), instanceDefinition);
+    builder.init(provider.getName(), instanceDefinition);
     builder.propagateFilename();
     builder.propagatePrincipals();
     builder.setImageDetails(buildInfo.getImage(), buildInfo.getAppHomeDir());
@@ -811,11 +811,12 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     // build the environment
     amLauncher.putEnv(
       HoyaUtils.buildEnvMap(hoyaAMResourceComponent));
-    String classpath = HoyaUtils.buildClasspath(relativeConfDir,
-                                                libdir,
-                                                getConfig(),
-                                                getUsingMiniMRCluster());
-    amLauncher.setEnv("CLASSPATH", classpath);
+    ClasspathConstructor classpath = HoyaUtils.buildClasspath(relativeConfDir,
+                                                              libdir,
+                                                              getConfig(),
+                                                              getUsingMiniMRCluster());
+    amLauncher.setEnv("CLASSPATH",
+                      classpath.buildClasspath());
     if (log.isDebugEnabled()) {
       log.debug("AM classpath={}", classpath);
       log.debug("Environment Map:\n{}",

@@ -31,7 +31,6 @@ import org.apache.hadoop.security.SecurityUtil;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.ExitUtil;
 import org.apache.hadoop.util.VersionInfo;
-import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.LocalResource;
@@ -42,6 +41,7 @@ import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
 import org.apache.hoya.core.conf.MapOperations;
+import org.apache.hoya.core.launch.ClasspathConstructor;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
@@ -64,6 +64,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -404,13 +405,34 @@ public final class HoyaUtils {
     return l;
   }
 
+  /**
+   * Join an collection of objects with a separator that appears after every
+   * instance in the list -including at the end
+   * @param collection collection to call toString() on each element
+   * @param separator separator string
+   * @return the joined entries
+   */
   public static String join(Collection collection, String separator) {
+    return join(collection, separator, true);
+  }
+
+  /**
+   * Join an collection of objects with a separator that appears after every
+   * instance in the list -optionally at the end
+   * @param collection collection to call toString() on each element
+   * @param separator separator string
+   * @param trailing add a trailing entry or not
+   * @return the joined entries
+   */
+  public static String join(Collection collection, String separator, boolean trailing) {
     StringBuilder b = new StringBuilder();
     for (Object o : collection) {
       b.append(o);
       b.append(separator);
     }
-    return b.toString();
+    return trailing? 
+           b.toString()
+           : (b.substring(0, b.length() - 1));
   }
 
   /**
@@ -418,15 +440,24 @@ public final class HoyaUtils {
    * instance in the list -including at the end
    * @param collection strings
    * @param separator separator string
-   * @return the list
+   * @return the joined entries
    */
   public static String join(String[] collection, String separator) {
-    StringBuilder b = new StringBuilder();
-    for (String o : collection) {
-      b.append(o);
-      b.append(separator);
-    }
-    return b.toString();
+    return join(collection, separator, true);
+    
+    
+  }
+  /**
+   * Join an array of strings with a separator that appears after every
+   * instance in the list -optionally at the end
+   * @param collection strings
+   * @param separator separator string
+   * @param trailing add a trailing entry or not
+   * @return the joined entries
+   */
+  public static String join(String[] collection, String separator,
+                            boolean trailing) {
+    return join(Arrays.asList(collection), separator, trailing);
   }
 
   /**
@@ -1052,40 +1083,27 @@ public final class HoyaUtils {
    * (and hence the current classpath should be used, not anything built up)
    * @return a classpath
    */
-  public static String buildClasspath(String hoyaConfDir,
-                                      String libdir,
-                                      Configuration config,
-                                      boolean usingMiniMRCluster) {
-    // Add AppMaster.jar location to classpath
-    // At some point we should not be required to add
-    // the hadoop specific classpaths to the env.
-    // It should be provided out of the box.
-    // For now setting all required classpaths including
-    // the classpath to "." for the application jar
-    StringBuilder classPathEnv = new StringBuilder();
+  public static ClasspathConstructor buildClasspath(String hoyaConfDir,
+                                                    String libdir,
+                                                    Configuration config,
+                                                    boolean usingMiniMRCluster) {
+
+    ClasspathConstructor classpath = new ClasspathConstructor();
+    
     // add the runtime classpath needed for tests to work
     if (usingMiniMRCluster) {
       // for mini cluster we pass down the java CP properties
       // and nothing else
-      classPathEnv.append(System.getProperty("java.class.path"));
+      classpath.appendAll(classpath.javaVMClasspath());
     } else {
-      char col = File.pathSeparatorChar;
-      classPathEnv.append(ApplicationConstants.Environment.CLASSPATH.$());
-      String[] strs = config.getStrings(
-        YarnConfiguration.YARN_APPLICATION_CLASSPATH,
-        YarnConfiguration.DEFAULT_YARN_APPLICATION_CLASSPATH);
-      if (strs != null) {
-        for (String c : strs) {
-          classPathEnv.append(col);
-          classPathEnv.append(c.trim());
-        }
-      }
-      classPathEnv.append(col).append("./").append(libdir).append("/*");
+      classpath.addLibDir("./" + libdir);
       if (hoyaConfDir != null) {
-        classPathEnv.append(col).append(hoyaConfDir);
+        classpath.addClassDirectory(hoyaConfDir);
       }
+      classpath.addRemoteClasspathEnvVar();
+      classpath.appendAll(classpath.yarnApplicationClasspath(config));
     }
-    return classPathEnv.toString();
+    return classpath;
   }
 
   /**

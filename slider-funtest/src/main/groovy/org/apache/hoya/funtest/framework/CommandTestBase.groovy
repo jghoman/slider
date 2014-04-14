@@ -99,6 +99,8 @@ abstract class CommandTestBase extends HoyaTestUtils {
         HOYA_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
     HBASE_TESTS_ENABLED =
         HOYA_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
+    AGENTESTS_ENABLED =
+        HOYA_CONFIG.getBoolean(KEY_TEST_AGENT_ENABLED, true)
  }
 
   @Rule

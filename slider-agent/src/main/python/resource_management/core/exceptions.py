@@ -24,6 +24,9 @@ class Fail(Exception):
   pass
 
 
+class ExecuteTimeoutException(Exception):
+  pass
+
 class InvalidArgument(Fail):
   pass
 
