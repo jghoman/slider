@@ -139,6 +139,9 @@ class TestRegistryAM extends HBaseMiniClusterTestBase {
     assert oldInstance != null
     assert oldInstance.yarnApplicationState >= YarnApplicationState.FINISHED
 
+
+    sleep(20000)
+    
     instances = hoyaClient.listRegistryInstances(clustername)
     assert instances.size() == 0
 
