@@ -26,9 +26,8 @@ import javax.ws.rs.*;
 
 /** The available REST services exposed by a slider AM. */
 @Singleton
-@Path(AMWebServices.WS_CONTEXT_ROOT)
+@Path(RestPaths.SLIDER_CONTEXT_ROOT)
 public class AMWebServices {
-  public static final String WS_CONTEXT_ROOT = "/ws/v1/slider";
   /** AM/WebApp info object */
   private WebAppApi slider;
 
@@ -37,12 +36,12 @@ public class AMWebServices {
     this.slider = slider;
   }
 
-  @Path("/mgmt")
+  @Path(RestPaths.SLIDER_SUBPATH_MANAGEMENT)
   public ManagementResource getManagementResource() {
     return new ManagementResource(slider);
   }
 
-  @Path("/agents")
+  @Path(RestPaths.SLIDER_SUBPATH_AGENTS)
   public AgentResource getAgentResource () {
     return new AgentResource(slider);
   }

@@ -16,21 +16,21 @@
  * limitations under the License.
  */
 
-package org.apache.slider.server.services.curator;
+package org.apache.slider.core.registry.info;
 
-import org.apache.curator.x.discovery.ProviderStrategy;
-import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.apache.curator.x.discovery.server.contexts.GenericDiscoveryContext;
-import org.apache.slider.core.registry.info.ServiceInstanceData;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RegistryDiscoveryContext extends GenericDiscoveryContext<ServiceInstanceData> {
+public class RegistryView {
 
-  public RegistryDiscoveryContext(ServiceDiscovery<ServiceInstanceData> serviceDiscovery,
-                                  ProviderStrategy<ServiceInstanceData> providerStrategy,
-                                  int instanceRefreshMs,
-                                  Class<ServiceInstanceData> payloadType) {
-    super(serviceDiscovery, providerStrategy, instanceRefreshMs, payloadType);
-  }
+  /**
+   * Endpoints
+   */
+  public Map<String, RegisteredEndpoint> endpoints = new HashMap<String, RegisteredEndpoint>(2);
 
-
+  /**
+   * Key-value settings
+   */
+  public Map<String, String> settings = new HashMap<String, String>();
+  
 }

@@ -28,7 +28,7 @@ import org.apache.hadoop.yarn.webapp.GenericExceptionHandler;
 import org.apache.hadoop.yarn.webapp.WebApp;
 import org.apache.hoya.yarn.appmaster.web.rest.AMWebServices;
 import org.apache.hoya.yarn.appmaster.web.rest.SliderJacksonJaxbJsonProvider;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.CuratorHelper;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.apache.slider.server.services.curator.RegistryDiscoveryContext;
@@ -78,7 +78,6 @@ public class HoyaAMWebApp extends WebApp {
       new RegistryRestResources(discoveryContext);
     bind(RegistryRestResources.class).toInstance(registryRestResources);
 
-      
     route("/", HoyaAMController.class);
     route(CONTAINER_STATS, HoyaAMController.class, "containerStats");
     route(CLUSTER_SPEC, HoyaAMController.class, "specification");

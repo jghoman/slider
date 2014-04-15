@@ -28,7 +28,7 @@ import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.strategies.RandomStrategy;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 
 /**
  * This class creates a curator -but does not start or close it. That

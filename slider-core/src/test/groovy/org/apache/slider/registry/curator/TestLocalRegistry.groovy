@@ -21,7 +21,7 @@ package org.apache.slider.registry.curator
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.yarn.MicroZKCluster
-import org.apache.slider.core.registry.ServiceInstanceData
+import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorHelper
 import org.apache.slider.server.services.curator.RegistryBinderService
 import org.junit.After
@@ -30,7 +30,6 @@ import org.junit.Test
 
 class TestLocalRegistry {
   MicroZKCluster miniZK
-  CuratorHelper curatorHelper
   RegistryBinderService<ServiceInstanceData> registryBinder
 
   @Before

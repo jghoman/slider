@@ -16,30 +16,20 @@
  * limitations under the License.
  */
 
-package org.apache.slider.core.registry;
-
-import org.apache.curator.x.discovery.ServiceInstance;
-import org.apache.curator.x.discovery.ServiceInstanceBuilder;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+package org.apache.hoya.yarn.appmaster.web.rest;
 
 /**
- * Service instance data to serialize with JSON
+ * Paths in the REST App
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class ServiceInstanceData implements Serializable {
+public class RestPaths {
 
-  /**
-   * External view of the service: public information
-   */
-  public Map<String, String> externalView = new HashMap<String, String>();
+  public static final String WS_CONTEXT_ROOT = "/ws";
+  public static final String SLIDER_CONTEXT_ROOT = WS_CONTEXT_ROOT +"/v1/slider";
+  public static final String SLIDER_SUBPATH_MANAGEMENT = "/mgmt";
+  public static final String SLIDER_SUBPATH_AGENTS = "/agents";
 
-
+  public static final String SLIDER_PATH_MANAGEMENT = SLIDER_CONTEXT_ROOT
+                                      + SLIDER_SUBPATH_MANAGEMENT;
+  public static final String SLIDER_PATH_AGENTS = SLIDER_CONTEXT_ROOT
+                                      + SLIDER_SUBPATH_AGENTS;
 }
-

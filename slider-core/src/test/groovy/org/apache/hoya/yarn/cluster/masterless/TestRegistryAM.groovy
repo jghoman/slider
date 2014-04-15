@@ -20,15 +20,14 @@ package org.apache.hoya.yarn.cluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.HoyaException
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.hoya.HoyaKeys
+import org.apache.hoya.api.ClusterNode
+import org.apache.hoya.core.persist.JsonSerDeser
+import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
@@ -40,16 +39,16 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 
-class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
+class TestRegistryAM extends HBaseMiniClusterTestBase {
 
   @Test
-  public void testCreateMasterlessAM() throws Throwable {
+  public void testRegistryAM() throws Throwable {
     
 
-    describe "create a masterless AM then get the service and look it up via the AM"
+    describe "create a masterless AM then perform registry operations on it"
 
     //launch fake master
-    String clustername = "test_create_masterless_am"
+    String clustername = "test_registry_am"
     createMiniCluster(clustername, getConfiguration(), 1, true)
     ServiceLauncher launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
@@ -60,8 +59,6 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     logReport(report)
     List<ApplicationReport> apps = hoyaClient.applications;
     
-    //get some of its status
-    dumpClusterStatus(hoyaClient, "masterless application status")
     List<ClusterNode> clusterNodes = hoyaClient.listClusterNodesInRole(
         HoyaKeys.COMPONENT_AM)
     assert clusterNodes.size() == 1
@@ -114,13 +111,27 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     instanceIds.each {String it -> log.info( it) }
 
     describe "service registry slider instances"
+    JsonSerDeser< ServiceInstanceData> serDeser = new JsonSerDeser<>(
+        ServiceInstanceData)
+    
     List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(clustername)
+    assert instances.size() == 1
     instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
-      log.info svc.toString()
+      ServiceInstanceData payload = svc.payload
+      def json = serDeser.toJson(payload)
+      log.info("service $svc payload=\n$json")
     }
     describe "end list service registry slider instances"
 
-    describe "teardown of cluster instance #1"
+    // hit the registry web page
+
+    String AmRootPage = hoyaClient.applicationReport.originalTrackingUrl
+    assert AmRootPage
+    log.info("Hoya root = ${AmRootPage}")
+    def page = fetchWebPage(AmRootPage)
+    
+    
+    describe "teardown of cluster"
     //now kill that cluster
     assert 0 == clusterActionFreeze(hoyaClient, clustername)
     //list it & See if it is still there
@@ -128,49 +139,8 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     assert oldInstance != null
     assert oldInstance.yarnApplicationState >= YarnApplicationState.FINISHED
 
-    //create another AM
-    launcher = createMasterlessAM(clustername, 0, true, true)
-    hoyaClient = (HoyaClient) launcher.service
-    ApplicationId i2AppID = hoyaClient.applicationId
-
-    //expect 2 in the list
-    userInstances = serviceRegistryClient.listInstances()
-    logApplications(userInstances)
-    assert userInstances.size() == 2
-
-    //but when we look up an instance, we get the new App ID
-    ApplicationReport instance2 = serviceRegistryClient.findInstance(clustername)
-    assert i2AppID == instance2.applicationId
-    
-
-
-    describe("attempting to create instance #3")
-    //now try to create instance #3, and expect an in-use failure
-    try {
-      createMasterlessAM(clustername, 0, false, true)
-      fail("expected a failure, got a masterless AM")
-    } catch (HoyaException e) {
-      assertFailureClusterInUse(e);
-    }
-
-    describe("Stopping instance #2")
-
-    //now stop that cluster
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
-
-    logApplications(hoyaClient.listHoyaInstances(username))
-    
-    //verify it is down
-    ApplicationReport reportFor = hoyaClient.getApplicationReport(i2AppID)
-    
-    //downgrade this to a fail
-//    Assume.assumeTrue(YarnApplicationState.FINISHED <= report.yarnApplicationState)
-    assert YarnApplicationState.FINISHED <= reportFor.yarnApplicationState
-
-
-    ApplicationReport instance3 = serviceRegistryClient.findInstance(clustername)
-    assert instance3.yarnApplicationState >= YarnApplicationState.FINISHED
-
+    instances = hoyaClient.listRegistryInstances(clustername)
+    assert instances.size() == 0
 
   }
 

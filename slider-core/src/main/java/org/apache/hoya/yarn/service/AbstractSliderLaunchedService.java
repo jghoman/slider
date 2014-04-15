@@ -19,13 +19,12 @@
 package org.apache.hoya.yarn.service;
 
 
-import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.CuratorHelper;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;

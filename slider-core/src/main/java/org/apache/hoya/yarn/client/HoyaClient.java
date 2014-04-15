@@ -94,7 +94,7 @@ import org.apache.hoya.yarn.params.ClientArgs;
 import org.apache.hoya.yarn.params.HoyaAMArgs;
 import org.apache.hoya.yarn.params.LaunchArgsAccessor;
 import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
 import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.apache.slider.server.services.curator.RegistryBinderService;

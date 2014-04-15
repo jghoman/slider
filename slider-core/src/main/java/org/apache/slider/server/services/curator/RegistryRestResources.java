@@ -21,13 +21,13 @@ package org.apache.slider.server.services.curator;
 import com.google.inject.Singleton;
 import org.apache.curator.x.discovery.server.rest.DiscoveryContext;
 import org.apache.curator.x.discovery.server.rest.DiscoveryResource;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
 @Singleton
-@Path(RegistryConsts.REGISTY_RESOURCE_PATH)
+@Path(RegistryConsts.REGISTRY_RESOURCE_PATH)
 public class RegistryRestResources extends DiscoveryResource<ServiceInstanceData> {
 
   public RegistryRestResources(@Context DiscoveryContext<ServiceInstanceData> context) {

@@ -16,21 +16,18 @@
  * limitations under the License.
  */
 
-package org.apache.slider.server.services.curator;
+package org.apache.slider.core.registry.info;
 
-import org.apache.curator.x.discovery.ProviderStrategy;
-import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.apache.curator.x.discovery.server.contexts.GenericDiscoveryContext;
-import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-public class RegistryDiscoveryContext extends GenericDiscoveryContext<ServiceInstanceData> {
-
-  public RegistryDiscoveryContext(ServiceDiscovery<ServiceInstanceData> serviceDiscovery,
-                                  ProviderStrategy<ServiceInstanceData> providerStrategy,
-                                  int instanceRefreshMs,
-                                  Class<ServiceInstanceData> payloadType) {
-    super(serviceDiscovery, providerStrategy, instanceRefreshMs, payloadType);
-  }
-
-
+/**
+ * A registry document
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class RegisteredDocument {
+  public String contentType;
+  public String url;
+  public String description;
 }

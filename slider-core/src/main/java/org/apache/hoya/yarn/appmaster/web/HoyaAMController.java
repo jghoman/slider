@@ -42,7 +42,7 @@ public class HoyaAMController extends Controller {
   
   @Override
   public void index() {
-    setTitle("Hoya App Master");
+    setTitle("Slider App Master");
     
     updateAppState();
     
@@ -50,7 +50,7 @@ public class HoyaAMController extends Controller {
   }
   
   public void containerStats() {
-    setTitle("Hoya Container Statistics");
+    setTitle("Container Statistics");
     
     updateAppState();
     
@@ -58,7 +58,7 @@ public class HoyaAMController extends Controller {
   }
   
   public void specification() {
-    setTitle("Hoya Cluster Specification");
+    setTitle("Cluster Specification");
     
     render(ClusterSpecificationView.class);
   }

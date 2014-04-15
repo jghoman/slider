@@ -23,7 +23,7 @@ import org.apache.curator.x.discovery.ServiceInstance
 import org.apache.curator.x.discovery.ServiceInstanceBuilder
 import org.apache.curator.x.discovery.UriSpec
 import org.apache.hoya.core.persist.JsonSerDeser
-import org.apache.slider.core.registry.ServiceInstanceData
+import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
 

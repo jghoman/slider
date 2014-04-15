@@ -100,6 +100,7 @@ import org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer;
 import org.apache.hoya.yarn.appmaster.web.SliderAmIpFilter;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
+import static org.apache.hoya.yarn.appmaster.web.rest.RestPaths.*;
 import org.apache.hoya.yarn.params.AbstractActionArgs;
 import org.apache.hoya.yarn.params.HoyaAMArgs;
 import org.apache.hoya.yarn.params.HoyaAMCreateAction;
@@ -107,8 +108,10 @@ import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
-import org.apache.slider.core.registry.ServiceInstanceData;
+import org.apache.slider.core.registry.info.RegisteredEndpoint;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.RegistryBinderService;
+import org.apache.slider.server.services.curator.RegistryConsts;
 import org.apache.slider.server.services.curator.RegistryNaming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -269,6 +272,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
   private String service_user_name;
   
   private HoyaAMWebApp webApp;
+  private InetSocketAddress rpcServiceAddress;
 
   /**
    * Service Constructor
@@ -423,7 +427,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     // Try to get the proper filtering of static resources through the yarn proxy working
     serviceConf.set("hadoop.http.filter.initializers",
                     SliderAmFilterInitializer.NAME);
-    serviceConf.set(SliderAmIpFilter.WS_CONTEXT_ROOT, "/ws");
+    serviceConf.set(SliderAmIpFilter.WS_CONTEXT_ROOT, WS_CONTEXT_ROOT);
     
     conf = new YarnConfiguration(serviceConf);
     //get our provider
@@ -519,9 +523,9 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       //bring up the Hoya RPC service
       startHoyaRPCServer();
 
-      InetSocketAddress rpcServiceAddr = rpcService.getConnectAddress();
-      appMasterHostname = rpcServiceAddr.getHostName();
-      appMasterRpcPort = rpcServiceAddr.getPort();
+      rpcServiceAddress = rpcService.getConnectAddress();
+      appMasterHostname = rpcServiceAddress.getHostName();
+      appMasterRpcPort = rpcServiceAddress.getPort();
       appMasterTrackingUrl = null;
       log.info("AM Server is listening at {}:{}", appMasterHostname,
                appMasterRpcPort);
@@ -659,8 +663,38 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
                                                                serviceName);
     String registryId =
       RegistryNaming.createUniqueInstanceId(clustername, service_user_name, serviceName, id);
+    ServiceInstanceData instanceData = new ServiceInstanceData();
+
+    RegisteredEndpoint webUI =
+      new RegisteredEndpoint(amWeb, "Application Master Web UI");
+
+
+    instanceData.externalView.endpoints.put(SLIDER_SUBPATH_MANAGEMENT,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_MANAGEMENT),
+        "Management API" )
+    );
+
+    instanceData.externalView.endpoints.put("registry",
+      new RegisteredEndpoint(
+        new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
+        "Registry" )
+    );
     
-    registry.register(appRegistryName, registryId, amWeb, null);
+    instanceData.externalView.endpoints.put("slider/IPC",
+      new RegisteredEndpoint(rpcServiceAddress,
+        RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
+        "Slider AM RPC" )
+    );
+    
+    
+    instanceData.internalView.endpoints.put(SLIDER_SUBPATH_AGENTS,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_AGENTS),
+        "Agent API" )
+    );
+    
+    registry.register(appRegistryName, registryId, amWeb, instanceData);
 
 
     // launch the provider; this is expected to trigger a callback that
