@@ -61,7 +61,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
     addToTeardown(hoyaClient);
 
 
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
     waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")

@@ -623,4 +623,7 @@ class HoyaTestUtils extends Assert {
     return buf.toString();
   }
 
+  public static void waitWhileClusterLive(HoyaClient hoyaClient) {
+    waitWhileClusterLive(hoyaClient, 30000)
+  }
 }

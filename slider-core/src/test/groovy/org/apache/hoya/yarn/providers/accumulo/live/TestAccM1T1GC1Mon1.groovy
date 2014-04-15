@@ -54,11 +54,11 @@ class TestAccM1T1GC1Mon1 extends AccumuloTestBase {
         (AccumuloKeys.ROLE_GARBAGE_COLLECTOR): gc
     ];
     ServiceLauncher launcher = createAccCluster(clustername, roles, [], true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
 
 
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
     waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")

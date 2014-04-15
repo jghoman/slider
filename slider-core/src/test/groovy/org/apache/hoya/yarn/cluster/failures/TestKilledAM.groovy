@@ -109,7 +109,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     hoyaClient.actionAmSuicide(clustername, args)
 
     killAllRegionServers();
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     // give yarn some time to notice
     sleep(10000)
 
