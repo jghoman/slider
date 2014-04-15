@@ -38,7 +38,6 @@ public class CuratorHelper extends Configured {
 
   private final CuratorFramework curator;
   private final String connectionString;
-  public static final int INSTANCE_REFRESH_MS = 1000;
 
   public CuratorHelper(Configuration conf, String connectionString) {
     super(conf);
@@ -125,11 +124,11 @@ public class CuratorHelper extends Configured {
   }
 
   public RegistryDiscoveryContext createDiscoveryContext(
-                 ServiceDiscovery<ServiceInstanceData> discovery) {
+    ServiceDiscovery<ServiceInstanceData> discovery) {
     Preconditions.checkNotNull(discovery);
     return new RegistryDiscoveryContext(discovery,
                                         new RandomStrategy<ServiceInstanceData>(),
-                                        INSTANCE_REFRESH_MS,
+                                        RegistryConsts.INSTANCE_REFRESH_MS,
                                         ServiceInstanceData.class);
 
   }

@@ -24,10 +24,10 @@ import org.apache.curator.x.discovery.server.rest.DiscoveryResource;
 import org.apache.slider.core.registry.ServiceInstanceData;
 
 import javax.ws.rs.Path;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.Context;
 
 @Singleton
-@Path("/ws/registry")
+@Path(RegistryConsts.REGISTY_RESOURCE_PATH)
 public class RegistryRestResources extends DiscoveryResource<ServiceInstanceData> {
 
   public RegistryRestResources(@Context DiscoveryContext<ServiceInstanceData> context) {

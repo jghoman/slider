@@ -21,7 +21,6 @@ package org.apache.slider.server.services.curator;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
@@ -53,8 +52,9 @@ public class RegistryBinderService<Payload> extends CuratorService {
   private final Map<String, ServiceInstance<Payload>> entries =
     new HashMap<String, ServiceInstance<Payload>>();
 
-  JsonSerDeser<CuratorServiceInstance> deser = new JsonSerDeser<CuratorServiceInstance>(
-    CuratorServiceInstance.class);
+  JsonSerDeser<CuratorServiceInstance> deser =
+    new JsonSerDeser<CuratorServiceInstance>(
+      CuratorServiceInstance.class);
 
   /**
    * Create an instance
@@ -70,7 +70,6 @@ public class RegistryBinderService<Payload> extends CuratorService {
       Preconditions.checkNotNull(discovery, "null discovery arg");
   }
 
-  
 
   public ServiceDiscovery<Payload> getDiscovery() {
     return discovery;
@@ -165,7 +164,8 @@ public class RegistryBinderService<Payload> extends CuratorService {
     List<String> instanceIds;
 
     try {
-      instanceIds = getCurator().getChildren().forPath(pathForName(servicename));
+      instanceIds =
+        getCurator().getChildren().forPath(pathForName(servicename));
     } catch (KeeperException.NoNodeException e) {
       instanceIds = Lists.newArrayList();
     }
@@ -182,7 +182,7 @@ public class RegistryBinderService<Payload> extends CuratorService {
    * @throws Exception errors
    */
   public CuratorServiceInstance queryForInstance(String name, String id) throws
-                                                                     Exception {
+                                                                         Exception {
     String path = pathForInstance(name, id);
     try {
       byte[] bytes = getCurator().getData().forPath(path);

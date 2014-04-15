@@ -18,7 +18,6 @@
 
 package org.apache.slider.server.services.curator;
 
-import com.google.inject.TypeLiteral;
 import org.apache.curator.x.discovery.ProviderStrategy;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.server.contexts.GenericDiscoveryContext;
@@ -32,6 +31,6 @@ public class RegistryDiscoveryContext extends GenericDiscoveryContext<ServiceIns
                                   Class<ServiceInstanceData> payloadType) {
     super(serviceDiscovery, providerStrategy, instanceRefreshMs, payloadType);
   }
-  
-  
+
+
 }

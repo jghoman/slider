@@ -68,7 +68,7 @@ public class CuratorService extends AbstractService {
   public CuratorFramework getCurator() {
     return curator;
   }
-  
+
   protected void closeCuratorComponent(Closeable closeable) {
     try {
       IOUtils.closeStream(closeable);

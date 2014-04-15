@@ -18,20 +18,8 @@
 
 package org.apache.slider.server.services.curator;
 
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.apache.curator.x.discovery.strategies.RandomStrategy;
-import org.apache.slider.core.registry.ServiceInstanceData;
-
-public class ServerInstanceDataRegistry extends RegistryBinderService<ServiceInstanceData> {
-
+public class RegistryConsts {
+  public static final String REGISTY_RESOURCE_PATH = "/ws/registry";
   public static final int INSTANCE_REFRESH_MS = 1000;
-
-  public ServerInstanceDataRegistry(CuratorFramework curator,
-                                    String basePath,
-                                    ServiceDiscovery<ServiceInstanceData> discovery) {
-    super(curator, basePath, discovery);
-  }
-
-
+  public static String SLIDER_INSTANCE_NAME_FORMAT = "%s.%s";
 }
