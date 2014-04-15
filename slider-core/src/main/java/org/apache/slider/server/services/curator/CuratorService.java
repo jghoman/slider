@@ -20,6 +20,8 @@ package org.apache.slider.server.services.curator;
 
 import com.google.common.base.Preconditions;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.utils.ZKPaths;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.service.AbstractService;
 import org.slf4j.Logger;
@@ -30,14 +32,25 @@ import java.io.Closeable;
 public class CuratorService extends AbstractService {
   protected static final Logger log =
     LoggerFactory.getLogger(CuratorService.class);
-  
+  protected final String basePath;
+
   private final CuratorFramework curator;
+  private CuratorHelper curatorHelper;
 
 
   public CuratorService(String name,
-                        CuratorFramework curator) {
+                        CuratorFramework curator,
+                        String basePath) {
     super(name);
     this.curator = Preconditions.checkNotNull(curator, "null client");
+    this.basePath = basePath;
+  }
+
+
+  @Override
+  protected void serviceInit(Configuration conf) throws Exception {
+    super.serviceInit(conf);
+    curatorHelper = new CuratorHelper(conf, basePath);
   }
 
   @Override
@@ -63,5 +76,21 @@ public class CuratorService extends AbstractService {
       //triggered on an attempt to close before started
       log.debug("Error when closing {}", ignored);
     }
+  }
+
+  public String pathForName(String name) {
+    return ZKPaths.makePath(getBasePath(), name);
+  }
+
+  protected String pathForInstance(String name, String id) {
+    return ZKPaths.makePath(pathForName(name), id);
+  }
+
+  public String getBasePath() {
+    return basePath;
+  }
+
+  public CuratorHelper getCuratorHelper() {
+    return curatorHelper;
   }
 }

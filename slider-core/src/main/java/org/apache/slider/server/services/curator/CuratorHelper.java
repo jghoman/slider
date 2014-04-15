@@ -18,11 +18,14 @@
 
 package org.apache.slider.server.services.curator;
 
+import com.google.common.base.Preconditions;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
+import org.apache.curator.x.discovery.strategies.RandomStrategy;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.slider.core.registry.ServiceInstanceData;
@@ -35,7 +38,7 @@ public class CuratorHelper extends Configured {
 
   private final CuratorFramework curator;
   private final String connectionString;
-
+  public static final int INSTANCE_REFRESH_MS = 1000;
 
   public CuratorHelper(Configuration conf, String connectionString) {
     super(conf);
@@ -76,7 +79,7 @@ public class CuratorHelper extends Configured {
    */
   public CuratorService createCuratorClientService() {
     CuratorService curatorService =
-      new CuratorService("Curator ", curator);
+      new CuratorService("Curator ", curator, connectionString);
     return curatorService;
   }
 
@@ -119,5 +122,15 @@ public class CuratorHelper extends Configured {
     RegistryBinderService<ServiceInstanceData> registryBinderService =
       createRegistryBinderService(basePath, discoveryBuilder);
     return registryBinderService;
+  }
+
+  public RegistryDiscoveryContext createDiscoveryContext(
+                 ServiceDiscovery<ServiceInstanceData> discovery) {
+    Preconditions.checkNotNull(discovery);
+    return new RegistryDiscoveryContext(discovery,
+                                        new RandomStrategy<ServiceInstanceData>(),
+                                        INSTANCE_REFRESH_MS,
+                                        ServiceInstanceData.class);
+
   }
 }

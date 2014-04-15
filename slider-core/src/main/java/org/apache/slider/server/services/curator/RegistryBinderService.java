@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +52,6 @@ public class RegistryBinderService<Payload> extends CuratorService {
 
   private final Map<String, ServiceInstance<Payload>> entries =
     new HashMap<String, ServiceInstance<Payload>>();
-  private final String basePath;
 
   JsonSerDeser<CuratorServiceInstance> deser = new JsonSerDeser<CuratorServiceInstance>(
     CuratorServiceInstance.class);
@@ -66,13 +64,13 @@ public class RegistryBinderService<Payload> extends CuratorService {
   public RegistryBinderService(CuratorFramework curator,
                                String basePath,
                                ServiceDiscovery<Payload> discovery) {
-    super("RegistryBinderService", curator);
+    super("RegistryBinderService", curator, basePath);
 
-    this.basePath = basePath;
     this.discovery =
       Preconditions.checkNotNull(discovery, "null discovery arg");
   }
 
+  
 
   public ServiceDiscovery<Payload> getDiscovery() {
     return discovery;
@@ -163,15 +161,6 @@ public class RegistryBinderService<Payload> extends CuratorService {
   }
 
 
-  public String pathForName(String name) {
-    return ZKPaths.makePath(basePath, name);
-  }
-
-
-  private String pathForInstance(String name, String id) {
-    return ZKPaths.makePath(pathForName(name), id);
-  }
-
   public List<String> instanceIDs(String servicename) throws Exception {
     List<String> instanceIds;
 
@@ -203,4 +192,6 @@ public class RegistryBinderService<Payload> extends CuratorService {
     }
     return null;
   }
+
+
 }

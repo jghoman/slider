@@ -31,6 +31,7 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.slider.core.registry.ServiceInstanceData
+import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
 
 /**
@@ -114,11 +115,13 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     instanceIds.each {String it -> log.info( it) }
 
     describe "service registry slider instances"
-    def instances = hoyaClient.listRegistryInstances(clustername)
-    instances.each { ServiceInstance<ServiceInstanceData> svc ->
+    List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(clustername)
+    instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
       log.info svc.toString()
     }
+    describe "end list service registry slider instances"
 
+    describe "teardown of cluster instance #1"
     //now kill that cluster
     assert 0 == clusterActionFreeze(hoyaClient, clustername)
     //list it & See if it is still there
@@ -142,7 +145,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     
 
 
-    describe("Creating instance #3")
+    describe("attempting to create instance #3")
     //now try to create instance #3, and expect an in-use failure
     try {
       createMasterlessAM(clustername, 0, false, true)

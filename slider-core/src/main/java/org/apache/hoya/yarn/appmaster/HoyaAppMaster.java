@@ -72,7 +72,6 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AMRestartSupport;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.exceptions.HoyaInternalStateException;
@@ -97,6 +96,7 @@ import org.apache.hoya.yarn.appmaster.state.RMOperationHandler;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp;
+import org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer;
 import org.apache.hoya.yarn.appmaster.web.SliderAmIpFilter;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
@@ -421,8 +421,8 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     Configuration serviceConf = getConfig();
     // Try to get the proper filtering of static resources through the yarn proxy working
-    serviceConf.set("hadoop.http.filter.initializers", 
-        "org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer");
+    serviceConf.set("hadoop.http.filter.initializers",
+                    SliderAmFilterInitializer.NAME);
     serviceConf.set(SliderAmIpFilter.WS_CONTEXT_ROOT, "/ws");
     
     conf = new YarnConfiguration(serviceConf);
@@ -527,14 +527,20 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
                appMasterRpcPort);
       appInformation.put(StatusKeys.INFO_AM_HOSTNAME, appMasterHostname);
       appInformation.set(StatusKeys.INFO_AM_RPC_PORT, appMasterRpcPort);
+
       
+      //registry
+
+
+      registry = startRegistrationService(instanceDefinition);
+
       //build the role map
       List<ProviderRole> providerRoles =
         new ArrayList<ProviderRole>(providerService.getRoles());
       providerRoles.addAll(HoyaAMClientProvider.ROLES);
 
       // Start up the WebApp and track the URL for it
-      webApp = new HoyaAMWebApp();
+      webApp = new HoyaAMWebApp(registry);
       WebApps.$for("hoyaam", WebAppApi.class,
                             new WebAppApiImpl(this, appState, providerService), "ws")
                       .with(serviceConf)
@@ -644,9 +650,6 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     //Give the provider restricted access to the state
     providerService.bind(appState);
     
-
-    registry = startRegistrationService(instanceDefinition);
-
     // the registry is running, so register services
     URL amWeb = new URL(appMasterTrackingUrl);
     String serviceName = HoyaKeys.APP_TYPE;
