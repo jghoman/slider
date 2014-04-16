@@ -30,7 +30,6 @@ class Register:
     self.config = config
 
   def build(self, id='-1'):
-    global clusterId, clusterDefinitionRevision
     timestamp = int(time.time() * 1000)
 
     version = self.read_agent_version()

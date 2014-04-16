@@ -42,7 +42,13 @@ logger = logging.getLogger()
 AGENT_AUTO_RESTART_EXIT_CODE = 77
 
 
+class State:
+  INIT, INSTALLING, INSTALLED, STARTING, STARTED, FAILED = range(6)
+
+
 class Controller(threading.Thread):
+  MAX_FAILURE_COUNT = 3;
+
   def __init__(self, config, range=30):
     threading.Thread.__init__(self)
     logger.debug('Initializing Controller RPC thread.')
@@ -52,9 +58,9 @@ class Controller(threading.Thread):
     self.config = config
     self.hostname = config.getLabel()
     server_url = 'http://' + config.get(AgentConfig.SERVER_SECTION,
-                                                 'hostname') + \
-                         ':' + config.get(AgentConfig.SERVER_SECTION,
-                                          'port')
+                                        'hostname') + \
+                 ':' + config.get(AgentConfig.SERVER_SECTION,
+                                  'port')
     self.registerUrl = server_url + '/ws/v1/slider/agents/' + self.hostname + '/register'
     self.heartbeatUrl = server_url + '/ws/v1/slider/agents/' + self.hostname + '/heartbeat'
     self.netutil = NetUtil()
@@ -69,6 +75,10 @@ class Controller(threading.Thread):
     self.heartbeat_wait_event = threading.Event()
     # List of callbacks that are called at agent registration
     self.registration_listeners = []
+    self.componentExpectedState = State.INIT
+    self.componentActualState = State.INIT
+    self.statusCommand = None
+    self.failureCount = 0
 
 
   def __del__(self):
@@ -130,7 +140,6 @@ class Controller(threading.Thread):
   def addToQueue(self, commands):
     """Add to the queue for running the commands """
     """ Put the required actions into the Queue """
-    """ Verify if the action is to reboot or not """
     if not commands:
       logger.debug("No commands from the server : " + pprint.pformat(commands))
     else:
@@ -143,23 +152,40 @@ class Controller(threading.Thread):
   DEBUG_SUCCESSFULL_HEARTBEATS = 0
   DEBUG_STOP_HEARTBEATING = False
 
+  def shouldStopAgent(self):
+    '''
+    If component has failed after start then stop the agent
+    '''
+    if (self.componentActualState == State.FAILED) \
+      and (self.componentExpectedState == State.STARTED) \
+      and (self.failureCount >= 1):
+      return True
+    else:
+      return False
+    pass
+
   def heartbeatWithServer(self):
     self.DEBUG_HEARTBEAT_RETRIES = 0
     self.DEBUG_SUCCESSFULL_HEARTBEATS = 0
     retry = False
     certVerifFailed = False
 
-    hb_interval = self.config.get(AgentConfig.HEARTBEAT_SECTION,
-                                  'state_interval')
-
-    #TODO make sure the response id is monotonically increasing
     id = 0
     while not self.DEBUG_STOP_HEARTBEATING:
+
+      if self.shouldStopAgent():
+        logger.info("Component instance has stopped, stopping the agent ...")
+        self.actionQueue.stop()
+        self.actionQueue.join()
+        break
+
+      commandResult = {}
       try:
         if not retry:
           data = json.dumps(
-            self.heartbeat.build(self.responseId, int(hb_interval),
+            self.heartbeat.build(commandResult, self.responseId,
                                  self.hasMappedComponents))
+          self.updateStateBasedOnResult(commandResult)
           logger.debug("Sending request: " + data)
           pass
         else:
@@ -190,6 +216,7 @@ class Controller(threading.Thread):
           self.responseId = serverId
 
         if 'executionCommands' in response.keys():
+          self.updateStateBasedOnCommand(response['executionCommands'])
           self.addToQueue(response['executionCommands'])
           pass
         if 'statusCommands' in response.keys() and self.actionQueue.empty():
@@ -201,6 +228,11 @@ class Controller(threading.Thread):
         else:
           logger.info("No commands sent from the Server.")
           pass
+
+        # Add a status command
+        if self.componentActualState == State.STARTED and \
+            not self.statusCommand == None:
+          self.addToQueue([self.statusCommand])
 
         if retry:
           print("Reconnected to the server")
@@ -229,7 +261,7 @@ class Controller(threading.Thread):
             print("Connection to the server was lost. Reconnecting...")
           if 'certificate verify failed' in str(err) and not certVerifFailed:
             print(
-            "Server certificate verify failed. Did you regenerate server certificate?")
+              "Server certificate verify failed. Did you regenerate server certificate?")
             certVerifFailed = True
         self.cachedconnect = None # Previous connection is broken now
         retry = True
@@ -241,6 +273,73 @@ class Controller(threading.Thread):
       # and sent in one heartbeat. Also avoid server overload with heartbeats
       time.sleep(self.netutil.MINIMUM_INTERVAL_BETWEEN_HEARTBEATS)
     pass
+
+  def updateStateBasedOnCommand(self, commands):
+    for command in commands:
+      if command["roleCommand"] == "START":
+        self.componentExpectedState = State.STARTING
+        self.componentActualState = State.STARTING
+        self.failureCount = 0
+        self.statusCommand = self.createStatusCommand(command)
+
+      if command["roleCommand"] == "INSTALL":
+        self.componentExpectedState = State.INSTALLING
+        self.componentActualState = State.INSTALLING
+        self.failureCount = 0
+      break;
+    logger.info("Component states (command): Expected: " + str(self.componentExpectedState) + \
+                " and Actual: " + str(self.componentActualState))
+
+
+  def updateStateBasedOnResult(self, commandResult):
+    if len(commandResult) > 0:
+      if "commandStatus" in commandResult:
+        if commandResult["commandStatus"] == ActionQueue.COMPLETED_STATUS:
+          if self.componentExpectedState == State.STARTING:
+            self.componentActualState = State.STARTED
+            self.componentExpectedState = State.STARTED
+          if self.componentExpectedState == State.INSTALLING:
+            self.componentActualState = State.INSTALLED
+            self.componentExpectedState = State.INSTALLED
+            pass
+          pass
+        pass
+
+        if commandResult["commandStatus"] == ActionQueue.FAILED_STATUS:
+          self.componentActualState = State.FAILED
+          self.failureCount += 1
+          pass
+
+      if "healthStatus" in commandResult:
+        if commandResult["healthStatus"] == "INSTALLED":
+          self.componentActualState = State.FAILED
+          self.failureCount += 1
+        if commandResult["healthStatus"] == "STARTED":
+          self.componentActualState = State.STARTED
+          self.failureCount = 0
+          pass
+        pass
+      pass
+    logger.info("Component states (result): Expected: " + str(self.componentExpectedState) + \
+                " and Actual: " + str(self.componentActualState))
+
+  def createStatusCommand(self, command):
+    statusCommand = {}
+    statusCommand["clusterName"] = command["clusterName"]
+    statusCommand["commandParams"] = command["commandParams"]
+    statusCommand["commandType"] = "STATUS_COMMAND"
+    statusCommand["roleCommand"] = "STATUS"
+    statusCommand["componentName"] = command["role"]
+    statusCommand["configurations"] = {}
+    statusCommand["configurations"]["global"] = command["configurations"]["global"]
+    statusCommand["hostLevelParams"] = command["hostLevelParams"]
+    statusCommand["serviceName"] = command["serviceName"]
+    statusCommand["taskId"] = "status"
+    statusCommand['auto_generated'] = True
+    return statusCommand
+    logger.info("Status command: " + pprint.pformat(statusCommand))
+    pass
+
 
   def run(self):
     self.actionQueue = ActionQueue(self.config, controller=self)
@@ -256,7 +355,7 @@ class Controller(threading.Thread):
       self.registerAndHeartbeat()
       if not self.repeatRegistration:
         break
-
+    logger.info("Controller stopped.")
     pass
 
   def registerAndHeartbeat(self):
@@ -269,6 +368,7 @@ class Controller(threading.Thread):
         callback()
       time.sleep(self.netutil.HEARTBEAT_IDDLE_INTERVAL_SEC)
       self.heartbeatWithServer()
+    logger.info("Controller stopped heartbeating.")
 
   def restartAgent(self):
     os._exit(AGENT_AUTO_RESTART_EXIT_CODE)

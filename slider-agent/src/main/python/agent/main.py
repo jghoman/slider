@@ -226,11 +226,11 @@ def main():
   controller = Controller(agentConfig)
   controller.start()
   try:
-      while controller.is_alive():
-          controller.join(timeout=1.0)
+    while controller.is_alive():
+      controller.join(timeout=1.0)
   except (KeyboardInterrupt, SystemExit):
-      logger.info("... agent interrupted")
-      pass
+    logger.info("... agent interrupted")
+    pass
 
 
 if __name__ == "__main__":

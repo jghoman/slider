@@ -52,9 +52,6 @@ class ActionQueue(threading.Thread):
   COMPLETED_STATUS = 'COMPLETED'
   FAILED_STATUS = 'FAILED'
 
-  COMMAND_FORMAT_V1 = "1.0"
-  COMMAND_FORMAT_V2 = "2.0"
-
   def __init__(self, config, controller):
     super(ActionQueue, self).__init__()
     self.commandQueue = Queue.Queue()
@@ -99,6 +96,8 @@ class ActionQueue(threading.Thread):
     try:
       if command['commandType'] == self.EXECUTION_COMMAND:
         self.execute_command(command)
+      elif command['commandType'] == self.STATUS_COMMAND:
+        self.execute_status_command(command)
       else:
         logger.error("Unrecognized command " + pprint.pformat(command))
     except Exception, err:
@@ -107,32 +106,17 @@ class ActionQueue(threading.Thread):
       logger.warn(err)
 
 
-  def determine_command_format_version(self, command):
-    """
-    Returns either COMMAND_FORMAT_V1 or COMMAND_FORMAT_V2
-    """
-    try:
-      if command['commandParams']['schema_version'] == self.COMMAND_FORMAT_V2:
-        return self.COMMAND_FORMAT_V2
-      else:
-        return self.COMMAND_FORMAT_V1
-    except KeyError:
-      pass # ignore
-    return self.COMMAND_FORMAT_V1 # Fallback
-
-
   def execute_command(self, command):
     '''
     Executes commands of type  EXECUTION_COMMAND
     '''
     clusterName = command['clusterName']
     commandId = command['commandId']
-    command_format = self.determine_command_format_version(command)
 
     message = "Executing command with id = {commandId} for role = {role} of " \
-              "cluster {cluster}. Command format={command_format}".format(
+              "cluster {cluster}".format(
       commandId=str(commandId), role=command['role'],
-      cluster=clusterName, command_format=command_format)
+      cluster=clusterName)
     logger.info(message)
     logger.debug(pprint.pformat(command))
 
@@ -158,7 +142,6 @@ class ActionQueue(threading.Thread):
     if commandresult['exitcode'] != 0:
       status = self.FAILED_STATUS
     roleResult = self.commandStatuses.generate_report_template(command)
-    # assume some puppet plumbing to run these commands
     roleResult.update({
       'stdout': commandresult['stdout'],
       'stderr': commandresult['stderr'],
@@ -183,6 +166,39 @@ class ActionQueue(threading.Thread):
   # Store action result to agent response queue
   def result(self):
     return self.commandStatuses.generate_report()
+
+  def execute_status_command(self, command):
+    '''
+    Executes commands of type STATUS_COMMAND
+    '''
+    try:
+      cluster = command['clusterName']
+      service = command['serviceName']
+      component = command['componentName']
+      component_status = self.customServiceOrchestrator.requestComponentStatus(command)
+
+      result = {"componentName": component,
+                "msg": "",
+                "status": component_status,
+                "clusterName": cluster,
+                "serviceName": service
+      }
+
+      logger.debug("Got live status for component " + component + \
+                   " of service " + str(service) + \
+                   " of cluster " + str(cluster))
+      logger.debug(pprint.pformat(result))
+
+      reportResult = True
+      if 'auto_generated' in command:
+        reportResult = not command['auto_generated']
+
+      if result is not None:
+        self.commandStatuses.put_command_status(command, result, reportResult)
+    except Exception, err:
+      traceback.print_exc()
+      logger.warn(err)
+    pass
 
 
   def status_update_callback(self):

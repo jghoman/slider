@@ -26,6 +26,7 @@ from agent import Controller, ActionQueue
 from agent import hostname
 import sys
 from agent.Controller import AGENT_AUTO_RESTART_EXIT_CODE
+from agent.Controller import State
 from agent.AgentConfig import AgentConfig
 from mock.mock import patch, MagicMock, call, Mock
 import logging
@@ -368,10 +369,27 @@ class TestController(unittest.TestCase):
     addToQueue = MagicMock(name="addToQueue")
     self.controller.addToQueue = addToQueue
     response["executionCommands"] = "executionCommands"
+    self.controller.statusCommand = ["statusCommand"]
+    updateStateBasedOnCommand = MagicMock(name="updateStateBasedOnCommand")
+    self.controller.updateStateBasedOnCommand = updateStateBasedOnCommand
     self.controller.DEBUG_STOP_HEARTBEATING = False
     self.controller.heartbeatWithServer()
 
     addToQueue.assert_has_calls([call("executionCommands")])
+    updateStateBasedOnCommand.assert_has_calls([call("executionCommands")])
+
+    # just status command
+    self.controller.responseId = 1
+    response = {"responseId":"2", "restartAgent":"false"}
+    loadsMock.return_value = response
+    addToQueue = MagicMock(name="addToQueue")
+    self.controller.addToQueue = addToQueue
+    self.controller.statusCommand = "statusCommand"
+    self.controller.componentActualState = State.STARTED
+    self.controller.DEBUG_STOP_HEARTBEATING = False
+    self.controller.heartbeatWithServer()
+
+    addToQueue.assert_has_calls([call(["statusCommand"])])
 
     # statusCommands
     response["statusCommands"] = "statusCommands"
@@ -406,6 +424,89 @@ class TestController(unittest.TestCase):
 
     self.controller.config = original_value
     pass
+
+
+  @patch.object(Controller.Controller, "createStatusCommand")
+  def test_updateStateBasedOnResult(self, mock_createStatusCommand):
+    commands = []
+    commands.append({u'roleCommand': u'INSTALL'})
+    self.controller.updateStateBasedOnCommand(commands)
+
+    commandResult = {"commandStatus": "COMPLETED"}
+    self.controller.updateStateBasedOnResult(commandResult)
+    self.assertEqual(State.INSTALLED, self.controller.componentActualState)
+    self.assertEqual(State.INSTALLED, self.controller.componentExpectedState)
+
+    commands = []
+    commands.append({u'roleCommand': u'START'})
+    self.controller.updateStateBasedOnCommand(commands)
+
+    commandResult = {"commandStatus": "COMPLETED"}
+    self.controller.updateStateBasedOnResult(commandResult)
+    self.assertEqual(State.STARTED, self.controller.componentActualState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
+
+    commandResult = {"healthStatus": "STARTED"}
+    self.controller.updateStateBasedOnResult(commandResult)
+    self.assertEqual(State.STARTED, self.controller.componentActualState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
+
+    commandResult = {"healthStatus": "INSTALLED"}
+    self.controller.updateStateBasedOnResult(commandResult)
+    self.assertEqual(State.FAILED, self.controller.componentActualState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
+    self.assertEqual(1, self.controller.failureCount)
+
+    commandResult = {"healthStatus": "INSTALLED"}
+    self.controller.updateStateBasedOnResult(commandResult)
+    self.assertEqual(State.FAILED, self.controller.componentActualState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
+    self.assertEqual(2, self.controller.failureCount)
+
+    self.assertTrue(mock_createStatusCommand.called)
+
+
+  def test_updateStateBasedOnCommand(self):
+    commands = []
+    self.controller.updateStateBasedOnCommand(commands)
+    self.assertEqual(State.INIT, self.controller.componentActualState)
+    self.assertEqual(State.INIT, self.controller.componentExpectedState)
+
+    commands.append({u'roleCommand': u'INSTALL'})
+    self.controller.updateStateBasedOnCommand(commands)
+    self.assertEqual(State.INSTALLING, self.controller.componentActualState)
+    self.assertEqual(State.INSTALLING, self.controller.componentExpectedState)
+
+    commands = []
+    commands.append({
+      u'roleCommand': u'START',
+      "clusterName": "c1",
+      "commandParams": ["cp"],
+      "role": "HBASE_MASTER",
+      "configurations": {"global": {"a": "b"}, "abc-site": {"c": "d"}},
+      "hostLevelParams": [],
+      "serviceName": "HBASE"
+    })
+    self.controller.updateStateBasedOnCommand(commands)
+    self.assertEqual(State.STARTING, self.controller.componentActualState)
+    self.assertEqual(State.STARTING, self.controller.componentExpectedState)
+
+    self.assertEqual(self.controller.statusCommand["clusterName"], "c1")
+    self.assertEqual(self.controller.statusCommand["commandParams"], ["cp"])
+    self.assertEqual(self.controller.statusCommand["commandType"], "STATUS_COMMAND")
+    self.assertEqual(self.controller.statusCommand["roleCommand"], "STATUS")
+    self.assertEqual(self.controller.statusCommand["componentName"], "HBASE_MASTER")
+    self.assertEqual(self.controller.statusCommand["configurations"], {"global": {"a": "b"}})
+    self.assertEqual(self.controller.statusCommand["hostLevelParams"], [])
+    self.assertEqual(self.controller.statusCommand["serviceName"], "HBASE")
+    self.assertEqual(self.controller.statusCommand["taskId"], "status")
+    self.assertEqual(self.controller.statusCommand["auto_generated"], True)
+    self.assertEqual(len(self.controller.statusCommand), 10)
+
+    commands = []
+    self.controller.updateStateBasedOnCommand(commands)
+    self.assertEqual(State.STARTING, self.controller.componentActualState)
+    self.assertEqual(State.STARTING, self.controller.componentExpectedState)
 
   @patch("pprint.pformat")
   @patch("time.sleep")
