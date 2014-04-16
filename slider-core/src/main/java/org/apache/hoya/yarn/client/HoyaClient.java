@@ -377,6 +377,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     // Provider
     String providerName = buildInfo.getProvider();
     requireArgumentSet(Arguments.ARG_PROVIDER, providerName);
+    log.debug("Provider is {}", providerName);
     HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(conf);
     AbstractClientProvider provider =
       createClientProvider(providerName);

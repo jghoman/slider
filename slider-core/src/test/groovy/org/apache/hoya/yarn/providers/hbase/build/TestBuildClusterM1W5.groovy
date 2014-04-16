@@ -31,6 +31,9 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
 
+import static org.apache.hoya.providers.hbase.HBaseKeys.PROVIDER_HBASE
+import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+
 @CompileStatic
 @Slf4j
 
@@ -50,7 +53,9 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
             (HBaseKeys.ROLE_MASTER): 1,
             (HBaseKeys.ROLE_WORKER): 5,
         ],
-        [],
+        [
+            ARG_PROVIDER, PROVIDER_HBASE
+        ],
         true,
         false,
         [:])
@@ -77,7 +82,9 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
               (HBaseKeys.ROLE_MASTER): 1,
               (HBaseKeys.ROLE_WORKER): 3,
           ],
-          [],
+          [
+              ARG_PROVIDER, PROVIDER_HBASE
+          ],
           true,
           false,
           [:])
