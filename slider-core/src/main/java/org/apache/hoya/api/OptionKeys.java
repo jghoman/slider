@@ -132,23 +132,15 @@ public interface OptionKeys {
    */
   String INTERNAL_DATA_DIR_PATH = "internal.data.dir.path";
   
-  
-  
   /**
    * Zookeeper quorum host list: {@value}
    */
-  String ZOOKEEPER_HOSTS = "zookeeper.hosts";
-  
-  /**
-   * Zookeeper port value (int): {@value}
-   */
-  String ZOOKEEPER_PORT = "zookeeper.port";
+  String ZOOKEEPER_QUORUM = "zookeeper.quorum";
 
   /**
    * Zookeeper path value (string): {@value}
    */
   String ZOOKEEPER_PATH = "zookeeper.path";
-
 
   /**
    * Zookeeper quorum host list: {@value}

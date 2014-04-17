@@ -26,6 +26,7 @@ import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.testtools.HoyaTestUtils
@@ -390,8 +391,8 @@ abstract class CommandTestBase extends HoyaTestUtils {
     List<String> argsList = [action, clustername]
 
     argsList << ARG_ZKHOSTS <<
-    HOYA_CONFIG.getTrimmed(KEY_HOYA_TEST_ZK_HOSTS, DEFAULT_HOYA_ZK_HOSTS)
-
+      HOYA_CONFIG.getTrimmed(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM)
+    
 
     if (blockUntilRunning) {
       argsList << ARG_WAIT << Integer.toString(THAW_WAIT_TIME)

@@ -18,6 +18,7 @@
 
 package org.apache.hoya.providers.hbase;
 
+import com.google.common.net.HostAndPort;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.HoyaKeys;
@@ -35,6 +36,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,10 +125,19 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                   OptionKeys.INTERNAL_DATA_DIR_PATH) );
     providerUtils.propagateOption(globalAppOptions, OptionKeys.ZOOKEEPER_PATH,
                                   sitexml, KEY_ZNODE_PARENT);
-    providerUtils.propagateOption(globalAppOptions, OptionKeys.ZOOKEEPER_PORT,
-                                  sitexml, KEY_ZOOKEEPER_PORT);
-    providerUtils.propagateOption(globalAppOptions, OptionKeys.ZOOKEEPER_HOSTS,
-                                  sitexml, KEY_ZOOKEEPER_QUORUM);
+    String quorum =
+      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_QUORUM);
+    List<HostAndPort> hostAndPorts =
+      ZookeeperUtils.splitToHostsAndPorts(quorum);
+    if (hostAndPorts.isEmpty()) {
+      throw new BadConfigException("empty property " +
+                                   OptionKeys.ZOOKEEPER_QUORUM);
+    }
+    String hosts = ZookeeperUtils.buildHostsOnlyList(hostAndPorts);
+    sitexml.put(KEY_ZOOKEEPER_QUORUM, hosts);
+    //and assume first port works everywhere
+    sitexml.put(KEY_ZOOKEEPER_PORT,
+      Integer.toString(hostAndPorts.get(0).getPortOrDefault(HBASE_ZK_PORT)));
 
     return sitexml;
   }

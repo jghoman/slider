@@ -39,7 +39,6 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.tools.*
@@ -48,8 +47,6 @@ import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.yarn.appmaster.HoyaAppMaster
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
-import org.apache.slider.core.registry.info.ServiceInstanceData
-import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.After
 import org.junit.Assume
 import org.junit.Rule
@@ -424,7 +421,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
       argsList << Arguments.ARG_WAIT << WAIT_TIME_ARG
     }
 
-    argsList += getExtraHoyaClientArgs()
+    argsList += extraCLIArgs
     argsList += roleList;
     argsList += imageCommands
 
@@ -457,7 +454,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    *
    * @return additional arguments to launch Hoya with
    */
-  protected List<String> getExtraHoyaClientArgs() {
+  protected List<String> getExtraCLIArgs() {
     []
   }
 
@@ -495,6 +492,16 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public String getArchiveKey() {
     failNotImplemented()
     null
+  }
+
+  /**
+   * Merge a k-v pair into a simple k=v string; simple utility
+   * @param key key
+   * @param val value
+   * @return the string to use after a -D option
+   */
+  public String define(String key, String val) {
+    return "$key=$val"
   }
 
   public void assumeArchiveDefined() {

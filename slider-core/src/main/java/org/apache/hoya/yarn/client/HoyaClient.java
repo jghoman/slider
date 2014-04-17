@@ -20,7 +20,6 @@ package org.apache.hoya.yarn.client;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -108,7 +107,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -471,8 +469,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     ZKPathBuilder zkPaths = new ZKPathBuilder(getAppName(),
                                               getUsername(),
                                               clustername,
-                                              buildInfo.getZKhosts(),
-                                              buildInfo.getZKport());
+                                              buildInfo.getZKhosts());
     String zookeeperRoot = buildInfo.getAppZKPath();
     
     if (isSet(zookeeperRoot)) {
@@ -872,6 +869,12 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
       commandLine.add(serviceArgs.getFilesystemURL().toString());
     }
 
+    /**
+     * If set, the ZK registry bindings are passed in
+     */
+    propagateConfOption(commandLine, config, HoyaXmlConfKeys.REGISTRY_PATH);
+    propagateConfOption(commandLine, config, HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    
     if (clusterSecure) {
       // if the cluster is secure, make sure that
       // the relevant security settings go over
@@ -1266,7 +1269,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     try {
       verifyManagerSet();
 
-      maybeStartRegistry(clustername);
+      maybeStartRegistry();
       ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
       names = discovery.queryForNames();
     } catch (IOException e) {
@@ -1288,7 +1291,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances(
     String clustername) throws IOException, YarnException {
-    maybeStartRegistry(clustername);
+    maybeStartRegistry();
     return registry.listInstances(HoyaKeys.APP_TYPE);
   }
   
@@ -1303,7 +1306,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     String clustername) throws IOException, YarnException {
     try {
 
-      maybeStartRegistry(clustername);
+      maybeStartRegistry();
       return registry.instanceIDs(HoyaKeys.APP_TYPE);
     } catch (IOException e) {
       throw e;
@@ -1316,18 +1319,16 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
 
   /**
    * Start the registry if it is not there yet
-   * @param clustername name of the cluster
    * @return the registry service
    * @throws HoyaException
    * @throws IOException
    */
-  public RegistryBinderService<ServiceInstanceData> maybeStartRegistry(String clustername) throws
+  public RegistryBinderService<ServiceInstanceData> maybeStartRegistry() throws
                                                                                            HoyaException,
                                                                                            IOException {
-    AggregateConf instanceDefinition =
-      loadInstanceDefinition(clustername, false);
-    if (registry==null) {
-      registry = startRegistrationService(instanceDefinition);
+
+    if (registry == null) {
+      registry = startRegistrationService();
     }
     return registry;
   }

@@ -20,9 +20,7 @@ package org.apache.hoya.yarn.service;
 
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.MapOperations;
+import static org.apache.hoya.HoyaXmlConfKeys.*;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.CuratorHelper;
@@ -44,21 +42,12 @@ public abstract class AbstractSliderLaunchedService extends
     new YarnConfiguration();
   }
 
-  protected RegistryBinderService<ServiceInstanceData> startRegistrationService(
-    AggregateConf instanceDefinition) throws
-                                         BadConfigException {
-    // registry
-
-    MapOperations globalInternalOptions =
-      instanceDefinition.getInternalOperations().getGlobalOptions();;
-    String zkConnection =
-      globalInternalOptions.getMandatoryOption(
-        OptionKeys.INTERNAL_ZOOKEEPER_CONNECTION);
-    String zkPath = globalInternalOptions.getMandatoryOption(
-      OptionKeys.INTERNAL_ZOOKEEPER_PATH);
-
+  protected RegistryBinderService<ServiceInstanceData> startRegistrationService()
+      throws BadConfigException {
+    String zkConnection = getConfig().get(REGISTRY_ZK_QUORUM,
+      DEFAULT_REGISTRY_ZK_QUORUM);
+    String zkPath = getConfig().get(REGISTRY_PATH, DEFAULT_REGISTRY_PATH);
     return startRegistrationService(zkConnection, zkPath);
-
   }
 
   /**

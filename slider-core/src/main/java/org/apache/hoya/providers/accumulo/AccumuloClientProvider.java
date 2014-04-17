@@ -22,7 +22,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.util.ZKUtil;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.HoyaXmlConfKeys;
@@ -39,8 +38,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
-import org.apache.slider.core.registry.zk.ZKUtils;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,11 +142,8 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                     globalInstanceOptions.getMandatoryOption(OptionKeys.INTERNAL_DATA_DIR_PATH));
 
 
-    String zkHosts =
-      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_HOSTS);
-    int zkPort =
-      globalAppOptions.getMandatoryOptionInt(OptionKeys.ZOOKEEPER_PORT);
-    String quorum = ZKUtils.buildConnectionString(zkHosts, zkPort);
+    String quorum =
+      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_QUORUM);
     sitexml.put(AccumuloConfigFileOptions.ZOOKEEPER_HOST, quorum);
 
     return sitexml;

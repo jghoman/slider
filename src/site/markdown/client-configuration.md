@@ -173,7 +173,17 @@ As well as standard YARN and Hadoop configuration options, Slider supports
 a limited number of slider-specific configuration parameters.
 
     <property>
-      <name>slider.yarn.security</name>
+      <name>slider.zookeeper.quorum</name>
+      <value>localhost:2181,zookeeper2:4545</value>
+    </property>
+    
+    <property>
+      <name>slider.yarn.queue</name>
+      <value>default</value>
+    </property>
+    
+    <property>
+      <name>slider.security.enabled</name>
       <value>false</value>
     </property>
     
@@ -183,7 +193,7 @@ a limited number of slider-specific configuration parameters.
     </property>
 
     <property>
-      <name>slider.yarn.queue</name>
+      <name>slider.yarn.queue.priority</name>
       <value>1</value>
     </property>
 
@@ -192,7 +202,31 @@ a limited number of slider-specific configuration parameters.
       <value>5</value>
       <description>How many times to start/restart the Slider AM</description>
     </property>
+    
+    <property>
+      <name>slider.cluster.directory.permissions</name>
+      <value>750</value>
+    </property>
+    
+    <property>
+      <name>slider.data.directory.permissions</name>
+      <value>750</value>
+    </property>
 
+### `slider.zookeeper.quorum` - the zookeeper quorum.
+
+This defines the zookeeper quorum for this YARN cluster. 
+
+It is used to locate the service registry, enable running instances to publish
+information about their application, and for clients to query this. 
+
+It is also used as the default zookeeper binding for any application that
+uses zookeeper in its configuration -the value set when the application is
+defined will be copied into the instance definition file.
+
+### `"slider.registry.path"` - the zookeeper path for the service registry
+
+This declares the the zookeeper path for the service registry. 
 
 ### `slider.security.enabled` - enable security.
 

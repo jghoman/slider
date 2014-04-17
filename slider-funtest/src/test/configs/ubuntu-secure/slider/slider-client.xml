@@ -49,7 +49,18 @@
     <name>yarn.resourcemanager.principal</name>
     <value>yarn/ubuntu@COTHAM</value>
   </property>
-  
+
+  <property>
+    <name>slider.zookeeper.quorum</name>
+    <value>ubuntu:2181</value>
+  </property>
+
+  <property>
+    <name>slider.test.zkhosts</name>
+    <description>list of the zookeeper hosts</description>
+    <value>ubuntu</value>
+  </property>
+
   <property>
     <name>dfs.namenode.kerberos.principal</name>
     <value>hdfs/ubuntu@COTHAM</value>
@@ -66,12 +77,6 @@
     <description>Path to the directory containing the HBase application config
     </description>
     <value>file://${user.dir}/src/test/configs/ubuntu-secure/hbase</value>
-  </property>
-
-  <property>
-    <name>slider.test.zkhosts</name>
-    <description>list of the zookeeper hosts</description>
-    <value>ubuntu</value>
   </property>
 
   <property>

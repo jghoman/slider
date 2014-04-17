@@ -131,4 +131,21 @@ public interface HoyaXmlConfKeys {
    * Default value for the data directory permissions: {@value}
    */
   String DEFAULT_DATA_DIRECTORY_PERMISSIONS = "750";
+
+
+  String REGISTRY_PATH = "slider.registry.path";
+
+  /**
+   * Default value for the registry: {@value}
+   */
+  String DEFAULT_REGISTRY_PATH = "/registry";
+
+
+  String REGISTRY_ZK_QUORUM = "slider.zookeeper.quorum";
+
+  /**
+   * Default value for the registry: {@value}
+   */
+  String DEFAULT_REGISTRY_ZK_QUORUM = "localhost:2181";
+
 }

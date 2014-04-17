@@ -238,23 +238,16 @@ Example
     --rco worker worker yarn.memory max
 
 
-##### `--zkport port` 
+##### `--zkhosts host1:port1,[host2:port2,host3:port3, ...] `
 
-The port on which the zookeeper processes are listening.
-
-Example
-    
-    --zkport 29181
-
-##### `--zkhosts host1[,host2,host3, ...] `
-
-The list of hosts on which the ZK quorum is running.
-
+The zookeeper quorum.
 
 Example
 
-    --zkhosts zk1,zk2,zk3,zk4,zk5,zk6,zk7,zk8,zk8,zk10,zk11
+    --zkhosts zk1:2181,zk2:2181,zk3:4096
 
+If unset, the zookeeper quorum defined in the property `slider.zookeeper.quorum`
+is used
 
 ### `destroy <name>`
 

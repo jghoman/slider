@@ -61,7 +61,6 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     assert ZKHosts == status.zkHosts
-    assert ZKPort == status.zkPort
     
     //dumpFullHBaseConf(hoyaClient, clustername)
 

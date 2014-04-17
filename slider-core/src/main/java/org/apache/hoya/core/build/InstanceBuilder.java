@@ -41,12 +41,10 @@ import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
-import org.apache.slider.core.registry.zk.ZKUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Map;
 
 import static org.apache.hoya.api.OptionKeys.*;
@@ -247,16 +245,13 @@ public class InstanceBuilder {
       MapOperations globalAppOptions =
         instanceDescription.getAppConfOperations().getGlobalOptions();
       globalAppOptions.put(ZOOKEEPER_PATH, zkBinding.getAppPath());
-      globalAppOptions.put(ZOOKEEPER_HOSTS, zkBinding.getQuorum());
-      globalAppOptions.put(ZOOKEEPER_PORT, Integer.toString(zkBinding.getPort()));
+      globalAppOptions.put(ZOOKEEPER_QUORUM, zkBinding.getQuorum());
 
 
       MapOperations globalInstanceOptions =
         instanceDescription.getInternalOperations().getGlobalOptions();
       globalInstanceOptions.put(INTERNAL_ZOOKEEPER_CONNECTION,
-                                ZKUtils.buildConnectionString(
-                                  zkBinding.getQuorum(), zkBinding.getPort())
-                               );
+        zkBinding.getQuorum());
       globalInstanceOptions.put(INTERNAL_ZOOKEEPER_PATH,
                                 zkBinding.getRegistryPath());
     }

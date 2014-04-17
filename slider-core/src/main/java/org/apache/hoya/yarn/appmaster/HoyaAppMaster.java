@@ -536,7 +536,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       //registry
 
 
-      registry = startRegistrationService(instanceDefinition);
+      registry = startRegistrationService();
 
       //build the role map
       List<ProviderRole> providerRoles =
@@ -663,6 +663,10 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
                                                                serviceName);
     String registryId =
       RegistryNaming.createUniqueInstanceId(clustername, service_user_name, serviceName, id);
+
+    List<String> serviceInstancesRunning = registry.instanceIDs(serviceName);
+    log.info("service instances already running: {}", serviceInstancesRunning);
+
     ServiceInstanceData instanceData = new ServiceInstanceData();
 
     RegisteredEndpoint webUI =

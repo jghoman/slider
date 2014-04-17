@@ -18,32 +18,24 @@
 
 package org.apache.slider.core.registry.zk;
 
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.tools.HoyaUtils;
-
 import java.util.Locale;
 
 public final class ZKPathBuilder {
 
   private final String username, appname, clustername;
   private final String quorum;
-  private final int port;
 
   private String appPath;
   private String registryPath;
 
-  private String zkConnectionString;
-
   public ZKPathBuilder(String username,
-                       String appname,
-                       String clustername,
-                       String quorum,
-                       int port) {
+    String appname,
+    String clustername,
+    String quorum) {
     this.username = username;
     this.appname = appname;
     this.clustername = clustername;
     this.quorum = quorum;
-    this.port = port;
     appPath = buildAppPath();
     registryPath = buildRegistryPath();
   }
@@ -62,10 +54,6 @@ public final class ZKPathBuilder {
 
   public String getQuorum() {
     return quorum;
-  }
-
-  public int getPort() {
-    return port;
   }
 
   public String getAppPath() {

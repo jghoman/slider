@@ -18,6 +18,7 @@
 
 package org.apache.hoya.yarn.cluster.live
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
@@ -27,7 +28,7 @@ import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
 
-//@CompileStatic
+@CompileStatic
 @Slf4j
 
 class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
@@ -43,8 +44,8 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     String clustername1 = "testtwoliveclusters-a"
     //now launch the cluster
     int regionServerCount = 1
-    ServiceLauncher launcher = createHBaseCluster(clustername1, regionServerCount, [], true, true) 
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(clustername1, regionServerCount, [], true, true) 
+    HoyaClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
 
     basicHBaseClusterStartupSequence(hoyaClient)
@@ -59,13 +60,15 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     //now here comes cluster #2
     String clustername2 = "testtwoliveclusters-b"
 
+
+    String zkpath = "/$clustername2"
     launcher = createHBaseCluster(clustername2, regionServerCount,
                                  [
-                                     Arguments.ARG_ZKPATH, "/$clustername2",
+                                     Arguments.ARG_ZKPATH, zkpath
                                  ],
                                  true,
                                  true)
-    HoyaClient cluster2Client = launcher.service as HoyaClient
+    HoyaClient cluster2Client = launcher.service
     addToTeardown(cluster2Client);
 
     basicHBaseClusterStartupSequence(cluster2Client)
