@@ -20,6 +20,8 @@ package org.apache.slider.core.registry.zk;
 
 import com.google.common.net.HostAndPort;
 import org.apache.hadoop.util.StringUtils;
+import org.apache.hoya.api.OptionKeys;
+import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.tools.HoyaUtils;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class ZookeeperUtils {
 
   /**
    * Split a quorum list into a list of hostnames and ports
-   * @param hostPortQuorumList
+   * @param hostPortQuorumList split to a list of hosts and ports
    * @return a list of values
    */
   public static List<HostAndPort> splitToHostsAndPorts(String hostPortQuorumList) {
@@ -71,7 +73,7 @@ public class ZookeeperUtils {
   /**
    * Build up to a hosts only list
    * @param hostAndPorts
-   * @return
+   * @return a list of the hosts only
    */
   public static String buildHostsOnlyList(List<HostAndPort> hostAndPorts) {
     StringBuilder sb = new StringBuilder();
@@ -104,5 +106,29 @@ public class ZookeeperUtils {
       entries.add(buildQuorumEntry(hostAndPort, defaultPort));
     }
     return HoyaUtils.join(entries, ",", false);
+  }
+  
+  public static String convertToHostsOnlyList(String quorum) throws
+      BadConfigException {
+    List<HostAndPort> hostAndPorts = splitToHostsAndPortsStrictly(quorum);
+    return ZookeeperUtils.buildHostsOnlyList(hostAndPorts);
+  }
+
+  public static List<HostAndPort> splitToHostsAndPortsStrictly(String quorum) throws
+      BadConfigException {
+    List<HostAndPort> hostAndPorts =
+        ZookeeperUtils.splitToHostsAndPorts(quorum);
+    if (hostAndPorts.isEmpty()) {
+      throw new BadConfigException("empty zookeeper quorum");
+    }
+    return hostAndPorts;
+  }
+  
+  public static int getFirstPort(String quorum, int defVal) throws
+      BadConfigException {
+    List<HostAndPort> hostAndPorts = splitToHostsAndPortsStrictly(quorum);
+    int port = hostAndPorts.get(0).getPortOrDefault(defVal);
+    return port;
+
   }
 }

@@ -56,12 +56,6 @@
   </property>
 
   <property>
-    <name>slider.test.zkhosts</name>
-    <description>list of the zookeeper hosts</description>
-    <value>ubuntu</value>
-  </property>
-
-  <property>
     <name>dfs.namenode.kerberos.principal</name>
     <value>hdfs/ubuntu@COTHAM</value>
   </property>

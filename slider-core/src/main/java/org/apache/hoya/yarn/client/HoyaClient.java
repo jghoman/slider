@@ -259,7 +259,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     // verify that a live cluster isn't there
     HoyaUtils.validateClusterName(clustername);
     //no=op, it is now mandatory. 
-    verifyManagerSet();
+    verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
 
     // create the directory path
@@ -366,7 +366,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
         throws YarnException, IOException {
     // verify that a live cluster isn't there
     HoyaUtils.validateClusterName(clustername);
-    verifyManagerSet();
+    verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
     Configuration conf = getConfig();
 
@@ -466,10 +466,19 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     builder.setImageDetails(buildInfo.getImage(), buildInfo.getAppHomeDir());
 
 
+    String registryQuorum = conf.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    String quorum = buildInfo.getZKhosts();
+    if (HoyaUtils.isUnset(quorum)) {
+      quorum = registryQuorum;
+    }
+    if (isUnset(quorum)) {
+      throw new BadConfigException("No Zookeeper quorum defined");
+    }
     ZKPathBuilder zkPaths = new ZKPathBuilder(getAppName(),
-                                              getUsername(),
-                                              clustername,
-                                              buildInfo.getZKhosts());
+        getUsername(),
+        clustername,
+        registryQuorum,
+        quorum);
     String zookeeperRoot = buildInfo.getAppZKPath();
     
     if (isSet(zookeeperRoot)) {
@@ -516,7 +525,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * with a useful error message
    * @throws BadCommandArgumentsException the exception raised on an invalid config
    */
-  public void verifyManagerSet() throws BadCommandArgumentsException {
+  public void verifyBindingsDefined() throws BadCommandArgumentsException {
     InetSocketAddress rmAddr = HoyaUtils.getRmAddress(getConfig());
     if (!HoyaUtils.isAddressDefined(rmAddr)) {
       throw new BadCommandArgumentsException(
@@ -526,6 +535,14 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
         + YarnConfiguration.RM_ADDRESS 
         + " value :" + rmAddr);
     }
+
+    String registryQuorum = getConfig().get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    if (HoyaUtils.isUnset(registryQuorum)) {
+      throw new BadCommandArgumentsException(
+        "No Zookeeper quorum provided in the"
+        + " configuration property" + HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    }
+
   }
 
   /**
@@ -1197,7 +1214,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   @VisibleForTesting
   public int actionList(String clustername) throws IOException, YarnException {
-    verifyManagerSet();
+    verifyBindingsDefined();
 
     String user = UserGroupInformation.getCurrentUser().getUserName();
     List<ApplicationReport> instances = listHoyaInstances(user);
@@ -1267,7 +1284,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     String clustername) throws IOException, YarnException {
     Collection<String> names;
     try {
-      verifyManagerSet();
+      verifyBindingsDefined();
 
       maybeStartRegistry();
       ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
@@ -1339,7 +1356,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   @VisibleForTesting
   public int actionFlex(String name, ActionFlexArgs args) throws YarnException, IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(name);
     log.debug("actionFlex({})", name);
     Map<String, Integer> roleInstances = new HashMap<String, Integer>();
@@ -1365,7 +1382,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   @VisibleForTesting
   public int actionExists(String name, boolean live) throws YarnException, IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(name);
     log.debug("actionExists({}, {})", name, live);
 
@@ -1523,13 +1540,11 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     }
   }
 
-
   /**
    * Status operation
    *
    * @param clustername cluster name
-   * @param outfile filename : if not null indicates output is to be saved
-   * to this file
+   * @param statusArgs status arguments
    * @return 0 -for success, else an exception is thrown
    * @throws YarnException
    * @throws IOException
@@ -1538,7 +1553,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   public int actionStatus(String clustername, ActionStatusArgs statusArgs) throws
                                               YarnException,
                                               IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(clustername);
     String outfile = statusArgs.getOutput();
     ClusterDescription status = getClusterDescription(clustername);
@@ -1571,7 +1586,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                           ActionFreezeArgs freezeArgs) throws
                                                             YarnException,
                                                             IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(clustername);
     int waittime = freezeArgs.getWaittime();
     String text = freezeArgs.message;
@@ -1692,7 +1707,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     }
 
     String format = confArgs.getFormat();
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(clustername);
     ClusterDescription status = getClusterDescription(clustername);
     Writer writer;
@@ -1735,7 +1750,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   public int actionThaw(String clustername, ActionThawArgs thaw) throws YarnException, IOException {
     HoyaUtils.validateClusterName(clustername);
     // see if it is actually running and bail out;
-    verifyManagerSet();
+    verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
 
 
@@ -1755,7 +1770,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                   Map<String, Integer> roleInstances) throws
                                    YarnException,
                                    IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     HoyaUtils.validateClusterName(clustername);
     Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
@@ -1933,7 +1948,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   private HoyaClusterProtocol bondToCluster(String clustername) throws
                                                                   YarnException,
                                                                   IOException {
-    verifyManagerSet();
+    verifyBindingsDefined();
     if (clustername == null) {
       throw unknownClusterException("(undefined)");
     }

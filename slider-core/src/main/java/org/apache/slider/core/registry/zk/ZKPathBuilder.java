@@ -27,17 +27,20 @@ public final class ZKPathBuilder {
 
   private String appPath;
   private String registryPath;
-
+  private final String appQuorum;
+  
   public ZKPathBuilder(String username,
     String appname,
     String clustername,
-    String quorum) {
+    String quorum,
+      String appQuorum) {
     this.username = username;
     this.appname = appname;
     this.clustername = clustername;
     this.quorum = quorum;
     appPath = buildAppPath();
     registryPath = buildRegistryPath();
+    this.appQuorum = appQuorum;
   }
 
   public String buildAppPath() {
@@ -54,6 +57,10 @@ public final class ZKPathBuilder {
 
   public String getQuorum() {
     return quorum;
+  }
+
+  public String getAppQuorum() {
+    return appQuorum;
   }
 
   public String getAppPath() {

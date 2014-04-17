@@ -121,23 +121,17 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
 
     sitexml.put(KEY_HBASE_ROOTDIR,
-                globalInstanceOptions.getMandatoryOption(
-                  OptionKeys.INTERNAL_DATA_DIR_PATH) );
+        globalInstanceOptions.getMandatoryOption(
+            OptionKeys.INTERNAL_DATA_DIR_PATH)
+    );
     providerUtils.propagateOption(globalAppOptions, OptionKeys.ZOOKEEPER_PATH,
                                   sitexml, KEY_ZNODE_PARENT);
     String quorum =
       globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_QUORUM);
-    List<HostAndPort> hostAndPorts =
-      ZookeeperUtils.splitToHostsAndPorts(quorum);
-    if (hostAndPorts.isEmpty()) {
-      throw new BadConfigException("empty property " +
-                                   OptionKeys.ZOOKEEPER_QUORUM);
-    }
-    String hosts = ZookeeperUtils.buildHostsOnlyList(hostAndPorts);
-    sitexml.put(KEY_ZOOKEEPER_QUORUM, hosts);
+    sitexml.put(KEY_ZOOKEEPER_QUORUM, ZookeeperUtils.convertToHostsOnlyList(quorum));
     //and assume first port works everywhere
     sitexml.put(KEY_ZOOKEEPER_PORT,
-      Integer.toString(hostAndPorts.get(0).getPortOrDefault(HBASE_ZK_PORT)));
+      Integer.toString(ZookeeperUtils.getFirstPort(quorum, HBASE_ZK_PORT)));
 
     return sitexml;
   }

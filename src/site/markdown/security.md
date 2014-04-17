@@ -198,7 +198,7 @@ via a `kinit` call.
       hoya create cluster1 \
       --manager master:8032 --filesystem hdfs://master:9090 \
           --role worker 4  --role master 1 \
-          --zkhosts master \
+          --zkhosts master:2181 \
           -D slider.security.enabled=true -S java.security.krb5.realm=MINICLUSTER \
           -S java.security.krb5.kdc=master \
           --image hdfs://master:9090/hbase.tar \

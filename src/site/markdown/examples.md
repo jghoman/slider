@@ -110,7 +110,7 @@ This is for demos only, otherwise you lose the clusters and their databases.
     slider  create cl1 \
     --component worker 1  --component master 1 \
      --manager master:8032 --filesystem hdfs://master:9090 \
-     --zkhosts localhost --image hdfs://master:9090/hbase.tar
+     --zkhosts localhost:2181 --image hdfs://master:9090/hbase.tar
     
     # create the cluster
     
@@ -148,7 +148,7 @@ This is for demos only, otherwise you lose the clusters and their databases.
     slider create accl1 --provider accumulo \
     --component master 1 --component tserver 1 --component gc 1 --component monitor 1 --component tracer 1 \
     --manager localhost:8032 --filesystem hdfs://localhost:9000 \
-    --zkhosts localhost --zkpath /local/zookeeper \
+    --zkhosts localhost:2181 --zkpath /local/zookeeper \
     --image hdfs://localhost:9000/user/username/accumulo-1.6.0-SNAPSHOT-bin.tar \
     --appconf hdfs://localhost:9000/user/username/accumulo-conf \
     -O zk.home /local/zookeeper -O hadoop.home /local/hadoop \

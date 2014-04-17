@@ -241,19 +241,12 @@ public class InstanceBuilder {
    */
   public void addZKBinding(ZKPathBuilder zkBinding) {
     
-    if (HoyaUtils.isSet(zkBinding.getQuorum())) {
+    if (HoyaUtils.isSet(zkBinding.getAppQuorum())) {
       MapOperations globalAppOptions =
-        instanceDescription.getAppConfOperations().getGlobalOptions();
+          instanceDescription.getAppConfOperations().getGlobalOptions();
       globalAppOptions.put(ZOOKEEPER_PATH, zkBinding.getAppPath());
-      globalAppOptions.put(ZOOKEEPER_QUORUM, zkBinding.getQuorum());
+      globalAppOptions.put(ZOOKEEPER_QUORUM, zkBinding.getAppQuorum());
 
-
-      MapOperations globalInstanceOptions =
-        instanceDescription.getInternalOperations().getGlobalOptions();
-      globalInstanceOptions.put(INTERNAL_ZOOKEEPER_CONNECTION,
-        zkBinding.getQuorum());
-      globalInstanceOptions.put(INTERNAL_ZOOKEEPER_PATH,
-                                zkBinding.getRegistryPath());
     }
   }
 
