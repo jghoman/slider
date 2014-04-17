@@ -1288,24 +1288,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances(
     String clustername) throws IOException, YarnException {
-    List<CuratorServiceInstance<ServiceInstanceData>> instances;
-    try {
-      List<String> instanceIDs = listRegistryInstanceIDs(clustername);
-      instances = new ArrayList<CuratorServiceInstance<ServiceInstanceData>>(
-        instanceIDs.size());
-      for (String instanceID : instanceIDs) {
-        CuratorServiceInstance instance =
-          registry.queryForInstance(HoyaKeys.APP_TYPE, instanceID);
-        instances.add(instance);
-      }
-    } catch (IOException e) {
-      throw e;
-    } catch (YarnException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new IOException(e);
-    }
-    return instances;
+    maybeStartRegistry(clustername);
+    return registry.listInstances(HoyaKeys.APP_TYPE);
   }
   
   /**
@@ -1317,7 +1301,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public List<String> listRegistryInstanceIDs(
     String clustername) throws IOException, YarnException {
-    Collection<ServiceInstance<ServiceInstanceData>> instances;
     try {
 
       maybeStartRegistry(clustername);

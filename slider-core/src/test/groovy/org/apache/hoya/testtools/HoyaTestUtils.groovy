@@ -34,6 +34,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.core.conf.AggregateConf
+import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.exceptions.WaitTimeoutException
@@ -43,6 +44,8 @@ import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hadoop.yarn.api.records.ApplicationReport
+import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Assert
 import org.junit.Assume
 
@@ -626,4 +629,31 @@ class HoyaTestUtils extends Assert {
   public static void waitWhileClusterLive(HoyaClient hoyaClient) {
     waitWhileClusterLive(hoyaClient, 30000)
   }
+
+  public static void dumpRegistryInstances(
+      List<CuratorServiceInstance<ServiceInstanceData>> instances) {
+    describe "service registry slider instances"
+    JsonSerDeser<ServiceInstanceData> serDeser = new JsonSerDeser<>(
+        ServiceInstanceData)
+
+    instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
+      ServiceInstanceData payload = svc.payload
+      def json = serDeser.toJson(payload)
+      log.info("service $svc payload=\n$json")
+    }
+    describe "end list service registry slider instances"
+  }
+
+  public static void dumpRegistryInstanceIDs(List<String> instanceIds) {
+    describe "service registry instance IDs"
+    log.info("number of instanceIds: ${instanceIds.size()}")
+    instanceIds.each { String it -> log.info(it) }
+  }
+
+  public static void dumpRegistryNames(Collection<String> names) {
+    describe "service registry names"
+    log.info("number of names: ${names.size()}")
+    names.each { String it -> log.info(it) }
+  }
+
 }

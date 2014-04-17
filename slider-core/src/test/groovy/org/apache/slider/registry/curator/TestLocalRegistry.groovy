@@ -18,12 +18,15 @@
 
 package org.apache.slider.registry.curator
 
+import org.apache.curator.x.discovery.UriSpec
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.HoyaKeys
+import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorHelper
 import org.apache.slider.server.services.curator.RegistryBinderService
+import org.apache.slider.server.services.curator.RegistryNaming
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -37,12 +40,20 @@ class TestLocalRegistry {
     miniZK = new MicroZKCluster()
     miniZK.createCluster()
 
+    registryBinder = createRegistry()
+  }
+
+  def RegistryBinderService<ServiceInstanceData> createRegistry(
+                                                               ) {
     def conf = new YarnConfiguration()
     CuratorHelper curatorHelper =
         new CuratorHelper(conf, miniZK.zkBindingString);
-    registryBinder = curatorHelper.createRegistryBinderService("/services");
-    registryBinder.init(conf)
-    registryBinder.start()
+
+    def registry
+    registry = curatorHelper.createRegistryBinderService("/services");
+    registry.init(conf)
+    registry.start()
+    return registry
   }
 
   @After
@@ -77,6 +88,73 @@ class TestLocalRegistry {
         HoyaKeys.APP_TYPE,
         "instance3")
     assert instance != null
+  }
+
+  @Test
+  public void testMultipleRegistryBinders() throws Throwable {
+    registryBinder.register(HoyaKeys.APP_TYPE, "instance3",
+        new URL("http", "localhost", 80, "/"),
+        null)
+    registryBinder.register(HoyaKeys.APP_TYPE, "instance2",
+        new URL("http", "localhost", 8090, "/"),
+        null)
+    RegistryBinderService<ServiceInstanceData> registry2 = createRegistry()
+    RegistryBinderService<ServiceInstanceData> registry3 = createRegistry()
+    try {
+      def instances = registry3.instanceIDs(HoyaKeys.APP_TYPE)
+      assert instances.size() == 2
+      def instance = registryBinder.queryForInstance(
+          HoyaKeys.APP_TYPE,
+          "instance3")
+      assert instance.id == "instance3"
+      assert instance.name == HoyaKeys.APP_TYPE
+    } finally {
+      registry3.stop()
+      registry2.stop()
+      
+    }
+  }
+
+  @Test
+  public void testNamingPolicy() throws Throwable {
+
+    String hobbitName = RegistryNaming.createRegistryName("hobbiton",
+        "bilbo",
+        HoyaKeys.APP_TYPE);
+    String hobbitId =
+        RegistryNaming.createUniqueInstanceId(
+            "hobbiton",
+            "bilbo",
+            HoyaKeys.APP_TYPE,
+            1);
+    String mordorName = RegistryNaming.createRegistryName("mordor",
+        "bilbo",
+        HoyaKeys.APP_TYPE);
+    String mordorId =
+        RegistryNaming.createUniqueInstanceId(
+            "mordor",
+            "bilbo",
+            HoyaKeys.APP_TYPE,
+            1);
+    
+    // service have same name
+    assert hobbitName == mordorName;
+    assert mordorId != hobbitId;
+    registryBinder.register(mordorName, mordorId,
+        new URL("http", "localhost", 8090, "/"),
+        new ServiceInstanceData())
+    registryBinder.register(hobbitName, hobbitId,
+        new URL("http", "localhost", 80, "/mordor"),
+        new ServiceInstanceData())
+    def mordorInstance = registryBinder.queryForInstance(
+        mordorName,
+        mordorId)
+    assert mordorInstance.port == 8090
+
+    def instances = registryBinder.listInstances(HoyaKeys.APP_TYPE);
+    HoyaTestUtils.dumpRegistryInstances(instances)
+    assert instances.size() == 2
+    
   }
 
 }

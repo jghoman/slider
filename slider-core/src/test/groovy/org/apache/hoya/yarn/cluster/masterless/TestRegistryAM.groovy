@@ -49,7 +49,7 @@ class TestRegistryAM extends HBaseMiniClusterTestBase {
 
     //launch fake master
     String clustername = "test_registry_am"
-    createMiniCluster(clustername, getConfiguration(), 1, true)
+    createMiniCluster(clustername, configuration, 1, true)
     ServiceLauncher launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
     HoyaClient hoyaClient = launcher.service
@@ -99,29 +99,19 @@ class TestRegistryAM extends HBaseMiniClusterTestBase {
     
     //switch to the ZK-based registry
 
-    describe "service registry names"
     def names = hoyaClient.listRegistryNames(clustername)
-    log.info("number of names: ${names.size()}")
-    names.each {String it -> log.info( it) }
-    describe "service registry instance IDs"
+    dumpRegistryNames(names)
 
-    def instanceIds = hoyaClient.listRegistryInstanceIDs(clustername)
-    
-    log.info("number of instanceIds: ${instanceIds.size()}")
-    instanceIds.each {String it -> log.info( it) }
+    List<String> instanceIds = hoyaClient.listRegistryInstanceIDs(clustername)
 
-    describe "service registry slider instances"
-    JsonSerDeser< ServiceInstanceData> serDeser = new JsonSerDeser<>(
-        ServiceInstanceData)
-    
+
+    dumpRegistryInstanceIDs(instanceIds)
+    assert instanceIds.size() == 1
+
     List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(clustername)
+    dumpRegistryInstances(instances)
+
     assert instances.size() == 1
-    instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
-      ServiceInstanceData payload = svc.payload
-      def json = serDeser.toJson(payload)
-      log.info("service $svc payload=\n$json")
-    }
-    describe "end list service registry slider instances"
 
     // hit the registry web page
 

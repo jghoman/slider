@@ -26,6 +26,8 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
+import org.apache.hadoop.yarn.exceptions.YarnException;
+import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.core.persist.JsonSerDeser;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.zookeeper.KeeperException;
@@ -34,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +55,8 @@ public class RegistryBinderService<Payload> extends CuratorService {
   private final Map<String, ServiceInstance<Payload>> entries =
     new HashMap<String, ServiceInstance<Payload>>();
 
-  JsonSerDeser<CuratorServiceInstance> deser =
-    new JsonSerDeser<CuratorServiceInstance>(
+  JsonSerDeser<CuratorServiceInstance<Payload>> deser =
+    new JsonSerDeser<CuratorServiceInstance<Payload>>(
       CuratorServiceInstance.class);
 
   /**
@@ -181,7 +184,7 @@ public class RegistryBinderService<Payload> extends CuratorService {
    * @return the instance or <code>null</code> if not found
    * @throws Exception errors
    */
-  public CuratorServiceInstance queryForInstance(String name, String id) throws
+  public CuratorServiceInstance<Payload> queryForInstance(String name, String id) throws
                                                                          Exception {
     String path = pathForInstance(name, id);
     try {
@@ -191,6 +194,32 @@ public class RegistryBinderService<Payload> extends CuratorService {
       // ignore
     }
     return null;
+  }
+
+  /**
+   * List all the instances
+   * @param name name of the service
+   * @return a list of instances and their payloads
+   * @throws IOException any problem
+   */
+  public List<CuratorServiceInstance<Payload>> listInstances(String name) throws
+    IOException {
+    try {
+      List<String> instanceIDs = instanceIDs(name);
+      List<CuratorServiceInstance<Payload>> instances =
+        new ArrayList<CuratorServiceInstance<Payload>>(
+          instanceIDs.size());
+      for (String instanceID : instanceIDs) {
+        CuratorServiceInstance<Payload> instance =
+          queryForInstance(name, instanceID);
+        instances.add(instance);
+      }
+      return instances;
+    } catch (IOException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
   }
 
 

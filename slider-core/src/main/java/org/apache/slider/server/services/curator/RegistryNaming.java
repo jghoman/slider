@@ -32,9 +32,12 @@ public class RegistryNaming {
                                               String userName,
                                               String serviceName,
                                               int appId) {
-    return String.format(Locale.ENGLISH,
+/*    return String.format(Locale.ENGLISH,
                          RegistryConsts.SLIDER_INSTANCE_NAME_FORMAT, userName,
                          instanceName);
+    */
+    return String.format(instanceName +"-" + appId);
+    
   }
 
 

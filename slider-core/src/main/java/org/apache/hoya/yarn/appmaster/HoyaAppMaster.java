@@ -668,17 +668,18 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     RegisteredEndpoint webUI =
       new RegisteredEndpoint(amWeb, "Application Master Web UI");
 
+    instanceData.externalView.endpoints.put("web", webUI);
 
     instanceData.externalView.endpoints.put(SLIDER_SUBPATH_MANAGEMENT,
       new RegisteredEndpoint(
         new URL(amWeb, SLIDER_PATH_MANAGEMENT),
-        "Management API" )
+        "Management REST API" )
     );
 
     instanceData.externalView.endpoints.put("registry",
       new RegisteredEndpoint(
         new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
-        "Registry" )
+        "Registry Web Service" )
     );
     
     instanceData.externalView.endpoints.put("slider/IPC",
@@ -691,10 +692,14 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     instanceData.internalView.endpoints.put(SLIDER_SUBPATH_AGENTS,
       new RegisteredEndpoint(
         new URL(amWeb, SLIDER_PATH_AGENTS),
-        "Agent API" )
+        "Agent REST API" )
     );
     
-    registry.register(appRegistryName, registryId, amWeb, instanceData);
+    registry.register(
+      appRegistryName,
+      registryId,
+      amWeb,
+      instanceData);
 
 
     // launch the provider; this is expected to trigger a callback that
