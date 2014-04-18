@@ -93,7 +93,7 @@ class TestActionQueue(TestCase):
     config = MagicMock()
     actionQueue = ActionQueue(config, dummy_controller)
     actionQueue.start()
-    time.sleep(0.1)
+    time.sleep(3)
     actionQueue.stop()
     actionQueue.join()
     self.assertEqual(actionQueue.stopped(), True, 'Action queue is not stopped.')
@@ -372,6 +372,6 @@ class TestActionQueue(TestCase):
 
 
 if __name__ == "__main__":
-  logging.basicConfig()
+  logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
   unittest.main()
 

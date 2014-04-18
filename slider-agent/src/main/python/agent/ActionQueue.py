@@ -24,6 +24,7 @@ import traceback
 import threading
 import pprint
 import os
+import time
 
 from shell import shellRunner
 from AgentConfig import AgentConfig
@@ -86,8 +87,10 @@ class ActionQueue(threading.Thread):
 
   def run(self):
     while not self.stopped():
+      time.sleep(2)
       command = self.commandQueue.get() # Will block if queue is empty
       self.process_command(command)
+    logger.info("ActionQueue stopped.")
 
 
   def process_command(self, command):

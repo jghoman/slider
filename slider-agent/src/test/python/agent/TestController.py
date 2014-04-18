@@ -378,7 +378,7 @@ class TestController(unittest.TestCase):
     addToQueue.assert_has_calls([call("executionCommands")])
     updateStateBasedOnCommand.assert_has_calls([call("executionCommands")])
 
-    # just status command
+    # just status command when state = STARTED
     self.controller.responseId = 1
     response = {"responseId":"2", "restartAgent":"false"}
     loadsMock.return_value = response
@@ -386,10 +386,39 @@ class TestController(unittest.TestCase):
     self.controller.addToQueue = addToQueue
     self.controller.statusCommand = "statusCommand"
     self.controller.componentActualState = State.STARTED
+    self.controller.componentExpectedState = State.STARTED
     self.controller.DEBUG_STOP_HEARTBEATING = False
     self.controller.heartbeatWithServer()
 
     addToQueue.assert_has_calls([call(["statusCommand"])])
+
+    # just status command when state = FAILED
+    self.controller.responseId = 1
+    response = {"responseId":"2", "restartAgent":"false"}
+    loadsMock.return_value = response
+    addToQueue = MagicMock(name="addToQueue")
+    self.controller.addToQueue = addToQueue
+    self.controller.statusCommand = "statusCommand"
+    self.controller.componentActualState = State.FAILED
+    self.controller.componentExpectedState = State.STARTED
+    self.controller.DEBUG_STOP_HEARTBEATING = False
+    self.controller.heartbeatWithServer()
+
+    addToQueue.assert_has_calls([call(["statusCommand"])])
+
+    # no status command when state = STARTING
+    self.controller.responseId = 1
+    response = {"responseId":"2", "restartAgent":"false"}
+    loadsMock.return_value = response
+    addToQueue = MagicMock(name="addToQueue")
+    self.controller.addToQueue = addToQueue
+    self.controller.statusCommand = "statusCommand"
+    self.controller.componentActualState = State.STARTING
+    self.controller.componentExpectedState = State.STARTED
+    self.controller.DEBUG_STOP_HEARTBEATING = False
+    self.controller.heartbeatWithServer()
+
+    addToQueue.assert_has_calls([])
 
     # statusCommands
     response["statusCommands"] = "statusCommands"
@@ -475,7 +504,7 @@ class TestController(unittest.TestCase):
     commands.append({u'roleCommand': u'INSTALL'})
     self.controller.updateStateBasedOnCommand(commands)
     self.assertEqual(State.INSTALLING, self.controller.componentActualState)
-    self.assertEqual(State.INSTALLING, self.controller.componentExpectedState)
+    self.assertEqual(State.INSTALLED, self.controller.componentExpectedState)
 
     commands = []
     commands.append({
@@ -489,7 +518,7 @@ class TestController(unittest.TestCase):
     })
     self.controller.updateStateBasedOnCommand(commands)
     self.assertEqual(State.STARTING, self.controller.componentActualState)
-    self.assertEqual(State.STARTING, self.controller.componentExpectedState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
 
     self.assertEqual(self.controller.statusCommand["clusterName"], "c1")
     self.assertEqual(self.controller.statusCommand["commandParams"], ["cp"])
@@ -506,7 +535,7 @@ class TestController(unittest.TestCase):
     commands = []
     self.controller.updateStateBasedOnCommand(commands)
     self.assertEqual(State.STARTING, self.controller.componentActualState)
-    self.assertEqual(State.STARTING, self.controller.componentExpectedState)
+    self.assertEqual(State.STARTED, self.controller.componentExpectedState)
 
   @patch("pprint.pformat")
   @patch("time.sleep")
@@ -529,6 +558,7 @@ class TestController(unittest.TestCase):
     self.assertFalse(self.controller.repeatRegistration)
 
 if __name__ == "__main__":
+  logging.basicConfig(format='%(asctime)s %(message)s',level=logging.DEBUG)
   unittest.main()
 
 

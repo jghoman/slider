@@ -35,12 +35,12 @@ from Register import Register
 from ActionQueue import ActionQueue
 from NetUtil import NetUtil
 import ssl
+import ProcessHelper
 
 
 logger = logging.getLogger()
 
 AGENT_AUTO_RESTART_EXIT_CODE = 77
-
 
 class State:
   INIT, INSTALLING, INSTALLED, STARTING, STARTED, FAILED = range(6)
@@ -151,6 +151,7 @@ class Controller(threading.Thread):
   DEBUG_HEARTBEAT_RETRIES = 0
   DEBUG_SUCCESSFULL_HEARTBEATS = 0
   DEBUG_STOP_HEARTBEATING = False
+  MAX_FAILURE_COUNT_TO_STOP = 2
 
   def shouldStopAgent(self):
     '''
@@ -158,7 +159,7 @@ class Controller(threading.Thread):
     '''
     if (self.componentActualState == State.FAILED) \
       and (self.componentExpectedState == State.STARTED) \
-      and (self.failureCount >= 1):
+      and (self.failureCount >= Controller.MAX_FAILURE_COUNT_TO_STOP):
       return True
     else:
       return False
@@ -175,9 +176,7 @@ class Controller(threading.Thread):
 
       if self.shouldStopAgent():
         logger.info("Component instance has stopped, stopping the agent ...")
-        self.actionQueue.stop()
-        self.actionQueue.join()
-        break
+        ProcessHelper.stopAgent()
 
       commandResult = {}
       try:
@@ -230,7 +229,8 @@ class Controller(threading.Thread):
           pass
 
         # Add a status command
-        if self.componentActualState == State.STARTED and \
+        if (self.componentActualState != State.STARTING and \
+                   self.componentExpectedState == State.STARTED) and \
             not self.statusCommand == None:
           self.addToQueue([self.statusCommand])
 
@@ -273,55 +273,55 @@ class Controller(threading.Thread):
       # and sent in one heartbeat. Also avoid server overload with heartbeats
       time.sleep(self.netutil.MINIMUM_INTERVAL_BETWEEN_HEARTBEATS)
     pass
+    logger.info("Controller stopped heart-beating.")
 
   def updateStateBasedOnCommand(self, commands):
     for command in commands:
       if command["roleCommand"] == "START":
-        self.componentExpectedState = State.STARTING
+        self.componentExpectedState = State.STARTED
         self.componentActualState = State.STARTING
         self.failureCount = 0
         self.statusCommand = self.createStatusCommand(command)
 
       if command["roleCommand"] == "INSTALL":
-        self.componentExpectedState = State.INSTALLING
+        self.componentExpectedState = State.INSTALLED
         self.componentActualState = State.INSTALLING
         self.failureCount = 0
       break;
-    logger.info("Component states (command): Expected: " + str(self.componentExpectedState) + \
-                " and Actual: " + str(self.componentActualState))
 
 
   def updateStateBasedOnResult(self, commandResult):
     if len(commandResult) > 0:
       if "commandStatus" in commandResult:
         if commandResult["commandStatus"] == ActionQueue.COMPLETED_STATUS:
-          if self.componentExpectedState == State.STARTING:
-            self.componentActualState = State.STARTED
-            self.componentExpectedState = State.STARTED
-          if self.componentExpectedState == State.INSTALLING:
-            self.componentActualState = State.INSTALLED
-            self.componentExpectedState = State.INSTALLED
-            pass
+          self.componentActualState = self.componentExpectedState
+          self.logStates()
           pass
         pass
 
         if commandResult["commandStatus"] == ActionQueue.FAILED_STATUS:
           self.componentActualState = State.FAILED
           self.failureCount += 1
+          self.logStates()
           pass
 
       if "healthStatus" in commandResult:
         if commandResult["healthStatus"] == "INSTALLED":
           self.componentActualState = State.FAILED
           self.failureCount += 1
-        if commandResult["healthStatus"] == "STARTED":
+          self.logStates()
+        if (commandResult["healthStatus"] == "STARTED") and (self.componentActualState != State.STARTED):
           self.componentActualState = State.STARTED
           self.failureCount = 0
+          self.logStates()
           pass
         pass
       pass
+
+  def logStates(self):
     logger.info("Component states (result): Expected: " + str(self.componentExpectedState) + \
                 " and Actual: " + str(self.componentActualState))
+    pass
 
   def createStatusCommand(self, command):
     statusCommand = {}
