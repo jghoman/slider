@@ -14,9 +14,9 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>slider-hbase-provider</artifactId>
+  <artifactId>slider-accumulo-provider</artifactId>
   <version>0.21.0-SNAPSHOT</version>
-  <name>Slider HBase Provider</name>
+  <name>Slider Accumulo Provider</name>
   <packaging>jar</packaging>
   <description>
     Direct provider for slider. This is the original provider from Hoya, moved to one side
@@ -110,7 +110,7 @@
             <java.security.krb5.kdc>${slider.test.java.security.krb5.kdc}</java.security.krb5.kdc>
             <!-- this property must be supplied-->
             <slider.conf.dir>${slider.conf.dir}</slider.conf.dir>
-            <slider.bin.dir>../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
+            <slider.bin.dir>../../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
           </systemPropertyVariables>
           <includes>
             <include>**/Test*.java</include>
@@ -139,12 +139,6 @@
       <groupId>org.apache.slider</groupId>
       <artifactId>slider-core</artifactId>
       <version>${project.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-          </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -152,6 +146,12 @@
       <artifactId>slider-core</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-minicluster</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -181,59 +181,38 @@
       <type>test-jar</type>
     </dependency>
 
-    <dependency>
-       <groupId>org.apache.hbase</groupId>
-       <artifactId>hbase-client</artifactId>
-    </dependency>
-
 
     <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-minicluster</artifactId>
+      <groupId>org.apache.accumulo</groupId>
+      <artifactId>accumulo-core</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-server</artifactId>
+      <groupId>org.apache.accumulo</groupId>
+      <artifactId>accumulo-minicluster</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-common</artifactId>
-      <classifier>tests</classifier>
+      <groupId>org.apache.accumulo</groupId>
+      <artifactId>accumulo-start</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-it</artifactId>
-      <classifier>tests</classifier>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-          </exclusion>
-        </exclusions>
+      <groupId>org.apache.accumulo</groupId>
+      <artifactId>accumulo-trace</artifactId>
+      <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-hadoop-compat</artifactId>
-      <classifier>tests</classifier>
-    </dependency>
 
     <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-hadoop2-compat</artifactId>
-      <classifier>tests</classifier>
+      <groupId>org.apache.accumulo</groupId>
+      <artifactId>accumulo-test</artifactId>
+      <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.hbase</groupId>
-      <artifactId>hbase-server</artifactId>
-      <classifier>tests</classifier>
-    </dependency>
-    
     <dependency>
       <groupId>org.apache.bigtop.itest</groupId>
       <artifactId>itest-common</artifactId>

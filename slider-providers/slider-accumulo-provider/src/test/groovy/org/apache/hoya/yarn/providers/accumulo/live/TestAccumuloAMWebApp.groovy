@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.yarn.providers.hoyaam
+package org.apache.hoya.yarn.providers.accumulo.live
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j

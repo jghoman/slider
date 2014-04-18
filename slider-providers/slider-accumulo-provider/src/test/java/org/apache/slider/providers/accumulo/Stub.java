@@ -16,21 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.testtools
+package org.apache.slider.providers.accumulo;
 
-import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions
-import org.apache.hoya.providers.accumulo.AccumuloKeys
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
-
-@Slf4j
-@CompileStatic
-public class AccumuloTestUtils extends HoyaTestUtils {
-
-
+public class Stub {
 }
