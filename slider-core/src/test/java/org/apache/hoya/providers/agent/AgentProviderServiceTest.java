@@ -166,5 +166,6 @@ public class AgentProviderServiceTest {
     TestCase.assertEquals(2, tokens.size());
     TestCase.assertEquals("FIRST_HOST", tokens.get("${FIRST_ROLE_HOST}"));
     TestCase.assertEquals("SECOND_HOST,THIRD_HOST", tokens.get("${SECOND_ROLE_HOST}"));
+    aps.close();
   }
 }
