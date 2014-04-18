@@ -20,17 +20,19 @@ package org.apache.hoya.yarn.providers.accumulo
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.accumulo.core.client.ZooKeeperInstance
+import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
-import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.accumulo.core.client.ZooKeeperInstance;
-import static org.apache.hoya.yarn.Arguments.*
+
 import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
 import static org.apache.hoya.providers.accumulo.AccumuloKeys.*
+import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT
 
 /**
  * test base for accumulo clusters

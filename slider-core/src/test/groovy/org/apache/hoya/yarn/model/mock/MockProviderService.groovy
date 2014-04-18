@@ -21,8 +21,8 @@ package org.apache.hoya.yarn.model.mock
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.service.LifecycleEvent
-import org.apache.hadoop.service.ServiceStateChangeListener
 import org.apache.hadoop.service.Service.STATE
+import org.apache.hadoop.service.ServiceStateChangeListener
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext
 import org.apache.hoya.api.ClusterDescription
@@ -35,12 +35,7 @@ import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders
-import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations
-import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat
-import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse
-import org.apache.hoya.yarn.appmaster.web.rest.agent.Register
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
+import org.apache.hoya.yarn.appmaster.web.rest.agent.*
 import org.apache.hoya.yarn.service.EventCallback
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.RegistryBinderService

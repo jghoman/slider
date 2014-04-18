@@ -18,19 +18,17 @@
 
 package org.apache.hoya.yarn.model.mock
 
-import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
 import com.google.common.collect.Maps
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.ResourceKeys
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.core.conf.AggregateConf
-import org.apache.hoya.core.conf.ConfTree
-import org.apache.hoya.providers.ProviderRole
+import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ApplicationAttemptId
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.hadoop.yarn.client.api.AMRMClient
+import org.apache.hoya.api.ClusterDescription
+import org.apache.hoya.api.ResourceKeys
+import org.apache.hoya.core.conf.AggregateConf
+import org.apache.hoya.core.conf.ConfTree
+import org.apache.hoya.providers.ProviderRole
 
 /**
  * Factory for creating things

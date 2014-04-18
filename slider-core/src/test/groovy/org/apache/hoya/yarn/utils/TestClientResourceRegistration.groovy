@@ -32,12 +32,11 @@
 
 package org.apache.hoya.yarn.utils
 
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.junit.Test
 
 @Slf4j

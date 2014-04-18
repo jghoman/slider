@@ -19,11 +19,11 @@
 package org.apache.hoya.yarn.utils
 
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.HoyaTestBase
 import org.junit.Test
-import org.apache.hadoop.fs.FileSystem as HadoopFS
 
 class TestMiscHoyaUtils extends HoyaTestBase {
 

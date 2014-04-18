@@ -18,13 +18,13 @@
 
 package org.apache.hoya.yarn.client
 
+import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ClientArgs
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
 import org.junit.Test
 
 /**

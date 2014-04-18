@@ -20,23 +20,17 @@ package org.apache.hoya.yarn.model.history
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.hadoop.yarn.api.records.Container
+import org.apache.hadoop.yarn.api.records.Priority
+import org.apache.hadoop.yarn.api.records.Resource
+import org.apache.hadoop.yarn.client.api.AMRMClient
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.providers.ProviderRole
-import org.apache.hoya.yarn.appmaster.state.ContainerPriority
-import org.apache.hoya.yarn.appmaster.state.NodeEntry
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
-import org.apache.hoya.yarn.appmaster.state.NodeMap
-import org.apache.hoya.yarn.appmaster.state.RoleHistory
-import org.apache.hoya.yarn.appmaster.state.RoleInstance
-import org.apache.hoya.yarn.appmaster.state.RoleStatus
+import org.apache.hoya.yarn.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockContainer
 import org.apache.hoya.yarn.model.mock.MockFactory
 import org.apache.hoya.yarn.model.mock.MockNodeId
-import org.apache.hadoop.yarn.api.records.Container
-import org.apache.hadoop.yarn.api.records.Priority;
-import org.apache.hadoop.yarn.api.records.Resource
-import org.apache.hadoop.yarn.client.api.AMRMClient
 import org.junit.Before
 import org.junit.Test
 

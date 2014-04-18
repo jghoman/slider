@@ -14,6 +14,8 @@
 /slider-agent/target
 /slider-funtest/target
 /slider-assembly/target
+/slider-providers/slider-hbase-provider/target
+/slider-providers/slider-accumulo-provider/target
 release.properties
 *.backup
 *.versionsBackup

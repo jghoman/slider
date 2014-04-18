@@ -16,6 +16,7 @@
     <module>slider-agent</module>
     <module>slider-assembly</module>
     <module>slider-funtest</module>
+    <module>slider-providers/slider-hbase-provider</module>
   </modules>
 
   <licenses>

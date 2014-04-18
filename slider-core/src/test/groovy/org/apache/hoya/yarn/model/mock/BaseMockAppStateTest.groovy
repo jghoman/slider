@@ -21,24 +21,19 @@ package org.apache.hoya.yarn.model.mock
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.HoyaTestBase
-import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
-import org.apache.hoya.yarn.appmaster.state.AppState
-import org.apache.hoya.yarn.appmaster.state.ContainerAssignment
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
-import org.apache.hoya.yarn.appmaster.state.RoleInstance
-import org.apache.hoya.yarn.appmaster.state.RoleStatus
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.hadoop.yarn.api.records.ContainerState
 import org.apache.hadoop.yarn.api.records.ContainerStatus
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
+import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.appmaster.state.*
 import org.junit.Before
-import org.apache.hadoop.fs.FileSystem as HadoopFS
 
 @CompileStatic
 @Slf4j

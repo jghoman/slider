@@ -20,7 +20,6 @@ package org.apache.hoya.yarn.providers.accumulo.live
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
 import org.apache.accumulo.core.client.Connector
 import org.apache.accumulo.core.client.ZooKeeperInstance
 import org.apache.accumulo.core.client.security.tokens.PasswordToken
@@ -28,10 +27,10 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.providers.accumulo.AccumuloKeys
-import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.junit.Test
 
 @CompileStatic

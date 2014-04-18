@@ -26,7 +26,6 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 
 import java.io.File;
 import java.util.List;

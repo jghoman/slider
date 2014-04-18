@@ -48,7 +48,6 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.MissingArgException;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 import org.apache.zookeeper.server.util.KerberosUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -385,8 +384,8 @@ public final class HoyaUtils {
 
     //if the fallback option is NOT set, enable it.
     //if it is explicitly set to anything -leave alone
-    if (conf.get(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
-      conf.set(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
+    if (conf.get(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
+      conf.set(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
     }
     return conf;
   }

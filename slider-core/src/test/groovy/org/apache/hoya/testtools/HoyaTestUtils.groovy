@@ -38,7 +38,6 @@ import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
-import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
@@ -294,9 +293,10 @@ class HoyaTestUtils extends Assert {
    * @throws IOException
    * @throws SliderException
    */
-  public static boolean spinForClusterStartup(HoyaClient hoyaClient, long spintime)
+  public static boolean spinForClusterStartup(HoyaClient hoyaClient, long spintime,
+      String role)
       throws WaitTimeoutException, IOException, SliderException {
-    int state = hoyaClient.waitForRoleInstanceLive(HBaseKeys.MASTER, spintime);
+    int state = hoyaClient.waitForRoleInstanceLive(role, spintime);
     return state == ClusterDescription.STATE_LIVE;
   }
 
