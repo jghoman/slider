@@ -1050,17 +1050,17 @@ public class AppState implements StateAccessForProviders {
     RoleInstance instance = activeContainers.get(containerId);
     if (instance == null) {
       //serious problem
-      throw new RuntimeException("Container not in active containers start "+
+      throw new YarnRuntimeException("Container not in active containers start "+
                 containerId);
     }
     if (instance.role == null) {
-      throw new RuntimeException("Component instance has no instance name " +
+      throw new YarnRuntimeException("Component instance has no instance name " +
                                      instance);
     }
     instance.startTime = now();
     RoleInstance starting = getStartingNodes().remove(containerId);
     if (null == starting) {
-      throw new RuntimeException(
+      throw new YarnRuntimeException(
         "Container "+ containerId +"%s is already started");
     }
     instance.state = ClusterDescription.STATE_LIVE;
