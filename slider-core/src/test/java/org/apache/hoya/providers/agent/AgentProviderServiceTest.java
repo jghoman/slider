@@ -45,7 +45,6 @@ import org.apache.hoya.yarn.model.mock.MockContainerId;
 import org.apache.hoya.yarn.model.mock.MockFileSystem;
 import org.apache.hoya.yarn.model.mock.MockNodeId;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,8 +126,8 @@ public class AgentProviderServiceTest {
     replay(access, ctx, container, hoyaFileSystem);
 
     try {
-      mockAps.buildContainerLaunchContext(ctx,
-                                          instanceDefinition,
+      mockAps.buildContainerLaunchContext(null,
+          instanceDefinition,
                                           container,
                                           role,
                                           hoyaFileSystem,

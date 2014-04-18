@@ -21,10 +21,7 @@ package org.apache.hoya.providers.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
-import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
@@ -33,6 +30,7 @@ import org.apache.hoya.api.StatusKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.CommandLineBuilder;
+import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.exceptions.HoyaInternalStateException;
@@ -56,7 +54,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,67 +113,60 @@ public class HBaseProviderService extends AbstractProviderService implements
   }
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx,
-                                          AggregateConf instanceDefinition,
-                                          Container container,
-                                          String role,
-                                          HoyaFileSystem hoyaFileSystem,
-                                          Path generatedConfPath,
-                                          MapOperations resourceComponent,
-                                          MapOperations appComponent,
-                                          Path containerTmpDirPath) throws
-                                                                            IOException,
-                                                                            HoyaException {
+  public void buildContainerLaunchContext(ContainerLauncher launcher,
+      AggregateConf instanceDefinition,
+      Container container,
+      String role,
+      HoyaFileSystem hoyaFileSystem,
+      Path generatedConfPath,
+      MapOperations resourceComponent,
+      MapOperations appComponent,
+      Path containerTmpDirPath) throws IOException, HoyaException {
 
     this.hoyaFileSystem = hoyaFileSystem;
     this.instanceDefinition = instanceDefinition;
     // Set the environment
-    Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
+    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
 
-    env.put(HBASE_LOG_DIR, providerUtils.getLogdir());
+    launcher.setEnv(HBASE_LOG_DIR, providerUtils.getLogdir());
 
-    env.put("PROPAGATED_CONFDIR", ApplicationConstants.Environment.PWD.$()+"/"+
-                                  HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+    launcher.setEnv("PROPAGATED_CONFDIR",
+        ProviderUtils.convertToAppRelativePath(
+            HoyaKeys.PROPAGATED_CONF_DIR_NAME) );
 
 
     //local resources
-    Map<String, LocalResource> localResources =
-      new HashMap<String, LocalResource>();
 
     //add the configuration resources
-    Map<String, LocalResource> confResources;
-    confResources = hoyaFileSystem.submitDirectory(
-            generatedConfPath,
-            HoyaKeys.PROPAGATED_CONF_DIR_NAME);
-    localResources.putAll(confResources);
+    launcher.addLocalResources(hoyaFileSystem.submitDirectory(
+        generatedConfPath,
+        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
     //Add binaries
     //now add the image if it was set
     String imageURI = instanceDefinition.getInternalOperations().get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
-      hoyaFileSystem.maybeAddImagePath(localResources, imageURI);
-    ctx.setLocalResources(localResources);
-    List<String> commands = new ArrayList<String>();
+    hoyaFileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
 
-    CommandLineBuilder command = new CommandLineBuilder();
+    CommandLineBuilder cli = new CommandLineBuilder();
 
     String heap = appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
     if (HoyaUtils.isSet(heap)) {
       String adjustedHeap = HoyaUtils.translateTrailingHeapUnit(heap);
-      env.put("HBASE_HEAPSIZE", adjustedHeap);
+      launcher.setEnv("HBASE_HEAPSIZE", adjustedHeap);
     }
     
     String gcOpts = appComponent.getOption(RoleKeys.GC_OPTS, DEFAULT_GC_OPTS);
     if (HoyaUtils.isSet(gcOpts)) {
-      env.put("SERVER_GC_OPTS", gcOpts);
+      launcher.setEnv("SERVER_GC_OPTS", gcOpts);
     }
     
     //this must stay relative if it is an image
-    command.add(providerUtils.buildPathToScript(
-      instanceDefinition,
-      "bin",
-      HBaseKeys.HBASE_SCRIPT));
+    cli.add(providerUtils.buildPathToScript(
+        instanceDefinition,
+        "bin",
+        HBaseKeys.HBASE_SCRIPT));
     //config dir is relative to the generated file
-    command.add(ARG_CONFIG);
-    command.add("$PROPAGATED_CONFDIR");
+    cli.add(ARG_CONFIG);
+    cli.add("$PROPAGATED_CONFDIR");
 
     String roleCommand;
     String logfile;
@@ -193,17 +183,11 @@ public class HBaseProviderService extends AbstractProviderService implements
       throw new HoyaInternalStateException("Cannot start role %s", role);
     }
 
-    command.add(roleCommand);
-    command.add(ACTION_START);
+    cli.add(roleCommand);
+    cli.add(ACTION_START);
     //log details
-    command.addOutAndErrFiles(logfile, null);
-
-    String cmdStr = command.build();
-
-
-    commands.add(cmdStr);
-    ctx.setCommands(commands);
-    ctx.setEnvironment(env);
+    cli.addOutAndErrFiles(logfile, null);
+    launcher.addCommand(cli.build());
 
   }
 

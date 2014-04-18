@@ -25,8 +25,6 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
-import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
@@ -35,6 +33,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.CommandLineBuilder;
+import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
@@ -79,7 +78,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
   private AccumuloClientProvider clientProvider;
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   
-  private HoyaFileSystem hoyaFileSystem = null;
+  private HoyaFileSystem fileSystem = null;
 
   public AccumuloProviderService() {
     super("accumulo");
@@ -117,61 +116,57 @@ public class AccumuloProviderService extends AbstractProviderService implements
   */
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx,
-                                          AggregateConf instanceDefinition,
-                                          Container container,
-                                          String role,
-                                          HoyaFileSystem hoyaFileSystem,
-                                          Path generatedConfPath,
-                                          MapOperations resourceComponent,
-                                          MapOperations appComponent,
-                                          Path containerTmpDirPath) throws
+  public void buildContainerLaunchContext(ContainerLauncher launcher,
+      AggregateConf instanceDefinition,
+      Container container,
+      String role,
+      HoyaFileSystem fileSystem,
+      Path generatedConfPath,
+      MapOperations resourceComponent,
+      MapOperations appComponent,
+      Path containerTmpDirPath) throws
                                                                             IOException,
                                                                             HoyaException {
     
-    this.hoyaFileSystem = hoyaFileSystem;
+    this.fileSystem = fileSystem;
     this.instanceDefinition = instanceDefinition;
     
     // Set the environment
+    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+
     Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
-    env.put(ACCUMULO_LOG_DIR, ApplicationConstants.LOG_DIR_EXPANSION_VAR);
+    launcher.setEnv(ACCUMULO_LOG_DIR, ApplicationConstants.LOG_DIR_EXPANSION_VAR);
     ConfTreeOperations appConf =
       instanceDefinition.getAppConfOperations();
     String hadoop_home =
       ApplicationConstants.Environment.HADOOP_COMMON_HOME.$();
     MapOperations appConfGlobal = appConf.getGlobalOptions();
     hadoop_home = appConfGlobal.getOption(OPTION_HADOOP_HOME, hadoop_home);
-    env.put(HADOOP_HOME, hadoop_home);
-    env.put(HADOOP_PREFIX, hadoop_home);
+    launcher.setEnv(HADOOP_HOME, hadoop_home);
+    launcher.setEnv(HADOOP_PREFIX, hadoop_home);
     
     // By not setting ACCUMULO_HOME, this will cause the Accumulo script to
     // compute it on its own to an absolute path.
 
-    env.put(ACCUMULO_CONF_DIR,
+    launcher.setEnv(ACCUMULO_CONF_DIR,
             ProviderUtils.convertToAppRelativePath(
               HoyaKeys.PROPAGATED_CONF_DIR_NAME));
-    env.put(ZOOKEEPER_HOME, appConfGlobal.getMandatoryOption(OPTION_ZK_HOME));
+    launcher.setEnv(ZOOKEEPER_HOME, appConfGlobal.getMandatoryOption(OPTION_ZK_HOME));
 
     //local resources
-    Map<String, LocalResource> localResources =
-      new HashMap<String, LocalResource>();
+
 
     //add the configuration resources
-    Map<String, LocalResource> confResources;
-    confResources = hoyaFileSystem.submitDirectory(
-            generatedConfPath,
-            HoyaKeys.PROPAGATED_CONF_DIR_NAME);
-    localResources.putAll(confResources);
+    launcher.addLocalResources(fileSystem.submitDirectory(
+        generatedConfPath,
+        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
 
     //Add binaries
     //now add the image if it was set
     String imageURI = instanceDefinition.getInternalOperations()
                                         .get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
-    hoyaFileSystem.maybeAddImagePath(localResources, imageURI);
+    fileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
 
-    ctx.setLocalResources(localResources);
-
-    List<String> commands = new ArrayList<String>();
     CommandLineBuilder commandLine = new CommandLineBuilder();
     
     String heap = "-Xmx" + appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
@@ -186,7 +181,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
       } else if (AccumuloKeys.ROLE_GARBAGE_COLLECTOR.equals(role)) {
         opt = "ACCUMULO_GC_OPTS";
       }
-      env.put(opt, heap);
+      launcher.setEnv(opt, heap);
     }
 
     //this must stay relative if it is an image
@@ -203,11 +198,9 @@ public class AccumuloProviderService extends AbstractProviderService implements
     }
 
     commandLine.addOutAndErrFiles(role + "-out.txt", role + "-err.txt");
-    
 
-    commands.add(commandLine.build());
-    ctx.setCommands(commands);
-    ctx.setEnvironment(env);
+
+    launcher.addCommand(commandLine.build());
   }
   
   public List<String> buildProcessCommandList(AggregateConf instance,

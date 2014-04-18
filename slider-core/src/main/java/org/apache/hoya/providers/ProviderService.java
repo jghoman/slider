@@ -27,6 +27,7 @@ import org.apache.hadoop.yarn.service.launcher.ExitCodeProvider;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.MapOperations;
+import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.tools.HoyaFileSystem;
@@ -46,7 +47,7 @@ public interface ProviderService extends ProviderCore, Service,
 
   /**
    * Set up the entire container launch context
-   * @param ctx
+   * @param containerLauncher
    * @param instanceDefinition
    * @param container
    * @param role
@@ -55,17 +56,17 @@ public interface ProviderService extends ProviderCore, Service,
    * @param appComponent
    * @param containerTmpDirPath
    */
-  void buildContainerLaunchContext(ContainerLaunchContext ctx,
-                                   AggregateConf instanceDefinition,
-                                   Container container,
-                                   String role,
-                                   HoyaFileSystem hoyaFileSystem,
-                                   Path generatedConfPath,
-                                   MapOperations resourceComponent,
-                                   MapOperations appComponent,
-                                   Path containerTmpDirPath) throws
-                                                                    IOException,
-                                                                    HoyaException;
+  void buildContainerLaunchContext(ContainerLauncher containerLauncher,
+      AggregateConf instanceDefinition,
+      Container container,
+      String role,
+      HoyaFileSystem hoyaFileSystem,
+      Path generatedConfPath,
+      MapOperations resourceComponent,
+      MapOperations appComponent,
+      Path containerTmpDirPath) throws
+      IOException,
+      HoyaException;
 
   /**
    * Execute a process in the AM

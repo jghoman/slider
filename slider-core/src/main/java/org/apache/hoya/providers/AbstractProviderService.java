@@ -130,7 +130,7 @@ public abstract class AbstractProviderService
    * {@inheritDoc}
    */
   @Override
-  public void validateApplicationConfiguration(AggregateConf instanceDefinition,
+  public void validateApplicationConfiguration(AggregateConf instance,
                                                File confDir,
                                                boolean secure) throws
                                                                IOException,

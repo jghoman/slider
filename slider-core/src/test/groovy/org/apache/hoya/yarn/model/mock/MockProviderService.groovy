@@ -28,6 +28,7 @@ import org.apache.hadoop.yarn.api.records.ContainerLaunchContext
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.conf.MapOperations
+import org.apache.hoya.core.launch.ContainerLauncher
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.providers.ProviderRole
@@ -179,7 +180,7 @@ class MockProviderService implements ProviderService {
 
   @Override
   void buildContainerLaunchContext(
-      ContainerLaunchContext ctx,
+      ContainerLauncher containerLauncher,
       AggregateConf instanceDefinition,
       Container container,
       String role,

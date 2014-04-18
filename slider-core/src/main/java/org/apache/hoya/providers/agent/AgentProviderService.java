@@ -23,7 +23,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.LocalResourceType;
 import org.apache.hoya.HoyaKeys;
@@ -34,6 +33,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.CommandLineBuilder;
+import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.HoyaException;
@@ -116,15 +116,15 @@ public class AgentProviderService extends AbstractProviderService implements
   }
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx,
-                                          AggregateConf instanceDefinition,
-                                          Container container,
-                                          String role,
-                                          HoyaFileSystem hoyaFileSystem,
-                                          Path generatedConfPath,
-                                          MapOperations resourceComponent,
-                                          MapOperations appComponent,
-                                          Path containerTmpDirPath) throws
+  public void buildContainerLaunchContext(ContainerLauncher launcher,
+      AggregateConf instanceDefinition,
+      Container container,
+      String role,
+      HoyaFileSystem fileSystem,
+      Path generatedConfPath,
+      MapOperations resourceComponent,
+      MapOperations appComponent,
+      Path containerTmpDirPath) throws
       IOException,
       HoyaException {
 
@@ -133,61 +133,56 @@ public class AgentProviderService extends AbstractProviderService implements
     log.debug(instanceDefinition.toString());
 
     // Set the environment
-    Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
+    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
 
     String workDir = ApplicationConstants.Environment.PWD.$();
-    env.put("AGENT_WORK_ROOT", workDir);
+    launcher.setEnv("AGENT_WORK_ROOT", workDir);
     log.info("AGENT_WORK_ROOT set to " + workDir);
     String logDir = ApplicationConstants.Environment.LOG_DIRS.$();
-    env.put("AGENT_LOG_ROOT", logDir);
+    launcher.setEnv("AGENT_LOG_ROOT", logDir);
     log.info("AGENT_LOG_ROOT set to " + logDir);
 
     //local resources
-    Map<String, LocalResource> localResources =
-        new HashMap<String, LocalResource>();
 
     // TODO: Should agent need to support App Home
     String scriptPath = new File(AgentKeys.AGENT_MAIN_SCRIPT_ROOT, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (appHome != null && !appHome.equals("")) {
+    if (!HoyaUtils.isSet(appHome)) {
       scriptPath = new File(appHome, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     }
 
     String agentImage = instanceDefinition.getInternalOperations().
         get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
     if (agentImage != null) {
-      LocalResource agentImageRes = hoyaFileSystem.createAmResource(new Path(agentImage), LocalResourceType.ARCHIVE);
-      localResources.put(AgentKeys.AGENT_INSTALL_DIR, agentImageRes);
+      LocalResource agentImageRes = fileSystem.createAmResource(new Path(agentImage), LocalResourceType.ARCHIVE);
+      launcher.addLocalResource(AgentKeys.AGENT_INSTALL_DIR, agentImageRes);
     }
 
     log.info("Using " + scriptPath + " for agent.");
     String appDef = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
-    LocalResource appDefRes = hoyaFileSystem.createAmResource(
-        hoyaFileSystem.getFileSystem().resolvePath(new Path(appDef)),
+    LocalResource appDefRes = fileSystem.createAmResource(
+        fileSystem.getFileSystem().resolvePath(new Path(appDef)),
         LocalResourceType.ARCHIVE);
-    localResources.put(AgentKeys.APP_DEFINITION_DIR, appDefRes);
+    launcher.addLocalResource(AgentKeys.APP_DEFINITION_DIR, appDefRes);
 
     String agentConf = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
-    LocalResource agentConfRes = hoyaFileSystem.createAmResource(
-        hoyaFileSystem.getFileSystem().resolvePath(new Path(agentConf)),
+    LocalResource agentConfRes = fileSystem.createAmResource(
+        fileSystem.getFileSystem().resolvePath(new Path(agentConf)),
         LocalResourceType.FILE);
-    localResources.put(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
+    launcher.addLocalResource(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
 
     String agentVer = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getOption(AgentKeys.AGENT_VERSION, null);
     if (agentVer != null) {
-      LocalResource agentVerRes = hoyaFileSystem.createAmResource(
-          hoyaFileSystem.getFileSystem().resolvePath(new Path(agentVer)),
+      LocalResource agentVerRes = fileSystem.createAmResource(
+          fileSystem.getFileSystem().resolvePath(new Path(agentVer)),
           LocalResourceType.FILE);
-      localResources.put(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
+      launcher.addLocalResource(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
     }
 
-    ctx.setLocalResources(localResources);
-
-    List<String> commandList = new ArrayList<String>();
     String label = getContainerLabel(container, role);
     setRoleHostMapping(role, container.getNodeId().getHost());
     CommandLineBuilder operation = new CommandLineBuilder();
@@ -195,16 +190,13 @@ public class AgentProviderService extends AbstractProviderService implements
     operation.add(AgentKeys.PYTHON_EXE);
 
     operation.add(scriptPath);
-    operation.add(ARG_LABEL);
-    operation.add(label);
+    operation.add(ARG_LABEL, label);
     operation.add(ARG_HOST);
     operation.add(getClusterInfoPropertyValue(StatusKeys.INFO_AM_HOSTNAME));
     operation.add(ARG_PORT);
     operation.add(getClusterInfoPropertyValue(StatusKeys.INFO_AM_WEB_PORT));
 
-    commandList.add(operation.build());
-    ctx.setCommands(commandList);
-    ctx.setEnvironment(env);
+    launcher.addCommand(operation.build());
 
     // initialize the component instance state
     componentStatuses.put(label,
@@ -338,7 +330,7 @@ public class AgentProviderService extends AbstractProviderService implements
     ComponentInstanceState componentStatus = componentStatuses.get(label);
 
     List<CommandReport> reports = heartBeat.getReports();
-    if (reports != null && reports.size() > 0) {
+    if (reports != null && !reports.isEmpty()) {
       CommandReport report = reports.get(0);
       CommandResult result = getCommandResult(report.getStatus());
       Command command = getCommand(report.getRoleCommand());
