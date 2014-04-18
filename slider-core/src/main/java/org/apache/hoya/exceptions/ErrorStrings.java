@@ -19,8 +19,8 @@
 package org.apache.hoya.exceptions;
 
 public interface ErrorStrings {
-  String E_UNSTABLE_CLUSTER = "Unstable Cluster:";
-  String E_CLUSTER_RUNNING = "cluster already running";
+  String E_UNSTABLE_CLUSTER = "Unstable Application Instance :";
+  String E_CLUSTER_RUNNING = "Application Instance  lready running";
   String E_ALREADY_EXISTS = "already exists";
   String PRINTF_E_INSTANCE_ALREADY_EXISTS = "Application Instance \"%s\" already exists and is defined in %s";
   String PRINTF_E_INSTANCE_DIR_ALREADY_EXISTS = "Application Instance dir already exists: %s";
@@ -52,6 +52,6 @@ public interface ErrorStrings {
     "Neither an image path nor binary home directory were specified";
   String E_BOTH_IMAGE_AND_HOME_DIR_SPECIFIED =
     "Both application image path and home dir have been provided";
-  String HOYA_CONFIGURATION_DIRECTORY_NOT_FOUND =
-    "Hoya configuration directory \"%s\" not found";
+  String E_CONFIGURATION_DIRECTORY_NOT_FOUND =
+    "Configuration directory \"%s\" not found";
 }
