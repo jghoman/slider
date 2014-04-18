@@ -365,7 +365,7 @@ public class AppState implements StateAccessForProviders {
     onInstanceDefinitionUpdated();
   }
 
-  public AggregateConf getInstanceDefinition() {
+  public synchronized AggregateConf getInstanceDefinition() {
     return instanceDefinition;
   }
 
