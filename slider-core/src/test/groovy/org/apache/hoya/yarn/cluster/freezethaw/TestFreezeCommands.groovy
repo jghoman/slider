@@ -92,12 +92,15 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
 
     log.info("First Thaw");
 
-    ServiceLauncher thawCommand = execHoyaCommand(conf,
-                          [
-                              HoyaActions.ACTION_THAW, clustername,
-                              Arguments.ARG_WAIT, waitTimeArg,
-                              Arguments.ARG_FILESYSTEM, fsDefaultName
-                          ]);
+
+    def commands = [
+        HoyaActions.ACTION_THAW, clustername,
+        Arguments.ARG_WAIT, waitTimeArg,
+        Arguments.ARG_FILESYSTEM, fsDefaultName
+    ]
+    commands.addAll(extraCLIArgs)
+    
+    ServiceLauncher thawCommand = execHoyaCommand(conf, commands);
     assertSucceeded(thawCommand)
     assertSucceeded(execHoyaCommand(conf,
                   [HoyaActions.ACTION_LIST, clustername]))
@@ -115,22 +118,14 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
 
     log.info("thaw2");
     ServiceLauncher thaw2 = execHoyaCommand(conf,
-                [
-                    HoyaActions.ACTION_THAW, clustername,
-                    Arguments.ARG_WAIT, waitTimeArg,
-                    Arguments.ARG_FILESYSTEM, fsDefaultName
-                ]);
+        commands);
     assert 0 == thaw2.serviceExitCode;
     assertSucceeded(thaw2)
 
     try {
       log.info("thaw3 - should fail");
       ServiceLauncher thaw3 = execHoyaCommand(conf,
-                [
-                    HoyaActions.ACTION_THAW, clustername,
-                    Arguments.ARG_WAIT, waitTimeArg,
-                    Arguments.ARG_FILESYSTEM, fsDefaultName
-                ]);
+          commands);
       assert 0 != thaw3.serviceExitCode;
     } catch (HoyaException e) {
       assertFailureClusterInUse(e);
@@ -142,9 +137,12 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
 
     try {
       ServiceLauncher destroy1 = execHoyaCommand(conf,
-                                                 [HoyaActions.ACTION_DESTROY, clustername,
-                                                     Arguments.ARG_FILESYSTEM, fsDefaultName]);
-      fail("expected a failure from the destroy, got error code ${destroy1.serviceExitCode}");
+          [
+              HoyaActions.ACTION_DESTROY, clustername,
+              Arguments.ARG_FILESYSTEM, fsDefaultName
+          ]);
+      fail(
+          "expected a failure from the destroy, got error code ${destroy1.serviceExitCode}");
     } catch (HoyaException e) {
       assertFailureClusterInUse(e);
     }
