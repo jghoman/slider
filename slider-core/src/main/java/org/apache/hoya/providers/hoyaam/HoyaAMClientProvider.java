@@ -37,7 +37,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
@@ -121,7 +121,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                     Path clusterDirPath,
                                                     Path generatedConfDirPath,
                                                     boolean secure) throws
-                                                                    HoyaException,
+      SliderException,
                                                                     IOException {
 
     super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername, configuration, instanceDefinition, clusterDirPath, generatedConfDirPath, secure);
@@ -151,7 +151,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                                 Configuration clientConfExtras,
                                                                 String libdir,
                                                                 Path tempPath)
-    throws IOException, HoyaException {
+    throws IOException, SliderException {
 
     Class<?>[] classes = {
       JCommander.class,
@@ -235,7 +235,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
-                                                                        HoyaException,
+      SliderException,
                                                                         IOException {
     mergeTemplates(aggregateConf,
                    INTERNAL_JSON, RESOURCES_JSON, APPCONF_JSON

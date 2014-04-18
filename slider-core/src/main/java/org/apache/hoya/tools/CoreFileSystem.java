@@ -39,7 +39,7 @@ import org.apache.hoya.core.persist.Filenames;
 import org.apache.hoya.core.persist.InstancePaths;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.UnknownClusterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,11 +128,11 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path to the cluster directory
    * @throws java.io.IOException                      trouble
-   * @throws org.apache.hoya.exceptions.HoyaException hoya-specific exceptions
+   * @throws SliderException hoya-specific exceptions
    */
   public Path createClusterDirectories(String clustername, Configuration conf) throws
                                                                                IOException,
-                                                                               HoyaException {
+      SliderException {
     
     
     Path clusterDirectory = buildHoyaClusterDirPath(clustername);
@@ -149,11 +149,11 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path to the cluster directory
    * @throws java.io.IOException                      trouble
-   * @throws org.apache.hoya.exceptions.HoyaException hoya-specific exceptions
+   * @throws SliderException hoya-specific exceptions
    */
   public void createClusterDirectories(InstancePaths instancePaths) throws
                                                                                IOException,
-                                                                               HoyaException {
+      SliderException {
     Path clusterDirectory = instancePaths.instanceDir;
 
     verifyDirectoryNonexistent(clusterDirectory);
@@ -223,14 +223,14 @@ public class CoreFileSystem {
    * @param clusterDirectory actual directory to look for
    * @return the path to the cluster directory
    * @throws IOException                      trouble with FS
-   * @throws HoyaException If the directory exists
+   * @throws SliderException If the directory exists
    */
   public void verifyClusterDirectoryNonexistent(String clustername,
                                                 Path clusterDirectory) throws
           IOException,
-          HoyaException {
+      SliderException {
     if (fileSystem.exists(clusterDirectory)) {
-      throw new HoyaException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+      throw new SliderException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
               ErrorStrings.PRINTF_E_INSTANCE_ALREADY_EXISTS, clustername,
               clusterDirectory);
     }
@@ -241,16 +241,16 @@ public class CoreFileSystem {
    * @param clusterDirectory actual directory to look for
    * @return the path to the cluster directory
    * @throws IOException    trouble with FS
-   * @throws HoyaException If the directory exists
+   * @throws SliderException If the directory exists
    */
   public void verifyDirectoryNonexistent(Path clusterDirectory) throws
           IOException,
-          HoyaException {
+      SliderException {
     if (fileSystem.exists(clusterDirectory)) {
       log.error("Dir {} exists: {}",
                 clusterDirectory,
                 listFSDir(clusterDirectory));
-      throw new HoyaException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+      throw new SliderException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
               ErrorStrings.PRINTF_E_INSTANCE_DIR_ALREADY_EXISTS,
               clusterDirectory);
     }
@@ -265,7 +265,8 @@ public class CoreFileSystem {
    * @throws IOException  trouble with FS
    * @throws BadClusterStateException if the directory is not writeable
    */
-  public void verifyDirectoryWriteAccess(Path dirPath) throws IOException, HoyaException {
+  public void verifyDirectoryWriteAccess(Path dirPath) throws IOException,
+      SliderException {
     verifyPathExists(dirPath);
     Path tempFile = new Path(dirPath, "tmp-file-for-checks");
     try {
@@ -434,7 +435,7 @@ public class CoreFileSystem {
    * @throws IOException trouble copying to HDFS
    */
   public LocalResource submitJarWithClass(Class clazz, Path tempPath, String subdir, String jarName)
-          throws IOException, HoyaException {
+          throws IOException, SliderException {
     File localFile = HoyaUtils.findContainingJar(clazz);
     if (null == localFile) {
       throw new FileNotFoundException("Could not find JAR containing " + clazz);
@@ -503,10 +504,10 @@ public class CoreFileSystem {
    * Create a path that must exist in the cluster fs
    * @param uri uri to create
    * @return the path
-   * @throws HoyaException if the path does not exist
+   * @throws SliderException if the path does not exist
    */
   public Path createPathThatMustExist(String uri) throws
-                                                  HoyaException,
+      SliderException,
                                                   IOException {
     Path path = new Path(uri);
     verifyPathExists(path);
@@ -520,9 +521,10 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path to the spec.
    * @throws IOException                      IO problems
-   * @throws HoyaException if the path isn't there
+   * @throws SliderException if the path isn't there
    */
-  public Path locateInstanceDefinition(String clustername) throws IOException, HoyaException {
+  public Path locateInstanceDefinition(String clustername) throws IOException,
+      SliderException {
     Path clusterDirectory = buildHoyaClusterDirPath(clustername);
     Path appConfPath =
             new Path(clusterDirectory, Filenames.APPCONF);
@@ -536,12 +538,12 @@ public class CoreFileSystem {
    * @param fs filesystem
    * @param clusterSpecPath cluster specification path
    * @throws IOException IO problems
-   * @throws HoyaException if the cluster specification is not present
+   * @throws SliderException if the cluster specification is not present
    */
   public void verifyClusterSpecExists(String clustername,
                                              Path clusterSpecPath) throws
                                                                    IOException,
-                                                                   HoyaException {
+      SliderException {
     if (!fileSystem.isFile(clusterSpecPath)) {
       log.debug("Missing specification file {}", clusterSpecPath);
       throw UnknownClusterException.unknownCluster(clustername

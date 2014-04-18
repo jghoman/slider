@@ -25,7 +25,7 @@ import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
@@ -134,7 +134,7 @@ public abstract class AbstractProviderService
                                                File confDir,
                                                boolean secure) throws
                                                                IOException,
-                                                               HoyaException {
+      SliderException {
     
   }
 
@@ -229,13 +229,13 @@ public abstract class AbstractProviderService
    * @param env environment
    * @param commands command line
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    */
   protected ForkedProcessService queueCommand(String name,
                               Map<String, String> env,
                               List<String> commands) throws
                                                      IOException,
-                                                     HoyaException {
+      SliderException {
     ForkedProcessService process = buildProcess(name, env, commands);
     //register the service for lifecycle management; when this service
     //is terminated, so is the master process
@@ -247,7 +247,7 @@ public abstract class AbstractProviderService
                                            Map<String, String> env,
                                            List<String> commands) throws
                                                                   IOException,
-                                                                  HoyaException {
+      SliderException {
     ForkedProcessService process;
     process = new ForkedProcessService(name);
     process.init(getConfig());

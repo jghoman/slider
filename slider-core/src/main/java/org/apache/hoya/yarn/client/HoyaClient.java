@@ -37,7 +37,6 @@ import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.Constants;
 import org.apache.hoya.HoyaExitCodes;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.ClusterNode;
 import org.apache.hoya.api.HoyaClusterProtocol;
@@ -62,7 +61,7 @@ import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.UnknownClusterException;
 import org.apache.hoya.exceptions.WaitTimeoutException;
@@ -240,7 +239,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
       
       exitCode = actionVersion();
     } else {
-      throw new HoyaException(EXIT_UNIMPLEMENTED,
+      throw new SliderException(EXIT_UNIMPLEMENTED,
                               "Unimplemented: " + action);
     }
 
@@ -280,7 +279,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     // detect any race leading to cluster creation during the check/destroy process
     // and report a problem.
     if (!instances.isEmpty()) {
-      throw new HoyaException(EXIT_APPLICATION_IN_USE,
+      throw new SliderException(EXIT_APPLICATION_IN_USE,
                               clustername + ": "
                               + E_DESTROY_CREATE_RACE_CONDITION
                               + " :" +
@@ -307,10 +306,10 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * Get the provider for this cluster
    * @param provider the name of the provider
    * @return the provider instance
-   * @throws HoyaException problems building the provider
+   * @throws SliderException problems building the provider
    */
   private AbstractClientProvider createClientProvider(String provider)
-    throws HoyaException {
+    throws SliderException {
     HoyaProviderFactory factory =
       HoyaProviderFactory.createHoyaProviderFactory(provider);
     return factory.createClientProvider();
@@ -495,7 +494,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     try {
       hoyaAM.validateInstanceDefinition(builder.getInstanceDescription());
       provider.validateInstanceDefinition(builder.getInstanceDescription());
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       //problem, reject it
       log.info("Error {} validating application instance definition ", e.toString());
       log.debug("Error {} validating application instance definition ", e);
@@ -571,13 +570,13 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @param clusterDirectory cluster dir
    * @return the loaded configuration
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    * @throws UnknownClusterException if the file is not found
    */
   public AggregateConf loadInstanceDefinitionUnresolved(String name,
                                                          Path clusterDirectory) throws
                                                                       IOException,
-                                                                      HoyaException {
+      SliderException {
 
     try {
       AggregateConf definition =
@@ -594,12 +593,12 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @param resolved flag to indicate the cluster should be resolved
    * @return the loaded configuration
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    * @throws UnknownClusterException if the file is not found
    */
   public AggregateConf loadInstanceDefinition(String name, boolean resolved) throws
                                                                       IOException,
-                                                                      HoyaException {
+      SliderException {
 
     Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(name);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
@@ -712,7 +711,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     } else {
       File confDir = new File(confdirProp);
       if (!confDir.exists()) {
-        throw new BadConfigException(HOYA_CONFIGURATION_DIRECTORY_NOT_FOUND,
+        throw new BadConfigException(E_CONFIGURATION_DIRECTORY_NOT_FOUND,
                                      confDir);
       }
       Path localConfDirPath = HoyaUtils.createLocalPath(confDir);
@@ -1037,7 +1036,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @throws FileNotFoundException if the path does not exist
    */
   public Path createPathThatMustExist(String uri) throws
-                                                  HoyaException,
+      SliderException,
                                                   IOException {
     return hoyaFileSystem.createPathThatMustExist(uri);
   }
@@ -1045,7 +1044,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   /**
    * verify that a live cluster isn't there
    * @param clustername cluster name
-   * @throws HoyaException with exit code EXIT_CLUSTER_LIVE
+   * @throws SliderException with exit code EXIT_CLUSTER_LIVE
    * if a cluster of that name is either live or starting up.
    */
   public void verifyNoLiveClusters(String clustername) throws
@@ -1054,7 +1053,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     List<ApplicationReport> existing = findAllLiveInstances(clustername);
 
     if (!existing.isEmpty()) {
-      throw new HoyaException(EXIT_APPLICATION_IN_USE,
+      throw new SliderException(EXIT_APPLICATION_IN_USE,
                               clustername + ": " + E_CLUSTER_RUNNING + " :" +
                               existing.get(0));
     }
@@ -1338,11 +1337,11 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   /**
    * Start the registry if it is not there yet
    * @return the registry service
-   * @throws HoyaException
+   * @throws SliderException
    * @throws IOException
    */
   public RegistryBinderService<ServiceInstanceData> maybeStartRegistry() throws
-                                                                                           HoyaException,
+      SliderException,
                                                                                            IOException {
 
     if (registry == null) {
@@ -1535,7 +1534,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                                 Constants.CONNECT_TIMEOUT,
                                 Constants.RPC_TIMEOUT);
     } catch (InterruptedException e) {
-      throw new HoyaException(HoyaExitCodes.EXIT_TIMED_OUT,
+      throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
                               e,
                               "Interrupted waiting for communications with the HoyaAM");
     }
@@ -1837,7 +1836,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   @VisibleForTesting
   public AggregateConf loadPersistedClusterDescription(String clustername) throws
                                                                            IOException,
-                                                                           HoyaException,
+      SliderException,
                                                                            LockAcquireFailedException {
     Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
     ConfPersister persister = new ConfPersister(hoyaFileSystem, clusterDirectory);
@@ -1944,7 +1943,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * Bond to a running cluster
    * @param clustername cluster name
    * @return the AM RPC client
-   * @throws HoyaException if the cluster is unkown
+   * @throws SliderException if the cluster is unkown
    */
   private HoyaClusterProtocol bondToCluster(String clustername) throws
                                                                   YarnException,
@@ -1998,7 +1997,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @return the state. If still in CREATED, the cluster didn't come up
    * in the time period. If LIVE, all is well. If >LIVE, it has shut for a reason
    * @throws IOException IO
-   * @throws HoyaException Hoya
+   * @throws SliderException Hoya
    * @throws WaitTimeoutException if the wait timed out
    */
   @VisibleForTesting

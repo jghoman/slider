@@ -21,7 +21,6 @@ package org.apache.hoya.yarn.cluster.actions
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.exceptions.UnknownClusterException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions

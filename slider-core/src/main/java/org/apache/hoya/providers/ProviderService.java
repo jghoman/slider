@@ -22,14 +22,13 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.service.Service;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
 import org.apache.hadoop.yarn.service.launcher.ExitCodeProvider;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
@@ -66,7 +65,7 @@ public interface ProviderService extends ProviderCore, Service,
       MapOperations appComponent,
       Path containerTmpDirPath) throws
       IOException,
-      HoyaException;
+      SliderException;
 
   /**
    * Execute a process in the AM
@@ -76,13 +75,13 @@ public interface ProviderService extends ProviderCore, Service,
    * @param execInProgress the callback for the exec events
    * @return true if a process was actually started
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    */
   boolean exec(AggregateConf instanceDefinition,
                File confDir,
                Map<String, String> env,
                EventCallback execInProgress) throws IOException,
-                                                 HoyaException;
+      SliderException;
 
   /**
    * Scan through the roles and see if it is supported.
@@ -112,12 +111,12 @@ public interface ProviderService extends ProviderCore, Service,
    * @param confDir configuration directory
    * @param secure flag to indicate that secure mode checks must exist
    * @throws IOException IO problemsn
-   * @throws HoyaException any failure
+   * @throws SliderException any failure
    */
   void validateApplicationConfiguration(AggregateConf instanceDefinition,
                                         File confDir,
                                         boolean secure
-                                       ) throws IOException, HoyaException;
+                                       ) throws IOException, SliderException;
 
   /*
      * Build the provider status, can be empty

@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.yarn.HoyaActions;
 
 import java.util.Collection;
@@ -169,10 +169,10 @@ public class ClientArgs extends CommonArgs {
    * In theory this could be done by introspecting on the list of actions and 
    * choosing it without the switch statement. In practise this switch, while
    * verbose, is easier to debug.
-   * @throws HoyaException bad argument or similar
+   * @throws SliderException bad argument or similar
    */
   @Override
-  public void applyAction() throws HoyaException {
+  public void applyAction() throws SliderException {
     String action = getAction();
     if (HoyaActions.ACTION_BUILD.equals(action)) {
       bindCoreAction(actionBuildArgs);

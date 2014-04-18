@@ -32,8 +32,8 @@ import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
-import org.apache.hoya.exceptions.HoyaInternalStateException;
+import org.apache.hoya.exceptions.SliderException;
+import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public class ProviderUtils implements RoleKeys {
    * @param classes list of classes where classes[i] refers to a class in
    * resources[i]
    * @throws IOException IO problems
-   * @throws HoyaException any Hoya problem
+   * @throws SliderException any Hoya problem
    */
   public static void addDependencyJars(Map<String, LocalResource> providerResources,
                                        HoyaFileSystem hoyaFileSystem,
@@ -85,9 +85,9 @@ public class ProviderUtils implements RoleKeys {
                                        Class[] classes
                                       ) throws
                                         IOException,
-                                        HoyaException {
+      SliderException {
     if (resources.length != classes.length) {
-      throw new HoyaInternalStateException(
+      throw new SliderInternalStateException(
         "mismatch in Jar names [%d] and classes [%d]",
         resources.length,
         classes.length);

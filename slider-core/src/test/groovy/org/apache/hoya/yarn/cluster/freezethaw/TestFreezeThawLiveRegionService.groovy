@@ -25,7 +25,7 @@ import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
@@ -69,7 +69,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
       ServiceLauncher launcher3 = createHBaseCluster(clustername, regionServerCount, [], false, false)
       HoyaClient cluster3 = launcher3.service as HoyaClient
       fail("expected a failure, got ${cluster3}")
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE;
     }
     
@@ -91,7 +91,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
       ServiceLauncher launcher3 = thawHoyaCluster(clustername, [], true);
       HoyaClient cluster3 = launcher3.service as HoyaClient
       fail("expected a failure, got ${cluster3}")
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE
     }
   }

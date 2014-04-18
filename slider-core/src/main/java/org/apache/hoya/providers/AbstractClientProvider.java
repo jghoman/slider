@@ -26,16 +26,13 @@ import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.apache.hoya.api.ResourceKeys.COMPONENT_INSTANCES;
 import static org.apache.hoya.api.ResourceKeys.DEF_YARN_CORES;
@@ -67,7 +64,7 @@ public abstract class AbstractClientProvider extends Configured {
    * @param clusterSpec
    */
   public void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-                                                                           HoyaException {
+      SliderException {
 
     List<ProviderRole> roles = getRoles();
     ConfTreeOperations resources =
@@ -101,10 +98,10 @@ public abstract class AbstractClientProvider extends Configured {
    * Any provider-side alteration of a configuration can take place here.
    * @param aggregateConf config to patch
    * @throws IOException IO problems
-   * @throws HoyaException Hoya-specific issues
+   * @throws SliderException Hoya-specific issues
    */
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
-                                                                    HoyaException,
+      SliderException,
                                                                     IOException {
     //default: do nothing
   }
@@ -123,7 +120,7 @@ public abstract class AbstractClientProvider extends Configured {
                                           Configuration clientConfExtras,
                                           String libdir,
                                           Path tempPath)
-    throws IOException, HoyaException {
+    throws IOException, SliderException {
     
   }
   
@@ -183,7 +180,7 @@ public abstract class AbstractClientProvider extends Configured {
    * @param clusterDirPath directory of the cluster
    * @param generatedConfDirPath path to place generated artifacts
    * @param secure flag to indicate that the cluster is secure
-   * @throws HoyaException on any validation issue
+   * @throws SliderException on any validation issue
    * @throws IOException on any IO problem
    */
   public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
@@ -193,7 +190,7 @@ public abstract class AbstractClientProvider extends Configured {
                                                       Path clusterDirPath,
                                                       Path generatedConfDirPath,
                                                       boolean secure) throws
-                                                                      HoyaException,
+      SliderException,
                                                                       IOException {
     validateInstanceDefinition(instanceDefinition);
   }

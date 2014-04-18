@@ -28,7 +28,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
@@ -464,7 +464,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
       exists(0, cluster, true)
 
       status = hoyaClient.clusterDescription
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       if (e.exitCode == EXIT_BAD_STATE) {
         log.error(
             "Property $YarnConfiguration.RM_AM_MAX_ATTEMPTS may be too low")

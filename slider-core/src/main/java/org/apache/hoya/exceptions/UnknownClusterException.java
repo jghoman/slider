@@ -18,7 +18,7 @@
 
 package org.apache.hoya.exceptions;
 
-public class UnknownClusterException extends HoyaException {
+public class UnknownClusterException extends SliderException {
   public UnknownClusterException(String s) {
     super(EXIT_UNKNOWN_INSTANCE, s);
   }

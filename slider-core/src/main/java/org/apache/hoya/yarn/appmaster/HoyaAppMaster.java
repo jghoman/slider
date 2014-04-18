@@ -73,8 +73,8 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AMRestartSupport;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
-import org.apache.hoya.exceptions.HoyaInternalStateException;
+import org.apache.hoya.exceptions.SliderException;
+import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.apache.hoya.exceptions.TriggerClusterTeardownException;
 import org.apache.hoya.providers.HoyaProviderFactory;
 import org.apache.hoya.providers.ProviderRole;
@@ -370,7 +370,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     } else if (action.equals(HoyaActions.ACTION_CREATE)) {
       exitCode = createAndRunCluster(actionArgs.get(0));
     } else {
-      throw new HoyaException("Unimplemented: " + action);
+      throw new SliderException("Unimplemented: " + action);
     }
     log.info("Exiting HoyaAM; final exit code = {}", exitCode);
     return exitCode;
@@ -966,7 +966,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     try {
       reviewRequestAndReleaseNodes();
-    } catch (HoyaInternalStateException e) {
+    } catch (SliderInternalStateException e) {
       log.warn("Exception while flexing nodes", e);
     }
   }
@@ -979,7 +979,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
    * @throws IOException
    */
   private boolean flexCluster(ConfTree updated)
-    throws IOException, HoyaInternalStateException, BadConfigException {
+    throws IOException, SliderInternalStateException, BadConfigException {
 
     appState.updateResourceDefinitions(updated);
 
@@ -991,7 +991,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
    * Look at where the current node state is -and whether it should be changed
    */
   private synchronized boolean reviewRequestAndReleaseNodes()
-      throws HoyaInternalStateException {
+      throws SliderInternalStateException {
     log.debug("in reviewRequestAndReleaseNodes()");
     if (amCompletionFlag.get()) {
       log.info("Ignoring node review operation: shutdown in progress");
@@ -1279,11 +1279,11 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
    * @param cd
    * @param confDir
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    */
   protected synchronized void launchProviderService(AggregateConf instanceDefinition,
                                                     File confDir)
-    throws IOException, HoyaException {
+    throws IOException, SliderException {
     Map<String, String> env = new HashMap<String, String>();
     boolean execStarted = providerService.exec(instanceDefinition, confDir, env, this);
     if (execStarted) {

@@ -28,7 +28,7 @@ import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.ConfPersister
 import org.apache.hoya.exceptions.BadConfigException
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.hoya.yarn.client.HoyaClient
 import org.junit.Test
@@ -260,7 +260,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "missing package home or image path")
-    } catch (HoyaException expected) {
+    } catch (SliderException expected) {
       assert expected.message.contains("Either agent package path or image root must be provided")
     }
 
@@ -279,7 +279,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad image path")
-    } catch (HoyaException expected) {
+    } catch (SliderException expected) {
       assert expected.message.contains("Both application image path and home dir have been provided")
     }
 
@@ -296,7 +296,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad app def file")
-    } catch (HoyaException expected) {
+    } catch (SliderException expected) {
       assert expected.message.contains("Application definition must be provided")
     }
 
@@ -314,7 +314,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad agent conf file")
-    } catch (HoyaException expected) {
+    } catch (SliderException expected) {
       assert expected.message.contains("Agent config must be provided")
     }
   }

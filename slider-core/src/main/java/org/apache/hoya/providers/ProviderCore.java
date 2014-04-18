@@ -20,7 +20,7 @@ package org.apache.hoya.providers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 
 import java.util.List;
 public interface ProviderCore {
@@ -32,5 +32,5 @@ public interface ProviderCore {
   Configuration getConf();
 
   void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-                                                           HoyaException;
+      SliderException;
 }

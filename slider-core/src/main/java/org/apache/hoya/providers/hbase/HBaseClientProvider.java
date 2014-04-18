@@ -18,7 +18,6 @@
 
 package org.apache.hoya.providers.hbase;
 
-import com.google.common.net.HostAndPort;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.HoyaKeys;
@@ -30,7 +29,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.tools.ConfigHelper;
@@ -80,7 +79,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
-                                                              HoyaException,
+      SliderException,
                                                               IOException {
     String resourceTemplate = INSTANCE_RESOURCE_BASE + "resources.json";
     String appConfTemplate = INSTANCE_RESOURCE_BASE + "appconf.json";
@@ -144,7 +143,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                                     Path clusterDirPath,
                                                     Path generatedConfDirPath,
                                                     boolean secure) throws
-                                                                    HoyaException,
+      SliderException,
                                                                     IOException {
     super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
                                                 configuration,
@@ -224,7 +223,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
    */
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-                                                                           HoyaException {
+      SliderException {
     super.validateInstanceDefinition(instanceDefinition);
     ConfTreeOperations resources =
       instanceDefinition.getResourceOperations();
@@ -252,7 +251,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                           String libdir,
                                           Path tempPath) throws
                                                          IOException,
-                                                         HoyaException {
+      SliderException {
     //load in the template site config
     log.debug("Loading template configuration from {}", originConfDirPath);
     Configuration siteConf = ConfigHelper.loadTemplateConfiguration(

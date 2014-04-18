@@ -18,7 +18,7 @@
 
 package org.apache.hoya.core.persist;
 
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 
 import java.io.IOException;
 
@@ -33,6 +33,6 @@ public interface LockHeldAction {
    * Execute the action
    * @throws IOException on any failure
    */
-  public void execute() throws IOException, HoyaException;
+  public void execute() throws IOException, SliderException;
   
 }

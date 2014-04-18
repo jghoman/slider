@@ -36,11 +36,10 @@ import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.exceptions.BadClusterStateException
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
 import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -293,10 +292,10 @@ class HoyaTestUtils extends Assert {
    * @param spintime time to wait
    * @return true if the cluster came out of the sleep time live 
    * @throws IOException
-   * @throws org.apache.hoya.exceptions.HoyaException
+   * @throws SliderException
    */
   public static boolean spinForClusterStartup(HoyaClient hoyaClient, long spintime)
-      throws WaitTimeoutException, IOException, HoyaException {
+      throws WaitTimeoutException, IOException, SliderException {
     int state = hoyaClient.waitForRoleInstanceLive(HBaseKeys.MASTER, spintime);
     return state == ClusterDescription.STATE_LIVE;
   }

@@ -21,21 +21,21 @@ package org.apache.hoya.exceptions;
 import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException;
 import org.apache.hoya.HoyaExitCodes;
 
-public class HoyaException extends ServiceLaunchException implements
+public class SliderException extends ServiceLaunchException implements
                                                           HoyaExitCodes {
-  public HoyaException() {
-    super(EXIT_EXCEPTION_THROWN, "HoyaException");
+  public SliderException() {
+    super(EXIT_EXCEPTION_THROWN, "SliderException");
   }
 
-  public HoyaException(int code, String message) {
+  public SliderException(int code, String message) {
     super(code, message);
   }
 
-  public HoyaException(String s) {
+  public SliderException(String s) {
     super(EXIT_EXCEPTION_THROWN, s);
   }
 
-  public HoyaException(String s, Throwable throwable) {
+  public SliderException(String s, Throwable throwable) {
     super(EXIT_EXCEPTION_THROWN, s, throwable);
   }
 
@@ -45,7 +45,7 @@ public class HoyaException extends ServiceLaunchException implements
    * @param message
    * @param args
    */
-  public HoyaException(int code, String message, Object ... args) {
+  public SliderException(int code, String message, Object... args) {
     super(code, String.format(message, args));
   }
 
@@ -57,10 +57,10 @@ public class HoyaException extends ServiceLaunchException implements
    * @param message message
    * @param args arguments
    */
-  public HoyaException(int code,
-                       Throwable throwable,
-                       String message,
-                       Object ... args) {
+  public SliderException(int code,
+      Throwable throwable,
+      String message,
+      Object... args) {
     super(code, String.format(message, args), throwable);
   }
 
