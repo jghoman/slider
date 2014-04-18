@@ -740,7 +740,7 @@ public class AppState implements StateAccessForProviders {
   public RoleStatus lookupRoleStatus(int key) throws HoyaRuntimeException {
     RoleStatus rs = getRoleStatusMap().get(key);
     if (rs == null) {
-      throw new HoyaRuntimeException("Cannot find role for role ID " + key);
+      throw new RuntimeException("Cannot find role for role ID " + key);
     }
     return rs;
   }
@@ -1015,8 +1015,8 @@ public class AppState implements StateAccessForProviders {
   private void addLaunchedContainer(Container container, RoleInstance node) {
     node.container = container;
     if (node.role == null) {
-      throw new HoyaRuntimeException(
-        "Unknown role for node %s", node);
+      throw new RuntimeException(
+        "Unknown role for node " + node);
     }
     getLiveNodes().put(node.getContainerId(), node);
     //tell role history
@@ -1052,18 +1052,18 @@ public class AppState implements StateAccessForProviders {
     RoleInstance instance = activeContainers.get(containerId);
     if (instance == null) {
       //serious problem
-      throw new HoyaRuntimeException("Container not in active containers start %s",
+      throw new RuntimeException("Container not in active containers start "+
                 containerId);
     }
     if (instance.role == null) {
-      throw new HoyaRuntimeException("Role instance has no role name %s",
+      throw new RuntimeException("Component instance has no instance name " +
                                      instance);
     }
     instance.startTime = now();
     RoleInstance starting = getStartingNodes().remove(containerId);
     if (null == starting) {
-      throw new HoyaRuntimeException(
-        "Container %s is already started", containerId);
+      throw new RuntimeException(
+        "Container "+ containerId +"%s is already started");
     }
     instance.state = ClusterDescription.STATE_LIVE;
     RoleStatus roleStatus = lookupRoleStatus(instance.roleId);
