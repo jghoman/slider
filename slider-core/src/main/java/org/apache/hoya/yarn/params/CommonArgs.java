@@ -25,7 +25,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.Arguments;
 import org.apache.hoya.yarn.HoyaActions;
@@ -111,9 +111,9 @@ public abstract class CommonArgs extends ArgOps implements HoyaActions,
   /**
    * Parse routine -includes registering the action-specific argument classes
    * and postprocess it
-   * @throws HoyaException on any problem
+   * @throws SliderException on any problem
    */
-  public void parse() throws HoyaException {
+  public void parse() throws SliderException {
     addActionArguments();
     try {
       commander.parse(getArgs());
@@ -155,7 +155,7 @@ public abstract class CommonArgs extends ArgOps implements HoyaActions,
    * validate args via {@link #validate()}
    * then postprocess the arguments
    */
-  public void postProcess() throws HoyaException {
+  public void postProcess() throws SliderException {
     applyAction();
     validate();
 
@@ -169,7 +169,7 @@ public abstract class CommonArgs extends ArgOps implements HoyaActions,
   /**
    * Implementors must implement their action apply routine here
    */
-  public abstract void applyAction() throws HoyaException;
+  public abstract void applyAction() throws SliderException;
 
 
   /**

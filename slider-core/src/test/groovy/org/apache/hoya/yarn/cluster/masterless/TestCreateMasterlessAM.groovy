@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationId
@@ -149,7 +149,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     try {
       createMasterlessAM(clustername, 0, false, true)
       fail("expected a failure, got a masterless AM")
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       assertFailureClusterInUse(e);
     }
 

@@ -49,7 +49,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaInternalStateException;
+import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.apache.hoya.exceptions.HoyaRuntimeException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.TriggerClusterTeardownException;
@@ -740,7 +740,7 @@ public class AppState implements StateAccessForProviders {
   public RoleStatus lookupRoleStatus(int key) throws HoyaRuntimeException {
     RoleStatus rs = getRoleStatusMap().get(key);
     if (rs == null) {
-      throw new HoyaRuntimeException("Cannot find role for role ID " + key);
+      throw new RuntimeException("Cannot find role for role ID " + key);
     }
     return rs;
   }
@@ -891,21 +891,21 @@ public class AppState implements StateAccessForProviders {
    * while it is still in the active list, it has been queued for release.
    *
    * @param container container
-   * @throws HoyaInternalStateException if there is no container of that ID
+   * @throws SliderInternalStateException if there is no container of that ID
    * on the active list
    */
   public synchronized void containerReleaseSubmitted(Container container)
-      throws HoyaInternalStateException {
+      throws SliderInternalStateException {
     ContainerId id = container.getId();
     //look up the container
     RoleInstance info = getActiveContainer(id);
     if (info == null) {
-      throw new HoyaInternalStateException(
+      throw new SliderInternalStateException(
         "No active container with ID " + id.toString());
     }
     //verify that it isn't already released
     if (containersBeingReleased.containsKey(id)) {
-      throw new HoyaInternalStateException(
+      throw new SliderInternalStateException(
         "Container %s already queued for release", id);
     }
     info.released = true;
@@ -1015,8 +1015,8 @@ public class AppState implements StateAccessForProviders {
   private void addLaunchedContainer(Container container, RoleInstance node) {
     node.container = container;
     if (node.role == null) {
-      throw new HoyaRuntimeException(
-        "Unknown role for node %s", node);
+      throw new RuntimeException(
+        "Unknown role for node " + node);
     }
     getLiveNodes().put(node.getContainerId(), node);
     //tell role history
@@ -1052,18 +1052,18 @@ public class AppState implements StateAccessForProviders {
     RoleInstance instance = activeContainers.get(containerId);
     if (instance == null) {
       //serious problem
-      throw new HoyaRuntimeException("Container not in active containers start %s",
+      throw new RuntimeException("Container not in active containers start "+
                 containerId);
     }
     if (instance.role == null) {
-      throw new HoyaRuntimeException("Role instance has no role name %s",
+      throw new RuntimeException("Component instance has no instance name " +
                                      instance);
     }
     instance.startTime = now();
     RoleInstance starting = getStartingNodes().remove(containerId);
     if (null == starting) {
-      throw new HoyaRuntimeException(
-        "Container %s is already started", containerId);
+      throw new RuntimeException(
+        "Container "+ containerId +"%s is already started");
     }
     instance.state = ClusterDescription.STATE_LIVE;
     RoleStatus roleStatus = lookupRoleStatus(instance.roleId);
@@ -1366,7 +1366,7 @@ public class AppState implements StateAccessForProviders {
    * Look at where the current node state is -and whether it should be changed
    */
   public synchronized List<AbstractRMOperation> reviewRequestAndReleaseNodes()
-      throws HoyaInternalStateException, TriggerClusterTeardownException {
+      throws SliderInternalStateException, TriggerClusterTeardownException {
     log.debug("in reviewRequestAndReleaseNodes()");
     List<AbstractRMOperation> allOperations =
       new ArrayList<AbstractRMOperation>();
@@ -1402,11 +1402,11 @@ public class AppState implements StateAccessForProviders {
    * (actual+pending)
    * @param role role
    * @return a list of operations
-   * @throws HoyaInternalStateException if the operation reveals that
+   * @throws SliderInternalStateException if the operation reveals that
    * the internal state of the application is inconsistent.
    */
   public List<AbstractRMOperation> reviewOneRole(RoleStatus role)
-      throws HoyaInternalStateException, TriggerClusterTeardownException {
+      throws SliderInternalStateException, TriggerClusterTeardownException {
     List<AbstractRMOperation> operations = new ArrayList<AbstractRMOperation>();
     int delta;
     String details;
@@ -1456,7 +1456,7 @@ public class AppState implements StateAccessForProviders {
       for (NodeInstance node : nodesForRelease) {
         RoleInstance possible = findRoleInstanceOnHost(node, roleId);
         if (possible == null) {
-          throw new HoyaInternalStateException(
+          throw new SliderInternalStateException(
             "Failed to find a container to release on node %s", node.hostname);
         }
         containerReleaseSubmitted(possible.container);
@@ -1508,7 +1508,7 @@ public class AppState implements StateAccessForProviders {
       if (!instance.released) {
         try {
           containerReleaseSubmitted(possible);
-        } catch (HoyaInternalStateException e) {
+        } catch (SliderInternalStateException e) {
           log.warn("when releasing container {} :", possible, e);
         }
         operations.add(new ContainerReleaseOperation(id));

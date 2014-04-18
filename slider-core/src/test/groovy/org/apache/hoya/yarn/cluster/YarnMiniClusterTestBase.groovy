@@ -40,7 +40,7 @@ import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.tools.*
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
@@ -242,7 +242,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     ServiceLauncher<HoyaClient> launcher = launchHoyaClientNoExitCodeCheck(conf, args)
     int exited = launcher.serviceExitCode
     if (exited != 0) {
-      throw new HoyaException(exited,"Launch failed with exit code $exited")
+      throw new SliderException(exited,"Launch failed with exit code $exited")
     }
     return launcher;
   }
@@ -760,7 +760,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * Assert that an operation failed because a cluster is in use
    * @param e exception
    */
-  public static void assertFailureClusterInUse(HoyaException e) {
+  public static void assertFailureClusterInUse(SliderException e) {
     assertExceptionDetails(e,
         HoyaExitCodes.EXIT_APPLICATION_IN_USE,
         ErrorStrings.E_CLUSTER_RUNNING)

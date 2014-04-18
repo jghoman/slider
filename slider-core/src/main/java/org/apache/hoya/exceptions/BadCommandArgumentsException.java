@@ -18,7 +18,7 @@
 
 package org.apache.hoya.exceptions;
 
-public class BadCommandArgumentsException extends HoyaException {
+public class BadCommandArgumentsException extends SliderException {
   public BadCommandArgumentsException(String s, Object... args) {
     super(EXIT_COMMAND_ARGUMENT_ERROR, s, args);
   }

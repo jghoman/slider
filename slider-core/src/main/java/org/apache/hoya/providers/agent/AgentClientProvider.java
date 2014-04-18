@@ -28,7 +28,7 @@ import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
@@ -75,7 +75,7 @@ public class AgentClientProvider extends AbstractClientProvider
                                                     Path clusterDirPath,
                                                     Path generatedConfDirPath,
                                                     boolean secure) throws
-      HoyaException,
+      SliderException,
       IOException {
     super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
                                                 configuration,
@@ -102,7 +102,7 @@ public class AgentClientProvider extends AbstractClientProvider
 
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-      HoyaException {
+      SliderException {
     super.validateInstanceDefinition(instanceDefinition);
     log.debug("Validating conf {}", instanceDefinition);
     ConfTreeOperations resources =
@@ -151,7 +151,7 @@ public class AgentClientProvider extends AbstractClientProvider
       instanceDefinition.getAppConfOperations().
           getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
     } catch (BadConfigException bce) {
-      throw new HoyaException("Application definition must be provided." + bce.getMessage(), bce);
+      throw new SliderException("Application definition must be provided." + bce.getMessage(), bce);
     }
 
     String appHome = instanceDefinition.getAppConfOperations().
@@ -160,7 +160,7 @@ public class AgentClientProvider extends AbstractClientProvider
         get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
 
     if ((appHome == null || appHome.equals("")) && (agentImage == null || agentImage.equals(""))) {
-      throw new HoyaException("Either agent package path or image root must be provided");
+      throw new SliderException("Either agent package path or image root must be provided");
     }
 
     try {
@@ -168,7 +168,7 @@ public class AgentClientProvider extends AbstractClientProvider
       instanceDefinition.getAppConfOperations().
           getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
     } catch (BadConfigException bce) {
-      throw new HoyaException("Agent config must be provided." + bce.getMessage(), bce);
+      throw new SliderException("Agent config must be provided." + bce.getMessage(), bce);
     }
   }
 
@@ -183,6 +183,6 @@ public class AgentClientProvider extends AbstractClientProvider
                                           String libdir,
                                           Path tempPath) throws
       IOException,
-      HoyaException {
+      SliderException {
   }
 }

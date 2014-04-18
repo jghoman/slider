@@ -38,7 +38,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaIOException;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.appmaster.state.NodeEntry;
 import org.apache.hoya.yarn.appmaster.state.NodeInstance;
@@ -199,10 +198,10 @@ public class RoleHistoryWriter {
       RoleHistoryHeader header = (RoleHistoryHeader) entry;
       Long saved = header.getSaved();
       if (header.getVersion() != ROLE_HISTORY_VERSION) {
-        throw new HoyaIOException(
-          "Can't read role file version %04x -need %04x",
+        throw new IOException(
+          String.format("Can't read role file version %04x -need %04x",
           header.getVersion(),
-          ROLE_HISTORY_VERSION);
+          ROLE_HISTORY_VERSION));
       }
       history.prepareForReading(header);
       RoleHistoryFooter footer = null;
@@ -214,7 +213,7 @@ public class RoleHistoryWriter {
           entry = record.getEntry();
 
           if (entry instanceof RoleHistoryHeader) {
-            throw new HoyaIOException("Duplicate Role History Header found");
+            throw new IOException("Duplicate Role History Header found");
           }
           if (entry instanceof RoleHistoryFooter) {
             //tail end of the file

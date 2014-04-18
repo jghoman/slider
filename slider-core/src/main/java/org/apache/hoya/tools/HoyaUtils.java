@@ -46,7 +46,7 @@ import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.MissingArgException;
 import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 import org.apache.zookeeper.server.util.KerberosUtil;
@@ -960,7 +960,7 @@ public final class HoyaUtils {
                               String libdir,
                               String jarName
                              )
-    throws IOException, HoyaException {
+    throws IOException, SliderException {
     LocalResource res = hoyaFileSystem.submitJarWithClass(
             clazz,
             tempPath,
@@ -1241,7 +1241,7 @@ public final class HoyaUtils {
   }
 
   public static Path extractImagePath(CoreFileSystem fs,  MapOperations internalOptions) throws
-                                                                                         HoyaException,
+      SliderException,
                                                                                          IOException {
     Path imagePath;
     String imagePathOption =

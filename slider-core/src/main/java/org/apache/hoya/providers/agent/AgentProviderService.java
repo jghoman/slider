@@ -36,7 +36,7 @@ import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
@@ -111,7 +111,7 @@ public class AgentProviderService extends AbstractProviderService implements
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition)
       throws
-      HoyaException {
+      SliderException {
     clientProvider.validateInstanceDefinition(instanceDefinition);
   }
 
@@ -126,7 +126,7 @@ public class AgentProviderService extends AbstractProviderService implements
       MapOperations appComponent,
       Path containerTmpDirPath) throws
       IOException,
-      HoyaException {
+      SliderException {
 
     this.instanceDefinition = instanceDefinition;
     log.info("Build launch context for Agent");
@@ -239,7 +239,7 @@ public class AgentProviderService extends AbstractProviderService implements
    * @param execInProgress     callback for the event notification
    *
    * @throws IOException   IO problems
-   * @throws HoyaException anything internal
+   * @throws SliderException anything internal
    */
   @Override
   public boolean exec(AggregateConf instanceDefinition,
@@ -247,7 +247,7 @@ public class AgentProviderService extends AbstractProviderService implements
                       Map<String, String> env,
                       EventCallback execInProgress) throws
       IOException,
-      HoyaException {
+      SliderException {
 
     return false;
   }
@@ -358,7 +358,7 @@ public class AgentProviderService extends AbstractProviderService implements
           log.info("Starting component ...");
           addStartCommand(roleName, response, scriptPath);
         }
-      } catch (HoyaException e) {
+      } catch (SliderException e) {
         componentStatus.applyCommandResult(CommandResult.FAILED, command);
         log.warn("Component instance failed operation.", e);
       }
@@ -372,7 +372,7 @@ public class AgentProviderService extends AbstractProviderService implements
   }
 
   protected void addInstallCommand(String roleName, HeartBeatResponse response, String scriptPath)
-      throws HoyaException {
+      throws SliderException {
     assert getStateAccessor().isApplicationLive();
     ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
     ConfTreeOperations resourcesConf = getStateAccessor().getResourcesSnapshot();
@@ -422,7 +422,8 @@ public class AgentProviderService extends AbstractProviderService implements
     cmd.setConfigurations(configurations);
   }
 
-  protected void addStartCommand(String roleName, HeartBeatResponse response, String scriptPath) throws HoyaException {
+  protected void addStartCommand(String roleName, HeartBeatResponse response, String scriptPath) throws
+      SliderException {
     assert getStateAccessor().isApplicationLive();
     ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
     ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();

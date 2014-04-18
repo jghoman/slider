@@ -32,13 +32,12 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +88,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
-                                                                        HoyaException,
+      SliderException,
                                                                         IOException {
     String resourceTemplate = INSTANCE_RESOURCE_BASE + "resources.json";
     String appConfTemplate = INSTANCE_RESOURCE_BASE + "appconf.json";
@@ -171,7 +170,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                                     Path clusterDirPath,
                                                     Path generatedConfDirPath,
                                                     boolean secure) throws
-                                                                    HoyaException,
+      SliderException,
                                                                     IOException {
     super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
                                                 configuration,
@@ -198,14 +197,14 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * @param libdir relative directory to place resources
    * @param tempPath path in the cluster FS for temp files
    * @throws IOException IO problems
-   * @throws HoyaException Hoya-specific issues
+   * @throws SliderException Hoya-specific issues
    */
   public static void addAccumuloDependencyJars(Map<String, LocalResource> providerResources,
                                             HoyaFileSystem hoyaFileSystem,
                                             String libdir,
                                             Path tempPath) throws
                                                            IOException,
-                                                           HoyaException {
+      SliderException {
     String[] jars =
       {
       /*  "zookeeper.jar",*/
@@ -230,7 +229,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                           String libdir,
                                           Path tempPath) throws
                                                          IOException,
-                                                         HoyaException {
+      SliderException {
     //load in the template site config
     log.debug("Loading template configuration from {}", originConfDirPath);
       Configuration siteConf = ConfigHelper.loadTemplateConfiguration(
@@ -293,7 +292,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition) throws
-                                                                           HoyaException {
+      SliderException {
     super.validateInstanceDefinition(instanceDefinition);
 
     ConfTreeOperations resources =

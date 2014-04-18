@@ -18,17 +18,17 @@
 
 package org.apache.hoya.exceptions;
 
-public class HoyaInternalStateException extends HoyaException {
-  public HoyaInternalStateException(String s) {
+public class SliderInternalStateException extends SliderException {
+  public SliderInternalStateException(String s) {
     super(EXIT_INTERNAL_ERROR, s);
   }
 
-  public HoyaInternalStateException(String s, Throwable throwable) {
+  public SliderInternalStateException(String s, Throwable throwable) {
     super(EXIT_INTERNAL_ERROR, throwable, s);
   }
 
-  public HoyaInternalStateException(String message,
-                                    Object... args) {
+  public SliderInternalStateException(String message,
+      Object... args) {
     super(EXIT_INTERNAL_ERROR, message, args);
   }
 }

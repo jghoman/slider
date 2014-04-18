@@ -21,7 +21,7 @@ package org.apache.hoya.exceptions;
 /**
  * An exception to raise on a bad configuration
  */
-public class BadConfigException extends HoyaException {
+public class BadConfigException extends SliderException {
 
   public BadConfigException(String s) {
     super(EXIT_BAD_CONFIGURATION, s);

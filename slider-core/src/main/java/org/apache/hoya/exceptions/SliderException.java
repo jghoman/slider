@@ -18,12 +18,26 @@
 
 package org.apache.hoya.exceptions;
 
-import java.io.IOException;
+import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException;
+import org.apache.hoya.HoyaExitCodes;
 
-/**
- * IO Exception with sprintf-style formatting
- */
-public class HoyaIOException extends IOException {
+public class SliderException extends ServiceLaunchException implements
+                                                          HoyaExitCodes {
+  public SliderException() {
+    super(EXIT_EXCEPTION_THROWN, "SliderException");
+  }
+
+  public SliderException(int code, String message) {
+    super(code, message);
+  }
+
+  public SliderException(String s) {
+    super(EXIT_EXCEPTION_THROWN, s);
+  }
+
+  public SliderException(String s, Throwable throwable) {
+    super(EXIT_EXCEPTION_THROWN, s, throwable);
+  }
 
   /**
    * Format the exception as you create it
@@ -31,8 +45,8 @@ public class HoyaIOException extends IOException {
    * @param message
    * @param args
    */
-  public HoyaIOException(String message, Object... args) {
-    super(String.format(message, args));
+  public SliderException(int code, String message, Object... args) {
+    super(code, String.format(message, args));
   }
 
   /**
@@ -43,10 +57,11 @@ public class HoyaIOException extends IOException {
    * @param message message
    * @param args arguments
    */
-  public HoyaIOException(Throwable throwable,
-                         String message,
-                         Object... args) {
-    super(String.format(message, args), throwable);
+  public SliderException(int code,
+      Throwable throwable,
+      String message,
+      Object... args) {
+    super(code, String.format(message, args), throwable);
   }
 
 }

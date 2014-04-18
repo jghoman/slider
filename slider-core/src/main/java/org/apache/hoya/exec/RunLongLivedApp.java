@@ -19,8 +19,8 @@
 package org.apache.hoya.exec;
 
 import org.apache.hadoop.io.IOUtils;
-import org.apache.hoya.exceptions.HoyaException;
-import org.apache.hoya.exceptions.HoyaInternalStateException;
+import org.apache.hoya.exceptions.SliderException;
+import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,9 +207,9 @@ public class RunLongLivedApp implements Runnable {
    * @return the process
    * @throws IOException
    */
-  private Process spawnChildProcess() throws IOException, HoyaException {
+  private Process spawnChildProcess() throws IOException, SliderException {
     if (process != null) {
-      throw new HoyaInternalStateException("Process already started");
+      throw new SliderInternalStateException("Process already started");
     }
     if (LOG.isDebugEnabled()) {
       LOG.debug("Spawning process:\n " + describeBuilder());
@@ -256,7 +256,7 @@ public class RunLongLivedApp implements Runnable {
    * @return the thread
    * @throws IOException Execution problems
    */
-  private Thread spawnIntoThread() throws IOException, HoyaException {
+  private Thread spawnIntoThread() throws IOException, SliderException {
     spawnChildProcess();
     return new Thread(this, getCommand());
   }
@@ -264,9 +264,9 @@ public class RunLongLivedApp implements Runnable {
   /**
    * Spawn the application
    * @throws IOException IO problems
-   * @throws HoyaException internal state of this class is wrong
+   * @throws SliderException internal state of this class is wrong
    */
-  public void spawnApplication() throws IOException, HoyaException {
+  public void spawnApplication() throws IOException, SliderException {
     execThread = spawnIntoThread();
     execThread.start();
     processStreamReader =

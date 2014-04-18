@@ -56,7 +56,7 @@ import org.apache.hoya.HoyaExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -218,14 +218,14 @@ public class RpcBinder {
                                        ApplicationReport application,
                                        final int rpcTimeout) throws
                                                              IOException,
-                                                             HoyaException,
+      SliderException,
                                                              InterruptedException {
 
     String host = application.getHost();
     int port = application.getRpcPort();
     String address = host + ":" + port;
     if (host == null || 0 == port) {
-      throw new HoyaException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
+      throw new SliderException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
                               "Hoya YARN instance " + application.getName()
                               + " isn't providing a valid address for the" +
                               " Hoya RPC protocol: " + address);

@@ -21,8 +21,8 @@ package org.apache.hoya.yarn.cluster.masterless
 import groovy.util.logging.Slf4j
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.HoyaException
-import org.apache.hoya.exceptions.UnknownClusterException
+import org.apache.hoya.exceptions.SliderException
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs
@@ -84,7 +84,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     try {
       createMasterlessAM(clustername, 0, false, false)
       fail("expected a failure, got an AM")
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       assertExceptionDetails(e,
                              HoyaExitCodes.EXIT_INSTANCE_EXISTS,
                              ErrorStrings.E_ALREADY_EXISTS)
@@ -114,7 +114,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
                             Arguments.ARG_MANAGER, RMAddr,
                         ])
       fail("expected an exception")
-    } catch (UnknownClusterException e) {
+    } catch (UnknownApplicationInstanceException e) {
       //expected
     }
 
@@ -145,7 +145,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     try {
       int ec = cluster2.actionDestroy(clustername)
       fail("expected a failure from the destroy, got error code $ec")
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
       assertFailureClusterInUse(e);
     }
     

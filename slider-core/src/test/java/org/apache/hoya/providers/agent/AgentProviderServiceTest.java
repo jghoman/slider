@@ -33,7 +33,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
@@ -108,7 +108,7 @@ public class AgentProviderServiceTest {
           eq("HBASE_MASTER"),
           any(HeartBeatResponse.class),
           eq("scripts/hbase_master.py"));
-    } catch (HoyaException e) {
+    } catch (SliderException e) {
     }
 
     expect(access.isApplicationLive()).andReturn(true).anyTimes();
@@ -135,7 +135,7 @@ public class AgentProviderServiceTest {
                                           resourceComponent,
                                           appComponent,
                                           containerTmpDirPath);
-    } catch (HoyaException he) {
+    } catch (SliderException he) {
       log.warn(he.getMessage());
     } catch (IOException ioe) {
       log.warn(ioe.getMessage());

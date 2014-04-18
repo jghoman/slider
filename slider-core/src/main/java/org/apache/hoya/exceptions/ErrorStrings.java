@@ -27,7 +27,7 @@ public interface ErrorStrings {
   String E_MISSING_PATH = "Missing path ";
   String E_INCOMPLETE_CLUSTER_SPEC =
     "Cluster specification is marked as incomplete: ";
-  String E_UNKNOWN_CLUSTER = "Unknown application instance ";
+  String E_UNKNOWN_INSTANCE = "Unknown application instance ";
   String E_DESTROY_CREATE_RACE_CONDITION =
       "created while it was being destroyed";
   String E_UNKNOWN_ROLE = "Unknown role ";

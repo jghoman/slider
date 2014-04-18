@@ -23,7 +23,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.agent.AgentKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +55,10 @@ public abstract class HoyaProviderFactory extends Configured {
    * Create a provider for a specific application
    * @param application app
    * @return app instance
-   * @throws HoyaException on any instantiation problem
+   * @throws SliderException on any instantiation problem
    */
   public static HoyaProviderFactory createHoyaProviderFactory(String application) throws
-                                                                                  HoyaException {
+      SliderException {
     Configuration conf = loadHoyaConfiguration();
     if (application == null) {
       application = DEFAULT_CLUSTER_TYPE;

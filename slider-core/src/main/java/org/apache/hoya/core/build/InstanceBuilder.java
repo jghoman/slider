@@ -37,7 +37,7 @@ import org.apache.hoya.core.persist.LockHeldAction;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
@@ -217,13 +217,13 @@ public class InstanceBuilder {
   /**
    * Persist this
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    * @throws LockAcquireFailedException
    * @param appconfdir
    */
   public void persist(Path appconfdir) throws
                                        IOException,
-                                       HoyaException,
+      SliderException,
                                        LockAcquireFailedException {
     coreFS.createClusterDirectories(instancePaths);
     ConfPersister persister =
@@ -270,7 +270,7 @@ public class InstanceBuilder {
     }
 
     @Override
-    public void execute() throws IOException, HoyaException {
+    public void execute() throws IOException, SliderException {
 
       takeSnapshotOfConfDir(appconfdir);
     }

@@ -23,8 +23,7 @@ import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.HoyaException
-import org.apache.hoya.exceptions.UnknownClusterException
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionStatusArgs
@@ -67,7 +66,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
           ]
       )
       fail("expected an exception, got a status code " + launcher.serviceExitCode)
-    } catch (UnknownClusterException e) {
+    } catch (UnknownApplicationInstanceException e) {
       //expected
     }
 

@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.model.appstate
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ContainerId
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.TriggerClusterTeardownException
 import org.apache.hoya.yarn.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
@@ -122,7 +122,7 @@ class TestAppStateContainerFailure extends BaseMockAppStateTest
     List<ContainerId> ids = extractContainerIds(instances, 0)
 
     ContainerId cid = ids[0]
-    appState.onNodeManagerContainerStartFailed(cid, new HoyaException("oops"))
+    appState.onNodeManagerContainerStartFailed(cid, new SliderException("oops"))
     RoleStatus status = role0Status
     assert status.failed == 1
     assert status.startFailed == 1
@@ -153,7 +153,7 @@ class TestAppStateContainerFailure extends BaseMockAppStateTest
         ContainerId cid = ids[0]
         log.info("$i instance $instances[0] $cid")
         assert cid 
-        appState.onNodeManagerContainerStartFailed(cid, new HoyaException("oops"))
+        appState.onNodeManagerContainerStartFailed(cid, new SliderException("oops"))
         AppState.NodeCompletionResult result = appState.onCompletedNode(containerStatus(cid))
         assert result.containerFailed
       }

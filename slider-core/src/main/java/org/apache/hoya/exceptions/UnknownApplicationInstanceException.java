@@ -18,33 +18,33 @@
 
 package org.apache.hoya.exceptions;
 
-public class UnknownClusterException extends HoyaException {
-  public UnknownClusterException(String s) {
+public class UnknownApplicationInstanceException extends SliderException {
+  public UnknownApplicationInstanceException(String s) {
     super(EXIT_UNKNOWN_INSTANCE, s);
   }
 
-  public UnknownClusterException(String s, Throwable throwable) {
+  public UnknownApplicationInstanceException(String s, Throwable throwable) {
     super(EXIT_UNKNOWN_INSTANCE, throwable, s);
   }
 
-  public UnknownClusterException(String message,
-                                 Object... args) {
+  public UnknownApplicationInstanceException(String message,
+      Object... args) {
     super(EXIT_UNKNOWN_INSTANCE, message, args);
   }
 
   /**
    * Create an instance with the standard exception name
-   * @param clustername name
+   * @param name name
    * @return an instance to throw
    */
-  public static UnknownClusterException unknownCluster(String clustername) {
-    return new UnknownClusterException(ErrorStrings.E_UNKNOWN_CLUSTER
-                                   + ": " + clustername);
+  public static UnknownApplicationInstanceException unknownInstance(String name) {
+    return new UnknownApplicationInstanceException(ErrorStrings.E_UNKNOWN_INSTANCE
+                                   + ": " + name);
   }
-  public static UnknownClusterException unknownCluster(String clustername,
-                                                       Throwable throwable) {
-    UnknownClusterException exception =
-      unknownCluster(clustername);
+  public static UnknownApplicationInstanceException unknownInstance(String name,
+      Throwable throwable) {
+    UnknownApplicationInstanceException exception =
+      unknownInstance(name);
     exception.initCause(throwable);
     return exception;
   }

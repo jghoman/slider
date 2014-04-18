@@ -28,7 +28,7 @@ public class RoleHistoryUtils {
   public static String hostnameOf(Container container) {
     NodeId nodeId = container.getNodeId();
     if (nodeId== null) {
-      throw new HoyaRuntimeException("Container has no node ID: %s",
+      throw new RuntimeException("Container has no node ID: %s" +
          HoyaUtils.containerToString(container));
     }
     return nodeId.getHost();

@@ -27,7 +27,7 @@ import org.apache.hoya.api.proto.Messages;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.WaitTimeoutException;
 import org.apache.hoya.tools.Duration;
@@ -239,7 +239,7 @@ public class HoyaClusterOperations {
    * @return the state. If still in CREATED, the cluster didn't come up
    * in the time period. If LIVE, all is well. If >LIVE, it has shut for a reason
    * @throws IOException IO
-   * @throws HoyaException Hoya
+   * @throws SliderException Hoya
    * @throws WaitTimeoutException if the wait timed out
    */
   @VisibleForTesting

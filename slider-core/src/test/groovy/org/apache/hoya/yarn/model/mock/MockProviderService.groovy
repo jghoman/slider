@@ -30,7 +30,7 @@ import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.conf.MapOperations
 import org.apache.hoya.core.launch.ContainerLauncher
 import org.apache.hoya.exceptions.BadCommandArgumentsException
-import org.apache.hoya.exceptions.HoyaException
+import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.tools.HoyaFileSystem
@@ -63,7 +63,7 @@ class MockProviderService implements ProviderService {
   }
 
   @Override
-  public void validateInstanceDefinition(AggregateConf instanceDefinition) throws HoyaException {
+  public void validateInstanceDefinition(AggregateConf instanceDefinition) throws SliderException {
   }
 
   @Override
@@ -142,7 +142,7 @@ class MockProviderService implements ProviderService {
 
   @Override
   public void buildContainerLaunchContext(ContainerLaunchContext ctx, HoyaFileSystem hoyaFileSystem, Path generatedConfPath, String role,
-      ClusterDescription clusterSpec, Map<String,String> roleOptions) throws IOException, HoyaException {
+      ClusterDescription clusterSpec, Map<String,String> roleOptions) throws IOException, SliderException {
   }
 
 
@@ -151,7 +151,7 @@ class MockProviderService implements ProviderService {
       AggregateConf instanceDefinition,
       File confDir,
       Map<String, String> env,
-      EventCallback execInProgress) throws IOException, HoyaException {
+      EventCallback execInProgress) throws IOException, SliderException {
     return false;
   }
 
@@ -169,7 +169,7 @@ class MockProviderService implements ProviderService {
   public void validateApplicationConfiguration(
       AggregateConf instanceDefinition,
       File confDir,
-      boolean secure) throws IOException, HoyaException {
+      boolean secure) throws IOException, SliderException {
   }
 
 
@@ -188,7 +188,7 @@ class MockProviderService implements ProviderService {
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,
-      Path containerTmpDirPath) throws IOException, HoyaException {
+      Path containerTmpDirPath) throws IOException, SliderException {
 
   }
 
