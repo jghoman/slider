@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.cluster.freezethaw
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.exceptions.UnknownClusterException
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
@@ -44,7 +44,7 @@ class TestThawUnknownCluster extends YarnZKMiniClusterTestBase {
     try {
       ServiceLauncher launcher = thawHoyaCluster(clustername, [], true);
       fail("expected a failure, got ${launcher.serviceExitCode}")
-    } catch (UnknownClusterException e) {
+    } catch (UnknownApplicationInstanceException e) {
       assert e.toString().contains(clustername)
     }
   }

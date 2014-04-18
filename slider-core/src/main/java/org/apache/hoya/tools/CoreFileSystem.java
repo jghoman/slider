@@ -40,7 +40,7 @@ import org.apache.hoya.core.persist.InstancePaths;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.exceptions.UnknownClusterException;
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -546,9 +546,11 @@ public class CoreFileSystem {
       SliderException {
     if (!fileSystem.isFile(clusterSpecPath)) {
       log.debug("Missing specification file {}", clusterSpecPath);
-      throw UnknownClusterException.unknownCluster(clustername
-                             + "\n (definition not found at "
-                             + clusterSpecPath);
+      throw UnknownApplicationInstanceException.unknownInstance(clustername
+                                                                +
+                                                                "\n (definition not found at "
+                                                                +
+                                                                clusterSpecPath);
     }
   }
 }

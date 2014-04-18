@@ -22,7 +22,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.exceptions.UnknownClusterException
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs
@@ -114,7 +114,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
                             Arguments.ARG_MANAGER, RMAddr,
                         ])
       fail("expected an exception")
-    } catch (UnknownClusterException e) {
+    } catch (UnknownApplicationInstanceException e) {
       //expected
     }
 

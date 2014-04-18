@@ -63,7 +63,7 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
-import org.apache.hoya.exceptions.UnknownClusterException;
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException;
 import org.apache.hoya.exceptions.WaitTimeoutException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.HoyaProviderFactory;
@@ -571,7 +571,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @return the loaded configuration
    * @throws IOException
    * @throws SliderException
-   * @throws UnknownClusterException if the file is not found
+   * @throws UnknownApplicationInstanceException if the file is not found
    */
   public AggregateConf loadInstanceDefinitionUnresolved(String name,
                                                          Path clusterDirectory) throws
@@ -584,7 +584,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                                                     clusterDirectory);
       return definition;
     } catch (FileNotFoundException e) {
-      throw UnknownClusterException.unknownCluster(name, e);
+      throw UnknownApplicationInstanceException.unknownInstance(name, e);
     }
   }
     /**
@@ -594,7 +594,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @return the loaded configuration
    * @throws IOException
    * @throws SliderException
-   * @throws UnknownClusterException if the file is not found
+   * @throws UnknownApplicationInstanceException if the file is not found
    */
   public AggregateConf loadInstanceDefinition(String name, boolean resolved) throws
                                                                       IOException,
@@ -2011,8 +2011,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @param clustername cluster name
    * @return an exception with text and a relevant exit code
    */
-  public UnknownClusterException unknownClusterException(String clustername) {
-    return UnknownClusterException.unknownCluster(clustername);
+  public UnknownApplicationInstanceException unknownClusterException(String clustername) {
+    return UnknownApplicationInstanceException.unknownInstance(clustername);
   }
 
   @Override
