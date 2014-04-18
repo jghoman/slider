@@ -50,7 +50,6 @@ import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderInternalStateException;
-import org.apache.hoya.exceptions.HoyaRuntimeException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.TriggerClusterTeardownException;
 import org.apache.hoya.providers.ProviderRole;
@@ -737,7 +736,7 @@ public class AppState implements StateAccessForProviders {
   }
 
   @Override
-  public RoleStatus lookupRoleStatus(int key) throws HoyaRuntimeException {
+  public RoleStatus lookupRoleStatus(int key) {
     RoleStatus rs = getRoleStatusMap().get(key);
     if (rs == null) {
       throw new RuntimeException("Cannot find role for role ID " + key);
@@ -1046,8 +1045,7 @@ public class AppState implements StateAccessForProviders {
    * @throws HoyaRuntimeException null if there was a problem
    */
   @VisibleForTesting
-  public RoleInstance innerOnNodeManagerContainerStarted(ContainerId containerId)
-      throws HoyaRuntimeException {
+  public RoleInstance innerOnNodeManagerContainerStarted(ContainerId containerId) {
     incStartedCountainerCount();
     RoleInstance instance = activeContainers.get(containerId);
     if (instance == null) {

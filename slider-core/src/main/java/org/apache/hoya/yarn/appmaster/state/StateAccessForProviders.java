@@ -24,7 +24,6 @@ import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
-import org.apache.hoya.exceptions.HoyaRuntimeException;
 import org.apache.hoya.exceptions.NoSuchNodeException;
 
 import java.util.Collection;
@@ -86,7 +85,7 @@ public interface StateAccessForProviders {
    * @return the status
    * @throws YarnRuntimeException on no match
    */
-  RoleStatus lookupRoleStatus(int key) throws HoyaRuntimeException;
+  RoleStatus lookupRoleStatus(int key);
 
   /**
    * Look up a role from its key -or fail 

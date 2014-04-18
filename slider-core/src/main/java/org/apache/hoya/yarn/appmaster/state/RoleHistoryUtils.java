@@ -20,7 +20,6 @@ package org.apache.hoya.yarn.appmaster.state;
 
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.NodeId;
-import org.apache.hoya.exceptions.HoyaRuntimeException;
 import org.apache.hoya.tools.HoyaUtils;
 
 public class RoleHistoryUtils {
