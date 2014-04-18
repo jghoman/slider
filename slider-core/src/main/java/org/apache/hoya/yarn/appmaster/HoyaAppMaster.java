@@ -651,8 +651,8 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     appState.noteAMLaunched();
 
 
-    //Give the provider restricted access to the state
-    providerService.bind(appState);
+    //Give the provider restricted access to the state, registry
+    providerService.bind(appState, registry);
     
     // the registry is running, so register services
     URL amWeb = new URL(appMasterTrackingUrl);
@@ -705,6 +705,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       amWeb,
       instanceData);
 
+    
 
     // launch the provider; this is expected to trigger a callback that
     // starts the node review process

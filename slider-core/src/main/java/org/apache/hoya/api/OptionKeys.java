@@ -136,6 +136,8 @@ public interface OptionKeys {
    * Zookeeper quorum host list: {@value}
    */
   String ZOOKEEPER_QUORUM = "zookeeper.quorum";
+  String ZOOKEEPER_HOSTS = "zookeeper.hosts";
+  String ZOOKEEPER_PORT = "zookeeper.port";
 
   /**
    * Zookeeper path value (string): {@value}

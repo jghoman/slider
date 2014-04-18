@@ -155,9 +155,7 @@ public abstract class YarnZKMiniClusterTestBase extends YarnMiniClusterTestBase 
    */
   protected List<String> getExtraCLIArgs() {
     [
-        Arguments.ARG_ZKHOSTS, ZKBinding,
-        "-D", define(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, ZKBinding)
-        
+      "-D", define(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, ZKBinding)
     ]
   }
 }

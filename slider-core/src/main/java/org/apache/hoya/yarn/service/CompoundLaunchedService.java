@@ -25,10 +25,13 @@ import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
 import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.HoyaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CompoundLaunchedService extends CompoundService
-  implements RunService {
-
+    implements RunService {
+  private static final Logger log = LoggerFactory.getLogger(
+      CompoundLaunchedService.class);
   private String[] argv;
   
   public CompoundLaunchedService(String name) {
@@ -73,6 +76,15 @@ public class CompoundLaunchedService extends CompoundService
   public Configuration bindArgs(Configuration config, String... args) throws
                                                                       Exception {
     this.argv = args;
+    if (log.isDebugEnabled()) {
+      log.debug("Binding {} Arguments:", args.length);
+
+      StringBuilder builder = new StringBuilder();
+      for (String arg : args) {
+        builder.append('"').append(arg).append("\" ");
+      }
+      log.debug(builder.toString());
+    }
     return config;
   }
 

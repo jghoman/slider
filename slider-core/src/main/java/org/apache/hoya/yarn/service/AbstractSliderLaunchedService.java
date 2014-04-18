@@ -21,8 +21,13 @@ package org.apache.hoya.yarn.service;
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import static org.apache.hoya.HoyaXmlConfKeys.*;
+
+import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.apache.slider.server.services.curator.CuratorHelper;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
@@ -42,12 +47,34 @@ public abstract class AbstractSliderLaunchedService extends
     new YarnConfiguration();
   }
 
+  /**
+   * Start the registration service
+   * @return the instance
+   * @throws BadConfigException
+   */
   protected RegistryBinderService<ServiceInstanceData> startRegistrationService()
       throws BadConfigException {
-    String zkConnection = getConfig().get(REGISTRY_ZK_QUORUM,
-      DEFAULT_REGISTRY_ZK_QUORUM);
+
+    String registryQuorum = lookupZKQuorum();
     String zkPath = getConfig().get(REGISTRY_PATH, DEFAULT_REGISTRY_PATH);
-    return startRegistrationService(zkConnection, zkPath);
+    return startRegistrationService(registryQuorum, zkPath);
+  }
+
+  /**
+   * look up the registry quorum from the config
+   * @return the quorum string
+   * @throws BadConfigException if it is not there or invalid
+   */
+  public String lookupZKQuorum() throws BadConfigException {
+    String registryQuorum = getConfig().get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    if (HoyaUtils.isUnset(registryQuorum)) {
+      throw new BadConfigException(
+          "No Zookeeper quorum provided in the"
+          + " configuration property " + HoyaXmlConfKeys.REGISTRY_ZK_QUORUM
+      );
+    }
+    ZookeeperUtils.splitToHostsAndPortsStrictly(registryQuorum);
+    return registryQuorum;
   }
 
   /**

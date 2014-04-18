@@ -404,10 +404,10 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     }
 
 
-    List<String> roleList = [];
+    List<String> componentList = [];
     roles.each { String role, Integer val ->
-      log.info("Role $role := $val")
-      roleList << Arguments.ARG_COMPONENT << role << Integer.toString(val)
+      log.info("Component $role := $val")
+      componentList << Arguments.ARG_COMPONENT << role << Integer.toString(val)
     }
 
     List<String> argsList = [
@@ -422,7 +422,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     }
 
     argsList += extraCLIArgs
-    argsList += roleList;
+    argsList += componentList;
     argsList += imageCommands
 
     //now inject any cluster options
@@ -440,7 +440,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient hoyaClient = launcher.service
     if (blockUntilRunning) {
       hoyaClient.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
@@ -566,6 +566,8 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
         Arguments.ARG_WAIT, WAIT_TIME_ARG,
         Arguments.ARG_FILESYSTEM, fsDefaultName,
     ]
+    argsList += extraCLIArgs
+
     if (extraArgs != null) {
       argsList += extraArgs;
     }

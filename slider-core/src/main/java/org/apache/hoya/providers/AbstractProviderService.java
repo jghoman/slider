@@ -33,6 +33,8 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.service.ForkedProcessService;
 import org.apache.hoya.yarn.service.Parent;
 import org.apache.hoya.yarn.service.SequenceService;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +63,7 @@ public abstract class AbstractProviderService
   protected  AggregateConf instanceDefinition;
   protected StateAccessForProviders stateAccessor;
   protected AgentRestOperations restOps;
+  protected RegistryBinderService<ServiceInstanceData> registry;
 
   public AbstractProviderService(String name) {
     super(name);
@@ -80,8 +83,10 @@ public abstract class AbstractProviderService
   }
 
   @Override
-  public void bind(StateAccessForProviders stateAccessor) {
+  public void bind(StateAccessForProviders stateAccessor,
+      RegistryBinderService<ServiceInstanceData> registry) {
     this.stateAccessor = stateAccessor;
+    this.registry = registry;
   }
 
   @Override

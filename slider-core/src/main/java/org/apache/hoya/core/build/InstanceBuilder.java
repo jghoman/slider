@@ -41,6 +41,7 @@ import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -239,14 +240,16 @@ public class InstanceBuilder {
    * 
    * @param zkBinding ZK binding
    */
-  public void addZKBinding(ZKPathBuilder zkBinding) {
-    
-    if (HoyaUtils.isSet(zkBinding.getAppQuorum())) {
+  public void addZKBinding(ZKPathBuilder zkBinding) throws BadConfigException {
+
+    String quorum = zkBinding.getAppQuorum();
+    if (HoyaUtils.isSet(quorum)) {
       MapOperations globalAppOptions =
           instanceDescription.getAppConfOperations().getGlobalOptions();
       globalAppOptions.put(ZOOKEEPER_PATH, zkBinding.getAppPath());
-      globalAppOptions.put(ZOOKEEPER_QUORUM, zkBinding.getAppQuorum());
-
+      globalAppOptions.put(ZOOKEEPER_QUORUM, quorum);
+      globalAppOptions.put(ZOOKEEPER_HOSTS,
+          ZookeeperUtils.convertToHostsOnlyList(quorum));
     }
   }
 

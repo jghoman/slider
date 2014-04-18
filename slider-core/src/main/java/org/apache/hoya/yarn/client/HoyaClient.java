@@ -155,7 +155,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   @Override
   public Configuration bindArgs(Configuration config, String... args) throws Exception {
     config = super.bindArgs(config, args);
-    log.debug("Binding Arguments");
     serviceArgs = new ClientArgs(args);
     serviceArgs.parse();
     // yarn-ify
@@ -368,8 +367,9 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     HoyaUtils.validateClusterName(clustername);
     verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
-    Configuration conf = getConfig();
 
+    Configuration conf = getConfig();
+    String registryQuorum = lookupZKQuorum();
 
     Path appconfdir = buildInfo.getConfdir();
     // Provider
@@ -466,7 +466,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     builder.setImageDetails(buildInfo.getImage(), buildInfo.getAppHomeDir());
 
 
-    String registryQuorum = conf.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
     String quorum = buildInfo.getZKhosts();
     if (HoyaUtils.isUnset(quorum)) {
       quorum = registryQuorum;
@@ -534,13 +533,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
         + " or the configuration property "
         + YarnConfiguration.RM_ADDRESS 
         + " value :" + rmAddr);
-    }
-
-    String registryQuorum = getConfig().get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
-    if (HoyaUtils.isUnset(registryQuorum)) {
-      throw new BadCommandArgumentsException(
-        "No Zookeeper quorum provided in the"
-        + " configuration property" + HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
     }
 
   }
@@ -644,6 +636,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     HoyaUtils.validateClusterName(clustername);
     verifyNoLiveClusters(clustername);
     Configuration config = getConfig();
+    lookupZKQuorum();
     boolean clusterSecure = HoyaUtils.isClusterSecure(config);
     //create the Hoya AM provider -this helps set up the AM
     HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(config);
@@ -653,9 +646,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
 
     ConfTreeOperations internalOperations =
       instanceDefinition.getInternalOperations();
-    MapOperations
-      internalOptions =
-      internalOperations.getGlobalOptions();
+    MapOperations internalOptions = internalOperations.getGlobalOptions();
     ConfTreeOperations resourceOperations =
       instanceDefinition.getResourceOperations();
     ConfTreeOperations appOperations =
@@ -864,8 +855,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     commandLine.add(HoyaAMArgs.CLASSNAME);
 
     // create action and the cluster name
-    commandLine.add(HoyaActions.ACTION_CREATE);
-    commandLine.add(clustername);
+    commandLine.add(HoyaActions.ACTION_CREATE, clustername);
 
     // debug
     if (debugAM) {
@@ -873,34 +863,27 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     }
 
     // set the cluster directory path
-    commandLine.add(Arguments.ARG_HOYA_CLUSTER_URI);
-    commandLine.add(clusterDirectory.toUri().toString());
+    commandLine.add(Arguments.ARG_HOYA_CLUSTER_URI, clusterDirectory.toUri());
 
     if (!isUnset(rmAddr)) {
-      commandLine.add(Arguments.ARG_RM_ADDR);
-      commandLine.add(rmAddr);
+      commandLine.add(Arguments.ARG_RM_ADDR, rmAddr);
     }
 
     if (serviceArgs.getFilesystemURL() != null) {
-      commandLine.add(Arguments.ARG_FILESYSTEM);
-      commandLine.add(serviceArgs.getFilesystemURL().toString());
+      commandLine.add(Arguments.ARG_FILESYSTEM, serviceArgs.getFilesystemURL());
     }
-
-    /**
-     * If set, the ZK registry bindings are passed in
-     */
-    propagateConfOption(commandLine, config, HoyaXmlConfKeys.REGISTRY_PATH);
-    propagateConfOption(commandLine, config, HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    
+    addConfOptionToCLI(commandLine, config, REGISTRY_PATH,
+        DEFAULT_REGISTRY_PATH);
+    addMandatoryConfOptionToCLI(commandLine, config, REGISTRY_ZK_QUORUM);
     
     if (clusterSecure) {
       // if the cluster is secure, make sure that
       // the relevant security settings go over
-      propagateConfOption(commandLine,
-                          config,
-                          HoyaXmlConfKeys.KEY_SECURITY_ENABLED);
-      propagateConfOption(commandLine,
-                          config,
-                          DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
+      addConfOptionToCLI(commandLine, config, KEY_SECURITY_ENABLED);
+      addConfOptionToCLI(commandLine,
+          config,
+          DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
     }
     // write out the path output
     commandLine.addOutAndErrFiles(STDOUT_AM, STDERR_AM);
@@ -1020,15 +1003,33 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   }
 
 
-  private void propagateConfOption(CommandLineBuilder cmdLine, Configuration conf,
-                                   String key) {
+  private boolean addConfOptionToCLI(CommandLineBuilder cmdLine,
+      Configuration conf,
+      String key) {
     String val = conf.get(key);
     if (val != null) {
-      cmdLine.add(Arguments.ARG_DEFINE);
-      cmdLine.add(key + "=" + val);
+      cmdLine.add(Arguments.ARG_DEFINE, key + "=" + val);
+      return true;
+    } else {
+      return false;
     }
   }
+  
+  private void addConfOptionToCLI(CommandLineBuilder cmdLine,
+      Configuration conf,
+      String key, String defVal) {
+    String val = conf.get(key, defVal);
+      cmdLine.add(Arguments.ARG_DEFINE, key + "=" + val);
+  }
 
+  private void addMandatoryConfOptionToCLI(CommandLineBuilder cmdLine,
+      Configuration conf,
+      String key) throws BadConfigException {
+    if (!addConfOptionToCLI(cmdLine, conf, key)) {
+      throw new BadConfigException("Missing configuration option: " + key);
+    }
+  }
+  
   /**
    * Create a path that must exist in the cluster fs
    * @param uri uri to create

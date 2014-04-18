@@ -40,12 +40,12 @@ public class CommandLineBuilder {
 
   /**
    * Add an entry to the command list
-   * @param arg argument
-   * @return the argument
+   * @param arg argument -this will be converted to a string
    */
-  public String add(String arg) {
-    argumentList.add(arg);
-    return arg;
+  public void add(Object... args) {
+    for (Object arg : args) {
+      argumentList.add(arg.toString());
+    }
   }
 
   /**
