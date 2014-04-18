@@ -55,14 +55,17 @@ confdir=${SLIDER_CONF_DIR:-$confdir}
 slider_jvm_opts="-Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -Xmx256m -Djava.confdir=${confdir}"
 slider_jvm_opts=${SLIDER_JVM_OPTS:-$slider_jvm_opts}
 
-slider_classpath="${libdir}/*:${confdir}"
+# allow for an extra classpath
+slider_classpath_extra=${SLIDER_CLASSPATH_EXTRA:""}
+
+slider_classpath="${libdir}/*:${confdir}:${slider_classpath_extra}"
 
 launcher=org.apache.hoya.Hoya
 
 
-echo "slider_home is \"${slider_home}\""
-echo "slider_jvm_opts is \"${slider_jvm_opts}\""
-echo "classpath is \"${slider_classpath}\""
+echo "slider_home = \"${slider_home}\""
+echo "slider_jvm_opts = \"${slider_jvm_opts}\""
+echo "classpath = \"${slider_classpath}\""
 export CLASSPATH="${slider_classpath}"
 echo ""
 

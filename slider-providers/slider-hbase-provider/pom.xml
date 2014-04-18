@@ -110,7 +110,7 @@
             <java.security.krb5.kdc>${slider.test.java.security.krb5.kdc}</java.security.krb5.kdc>
             <!-- this property must be supplied-->
             <slider.conf.dir>${slider.conf.dir}</slider.conf.dir>
-            <slider.bin.dir>../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
+            <slider.bin.dir>../../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
           </systemPropertyVariables>
           <includes>
             <include>**/Test*.java</include>
@@ -139,12 +139,6 @@
       <groupId>org.apache.slider</groupId>
       <artifactId>slider-core</artifactId>
       <version>${project.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-          </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -169,7 +163,6 @@
       <version>${project.version}</version>
     </dependency>
 
-
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
@@ -185,7 +178,6 @@
        <groupId>org.apache.hbase</groupId>
        <artifactId>hbase-client</artifactId>
     </dependency>
-
 
     <dependency>
       <groupId>org.apache.hadoop</groupId>

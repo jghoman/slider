@@ -17,6 +17,7 @@
     <module>slider-assembly</module>
     <module>slider-funtest</module>
     <module>slider-providers/slider-hbase-provider</module>
+    <module>slider-providers/slider-accumulo-provider</module>
   </modules>
 
   <licenses>

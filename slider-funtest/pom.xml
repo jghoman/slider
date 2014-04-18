@@ -225,35 +225,6 @@
       <artifactId>itest-common</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-minicluster</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-start</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-trace</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-test</artifactId>
-      <scope>test</scope>
-    </dependency>
     
   </dependencies>
 

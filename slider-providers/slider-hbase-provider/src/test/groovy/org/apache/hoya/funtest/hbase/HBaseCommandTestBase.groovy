@@ -24,20 +24,26 @@ import org.apache.hoya.providers.hbase.HBaseClientProvider
 import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
 import org.junit.Before
+import org.junit.BeforeClass
 
-import static org.apache.hoya.funtest.framework.FuntestProperties.*
+import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_HBASE_APPCONF
+import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_HBASE_TAR
 
 /**
  * Anything specific to HBase tests
  */
 abstract class HBaseCommandTestBase extends CommandTestBase {
 
+  @BeforeClass
+  public static void setupClass() {
+    addExtraJar(HBaseClientProvider)
+  }
+
   @Before 
   public void verifyPreconditions() {
     assumeHBaseTestsEnabled()
     getRequiredConfOption(HOYA_CONFIG, KEY_TEST_HBASE_TAR)
     getRequiredConfOption(HOYA_CONFIG, KEY_TEST_HBASE_APPCONF)
-
   }
 
   /**

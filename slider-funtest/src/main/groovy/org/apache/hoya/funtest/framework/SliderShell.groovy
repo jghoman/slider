@@ -21,6 +21,7 @@ package org.apache.hoya.funtest.framework
 import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell
 import org.apache.hoya.exceptions.SliderException
+import org.apache.hoya.tools.HoyaUtils
 
 @Slf4j
 
@@ -36,6 +37,8 @@ class SliderShell extends Shell {
   public static File confDir;
   
   public static File script;
+  
+  public static final List<String> slider_classpath_extra = []
 
   final String command
 
@@ -55,17 +58,25 @@ class SliderShell extends Shell {
    * @return the script exit code
    */
   int execute() {
-    String confDirCmd = "export "+ FuntestProperties.ENV_CONF_DIR +"=${confDir.toString()};"
+    String confDirCmd = env(FuntestProperties.ENV_CONF_DIR, confDir)
     log.info(command)
     List<String> commandLine = [
         confDirCmd,
-        command
     ]
+    if (!slider_classpath_extra.isEmpty()) {
+      commandLine << env(FuntestProperties.ENV_SLIDER_CLASSPATH_EXTRA,
+          HoyaUtils.join(slider_classpath_extra, ":", false))
+    }
+    commandLine << command
     String script = commandLine.join("\n")
     log.debug(script)
     super.exec(script);
     signCorrectReturnCode()
     return ret;
+  }
+
+  String env(String var, Object val) {
+    return "export " + var + "=${val.toString()};"
   }
 
   /**

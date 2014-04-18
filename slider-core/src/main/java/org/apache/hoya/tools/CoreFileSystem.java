@@ -436,11 +436,7 @@ public class CoreFileSystem {
    */
   public LocalResource submitJarWithClass(Class clazz, Path tempPath, String subdir, String jarName)
           throws IOException, SliderException {
-    File localFile = HoyaUtils.findContainingJar(clazz);
-    if (null == localFile) {
-      throw new FileNotFoundException("Could not find JAR containing " + clazz);
-    }
-
+    File localFile = HoyaUtils.findContainingJarOrFail(clazz);
     LocalResource resource = submitFile(localFile, tempPath, subdir, jarName);
     return resource;
   }

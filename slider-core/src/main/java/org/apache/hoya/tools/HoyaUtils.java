@@ -177,6 +177,23 @@ public final class HoyaUtils {
   /**
    * Find a containing JAR
    * @param my_class class to find
+   * @return the file
+   * @throws IOException any IO problem, including the class not having a
+   * classloader
+   * @throws FileNotFoundException if the class did not resolve to a file
+   */
+  public static File findContainingJarOrFail(Class clazz) throws IOException {
+    File localFile = HoyaUtils.findContainingJar(clazz);
+    if (null == localFile) {
+      throw new FileNotFoundException("Could not find JAR containing " + clazz);
+    }
+    return localFile;
+  }
+
+
+  /**
+   * Find a containing JAR
+   * @param my_class class to find
    * @return the file or null if it is not found
    * @throws IOException any IO problem, including the class not having a
    * classloader

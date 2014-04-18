@@ -22,6 +22,7 @@ import groovy.transform.CompileStatic
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
+import org.apache.hadoop.security.ssl.SSLFactory
 import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -50,17 +51,14 @@ abstract class CommandTestBase extends HoyaTestUtils {
       LoggerFactory.getLogger(CommandTestBase.class);
   
   public static final String BASH = '/bin/bash -s'
-  public static final String HOYA_CONF_DIR = System.getProperty(
-      HOYA_CONF_DIR_PROP)
-  public static final String HOYA_BIN_DIR = System.getProperty(
-      HOYA_BIN_DIR_PROP)
+  public static final String HOYA_CONF_DIR = sysprop(HOYA_CONF_DIR_PROP)
+  public static final String HOYA_BIN_DIR = sysprop(HOYA_BIN_DIR_PROP)
   public static final File HOYA_BIN_DIRECTORY = new File(
       HOYA_BIN_DIR).canonicalFile
   public static final File HOYA_SCRIPT = new File(
       HOYA_BIN_DIRECTORY,
       "bin/slider").canonicalFile
-  public static final File HOYA_CONF_DIRECTORY = new File(
-      HOYA_CONF_DIR).canonicalFile
+  public static final File HOYA_CONF_DIRECTORY = new File(HOYA_CONF_DIR).canonicalFile
   public static final File HOYA_CONF_XML = new File(HOYA_CONF_DIRECTORY,
       CLIENT_CONFIG_FILENAME).canonicalFile
 
@@ -123,6 +121,24 @@ abstract class CommandTestBase extends HoyaTestUtils {
              "and YARN RM @ ${HOYA_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
   }
 
+  /**
+   * Add a jar to the slider classpath
+   * @param clazz
+   */
+  public static void addExtraJar(Class clazz) {
+
+    def jar = HoyaUtils.findContainingJarOrFail(clazz)
+    SliderShell.slider_classpath_extra << jar.absolutePath
+  }
+
+  public static String sysprop(String key) {
+    def property = System.getProperty(key)
+    if (!property) {
+      throw new RuntimeException("Undefined property $key")
+    }
+    return property
+  }
+  
   /**
    * Exec any hoya command 
    * @param conf

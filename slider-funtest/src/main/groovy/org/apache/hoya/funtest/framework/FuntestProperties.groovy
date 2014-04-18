@@ -55,6 +55,7 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   String CLIENT_CONFIG_FILENAME = HoyaKeys.CLIENT_RESOURCE
   
   String ENV_CONF_DIR = "SLIDER_CONF_DIR"
+  String ENV_SLIDER_CLASSPATH_EXTRA = "SLIDER_CLASSPATH_EXTRA"
 
   String SCRIPT_NAME = "slider"
 }
