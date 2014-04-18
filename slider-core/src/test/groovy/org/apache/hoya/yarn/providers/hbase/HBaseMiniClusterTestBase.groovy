@@ -187,7 +187,6 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
         extraArgs,
         deleteExistingData,
         blockUntilRunning)
-
   }
 
   /**

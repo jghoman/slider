@@ -37,6 +37,9 @@ public class SliderAmFilterInitializer extends FilterInitializer {
   private static final String HTTP_PREFIX = "http://";
   private Configuration configuration;
 
+  public static final String NAME =
+    "org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer";
+
   @Override
   public void initFilter(FilterContainer container, Configuration conf) {
     configuration = conf;

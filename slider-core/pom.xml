@@ -389,11 +389,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!--
         <dependency>
           <groupId>org.apache.accumulo</groupId>
@@ -448,6 +443,39 @@
       <artifactId>commons-codec</artifactId>
     </dependency>
 
+    <!-- ======================================================== -->
+    <!-- service registry -->
+    <!-- ======================================================== -->
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-client</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-framework</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-x-discovery</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-x-discovery-server</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+    </dependency>
+    
     <!-- ======================================================== -->
     <!-- Jersey and webapp support -->
     <!-- ======================================================== -->
@@ -506,12 +534,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>

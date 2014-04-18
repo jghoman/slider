@@ -40,7 +40,7 @@ class TestInvalidMonitorAddress extends AccumuloTestBase {
   @Test
   public void testInvalidMonitorAddress() throws Throwable {
     String clustername = "test_invalid_monitor_address"
-    createMiniCluster(clustername, getConfiguration(), 1, true)
+    createMiniCluster(clustername, configuration, 1, true)
 
     describe "verify that bad Java heap options are picked up"
     
@@ -56,7 +56,7 @@ class TestInvalidMonitorAddress extends AccumuloTestBase {
            ],
            true,
            true)
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      HoyaClient hoyaClient = launcher.service
       addToTeardown(hoyaClient);
       ClusterDescription status = hoyaClient.clusterDescription
       dumpClusterDescription("Remote CD", status)

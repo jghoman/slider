@@ -72,7 +72,6 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AMRestartSupport;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.exceptions.HoyaInternalStateException;
@@ -97,16 +96,23 @@ import org.apache.hoya.yarn.appmaster.state.RMOperationHandler;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp;
+import org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer;
 import org.apache.hoya.yarn.appmaster.web.SliderAmIpFilter;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
+import static org.apache.hoya.yarn.appmaster.web.rest.RestPaths.*;
 import org.apache.hoya.yarn.params.AbstractActionArgs;
 import org.apache.hoya.yarn.params.HoyaAMArgs;
 import org.apache.hoya.yarn.params.HoyaAMCreateAction;
-import org.apache.hoya.yarn.service.CompoundLaunchedService;
+import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
+import org.apache.slider.core.registry.info.RegisteredEndpoint;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.RegistryBinderService;
+import org.apache.slider.server.services.curator.RegistryConsts;
+import org.apache.slider.server.services.curator.RegistryNaming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,6 +120,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -129,7 +136,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * This is the AM, which directly implements the callbacks from the AM and NM
  */
-public class HoyaAppMaster extends CompoundLaunchedService
+public class HoyaAppMaster extends AbstractSliderLaunchedService 
   implements AMRMClientAsync.CallbackHandler,
              NMClientAsync.CallbackHandler,
              RunService,
@@ -244,6 +251,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
    */
   private ProviderService providerService;
 
+  private RegistryBinderService<ServiceInstanceData> registry;
+  
   /**
    * Record of the max no. of cores allowed in this cluster
    */
@@ -259,9 +268,11 @@ public class HoyaAppMaster extends CompoundLaunchedService
   private RoleLaunchService launchService;
   
   //username -null if it is not known/not to be set
-  private String hoyaUsername;
+  private String hadoop_user_name;
+  private String service_user_name;
   
   private HoyaAMWebApp webApp;
+  private InetSocketAddress rpcServiceAddress;
 
   /**
    * Service Constructor
@@ -315,7 +326,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
 
     //look at settings of Hadoop Auth, to pick up a problem seen once
     checkAndWarnForAuthTokenProblems();
-
+   
+    //init all child services
     super.serviceInit(conf);
   }
   
@@ -364,6 +376,19 @@ public class HoyaAppMaster extends CompoundLaunchedService
     return exitCode;
   }
 
+
+  /**
+   * Initialize a newly created service then add it. 
+   * Because the service is not started, this MUST be done before
+   * the AM itself starts, or it is explicitly added after
+   * @param service the service to init
+   */
+  public Service initAndAddService(Service service) {
+    service.init(getConfig());
+    addService(service);
+    return service;
+  }
+
   /* =================================================================== */
 
   /**
@@ -400,15 +425,15 @@ public class HoyaAppMaster extends CompoundLaunchedService
 
     Configuration serviceConf = getConfig();
     // Try to get the proper filtering of static resources through the yarn proxy working
-    serviceConf.set("hadoop.http.filter.initializers", 
-        "org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer");
-    serviceConf.set(SliderAmIpFilter.WS_CONTEXT_ROOT, "/ws");
+    serviceConf.set("hadoop.http.filter.initializers",
+                    SliderAmFilterInitializer.NAME);
+    serviceConf.set(SliderAmIpFilter.WS_CONTEXT_ROOT, WS_CONTEXT_ROOT);
     
     conf = new YarnConfiguration(serviceConf);
     //get our provider
-    MapOperations globalOptions =
+    MapOperations globalInternalOptions =
       instanceDefinition.getInternalOperations().getGlobalOptions();
-    String providerType = globalOptions.getMandatoryOption(
+    String providerType = globalInternalOptions.getMandatoryOption(
       OptionKeys.INTERNAL_PROVIDER_NAME);
     log.info("Cluster provider type is {}", providerType);
     HoyaProviderFactory factory =
@@ -416,8 +441,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
         providerType);
     providerService = factory.createServerProvider();
     // init the provider BUT DO NOT START IT YET
-    providerService.init(getConfig());
-    addService(providerService);
+    initAndAddService(providerService);
     
     InetSocketAddress address = HoyaUtils.getRmSchedulerAddress(conf);
     log.info("RM is at {}", address);
@@ -429,7 +453,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
      */
     appMasterContainerID = ConverterUtils.toContainerId(
       HoyaUtils.mandatoryEnvVariable(
-        ApplicationConstants.Environment.CONTAINER_ID.name()));
+        ApplicationConstants.Environment.CONTAINER_ID.name())
+                                                       );
     appAttemptID = appMasterContainerID.getApplicationAttemptId();
 
     ApplicationId appid = appAttemptID.getApplicationId();
@@ -465,8 +490,11 @@ public class HoyaAppMaster extends CompoundLaunchedService
     // if not a secure cluster, extract the username -it will be
     // propagated to workers
     if (!UserGroupInformation.isSecurityEnabled()) {
-      hoyaUsername = System.getenv(HADOOP_USER_NAME);
-      log.info(HADOOP_USER_NAME + "='{}'", hoyaUsername);
+      hadoop_user_name = System.getenv(HADOOP_USER_NAME);
+      service_user_name = hadoop_user_name;
+      log.info(HADOOP_USER_NAME + "='{}'", hadoop_user_name);
+    } else {
+      service_user_name = UserGroupInformation.getCurrentUser().getUserName();
     }
 
     Map<String, String> envVars;
@@ -485,32 +513,38 @@ public class HoyaAppMaster extends CompoundLaunchedService
       //wrap it for the app state model
       rmOperationHandler = new AsyncRMOperationHandler(asyncRMClient);
       //now bring it up
-      runChildService(asyncRMClient);
+      deployChildService(asyncRMClient);
 
 
       //nmclient relays callbacks back to this class
       nmClientAsync = new NMClientAsyncImpl("nmclient", this);
-      runChildService(nmClientAsync);
+      deployChildService(nmClientAsync);
 
       //bring up the Hoya RPC service
       startHoyaRPCServer();
 
-      InetSocketAddress rpcServiceAddr = rpcService.getConnectAddress();
-      appMasterHostname = rpcServiceAddr.getHostName();
-      appMasterRpcPort = rpcServiceAddr.getPort();
+      rpcServiceAddress = rpcService.getConnectAddress();
+      appMasterHostname = rpcServiceAddress.getHostName();
+      appMasterRpcPort = rpcServiceAddress.getPort();
       appMasterTrackingUrl = null;
       log.info("AM Server is listening at {}:{}", appMasterHostname,
                appMasterRpcPort);
       appInformation.put(StatusKeys.INFO_AM_HOSTNAME, appMasterHostname);
       appInformation.set(StatusKeys.INFO_AM_RPC_PORT, appMasterRpcPort);
+
       
+      //registry
+
+
+      registry = startRegistrationService();
+
       //build the role map
       List<ProviderRole> providerRoles =
         new ArrayList<ProviderRole>(providerService.getRoles());
       providerRoles.addAll(HoyaAMClientProvider.ROLES);
 
       // Start up the WebApp and track the URL for it
-      webApp = new HoyaAMWebApp();
+      webApp = new HoyaAMWebApp(registry);
       WebApps.$for("hoyaam", WebAppApi.class,
                             new WebAppApiImpl(this, appState, providerService), "ws")
                       .with(serviceConf)
@@ -592,13 +626,13 @@ public class HoyaAppMaster extends CompoundLaunchedService
       // build up environment variables that the AM wants set in every container
       // irrespective of provider and role.
       envVars = new HashMap<String, String>();
-      if (hoyaUsername != null) {
-        envVars.put(HADOOP_USER_NAME, hoyaUsername);
+      if (hadoop_user_name != null) {
+        envVars.put(HADOOP_USER_NAME, hadoop_user_name);
       }
     }
     String rolesTmpSubdir = appMasterContainerID.toString() + "/roles";
 
-    String amTmpDir = globalOptions.getMandatoryOption(OptionKeys.INTERNAL_AM_TMP_DIR);
+    String amTmpDir = globalInternalOptions.getMandatoryOption(OptionKeys.INTERNAL_AM_TMP_DIR);
 
     Path tmpDirPath = new Path(amTmpDir);
     Path launcherTmpDirPath = new Path(tmpDirPath, rolesTmpSubdir);
@@ -612,17 +646,69 @@ public class HoyaAppMaster extends CompoundLaunchedService
                                           envVars,
                                           launcherTmpDirPath);
 
-    runChildService(launchService);
+    deployChildService(launchService);
 
     appState.noteAMLaunched();
 
 
-    //Give the provider restricted access to the state
-    providerService.bind(appState);
+    //Give the provider restricted access to the state, registry
+    providerService.bind(appState, registry);
+    
+    // the registry is running, so register services
+    URL amWeb = new URL(appMasterTrackingUrl);
+    String serviceName = HoyaKeys.APP_TYPE;
+    int id = appid.getId();
+    String appRegistryName = RegistryNaming.createRegistryName(clustername,
+                                                               service_user_name,
+                                                               serviceName);
+    String registryId =
+      RegistryNaming.createUniqueInstanceId(clustername, service_user_name, serviceName, id);
+
+    List<String> serviceInstancesRunning = registry.instanceIDs(serviceName);
+    log.info("service instances already running: {}", serviceInstancesRunning);
+
+    ServiceInstanceData instanceData = new ServiceInstanceData();
+
+    RegisteredEndpoint webUI =
+      new RegisteredEndpoint(amWeb, "Application Master Web UI");
+
+    instanceData.externalView.endpoints.put("web", webUI);
+
+    instanceData.externalView.endpoints.put(SLIDER_SUBPATH_MANAGEMENT,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_MANAGEMENT),
+        "Management REST API" )
+    );
+
+    instanceData.externalView.endpoints.put("registry",
+      new RegisteredEndpoint(
+        new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
+        "Registry Web Service" )
+    );
+    
+    instanceData.externalView.endpoints.put("slider/IPC",
+      new RegisteredEndpoint(rpcServiceAddress,
+        RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
+        "Slider AM RPC" )
+    );
     
     
+    instanceData.internalView.endpoints.put(SLIDER_SUBPATH_AGENTS,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_AGENTS),
+        "Agent REST API" )
+    );
+    
+    registry.register(
+      appRegistryName,
+      registryId,
+      amWeb,
+      instanceData);
+
+    
+
     // launch the provider; this is expected to trigger a callback that
-    // brings up the service
+    // starts the node review process
     launchProviderService(instanceDefinition, confDir);
 
 
@@ -804,7 +890,7 @@ public class HoyaAppMaster extends CompoundLaunchedService
       NUM_RPC_HANDLERS,
       blockingService,
       null));
-    runChildService(rpcService);
+    deployChildService(rpcService);
   }
 
 
@@ -1382,8 +1468,8 @@ public class HoyaAppMaster extends CompoundLaunchedService
    * Get the username for the hoya cluster as set in the environment
    * @return the username or null if none was set/it is a secure cluster
    */
-  public String getHoyaUsername() {
-    return hoyaUsername;
+  public String getHadoop_user_name() {
+    return hadoop_user_name;
   }
 
   /**

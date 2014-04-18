@@ -404,10 +404,10 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     }
 
 
-    List<String> roleList = [];
+    List<String> componentList = [];
     roles.each { String role, Integer val ->
-      log.info("Role $role := $val")
-      roleList << Arguments.ARG_COMPONENT << role << Integer.toString(val)
+      log.info("Component $role := $val")
+      componentList << Arguments.ARG_COMPONENT << role << Integer.toString(val)
     }
 
     List<String> argsList = [
@@ -421,8 +421,8 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
       argsList << Arguments.ARG_WAIT << WAIT_TIME_ARG
     }
 
-    argsList += getExtraHoyaClientArgs()
-    argsList += roleList;
+    argsList += extraCLIArgs
+    argsList += componentList;
     argsList += imageCommands
 
     //now inject any cluster options
@@ -440,7 +440,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient hoyaClient = launcher.service
     if (blockUntilRunning) {
       hoyaClient.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
@@ -454,7 +454,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    *
    * @return additional arguments to launch Hoya with
    */
-  protected List<String> getExtraHoyaClientArgs() {
+  protected List<String> getExtraCLIArgs() {
     []
   }
 
@@ -492,6 +492,16 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public String getArchiveKey() {
     failNotImplemented()
     null
+  }
+
+  /**
+   * Merge a k-v pair into a simple k=v string; simple utility
+   * @param key key
+   * @param val value
+   * @return the string to use after a -D option
+   */
+  public String define(String key, String val) {
+    return "$key=$val"
   }
 
   public void assumeArchiveDefined() {
@@ -556,6 +566,8 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
         Arguments.ARG_WAIT, WAIT_TIME_ARG,
         Arguments.ARG_FILESYSTEM, fsDefaultName,
     ]
+    argsList += extraCLIArgs
+
     if (extraArgs != null) {
       argsList += extraArgs;
     }

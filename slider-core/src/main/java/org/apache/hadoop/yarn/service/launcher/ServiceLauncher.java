@@ -550,6 +550,11 @@ public class ServiceLauncher<S extends Service>
 
       if (LOG.isDebugEnabled()) {
         LOG.debug(startupShutdownMessage(serviceClassName, argsList));
+        StringBuilder builder = new StringBuilder();
+        for (String arg : argsList) {
+          builder.append('"').append(arg).append("\" ");
+        }
+        LOG.debug(builder.toString());
       }
       Thread.setDefaultUncaughtExceptionHandler(
         new YarnUncaughtExceptionHandler());

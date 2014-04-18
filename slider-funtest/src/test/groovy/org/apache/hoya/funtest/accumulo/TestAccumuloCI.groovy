@@ -29,6 +29,7 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.Text
 import org.apache.hadoop.util.ToolRunner
 import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -66,7 +67,8 @@ class TestAccumuloCI extends TestFunctionalAccumuloCluster {
     assert clustername
 
     String currentUser = System.getProperty("user.name");
-    String zookeepers = CommandTestBase.HOYA_CONFIG.get(FuntestProperties.KEY_HOYA_TEST_ZK_HOSTS, FuntestProperties.DEFAULT_HOYA_ZK_HOSTS)
+    String zookeepers = HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM,
+        FuntestProperties.DEFAULT_HOYA_ZK_HOSTS)
     ZooKeeperInstance inst = new ZooKeeperInstance(currentUser + "-" + clustername, zookeepers)
     PasswordToken passwd = new PasswordToken(getPassword())
     Connector conn = inst.getConnector("root", new PasswordToken(getPassword()))

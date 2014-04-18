@@ -27,7 +27,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.hoya.providers.accumulo.AccumuloKeys
-import org.apache.hoya.tools.ZKIntegration
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
@@ -61,7 +61,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
     addToTeardown(hoyaClient);
 
 
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
     waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")

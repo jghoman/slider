@@ -19,7 +19,6 @@
 package org.apache.hoya.yarn.cluster.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.exceptions.UnknownClusterException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
@@ -96,7 +95,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     
     //do the low level operations to get a better view of what is going on 
     HoyaClient hoyaClient = launcher.service
-    def serviceRegistryClient = hoyaClient.serviceRegistryClient
+    def serviceRegistryClient = hoyaClient.YARNRegistryClient
     ApplicationReport instance = serviceRegistryClient.findInstance(clustername)
     assert instance != null
     log.info(instance.toString())

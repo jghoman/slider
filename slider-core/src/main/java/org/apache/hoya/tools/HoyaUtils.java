@@ -722,7 +722,8 @@ public final class HoyaUtils {
            "# " +
            report.getApplicationId() + " user " + report.getUser() +
            " is in state " + report.getYarnApplicationState() +
-           "RPC: " + report.getHost() + ":" + report.getRpcPort();
+           " RPC: " + report.getHost() + ":" + report.getRpcPort() +
+           " URL" + report.getOriginalTrackingUrl();
   }
 
   /**

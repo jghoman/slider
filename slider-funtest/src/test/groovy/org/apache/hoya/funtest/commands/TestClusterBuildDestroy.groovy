@@ -22,6 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
@@ -67,7 +68,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
             HoyaActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
-            HOYA_CONFIG.get(KEY_HOYA_TEST_ZK_HOSTS, DEFAULT_HOYA_ZK_HOSTS),
+            HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS),
             ARG_IMAGE,
             HOYA_CONFIG.get(KEY_TEST_HBASE_TAR),
             ARG_CONFDIR,

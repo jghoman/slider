@@ -21,7 +21,7 @@ package org.apache.hoya.funtest.hbase
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.hbase.zookeeper.ZKConfig
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
 import org.apache.zookeeper.WatchedEvent
 import org.apache.zookeeper.Watcher;
@@ -63,9 +63,9 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
 
   @Before
   public void prepareCluster() {
-    HOYA_CONFIG.set(HBaseConfigFileOptions.KEY_ZOOKEEPER_QUORUM, HOYA_CONFIG.get(
-        KEY_HOYA_TEST_ZK_HOSTS))
-    String quorumServers = ZKConfig.getZKQuorumServersString(HOYA_CONFIG);
+
+    String quorumServers = HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS)
+  
     ZooKeeper monitor = new ZooKeeper(quorumServers,
       1000, new Watcher(){
       @Override

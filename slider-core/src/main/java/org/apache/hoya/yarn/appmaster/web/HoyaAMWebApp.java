@@ -16,16 +16,23 @@
  */
 package org.apache.hoya.yarn.appmaster.web;
 
+import com.google.common.base.Preconditions;
 import com.sun.jersey.api.container.filter.GZIPContentEncodingFilter;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.core.util.FeaturesAndProperties;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
+import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.hadoop.yarn.webapp.Dispatcher;
 import org.apache.hadoop.yarn.webapp.GenericExceptionHandler;
 import org.apache.hadoop.yarn.webapp.WebApp;
 import org.apache.hoya.yarn.appmaster.web.rest.AMWebServices;
 import org.apache.hoya.yarn.appmaster.web.rest.SliderJacksonJaxbJsonProvider;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.CuratorHelper;
+import org.apache.slider.server.services.curator.RegistryBinderService;
+import org.apache.slider.server.services.curator.RegistryDiscoveryContext;
+import org.apache.slider.server.services.curator.RegistryRestResources;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +46,14 @@ public class HoyaAMWebApp extends WebApp {
   public static final String BASE_PATH = "hoyaam";
   public static final String CONTAINER_STATS = "/stats";
   public static final String CLUSTER_SPEC = "/spec";
-  
+
+  public final RegistryBinderService<ServiceInstanceData> registry;
+
+  public HoyaAMWebApp(RegistryBinderService<ServiceInstanceData> registry) {
+    Preconditions.checkNotNull(registry);
+    this.registry = registry;
+  }
+
   @Override
   public void setup() {
     Logger.getLogger("com.sun.jersey").setLevel(Level.FINEST);
@@ -52,6 +66,17 @@ public class HoyaAMWebApp extends WebApp {
     // bind the REST interface
     bind(AMWebServices.class);
     //bind(AMAgentWebServices.class);
+
+    CuratorHelper curatorHelper = registry.getCuratorHelper();
+    ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
+    RegistryDiscoveryContext discoveryContext = curatorHelper
+                                                        .createDiscoveryContext(
+                                                          discovery);
+
+    bind(RegistryDiscoveryContext.class).toInstance(discoveryContext);
+    RegistryRestResources registryRestResources =
+      new RegistryRestResources(discoveryContext);
+    bind(RegistryRestResources.class).toInstance(registryRestResources);
 
     route("/", HoyaAMController.class);
     route(CONTAINER_STATS, HoyaAMController.class, "containerStats");

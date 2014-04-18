@@ -55,10 +55,6 @@ public abstract class AbstractClusterBuildingActionArgs extends AbstractActionAr
              description = "comma separated list of the Zookeeper hosts")
   public String zkhosts;
 
-  @Parameter(names = ARG_ZKPORT,
-             description = "Zookeeper port")
-  public int zkport = HBaseConfigFileOptions.HBASE_ZK_PORT;
-
   /**
    * --image path
    the full path to a .tar or .tar.gz path containing an HBase image.
@@ -158,10 +154,6 @@ public abstract class AbstractClusterBuildingActionArgs extends AbstractActionAr
 
   public String getZKhosts() {
     return zkhosts;
-  }
-
-  public int getZKport() {
-    return zkport;
   }
 
   public Path getImage() {

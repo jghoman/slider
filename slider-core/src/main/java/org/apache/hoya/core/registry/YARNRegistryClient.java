@@ -30,16 +30,16 @@ import java.util.List;
  * Client code for interacting with a registry of service instances.
  * The initial logic just enumerates service instances in the YARN RM
  */
-public class ServiceRegistryClient {
+public class YARNRegistryClient {
 
   final HoyaYarnClientImpl yarnClient;
   final String username;
   final Configuration conf;
 
 
-  public ServiceRegistryClient(HoyaYarnClientImpl yarnClient,
-                               String username,
-                               Configuration conf) {
+  public YARNRegistryClient(HoyaYarnClientImpl yarnClient,
+                            String username,
+                            Configuration conf) {
     this.yarnClient = yarnClient;
     this.username = username;
     this.conf = conf;

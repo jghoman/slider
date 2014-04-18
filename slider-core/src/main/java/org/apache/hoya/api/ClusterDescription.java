@@ -47,9 +47,8 @@ import java.util.Set;
 
 import static org.apache.hoya.api.OptionKeys.INTERNAL_APPLICATION_HOME;
 import static org.apache.hoya.api.OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_HOSTS;
+import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_QUORUM;
 import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PATH;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PORT;
 
 /**
  * Represents a cluster specification; designed to be sendable over the wire
@@ -695,7 +694,7 @@ public class ClusterDescription implements Cloneable {
 
   @JsonIgnore
   public String getZkHosts() throws BadConfigException {
-    return getMandatoryOption(ZOOKEEPER_HOSTS);
+    return getMandatoryOption(ZOOKEEPER_QUORUM);
   }
 
   /**
@@ -704,18 +703,7 @@ public class ClusterDescription implements Cloneable {
    */
   @JsonIgnore
   public void setZkHosts(String zkHosts) {
-    setOption(ZOOKEEPER_HOSTS, zkHosts);
-  }
-
-  @JsonIgnore
-  public int getZkPort() throws BadConfigException {
-    getMandatoryOption(ZOOKEEPER_PORT);
-    return getOptionInt(ZOOKEEPER_PORT, 0);
-  }
-
-  @JsonIgnore
-  public void setZkPort(int zkPort) {
-    setOption(ZOOKEEPER_PORT, zkPort);
+    setOption(ZOOKEEPER_QUORUM, zkHosts);
   }
 
   @JsonIgnore

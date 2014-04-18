@@ -18,16 +18,20 @@
 
 package org.apache.hoya.yarn.service;
 
+import com.google.common.base.Preconditions;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.Service;
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
 import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.HoyaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CompoundLaunchedService extends CompoundService
-  implements RunService {
-
+    implements RunService {
+  private static final Logger log = LoggerFactory.getLogger(
+      CompoundLaunchedService.class);
   private String[] argv;
   
   public CompoundLaunchedService(String name) {
@@ -72,6 +76,15 @@ public class CompoundLaunchedService extends CompoundService
   public Configuration bindArgs(Configuration config, String... args) throws
                                                                       Exception {
     this.argv = args;
+    if (log.isDebugEnabled()) {
+      log.debug("Binding {} Arguments:", args.length);
+
+      StringBuilder builder = new StringBuilder();
+      for (String arg : args) {
+        builder.append('"').append(arg).append("\" ");
+      }
+      log.debug(builder.toString());
+    }
     return config;
   }
 
@@ -80,17 +93,25 @@ public class CompoundLaunchedService extends CompoundService
     return LauncherExitCodes.EXIT_SUCCESS;
   }
 
+  @Override
+  public void addService(Service service) {
+    Preconditions.checkNotNull(service, "null service");
+    super.addService(service);
+  }
+
   /**
    * Run a child service -initing and starting it if this
    * service has already passed those parts of its own lifecycle
    * @param service the service to start
    */
-  protected void runChildService(Service service) {
+  protected boolean deployChildService(Service service) {
     service.init(getConfig());
+    addService(service);
     if (isInState(STATE.STARTED)) {
       service.start();
+      return true;
     }
-    addService(service);
+    return false;
   }
 
   protected void requireArgumentSet(String argname, String argfield)

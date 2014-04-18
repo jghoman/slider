@@ -40,6 +40,8 @@ import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.HoyaException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
+import org.apache.slider.core.registry.zk.ZKPathBuilder;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -235,23 +237,21 @@ public class InstanceBuilder {
 
   /**
    * Add the ZK paths to the application options. 
-   * This is skipped if the zkhosts are not set
-   * @param zkhosts
-   * @param zookeeperRoot
-   * @param zkport
+   * 
+   * @param zkBinding ZK binding
    */
-  public void addZKPaths(String zkhosts,
-                         String zookeeperRoot,
-                         int zkport) {
-    if (HoyaUtils.isSet(zkhosts)) {
+  public void addZKBinding(ZKPathBuilder zkBinding) throws BadConfigException {
+
+    String quorum = zkBinding.getAppQuorum();
+    if (HoyaUtils.isSet(quorum)) {
       MapOperations globalAppOptions =
-        instanceDescription.getAppConfOperations().getGlobalOptions();
-      globalAppOptions.put(ZOOKEEPER_PATH, zookeeperRoot);
-      globalAppOptions.put(ZOOKEEPER_HOSTS, zkhosts);
-      globalAppOptions.put(ZOOKEEPER_PORT, Integer.toString(zkport));
+          instanceDescription.getAppConfOperations().getGlobalOptions();
+      globalAppOptions.put(ZOOKEEPER_PATH, zkBinding.getAppPath());
+      globalAppOptions.put(ZOOKEEPER_QUORUM, quorum);
+      globalAppOptions.put(ZOOKEEPER_HOSTS,
+          ZookeeperUtils.convertToHostsOnlyList(quorum));
     }
   }
-
 
   /**
    * Class to execute the snapshotting of the configuration directory

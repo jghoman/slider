@@ -18,7 +18,7 @@ package org.apache.hoya.yarn.appmaster.web.rest.management;
 
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
-import org.apache.hoya.yarn.appmaster.web.rest.AMWebServices;
+import org.apache.hoya.yarn.appmaster.web.rest.RestPaths;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.AggregateConfResource;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.ConfTreeResource;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.ResourceFactory;
@@ -66,7 +66,7 @@ public class ManagementResource {
     AggregateConfResource aggregateConf =
         ResourceFactory.createAggregateConfResource(getAggregateConf(),
                                                     uriInfo.getBaseUriBuilder()
-                                                    .path(AMWebServices.WS_CONTEXT_ROOT).path(
+                                                    .path(RestPaths.SLIDER_CONTEXT_ROOT).path(
                                                     "mgmt/app"));
     return aggregateConf.getConfTree(config);
   }

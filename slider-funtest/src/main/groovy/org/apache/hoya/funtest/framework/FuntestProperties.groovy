@@ -42,7 +42,7 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   int DEFAULT_HOYA_NUM_WORKERS = 1
 
   String KEY_HOYA_TEST_ZK_HOSTS = "slider.test.zkhosts";
-  String DEFAULT_HOYA_ZK_HOSTS = "localhost";
+  String DEFAULT_HOYA_ZK_HOSTS = "localhost:2181";
 
   /**
    * Time to sleep waiting for the AM to come back up

@@ -62,9 +62,11 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
     try {
       ServiceLauncher launcher = launch(HoyaClient,
                                         HoyaUtils.createConfiguration(),
-                                        [ClientArgs.ACTION_LIST,
+                                        [
+                                        ClientArgs.ACTION_LIST,
                                         "cluster",
-                                        Arguments.ARG_MANAGER,"unknownhost.example.org:80"])
+                                        Arguments.ARG_MANAGER,
+                                        "unknownhost.example.org:80"])
       fail("expected an exception, got a launcher with exit code $launcher.serviceExitCode")
     } catch (UnknownHostException expected) {
       //expected

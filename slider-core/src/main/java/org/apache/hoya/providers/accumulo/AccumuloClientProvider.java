@@ -38,7 +38,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,13 +142,8 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                     globalInstanceOptions.getMandatoryOption(OptionKeys.INTERNAL_DATA_DIR_PATH));
 
 
-    String zkHosts =
-      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_HOSTS);
-    String zkPort =
-      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_PORT);
-    //parse the hosts
-    String[] hostlist = zkHosts.split(",", 0);
-    String quorum = HoyaUtils.join(hostlist, ":" + zkPort + ",", false);
+    String quorum =
+      globalAppOptions.getMandatoryOption(OptionKeys.ZOOKEEPER_QUORUM);
     sitexml.put(AccumuloConfigFileOptions.ZOOKEEPER_HOST, quorum);
 
     return sitexml;
@@ -213,11 +208,11 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                                            HoyaException {
     String[] jars =
       {
-        "zookeeper.jar",
+      /*  "zookeeper.jar",*/
       };
     Class<?>[] classes = {
       //zk
-      org.apache.zookeeper.ClientCnxn.class
+/*      org.apache.zookeeper.ClientCnxn.class*/
     };
     ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
                                     libdir, jars,

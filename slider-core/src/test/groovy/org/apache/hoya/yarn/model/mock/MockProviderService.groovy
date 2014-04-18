@@ -41,6 +41,8 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.Register
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
 import org.apache.hoya.yarn.service.EventCallback
+import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.server.services.curator.RegistryBinderService
 
 class MockProviderService implements ProviderService {
 
@@ -195,7 +197,9 @@ class MockProviderService implements ProviderService {
   }
 
   @Override
-  void bind(StateAccessForProviders stateAccessor) {
+  void bind(
+      StateAccessForProviders stateAccessor,
+      RegistryBinderService<ServiceInstanceData> registry) {
 
   }
 

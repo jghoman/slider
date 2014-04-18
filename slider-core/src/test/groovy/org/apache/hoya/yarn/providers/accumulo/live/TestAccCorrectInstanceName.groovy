@@ -28,7 +28,7 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.providers.accumulo.AccumuloKeys
-import org.apache.hoya.tools.ZKIntegration
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
@@ -60,11 +60,11 @@ class TestAccCorrectInstanceName extends AccumuloTestBase {
     String password = "password"
     List<String> extraArgs = [Arguments.ARG_OPTION, AccumuloKeys.OPTION_ACCUMULO_PASSWORD, password]
     ServiceLauncher launcher = createAccCluster(clustername, roles, extraArgs, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
 
 
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
     waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")

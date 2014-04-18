@@ -27,18 +27,23 @@ from the hortonworks sandbox, *with a DNS entry "sandbox" to match*
      <configuration>
        <property>
          <name>fs.defaultFS</name>
-         <value>hdfs://ubuntu:9090</value>
+         <value>hdfs://sandbox:9090</value>
        </property>
 
        <property>
          <name>yarn.resourcemanager.address</name>
-         <value>ubuntu:8032</value>
+         <value>sandbox:8032</value>
        </property>
- 
+       
+       <property>
+         <name>slider.zookeeper.quorum</name>
+         <value>sandbox:2181</value>
+       </property>
+
      </configuration>
  
  For the hoya command line
  
-    --manager ubuntu:8032 --filesystem hdfs://ubuntu:9090 --zkhosts localhost
+    --manager sandbox:8032 --filesystem hdfs://sandbox:9090 
  
  

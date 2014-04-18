@@ -25,6 +25,7 @@ import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.exceptions.UnknownClusterException
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
+import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.params.CommonArgs
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
@@ -125,8 +126,21 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
     //and create a new cluster
     launcher = createMasterlessAM(clustername, 0, false, false)
-    HoyaClient cluster2 = launcher.service 
-    
+    HoyaClient cluster2 = launcher.service
+
+    // do an echo here of a large string
+    // Hadoop RPC couldn't handle strings > 32K chars, this
+    // check here allows us to be confident that large JSON Reports are handled
+    StringBuilder sb = new StringBuilder()
+    for (int i = 0; i < 65536; i++) {
+      sb.append(Integer.toString(i, 16))
+    }
+    ActionEchoArgs args = new ActionEchoArgs();
+    args.message = sb.toString();
+    def echoed = hoyaClient.actionEcho(clustername, args)
+    assert echoed == args.message
+    log.info(
+        "Successful echo of a text document ${echoed.size()} characters long")
     //try to destroy it while live
     try {
       int ec = cluster2.actionDestroy(clustername)

@@ -63,7 +63,6 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
     assert ZKHosts == status.zkHosts
-    assert ZKPort == status.zkPort
 
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 

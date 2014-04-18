@@ -24,12 +24,13 @@ import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.HoyaException
 import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.providers.hbase.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
 
 /**
@@ -52,7 +53,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     createMiniCluster(clustername, getConfiguration(), 1, true)
     ServiceLauncher launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
 
     ApplicationReport report = waitForClusterLive(hoyaClient)
@@ -60,7 +61,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     List<ApplicationReport> apps = hoyaClient.applications;
     
     //get some of its status
-    dumpClusterStatus(hoyaClient,"masterless application status")
+    dumpClusterStatus(hoyaClient, "masterless application status")
     List<ClusterNode> clusterNodes = hoyaClient.listClusterNodesInRole(
         HoyaKeys.COMPONENT_AM)
     assert clusterNodes.size() == 1
@@ -86,7 +87,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     String username = hoyaClient.username
-    def serviceRegistryClient = hoyaClient.serviceRegistryClient
+    def serviceRegistryClient = hoyaClient.YARNRegistryClient
     describe("list of all applications")
     logApplications(apps)
     describe("apps of user $username")
@@ -98,6 +99,28 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     logReport(instance)
     assert instance != null
 
+    
+    //switch to the ZK-based registry
+
+    describe "service registry names"
+    def names = hoyaClient.listRegistryNames(clustername)
+    log.info("number of names: ${names.size()}")
+    names.each {String it -> log.info( it) }
+    describe "service registry instance IDs"
+
+    def instanceIds = hoyaClient.listRegistryInstanceIDs(clustername)
+    
+    log.info("number of instanceIds: ${instanceIds.size()}")
+    instanceIds.each {String it -> log.info( it) }
+
+    describe "service registry slider instances"
+    List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(clustername)
+    instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
+      log.info svc.toString()
+    }
+    describe "end list service registry slider instances"
+
+    describe "teardown of cluster instance #1"
     //now kill that cluster
     assert 0 == clusterActionFreeze(hoyaClient, clustername)
     //list it & See if it is still there
@@ -119,22 +142,9 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     ApplicationReport instance2 = serviceRegistryClient.findInstance(clustername)
     assert i2AppID == instance2.applicationId
     
-    
-    
-    // do an echo here of a large string
-    // Hadoop RPC couldn't handle strings > 32K chars, this
-    // check here allows us to be confident that large JSON Reports are handled
-    StringBuilder sb = new StringBuilder()
-    for (int i = 0; i < 65536; i++) {
-      sb.append(Integer.toString(i, 16))
-    }
-    ActionEchoArgs args = new ActionEchoArgs();
-    args.message = sb.toString();
-    def echoed = hoyaClient.actionEcho(clustername, args)
-    assert echoed == args.message
-    log.info("Successful echo of a text document ${echoed.size()} characters long")
 
-    describe("Creating instance #3")
+
+    describe("attempting to create instance #3")
     //now try to create instance #3, and expect an in-use failure
     try {
       createMasterlessAM(clustername, 0, false, true)

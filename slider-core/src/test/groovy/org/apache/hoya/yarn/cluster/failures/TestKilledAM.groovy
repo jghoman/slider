@@ -109,16 +109,19 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     hoyaClient.actionAmSuicide(clustername, args)
 
     killAllRegionServers();
-    waitWhileClusterLive(hoyaClient, 30000);
+    waitWhileClusterLive(hoyaClient);
     // give yarn some time to notice
     sleep(10000)
 
     // policy here depends on YARN behavior
     if (!status.getInfoBool(StatusKeys.INFO_AM_RESTART_SUPPORTED)) {
+      log.info("No lossless AM Restart")
       // kill hbase masters for OS/X tests to pass
       killAllMasterServers();
       // expect hbase connection to have failed
       assertNoHBaseMaster(hoyaClient, clientConf)
+    } else {
+      log.info("Lossless AM Restart")
     }
     // await cluster startup
     ApplicationReport report = hoyaClient.applicationReport

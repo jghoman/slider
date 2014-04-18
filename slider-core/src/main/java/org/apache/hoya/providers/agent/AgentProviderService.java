@@ -79,7 +79,7 @@ public class AgentProviderService extends AbstractProviderService implements
   protected static final Logger log =
       LoggerFactory.getLogger(AgentProviderService.class);
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
-  private static String LABEL_MAKER = "___";
+  private static final String LABEL_MAKER = "___";
   private AgentClientProvider clientProvider;
   private Map<String, ComponentInstanceState> componentStatuses = new HashMap<String, ComponentInstanceState>();
   private Map<String, List<String>> roleHostMapping = new HashMap<String, List<String>>();
@@ -478,7 +478,7 @@ public class AgentProviderService extends AbstractProviderService implements
     String nnuri = appConf.get("site.fs.defaultFS");
     tokens.put("${NN_URI}", nnuri);
     tokens.put("${NN_HOST}", URI.create(nnuri).getHost());
-    tokens.put("${ZK_HOST}", appConf.get("zookeeper.hosts"));
+    tokens.put("${ZK_HOST}", appConf.get(OptionKeys.ZOOKEEPER_HOSTS));
     return tokens;
   }
 

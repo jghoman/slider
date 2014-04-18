@@ -33,6 +33,8 @@ import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 
 import java.io.File;
 import java.io.IOException;
@@ -135,8 +137,10 @@ public interface ProviderService extends ProviderCore, Service,
   /**
    * bind operation -invoked before the service is started
    * @param stateAccessor interface offering read access to the state
+   * @param registry
    */
-  void bind(StateAccessForProviders stateAccessor);
+  void bind(StateAccessForProviders stateAccessor,
+      RegistryBinderService<ServiceInstanceData> registry);
 
   /**
    * Returns the agent rest operations interface.

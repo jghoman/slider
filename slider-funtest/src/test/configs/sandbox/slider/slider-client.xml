@@ -38,7 +38,12 @@
     <name>slider.security.enabled</name>
     <value>false</value>
   </property>
-  
+
+  <property>
+    <name>slider.zookeeper.quorum</name>
+    <value>sandbox:2181</value>
+  </property>
+
   <property>
     <name>yarn.application.classpath</name>
     <value>
@@ -49,7 +54,7 @@
   <property>
     <name>slider.test.hbase.tar</name>
     <description>Path to the HBase Tar file in HDFS</description>
-    <value>hdfs://sandbox.hortonworks.com:8020/hbase.tar.gz</value>
+    <value>hdfs://sandbox.hortonworks.com:8020/hbase-0.98.1-bin.tar.gz</value>
   </property>
   
   <property>
@@ -57,13 +62,7 @@
     <description>Path to the directory containing the HBase application config</description>
     <value>file://${user.dir}/src/test/configs/sandbox/hbase</value>
   </property>
- 
-  <property>
-    <name>slider.test.zkhosts</name>
-    <description>list of the zookeeper hosts</description>
-    <value>sandbox</value>
-  </property>
-  
+
   <property>
     <name>slider.test.accumulo.enabled</name>
     <description>Flag to enable/disable Accumulo tests</description>

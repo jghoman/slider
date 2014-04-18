@@ -39,10 +39,10 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
   public void testFreezeThawClusterFromArchive() throws Throwable {
     String clustername = "test_freeze_thaw_cluster_from_archive"
     int regionServerCount = 1
-    createMiniCluster(clustername, getConfiguration(), 1, true)
+    createMiniCluster(clustername, configuration, 1, true)
     switchToImageDeploy = true
-    ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
+    HoyaClient hoyaClient = launcher.service
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
@@ -58,7 +58,7 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
 
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
-    HoyaClient newCluster = launcher2.service as HoyaClient
+    HoyaClient newCluster = launcher2.service
     basicHBaseClusterStartupSequence(newCluster)
 
     //get the hbase status

@@ -20,6 +20,10 @@ package org.apache.hoya.providers.hoyaam;
 
 import com.beust.jcommander.JCommander;
 import com.google.gson.GsonBuilder;
+import org.apache.curator.CuratorZookeeperClient;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.x.discovery.ServiceInstance;
+import org.apache.curator.x.discovery.server.entity.ServiceNames;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
@@ -40,6 +44,10 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,21 +152,44 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                                 String libdir,
                                                                 Path tempPath)
     throws IOException, HoyaException {
-    
+
+    Class<?>[] classes = {
+      JCommander.class,
+      GsonBuilder.class,
+      
+      CuratorFramework.class,
+      CuratorZookeeperClient.class,
+      ServiceInstance.class,
+      ServiceNames.class,
+
+      JacksonJaxbJsonProvider.class,
+      JsonFactory.class,
+      JsonNodeFactory.class,
+      JaxbAnnotationIntrospector.class,
+      
+    };
+    String[] jars =
+      {
+        JCOMMANDER_JAR,
+        GSON_JAR,
+        
+        "curator-framework.jar",
+        "curator-client.jar",
+        "curator-x-discovery.jar",
+        "curator-x-discovery-service.jar",
+        
+        "jackson-jaxrs",
+        "jackson-core-asl",
+        "jackson-mapper-asl",
+        "jackson-xc",
+        
+      };
     Map<String, LocalResource> providerResources =
       new HashMap<String, LocalResource>();
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     JCommander.class,
-                     tempPath,
-                     libdir,
-                     JCOMMANDER_JAR);
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     GsonBuilder.class,
-                     tempPath,
-                     libdir,
-                     GSON_JAR);
+    ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
+                                    libdir, jars,
+                                    classes);
+    
     launcher.addLocalResources(providerResources);
     //also pick up all env variables from a map
     launcher.copyEnvVars(
