@@ -18,6 +18,7 @@
 
 package org.apache.slider.server.services.curator;
 
+import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -34,7 +35,23 @@ public class CuratorServiceInstance<T> {
   public T payload;
   public long registrationTimeUTC;
   public ServiceType serviceType;
-  public UriSpec uriSpec;
+  public CuratorUriSpec uriSpec;
+
+  public CuratorServiceInstance() {
+  }
+
+  public CuratorServiceInstance(ServiceInstance<T> si) {
+    this.name = si.getName();
+    this.id = si.getId();
+    this.address = si.getAddress();
+    this.port = si.getPort();
+    this.sslPort = si.getSslPort();
+    this.payload = si.getPayload();
+    this.registrationTimeUTC = si.getRegistrationTimeUTC();
+    this.serviceType = si.getServiceType();
+    this.uriSpec = new CuratorUriSpec();
+    this.uriSpec.addAll(si.getUriSpec().getParts());
+  }
 
 
   @Override

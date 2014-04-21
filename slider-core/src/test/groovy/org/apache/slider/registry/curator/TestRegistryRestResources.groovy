@@ -1,0 +1,164 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.slider.registry.curator
+
+import com.sun.jersey.api.client.Client
+import com.sun.jersey.api.client.ClientResponse
+import com.sun.jersey.api.client.UniformInterfaceException
+import com.sun.jersey.api.client.WebResource
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
+import org.apache.curator.x.discovery.ServiceType
+import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.hoya.api.StatusKeys
+import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
+import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
+import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.providers.agent.AgentTestBase
+import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.server.services.curator.CuratorServiceInstance
+import org.apache.slider.server.services.curator.CuratorServiceInstances
+import org.junit.Test
+
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+
+import static org.apache.hoya.providers.agent.AgentKeys.*
+import static org.apache.hoya.testtools.HoyaTestUtils.dumpClusterStatus
+import static org.apache.hoya.testtools.HoyaTestUtils.fetchWebPageWithoutError
+import static org.apache.hoya.yarn.Arguments.ARG_OPTION
+import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createDummyJSONRegister
+import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClient;
+
+@CompileStatic
+@Slf4j
+class TestRegistryRestResources extends AgentTestBase {
+
+  public static final String REGISTRY_URI = "ws/registry/";
+
+  @Test
+  public void testRestURIs() throws Throwable {
+    def clustername = "test_registryws"
+    createMiniCluster(
+        clustername,
+        configuration,
+        1,
+        1,
+        1,
+        true,
+        false)
+    Map<String, Integer> roles = [:]
+    File hoya_core = new File(new File(".").absoluteFile, "src/test/python");
+    String app_def = "appdef_1.tar"
+    File app_def_path = new File(hoya_core, app_def)
+    String agt_ver = "version"
+    File agt_ver_path = new File(hoya_core, agt_ver)
+    String agt_conf = "agent.ini"
+    File agt_conf_path = new File(hoya_core, agt_conf)
+    assert app_def_path.exists()
+    assert agt_ver_path.exists()
+    assert agt_conf_path.exists()
+    ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
+        roles,
+        [
+            ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
+            ARG_OPTION, APP_DEF, "file://" + app_def_path.absolutePath,
+            ARG_OPTION, AGENT_CONF, "file://" + agt_conf_path.absolutePath,
+            ARG_OPTION, AGENT_VERSION, "file://" + agt_ver_path.absolutePath,
+        ],
+        true, true,
+        true)
+    HoyaClient hoyaClient = launcher.service
+    def report = waitForClusterLive(hoyaClient)
+    def trackingUrl = report.trackingUrl
+    log.info("tracking URL is $trackingUrl")
+    def registry_url = trackingUrl + REGISTRY_URI
+
+    
+    def status = dumpClusterStatus(hoyaClient, "agent AM")
+    def liveURL = status.getInfo(StatusKeys.INFO_AM_WEB_URL) 
+    if (liveURL) {
+      registry_url = liveURL + REGISTRY_URI
+    }
+    
+    log.info("Registry  is $registry_url")
+    log.info("stacks is ${liveURL}stacks")
+    log.info("conf   is ${liveURL}conf")
+
+
+    //WS get
+    Client client = createTestClient();
+
+    // test the available GET URIs
+    WebResource webResource = client.resource(registry_url  + "v1/service");
+    ClientResponse response = webResource.type(MediaType.APPLICATION_JSON)
+                          .get(ClientResponse.class);
+      def responseStr = response.getEntity(String.class)
+      log.info("response is " + responseStr)
+
+    assert "{\"names\":[\"slider\"]}".equals(responseStr)
+
+    webResource = client.resource(registry_url  + "v1/service/slider");
+    CuratorServiceInstances<ServiceInstanceData> services = webResource.type(MediaType.APPLICATION_JSON)
+            .get(CuratorServiceInstances.class);
+    assert services.services.size() == 1
+    CuratorServiceInstance<ServiceInstanceData> service = services.services.get(0)
+    validateService(service)
+
+    webResource = client.resource(registry_url  + "v1/service/slider/test_registryws-1");
+    service = webResource.type(MediaType.APPLICATION_JSON)
+              .get(CuratorServiceInstance.class);
+    validateService(service)
+
+    webResource = client.resource(registry_url  + "v1/anyservice/slider");
+    service = webResource.type(MediaType.APPLICATION_JSON)
+            .get(CuratorServiceInstance.class);
+    validateService(service)
+
+    // some negative tests...
+    webResource = client.resource(registry_url  + "v1/service/dummy");
+    services = webResource.type(MediaType.APPLICATION_JSON)
+            .get(CuratorServiceInstances.class);
+    assert services.services.size() == 0
+
+    try {
+      webResource = client.resource(registry_url  + "v1/service/slider/test_registryws-99");
+      service = webResource.type(MediaType.APPLICATION_JSON)
+              .get(CuratorServiceInstance.class);
+      fail("should throw an exception for a 404 response....")
+    } catch (UniformInterfaceException e) {
+        assert e.response.getStatus() == 404
+    }
+
+    try {
+        webResource = client.resource(registry_url  + "v1/anyservice/dummy");
+        service = webResource.type(MediaType.APPLICATION_JSON)
+                .get(CuratorServiceInstance.class);
+        fail("should throw an exception for a 404 response....")
+    } catch (UniformInterfaceException e) {
+        assert e.response.getStatus() == 404
+    }
+ }
+
+  private void validateService(CuratorServiceInstance service) {
+    assert service.name.equals("slider")
+    assert service.serviceType == ServiceType.DYNAMIC
+    assert service.id.equals("test_registryws-1")
+  }
+}

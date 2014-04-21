@@ -26,6 +26,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -52,7 +53,7 @@ public class JsonSerDeser<T> {
   private static final String UTF_8 = "UTF-8";
 
   private final Class classType;
-  private final ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper;
 
   /**
    * Create an instance bound to a specific type
@@ -60,6 +61,8 @@ public class JsonSerDeser<T> {
    */
   public JsonSerDeser(Class classType) {
     this.classType = classType;
+    this.mapper = new ObjectMapper();
+    mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
   }
 
   /**

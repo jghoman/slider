@@ -75,7 +75,7 @@ public class HoyaAMWebApp extends WebApp {
 
     bind(RegistryDiscoveryContext.class).toInstance(discoveryContext);
     RegistryRestResources registryRestResources =
-      new RegistryRestResources(discoveryContext);
+      new RegistryRestResources(discoveryContext, registry);
     bind(RegistryRestResources.class).toInstance(registryRestResources);
 
     route("/", HoyaAMController.class);

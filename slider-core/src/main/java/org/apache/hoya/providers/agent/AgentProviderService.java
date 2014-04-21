@@ -148,7 +148,7 @@ public class AgentProviderService extends AbstractProviderService implements
     String scriptPath = new File(AgentKeys.AGENT_MAIN_SCRIPT_ROOT, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (!HoyaUtils.isSet(appHome)) {
+    if (HoyaUtils.isSet(appHome)) {
       scriptPath = new File(appHome, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     }
 
