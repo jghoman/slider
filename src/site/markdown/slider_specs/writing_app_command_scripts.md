@@ -36,6 +36,8 @@ Sample:
 python /apps/HBASE_ON_YARN/package/scripts/hbase_regionserver.py START /apps/commands/cmd_332/command.json /apps/HBASE_ON_YARN/package /apps/commands/cmd_332/strout.txt
 ```
 
+**Note**: The above is how Slider-Agent invokes the scripts. Its provided as a reference for developing the scripts themselves as well as a way to test/debug the scripts.
+
 ## Structure of JSON formatted parameter
 
 The parameters are organized as multi-layer name-value pairs.
