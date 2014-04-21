@@ -25,10 +25,14 @@
         store.
       </comment>
       <version>0.96.0.2.1.1</version>
+      <type>YARN-APP</type>
+      <minHadoopVersion>2.1.0</minHadoopVersion>
       <components>
         <component>
           <name>HBASE_MASTER</name>
           <category>MASTER</category>
+          <minInstanceCount>1</minInstanceCount>
+          <maxInstanceCount>2</maxInstanceCount>
           <commandScript>
             <script>scripts/hbase_master.py</script>
             <scriptType>PYTHON</scriptType>
@@ -39,6 +43,7 @@
         <component>
           <name>HBASE_REGIONSERVER</name>
           <category>SLAVE</category>
+          <minInstanceCount>1</minInstanceCount>
           <commandScript>
             <script>scripts/hbase_regionserver.py</script>
             <scriptType>PYTHON</scriptType>
@@ -48,6 +53,7 @@
         <component>
           <name>HBASE_CLIENT</name>
           <category>CLIENT</category>
+          <minInstanceCount>0</minInstanceCount>
           <commandScript>
             <script>scripts/hbase_client.py</script>
             <scriptType>PYTHON</scriptType>
