@@ -327,6 +327,12 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     //look at settings of Hadoop Auth, to pick up a problem seen once
     checkAndWarnForAuthTokenProblems();
    
+    //dump the system properties if in debug mode
+    if (log.isDebugEnabled()) {
+      log.debug("System properties:\n" +
+                HoyaUtils.propertiesToString(System.getProperties()));
+    }
+    
     //init all child services
     super.serviceInit(conf);
   }

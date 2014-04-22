@@ -20,6 +20,7 @@ package org.apache.hoya.providers.hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
@@ -32,6 +33,7 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
+import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
@@ -241,7 +243,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem hoyaFileSystem,
+  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
                                           Configuration serviceConf,
                                           AbstractLauncher launcher,
                                           AggregateConf instanceDescription,
@@ -252,6 +254,24 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                           Path tempPath) throws
                                                          IOException,
       SliderException {
+
+    // add any and all dependency files
+    
+    Class<?>[] classes = {
+        HBaseProviderFactory.class,
+    };
+    String[] jars =
+        {
+          "slider-hbase-provider.jar",
+        };
+    Map<String, LocalResource> providerResources =
+        new HashMap<String, LocalResource>();
+    ProviderUtils.addDependencyJars(providerResources, fileSystem, tempPath,
+        libdir, jars,
+        classes);
+
+    launcher.addLocalResources(providerResources);
+
     //load in the template site config
     log.debug("Loading template configuration from {}", originConfDirPath);
     Configuration siteConf = ConfigHelper.loadTemplateConfiguration(

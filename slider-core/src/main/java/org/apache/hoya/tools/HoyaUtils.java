@@ -72,8 +72,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -1287,6 +1289,18 @@ public final class HoyaUtils {
     Timer timer = new Timer("halt timer", false);
     timer.schedule(new DelayedHalt(status, text), delay);
     return timer;
+  }
+
+  public static String propertiesToString(Properties props) {
+    TreeSet<String> keys = new TreeSet<String>(props.stringPropertyNames());
+    StringBuilder builder = new StringBuilder();
+    for (String key : keys) {
+      builder.append(key)
+             .append("=")
+             .append(props.getProperty(key))
+             .append("\n");
+    }
+    return builder.toString();
   }
 
   /**
