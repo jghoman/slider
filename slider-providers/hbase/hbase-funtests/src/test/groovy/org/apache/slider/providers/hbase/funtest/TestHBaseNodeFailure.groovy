@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.hbase
+package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.api.records.ApplicationSubmissionContext
@@ -54,7 +54,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
       int numWorkers,
       Map<String, Integer> roleMap,
       ClusterDescription cd) {
-    HoyaClient hoyaClient = bondToCluster(HOYA_CONFIG, clusterName)
+    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
 
 
     killInstanceOfRole(hoyaClient, HBaseKeys.ROLE_WORKER)
@@ -64,7 +64,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
     //wait for the role counts to be reached
     cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
     // then expect a restart
-    waitForHBaseRegionServerCount(
+    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(
         hoyaClient,
         clusterName,
         numWorkers,
@@ -77,8 +77,8 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
 
     //wait for the role counts to be reached
     cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
-    
-    waitForHBaseRegionServerCount(
+
+    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(
         hoyaClient,
         clusterName,
         numWorkers,
@@ -91,7 +91,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
     
     // wait for the role counts to be reached
     cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
-    waitForHBaseRegionServerCount(
+    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(
         hoyaClient,
         clusterName,
         numWorkers,

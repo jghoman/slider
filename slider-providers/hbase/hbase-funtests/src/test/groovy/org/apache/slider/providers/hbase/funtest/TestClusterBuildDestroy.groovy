@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.hbase
+package org.apache.slider.providers.hbase.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -68,11 +68,11 @@ public class TestClusterBuildDestroy extends CommandTestBase
             HoyaActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
-            HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS),
+            SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS),
             ARG_IMAGE,
-            HOYA_CONFIG.get(KEY_TEST_HBASE_TAR),
+            SLIDER_CONFIG.get(KEY_TEST_HBASE_TAR),
             ARG_CONFDIR,
-            HOYA_CONFIG.get(KEY_TEST_HBASE_APPCONF),
+            SLIDER_CONFIG.get(KEY_TEST_HBASE_APPCONF),
             ARG_COMPONENT, HBaseKeys.ROLE_MASTER, "1",
             ARG_COMPONENT, HBaseKeys.ROLE_WORKER, "1",
             ARG_OPTION, "site.hbase.master.info.port", "8180",

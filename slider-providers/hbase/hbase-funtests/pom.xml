@@ -14,14 +14,12 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>slider-hbase-provider</artifactId>
+  <artifactId>hbase-funtests</artifactId>
   <version>0.21.0-SNAPSHOT</version>
-  <name>Slider HBase Provider</name>
+  <name>Slider HBase Provider Functional Tests</name>
   <packaging>jar</packaging>
   <description>
-    Direct provider for slider. This is the original provider from Hoya, moved to one side
-    as it is no longer being actively developed. It contains tests against
-    mini clusters as well as full functional tests
+    Functional tests for the hbase provider
     
   </description>
   <parent>
@@ -89,20 +87,7 @@
       </plugin>
 
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- test -->
+     <!-- functional test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -135,14 +120,14 @@
         </configuration>
       </plugin>
   
+
+ 
     </plugins>
   </build>
 
   <reporting>
     <plugins>
  
-
-
     </plugins>
   </reporting>
 
@@ -150,8 +135,16 @@
 
     <dependency>
       <groupId>org.apache.slider</groupId>
-      <artifactId>slider-core</artifactId>
+      <artifactId>slider-hbase-provider</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.slider</groupId>
+      <artifactId>slider-hbase-provider</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -161,7 +154,6 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-
 
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
@@ -170,6 +162,22 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.slider</groupId>
+      <artifactId>slider-assembly</artifactId>
+      <version>${project.version}</version>
+      <classifier>all</classifier>
+      <type>tar.gz</type>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.slider</groupId>
+      <artifactId>slider-funtest</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
     </dependency>
@@ -178,11 +186,7 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
       <type>test-jar</type>
-    </dependency>
-
-    <dependency>
-       <groupId>org.apache.hbase</groupId>
-       <artifactId>hbase-client</artifactId>
+     <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -190,17 +194,23 @@
       <artifactId>hadoop-minicluster</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+       <groupId>org.apache.hbase</groupId>
+       <artifactId>hbase-client</artifactId>
+      <scope>test</scope>
+    </dependency>
     
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-server</artifactId>
+     <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-common</artifactId>
       <classifier>tests</classifier>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -213,29 +223,26 @@
             <artifactId>hadoop-client</artifactId>
           </exclusion>
         </exclusions>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-hadoop-compat</artifactId>
       <classifier>tests</classifier>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-hadoop2-compat</artifactId>
       <classifier>tests</classifier>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-server</artifactId>
       <classifier>tests</classifier>
-      <scope>test</scope>
     </dependency>
+
     
   </dependencies>
 

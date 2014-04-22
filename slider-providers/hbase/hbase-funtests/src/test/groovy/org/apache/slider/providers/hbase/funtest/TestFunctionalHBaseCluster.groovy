@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.hbase
+package org.apache.slider.providers.hbase.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -64,7 +64,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
   @Before
   public void prepareCluster() {
 
-    String quorumServers = HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS)
+    String quorumServers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS)
   
     ZooKeeper monitor = new ZooKeeper(quorumServers,
       1000, new Watcher(){
@@ -90,7 +90,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
 
     describe description
 
-    int numWorkers = HOYA_CONFIG.getInt(KEY_HOYA_TEST_NUM_WORKERS, 
+    int numWorkers = SLIDER_CONFIG.getInt(KEY_HOYA_TEST_NUM_WORKERS, 
         DEFAULT_HOYA_NUM_WORKERS);
 
     def clusterpath = buildClusterPath(clusterName)
@@ -112,7 +112,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     )
 
     //get a hoya client against the cluster
-    HoyaClient hoyaClient = bondToCluster(HOYA_CONFIG, clusterName)
+    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
     ClusterDescription cd2 = hoyaClient.getClusterDescription()
     assert clusterName == cd2.name
 
@@ -122,9 +122,9 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     //wait for the role counts to be reached
     waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
 
-    Configuration clientConf = createHBaseConfiguration(hoyaClient)
-    assertHBaseMasterFound(clientConf)
-    waitForHBaseRegionServerCount(hoyaClient, clusterName,
+    Configuration clientConf = org.apache.hoya.testtools.HBaseTestUtils.createHBaseConfiguration(hoyaClient)
+    org.apache.hoya.testtools.HBaseTestUtils.assertHBaseMasterFound(clientConf)
+    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(hoyaClient, clusterName,
                                   numWorkers, HBASE_LAUNCH_WAIT_TIME)
 
     clusterLoadOperations(clusterName, clientConf, numWorkers, roleMap, cd2)

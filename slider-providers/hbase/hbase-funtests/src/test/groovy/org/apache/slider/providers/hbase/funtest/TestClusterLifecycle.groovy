@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.hbase
+package org.apache.slider.providers.hbase.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -111,7 +111,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       getConf(0, CLUSTER)
 
       //get a hoya client against the cluster
-      HoyaClient hoyaClient = bondToCluster(HOYA_CONFIG, CLUSTER)
+      HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
       ClusterDescription cd2 = hoyaClient.getClusterDescription()
       assert CLUSTER == cd2.name
 

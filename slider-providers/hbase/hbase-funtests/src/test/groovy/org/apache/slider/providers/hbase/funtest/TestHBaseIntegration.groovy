@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.hbase
+package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.IntegrationTestIngest

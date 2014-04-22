@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.providers.hbase;
+package org.apache.slider.providers.hbase.funtest;
 
-public class Stub {
+class StubCompile {
 }
