@@ -315,7 +315,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public YarnConfiguration getTestConfiguration() {
     YarnConfiguration conf = getConfiguration()
 
-    conf.addResource(HOYA_TEST)
+    conf.addResource(SLIDER_TEST_XML)
     return conf
   }
 

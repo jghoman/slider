@@ -34,5 +34,5 @@ public interface KeysForTests extends HoyaKeys, HoyaXMLConfKeysForTesting {
   String WAIT_TIME_ARG = WAIT_TIME.toString()
 
  
-  String HOYA_TEST = "hoya-test.xml"
+  String SLIDER_TEST_XML = "slider-test.xml"
 }

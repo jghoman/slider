@@ -220,7 +220,7 @@
         <configuration>
           <!-- skip test resource configuration-->
           <excludes>
-            <exclude>**/hoya-test.xml</exclude>
+            <exclude>**/slider-test.xml</exclude>
           </excludes>
         </configuration>
         <executions>
