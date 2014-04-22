@@ -129,7 +129,7 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH) == null
+    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == null
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(
         conf,
@@ -149,7 +149,7 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH) == "/projects/hoya/clusters"
+    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 

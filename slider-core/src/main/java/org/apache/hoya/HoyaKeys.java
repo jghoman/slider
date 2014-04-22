@@ -37,7 +37,7 @@ public interface HoyaKeys extends HoyaXmlConfKeys {
    * The path under which cluster and temp data are stored
    * {@value}
    */
-  String HOYA_BASE_DIRECTORY = ".slider";
+  String SLIDER_BASE_DIRECTORY = ".slider";
 
   /**
    *  name of the relative path to expaned an image into:  {@value}.

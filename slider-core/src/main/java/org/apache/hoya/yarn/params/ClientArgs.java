@@ -104,7 +104,7 @@ public class ClientArgs extends CommonArgs {
     }
     if ( getBasePath() != null ) {
       log.debug("Setting basePath to {}", getBasePath());
-      conf.set(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH, getBasePath().toString());
+      conf.set(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH, getBasePath().toString());
     }
   }
 
