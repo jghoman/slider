@@ -116,7 +116,7 @@ public class CoreFileSystem {
     if (clustername == null) {
       throw new NullPointerException();
     }
-    Path hoyaPath = getBaseHoyaPath();
+    Path hoyaPath = getBaseApplicationPath();
     return new Path(hoyaPath, HoyaKeys.CLUSTER_DIRECTORY + "/" + clustername);
   }
 
@@ -341,12 +341,12 @@ public class CoreFileSystem {
   /**
    * Get the base path for hoya
    *
-   * @return the base path optionally configured by {@value HoyaXmlConfKeys#KEY_BASE_HOYA_PATH}
+   * @return the base path optionally configured by {@value HoyaXmlConfKeys#KEY_SLIDER_BASE_PATH}
    */
-  public Path getBaseHoyaPath() {
-    String configuredHoyaBasePath = configuration.get(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH);
-    return configuredHoyaBasePath != null ? new Path(configuredHoyaBasePath) :
-           new Path(getHomeDirectory(), HoyaKeys.HOYA_BASE_DIRECTORY);
+  public Path getBaseApplicationPath() {
+    String configuredBasePath = configuration.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH);
+    return configuredBasePath != null ? new Path(configuredBasePath) :
+           new Path(getHomeDirectory(), HoyaKeys.SLIDER_BASE_DIRECTORY);
   }
 
   public Path getHomeDirectory() {

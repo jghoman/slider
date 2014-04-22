@@ -98,7 +98,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public static final int FREEZE_WAIT_TIME
   public static final int HBASE_LAUNCH_WAIT_TIME
   public static final int ACCUMULO_LAUNCH_WAIT_TIME
-  public static final int HOYA_TEST_TIMEOUT
+  public static final int SLIDER_TEST_TIMEOUT
   public static final boolean ACCUMULO_TESTS_ENABLED
   public static final boolean HBASE_TESTS_ENABLED
   static {
@@ -111,7 +111,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     HBASE_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
         KEY_TEST_HBASE_LAUNCH_TIME,
         DEFAULT_HBASE_LAUNCH_TIME)
-    HOYA_TEST_TIMEOUT = HOYA_CONFIG.getInt(
+    SLIDER_TEST_TIMEOUT = HOYA_CONFIG.getInt(
         KEY_TEST_TIMEOUT,
         DEFAULT_TEST_TIMEOUT)
     ACCUMULO_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
@@ -134,7 +134,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
 
   @Rule
-  public final Timeout testTimeout = new Timeout(HOYA_TEST_TIMEOUT);
+  public final Timeout testTimeout = new Timeout(SLIDER_TEST_TIMEOUT);
 
 
   @After

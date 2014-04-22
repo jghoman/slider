@@ -40,14 +40,18 @@ class TestHoyaFileSystem extends HoyaTestBase {
   public void testHoyaBasePathDefaultValue() throws Throwable {
     Configuration configuration = defaultConfiguration()
     FileSystem fileSystem = FileSystem.get(configuration)
-    assertEquals new HoyaFileSystem(fileSystem, configuration).getBaseHoyaPath(), new Path(fileSystem.getHomeDirectory(), ".slider")
+
+    def fs2 = new HoyaFileSystem(fileSystem, configuration)
+    fs2.baseApplicationPath == new Path(fileSystem.homeDirectory, ".slider")
   }
 
   @Test
   public void testHoyaBasePathCustomValue() throws Throwable {
-    Configuration configuration = createConfigurationWithKV(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH, "/hoya/cluster")
+    Configuration configuration = createConfigurationWithKV(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH, "/slider/cluster")
     FileSystem fileSystem = FileSystem.get(configuration)
-    assertEquals new HoyaFileSystem(fileSystem, configuration).getBaseHoyaPath(), new Path("/hoya/cluster")
+    def fs2 = new HoyaFileSystem(fileSystem, configuration)
+
+    fs2.baseApplicationPath == new Path("/slider/cluster")
   }
 
 }

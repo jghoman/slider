@@ -111,7 +111,7 @@ public interface HoyaXmlConfKeys {
    * The hoya base path: {@value}
    * Defaults to HomeDir/.hoya
    */
-  String KEY_BASE_HOYA_PATH = "slider.base.path";
+  String KEY_SLIDER_BASE_PATH = "slider.base.path";
 
 
   /**
