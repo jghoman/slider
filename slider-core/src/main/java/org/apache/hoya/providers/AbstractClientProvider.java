@@ -108,18 +108,30 @@ public abstract class AbstractClientProvider extends Configured {
 
 
   /**
-   * The Hoya AM sets up all the dependency JARs above hoya.jar itself
-   * {@inheritDoc}
+   * Prepare the AM settings for launch
+   * @param fileSystem filesystem
+   * @param serviceConf configuration of the client
+   * @param launcher launcher to set up
+   * @param instanceDescription instance description being launched
+   * @param snapshotConfDirPath
+   * @param generatedConfDirPath
+   * @param clientConfExtras
+   * @param libdir
+   * @param tempPath
+   * @param miniClusterTestRun flag set to true on a mini cluster run
+   * @throws IOException
+   * @throws SliderException
    */
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem hoyaFileSystem,
-                                          Configuration serviceConf,
-                                          AbstractLauncher launcher,
-                                          AggregateConf instanceDescription,
-                                          Path originConfDirPath,
-                                          Path generatedConfDirPath,
-                                          Configuration clientConfExtras,
-                                          String libdir,
-                                          Path tempPath)
+  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+      Configuration serviceConf,
+      AbstractLauncher launcher,
+      AggregateConf instanceDescription,
+      Path snapshotConfDirPath,
+      Path generatedConfDirPath,
+      Configuration clientConfExtras,
+      String libdir,
+      Path tempPath,
+      boolean miniClusterTestRun)
     throws IOException, SliderException {
     
   }

@@ -724,7 +724,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     // the assumption here is that minimr cluster => this is a test run
     // and the classpath can look after itself
 
-    if (!getUsingMiniMRCluster()) {
+    boolean usingMiniMRCluster = getUsingMiniMRCluster();
+    if (!usingMiniMRCluster) {
 
       log.debug("Destination is not a MiniYARNCluster -copying full classpath");
 
@@ -736,17 +737,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                                          relativeConfDir);
         HoyaUtils.mergeMaps(localResources, submittedConfDir);
       }
-
-      log.debug("Copying JARs from local filesystem");
-      // Copy the application master jar to the filesystem
-      // Create a local resource to point to the destination jar path
-
-      HoyaUtils.putJar(localResources,
-                       hoyaFileSystem,
-                       this.getClass(),
-                       tempPath,
-                       libdir,
-                       SLIDER_JAR);
     }
     // build up the configuration 
     // IMPORTANT: it is only after this call that site configurations
@@ -771,7 +761,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                                        generatedConfDirPath,
                                        clientConfExtras,
                                        libdir,
-                                       tempPath);
+                                       tempPath,
+                                       usingMiniMRCluster);
     //add provider-specific resources
     provider.prepareAMAndConfigForLaunch(hoyaFileSystem,
                                          config,
@@ -781,7 +772,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
                                          generatedConfDirPath,
                                          clientConfExtras,
                                          libdir,
-                                         tempPath);
+                                         tempPath,
+                                         usingMiniMRCluster);
 
     // now that the site config is fully generated, the provider gets
     // to do a quick review of them.
@@ -819,7 +811,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     ClasspathConstructor classpath = HoyaUtils.buildClasspath(relativeConfDir,
                                                               libdir,
                                                               getConfig(),
-                                                              getUsingMiniMRCluster());
+        usingMiniMRCluster);
     amLauncher.setEnv("CLASSPATH",
                       classpath.buildClasspath());
     if (log.isDebugEnabled()) {

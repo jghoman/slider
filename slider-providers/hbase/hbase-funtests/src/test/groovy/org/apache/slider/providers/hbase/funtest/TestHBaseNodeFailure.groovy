@@ -25,13 +25,10 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.core.launch.AMRestartSupport
-import org.apache.hoya.providers.hbase.HBaseKeys
-import org.apache.hoya.testtools.HBaseTestUtils
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionKillContainerArgs
-
-import static org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount
-
+import org.apache.slider.providers.hbase.HBaseKeys
+import org.apache.slider.providers.hbase.HBaseTestUtils
 
 class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
 
@@ -92,7 +89,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
     
     // wait for the role counts to be reached
     cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
-    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(
+    HBaseTestUtils.waitForHBaseRegionServerCount(
         hoyaClient,
         clusterName,
         numWorkers,

@@ -23,7 +23,7 @@ import org.apache.hadoop.hbase.IntegrationTestIngest
 import org.apache.hadoop.hbase.IntegrationTestingUtility
 import org.apache.hadoop.util.ToolRunner
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
+import org.apache.slider.providers.hbase.HBaseConfigFileOptions;
 
 /* Runs IntegrationTestIngest on cluster
  *

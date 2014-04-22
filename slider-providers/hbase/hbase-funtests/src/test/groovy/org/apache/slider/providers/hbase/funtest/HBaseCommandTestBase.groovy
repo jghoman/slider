@@ -21,11 +21,12 @@ package org.apache.slider.providers.hbase.funtest
 import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
-import org.apache.hoya.providers.hbase.HBaseClientProvider
-import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
+import org.apache.slider.providers.hbase.HBaseClientProvider
+import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.Before
 import org.junit.BeforeClass
+
 import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
 
 /**

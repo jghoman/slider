@@ -23,11 +23,11 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
+import org.apache.hoya.yarn.Arguments
+import org.apache.hoya.yarn.HoyaActions
+import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test

@@ -173,15 +173,15 @@ public class AgentClientProvider extends AbstractClientProvider
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem hoyaFileSystem,
-                                          Configuration serviceConf,
-                                          AbstractLauncher launcher,
-                                          AggregateConf instanceDescription,
-                                          Path originConfDirPath,
-                                          Path generatedConfDirPath,
-                                          Configuration clientConfExtras,
-                                          String libdir,
-                                          Path tempPath) throws
+  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+      Configuration serviceConf,
+      AbstractLauncher launcher,
+      AggregateConf instanceDescription,
+      Path snapshotConfDirPath,
+      Path generatedConfDirPath,
+      Configuration clientConfExtras,
+      String libdir,
+      Path tempPath, boolean miniClusterTestRun) throws
       IOException,
       SliderException {
   }

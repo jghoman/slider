@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.funtest
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.util.LoadTestTool
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
+import org.apache.slider.providers.hbase.HBaseConfigFileOptions
 
 class TestHBaseLoad extends TestFunctionalHBaseCluster {
 

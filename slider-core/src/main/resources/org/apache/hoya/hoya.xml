@@ -25,11 +25,11 @@
   </property>
   <property>
     <name>slider.provider.hbase</name>
-    <value>org.apache.hoya.providers.hbase.HBaseProviderFactory</value>
+    <value>org.apache.slider.providers.hbase.HBaseProviderFactory</value>
   </property>
   <property>
     <name>slider.provider.accumulo</name>
-    <value>org.apache.hoya.providers.accumulo.AccumuloProviderFactory</value>
+    <value>org.apache.slider.providers.accumulo.AccumuloProviderFactory</value>
   </property>
   <property>
     <name>slider.provider.agent</name>

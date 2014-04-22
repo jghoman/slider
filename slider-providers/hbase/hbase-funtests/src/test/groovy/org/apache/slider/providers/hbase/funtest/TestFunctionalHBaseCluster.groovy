@@ -21,29 +21,23 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
-import org.apache.zookeeper.WatchedEvent
-import org.apache.zookeeper.Watcher;
-import org.apache.zookeeper.ZKUtil;
-import org.apache.zookeeper.ZooKeeper;
-import org.apache.zookeeper.KeeperException;
-
 import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.tools.ConfigHelper
-import org.junit.After
-import org.junit.Before
-
-import static org.apache.hoya.testtools.HBaseTestUtils.*
-
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.providers.hbase.HBaseConfigFileOptions
+import org.apache.slider.providers.hbase.HBaseTestUtils
+import org.apache.zookeeper.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
-import static org.apache.hoya.providers.hbase.HBaseKeys.*
+import static org.apache.slider.providers.hbase.HBaseKeys.ROLE_MASTER
+import static org.apache.slider.providers.hbase.HBaseKeys.ROLE_WORKER
 
 @CompileStatic
 @Slf4j
@@ -122,9 +116,9 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     //wait for the role counts to be reached
     waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
 
-    Configuration clientConf = org.apache.hoya.testtools.HBaseTestUtils.createHBaseConfiguration(hoyaClient)
-    org.apache.hoya.testtools.HBaseTestUtils.assertHBaseMasterFound(clientConf)
-    org.apache.hoya.testtools.HBaseTestUtils.waitForHBaseRegionServerCount(hoyaClient, clusterName,
+    Configuration clientConf = HBaseTestUtils.createHBaseConfiguration(hoyaClient)
+    HBaseTestUtils.assertHBaseMasterFound(clientConf)
+    HBaseTestUtils.waitForHBaseRegionServerCount(hoyaClient, clusterName,
                                   numWorkers, HBASE_LAUNCH_WAIT_TIME)
 
     clusterLoadOperations(clusterName, clientConf, numWorkers, roleMap, cd2)
