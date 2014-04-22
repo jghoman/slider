@@ -20,7 +20,8 @@
   <packaging>jar</packaging>
   <description>
     Direct provider for slider. This is the original provider from Hoya, moved to one side
-    as it is no longer being actively developed
+    as it is no longer being actively developed. It contains tests against
+    mini clusters as well as full functional tests
     
   </description>
   <parent>
@@ -119,6 +120,53 @@
             <exclude>**/Test*$*.java</exclude>
           </excludes>
         </configuration>
+      </plugin>
+  
+       <!-- functional test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven-surefire-report-plugin.version}</version>
+        <configuration>
+          <!--mvn process fork options-->
+          <reuseForks>true</reuseForks>
+          <forkCount>1</forkCount>
+          <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <threadCount>1</threadCount>
+          <argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</argLine>
+          <failIfNoTests>true</failIfNoTests>
+          <trimStackTrace>false</trimStackTrace>
+          <redirectTestOutputToFile>${build.redirect.test.output.to.file}</redirectTestOutputToFile>
+          <systemPropertyVariables>
+            <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
+            <java.awt.headless>true</java.awt.headless>
+            <java.security.krb5.realm>${slider.test.java.security.krb5.realm}</java.security.krb5.realm>
+            <java.security.krb5.kdc>${slider.test.java.security.krb5.kdc}</java.security.krb5.kdc>
+            <!-- this property must be supplied-->
+            <slider.conf.dir>${slider.conf.dir}</slider.conf.dir>
+            <slider.bin.dir>../../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
+          </systemPropertyVariables>
+          <includes>
+            <include>**/Funtest*.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/Funtest*$*.java</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
   
  

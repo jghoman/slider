@@ -18,6 +18,8 @@
 
 package org.apache.hoya.funtest.hbase
 
+import org.apache.hoya.HoyaXMLConfKeysForTesting
+import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
 import org.apache.hoya.providers.hbase.HBaseClientProvider
@@ -25,25 +27,38 @@ import org.apache.hoya.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
 import org.junit.Before
 import org.junit.BeforeClass
-
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_HBASE_APPCONF
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_HBASE_TAR
+import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
 
 /**
  * Anything specific to HBase tests
  */
+@org.junit.experimental.categories.Category(FunctionalTests)
+
 abstract class HBaseCommandTestBase extends CommandTestBase {
+  public static final boolean HBASE_TESTS_ENABLED
+
+  static {
+    HBASE_TESTS_ENABLED =
+        SLIDER_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
+
+  }
 
   @BeforeClass
   public static void setupClass() {
     addExtraJar(HBaseClientProvider)
   }
 
-  @Before 
+  @Before
   public void verifyPreconditions() {
     assumeHBaseTestsEnabled()
-    getRequiredConfOption(HOYA_CONFIG, KEY_TEST_HBASE_TAR)
-    getRequiredConfOption(HOYA_CONFIG, KEY_TEST_HBASE_APPCONF)
+    getRequiredConfOption(SLIDER_CONFIG, KEY_TEST_HBASE_TAR)
+    getRequiredConfOption(SLIDER_CONFIG, KEY_TEST_HBASE_APPCONF)
+  }
+
+
+  public void assumeHBaseTestsEnabled() {
+    assumeFunctionalTestsEnabled()
+    assume(HBASE_TESTS_ENABLED, "HBase tests disabled")
   }
 
   /**
@@ -68,14 +83,14 @@ abstract class HBaseCommandTestBase extends CommandTestBase {
     ]
 
     argsList << Arguments.ARG_IMAGE <<
-    HOYA_CONFIG.getTrimmed(KEY_TEST_HBASE_TAR)
+    SLIDER_CONFIG.getTrimmed(KEY_TEST_HBASE_TAR)
 
     argsList << Arguments.ARG_CONFDIR <<
-    HOYA_CONFIG.getTrimmed(KEY_TEST_HBASE_APPCONF)
+    SLIDER_CONFIG.getTrimmed(KEY_TEST_HBASE_APPCONF)
 
     argsList << Arguments.ARG_PROVIDER << HBaseKeys.PROVIDER_HBASE
-    
-    SliderShell shell = createHoyaCluster(
+
+    SliderShell shell = createSliderApplication(
         name,
         roleMap,
         argsList,

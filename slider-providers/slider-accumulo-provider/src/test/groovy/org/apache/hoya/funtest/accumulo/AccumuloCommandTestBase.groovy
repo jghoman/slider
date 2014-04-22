@@ -52,8 +52,8 @@ abstract class AccumuloCommandTestBase extends CommandTestBase {
     //if tests are not enabled: skip tests
     assumeAccumuloTestsEnabled()
     // but if they are -fail if the values are missing
-    getRequiredConfOption(HOYA_CONFIG, OPTION_ZK_HOME)
-    getRequiredConfOption(HOYA_CONFIG, OPTION_HADOOP_HOME)
+    getRequiredConfOption(SLIDER_CONFIG, OPTION_ZK_HOME)
+    getRequiredConfOption(SLIDER_CONFIG, OPTION_HADOOP_HOME)
   }
 
   /**
@@ -76,17 +76,17 @@ abstract class AccumuloCommandTestBase extends CommandTestBase {
     argsList << ARG_PROVIDER << PROVIDER_ACCUMULO;
 
 
-    YarnConfiguration conf = HOYA_CONFIG
+    YarnConfiguration conf = SLIDER_CONFIG
     clusterOps[OPTION_ZK_HOME] = getRequiredConfOption(
-        HOYA_CONFIG, OPTION_ZK_HOME)
+        SLIDER_CONFIG, OPTION_ZK_HOME)
     clusterOps[OPTION_HADOOP_HOME] = getRequiredConfOption(
-        HOYA_CONFIG,
+        SLIDER_CONFIG,
         OPTION_HADOOP_HOME)
     argsList << Arguments.ARG_IMAGE <<
-    getRequiredConfOption(HOYA_CONFIG, KEY_TEST_ACCUMULO_TAR)
+    getRequiredConfOption(SLIDER_CONFIG, KEY_TEST_ACCUMULO_TAR)
 
     argsList << Arguments.ARG_CONFDIR <<
-    getRequiredConfOption(HOYA_CONFIG, KEY_TEST_ACCUMULO_APPCONF)
+    getRequiredConfOption(SLIDER_CONFIG, KEY_TEST_ACCUMULO_APPCONF)
     
     argsList << Arguments.ARG_OPTION << AccumuloKeys.OPTION_ACCUMULO_PASSWORD << password
 
@@ -99,7 +99,7 @@ abstract class AccumuloCommandTestBase extends CommandTestBase {
     argsList << ARG_RES_COMP_OPT << ROLE_GARBAGE_COLLECTOR <<
     YARN_MEMORY << containerMemory
 
-    return createHoyaCluster(clustername,
+    return createSliderApplication(clustername,
                              roles,
                              argsList,
                              blockUntilRunning,

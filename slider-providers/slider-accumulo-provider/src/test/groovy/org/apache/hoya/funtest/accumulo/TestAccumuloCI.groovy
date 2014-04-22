@@ -24,7 +24,6 @@ import org.apache.accumulo.core.client.ZooKeeperInstance
 import org.apache.accumulo.core.client.security.tokens.PasswordToken
 import org.apache.accumulo.test.continuous.ContinuousIngest
 import org.apache.accumulo.test.continuous.ContinuousVerify
-import org.apache.hadoop.fs.LocalFileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.Text
 import org.apache.hadoop.util.ToolRunner
@@ -34,8 +33,6 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.funtest.framework.PortAssignments
-import org.apache.hoya.providers.accumulo.AccumuloKeys
-
 
 /**
  * 
@@ -67,7 +64,7 @@ class TestAccumuloCI extends TestFunctionalAccumuloCluster {
     assert clustername
 
     String currentUser = System.getProperty("user.name");
-    String zookeepers = HOYA_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM,
+    String zookeepers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM,
         FuntestProperties.DEFAULT_HOYA_ZK_HOSTS)
     ZooKeeperInstance inst = new ZooKeeperInstance(currentUser + "-" + clustername, zookeepers)
     PasswordToken passwd = new PasswordToken(getPassword())
@@ -98,7 +95,7 @@ class TestAccumuloCI extends TestFunctionalAccumuloCluster {
     Path verifyOutput = new Path("/user/" + currentUser + "/.slider/cluster/" + clustername + "/verify-output")
     assert !clusterFS.exists(verifyOutput)
     
-    YarnConfiguration verifyConf = new YarnConfiguration(CommandTestBase.HOYA_CONFIG);
+    YarnConfiguration verifyConf = new YarnConfiguration(CommandTestBase.SLIDER_CONFIG);
 
         // Try to load the necessary classes for the Mappers to find them
     if (loadClassesForMapReduce(verifyConf)) {

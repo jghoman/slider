@@ -71,7 +71,7 @@ class TestBuildSetup extends HoyaTestUtils implements FuntestProperties {
   }
 
   public String getHoyaConfDirProp() {
-    return getRequiredSysprop(HOYA_CONF_DIR_PROP)
+    return getRequiredSysprop(SLIDER_CONF_DIR_PROP)
   }
 
   public File getHoyaConfDirectory() {
@@ -88,7 +88,7 @@ class TestBuildSetup extends HoyaTestUtils implements FuntestProperties {
   }
 
   public String getHoyaBinDirProp() {
-    return getRequiredSysprop(HOYA_BIN_DIR_PROP)
+    return getRequiredSysprop(SLIDER_BIN_DIR_PROP)
   }
 
   public File getHoyaConfXML() {

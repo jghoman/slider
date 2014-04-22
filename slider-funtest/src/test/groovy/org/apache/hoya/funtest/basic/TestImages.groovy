@@ -31,8 +31,8 @@ class TestImages extends CommandTestBase implements FuntestProperties {
 
   @Before
   public void verifyPreconditions() {
-    assumeBoolOption(HOYA_CONFIG, KEY_HOYA_FUNTESTS_ENABLED, true)
-    assumeBoolOption(HOYA_CONFIG, KEY_TEST_HBASE_ENABLED, true)
+    assumeBoolOption(SLIDER_CONFIG, KEY_HOYA_FUNTESTS_ENABLED, true)
+    assumeBoolOption(SLIDER_CONFIG, KEY_TEST_HBASE_ENABLED, true)
   }
   
   @Test
