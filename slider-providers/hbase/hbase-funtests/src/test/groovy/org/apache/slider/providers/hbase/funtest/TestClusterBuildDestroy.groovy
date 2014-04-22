@@ -63,7 +63,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
     --roleopt master app.infoport 8180  \\
     --role master 1 
 '''
-    hoya(0,
+    slider(0,
         [
             HoyaActions.ACTION_BUILD,
             CLUSTER,

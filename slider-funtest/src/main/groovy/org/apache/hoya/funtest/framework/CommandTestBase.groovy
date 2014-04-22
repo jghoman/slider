@@ -64,7 +64,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
   public static final YarnConfiguration SLIDER_CONFIG
   public static final int THAW_WAIT_TIME
   public static final int FREEZE_WAIT_TIME
-  public static final int HBASE_LAUNCH_WAIT_TIME
+
   public static final int ACCUMULO_LAUNCH_WAIT_TIME
   public static final int SLIDER_TEST_TIMEOUT
   public static final boolean ACCUMULO_TESTS_ENABLED
@@ -82,9 +82,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     FREEZE_WAIT_TIME = SLIDER_CONFIG.getInt(
         KEY_TEST_FREEZE_WAIT_TIME,
         DEFAULT_TEST_FREEZE_WAIT_TIME)
-    HBASE_LAUNCH_WAIT_TIME = SLIDER_CONFIG.getInt(
-        KEY_TEST_HBASE_LAUNCH_TIME,
-        DEFAULT_HBASE_LAUNCH_TIME)
+
     SLIDER_TEST_TIMEOUT = SLIDER_CONFIG.getInt(
         KEY_TEST_TIMEOUT,
         DEFAULT_TEST_TIMEOUT)
@@ -105,8 +103,8 @@ abstract class CommandTestBase extends HoyaTestUtils {
 
 
   @BeforeClass
-  public static void setupClass() {
-    Configuration conf = loadHoyaConf();
+  public static void setupTestBase() {
+    Configuration conf = loadSliderConf();
     if (HoyaUtils.maybeInitSecurity(conf)) {
       log.debug("Security enabled")
       HoyaUtils.forceLogin()
@@ -124,9 +122,12 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param clazz
    */
   public static void addExtraJar(Class clazz) {
-
     def jar = HoyaUtils.findContainingJarOrFail(clazz)
-    SliderShell.slider_classpath_extra << jar.absolutePath
+
+    def path = jar.absolutePath
+    if (!SliderShell.slider_classpath_extra.contains(path)) {
+      SliderShell.slider_classpath_extra << path
+    }
   }
 
   public static String sysprop(String key) {
@@ -143,7 +144,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param commands
    * @return the shell
    */
-  public static SliderShell hoya(List<String> commands) {
+  public static SliderShell slider(List<String> commands) {
     SliderShell shell = new SliderShell(commands)
     shell.execute()
     return shell
@@ -155,7 +156,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param commands commands
    * @return
    */
-  public static SliderShell hoya(int exitCode, List<String> commands) {
+  public static SliderShell slider(int exitCode, List<String> commands) {
     return SliderShell.run(commands, exitCode)
   }
 
@@ -163,7 +164,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * Load the client XML file
    * @return
    */
-  public static Configuration loadHoyaConf() {
+  public static Configuration loadSliderConf() {
     Configuration conf = new Configuration(true)
     conf.addResource(SLIDER_CONF_XML.toURI().toURL())
     return conf
@@ -175,13 +176,13 @@ abstract class CommandTestBase extends HoyaTestUtils {
 
 
   static SliderShell destroy(String name) {
-    hoya([
+    slider([
         ACTION_DESTROY, name
     ])
   }
 
   static SliderShell destroy(int result, String name) {
-    hoya(result, [
+    slider(result, [
         ACTION_DESTROY, name
     ])
   }
@@ -194,7 +195,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (live) {
       args << Arguments.ARG_LIVE
     }
-    hoya(args)
+    slider(args)
   }
 
   static SliderShell exists(int result, String name, boolean live = true) {
@@ -204,30 +205,30 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (live) {
       args << ARG_LIVE
     }
-    hoya(result, args)
+    slider(result, args)
   }
 
   static SliderShell freeze(String name) {
-    hoya([
+    slider([
         ACTION_FREEZE, name
     ])
   }
 
   static SliderShell getConf(String name) {
-    hoya([
+    slider([
         ACTION_GETCONF, name
     ])
   }
 
   static SliderShell getConf(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_GETCONF, name
          ])
   }
 
   static SliderShell killContainer(String name, String containerID) {
-    hoya(0,
+    slider(0,
          [
              ACTION_KILL_CONTAINER,
              name,
@@ -236,7 +237,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
   }
   
   static SliderShell freezeForce(String name) {
-    hoya([
+    slider([
         ACTION_FREEZE, ARG_FORCE, name
     ])
   }
@@ -248,7 +249,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (name != null) {
       cmd << name
     }
-    hoya(cmd)
+    slider(cmd)
   }
 
   static SliderShell list(int result, String name) {
@@ -258,30 +259,30 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (name != null) {
       cmd << name
     }
-    hoya(result, cmd)
+    slider(result, cmd)
   }
 
   static SliderShell status(String name) {
-    hoya([
+    slider([
         ACTION_STATUS, name
     ])
   }
 
   static SliderShell status(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_STATUS, name
          ])
   }
 
   static SliderShell thaw(String name) {
-    hoya([
+    slider([
         ACTION_THAW, name
     ])
   }
 
   static SliderShell thaw(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_THAW, name
          ])
@@ -422,7 +423,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    hoya(0, argsList)
+    slider(0, argsList)
   }
 
   /**
@@ -458,7 +459,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
       HoyaClient hoyaClient, String cluster) {
     
     assert cluster
-    hoya(0, [
+    slider(0, [
         ACTION_AM_SUICIDE, cluster,
         ARG_EXITCODE, "1",
         ARG_WAIT, "1000",

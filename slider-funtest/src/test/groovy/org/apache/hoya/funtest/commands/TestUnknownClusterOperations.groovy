@@ -52,7 +52,7 @@ public class TestUnknownClusterOperations extends CommandTestBase {
 
   @Test
   public void testFreezeUnknownClusterWithMessage() throws Throwable {
-      hoya(HoyaExitCodes.EXIT_UNKNOWN_INSTANCE,
+      slider(HoyaExitCodes.EXIT_UNKNOWN_INSTANCE,
          [
         HoyaActions.ACTION_FREEZE, UNKNOWN,
         Arguments.ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),

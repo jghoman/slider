@@ -28,7 +28,9 @@ import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.yarn.client.HoyaClient
+import org.junit.After
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -41,13 +43,13 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
   static String CLUSTER = "test_cluster_lifecycle"
 
 
-  @BeforeClass
-  public static void prepareCluster() {
+  @Before
+  public void prepareCluster() {
     setupCluster(CLUSTER)
   }
 
-  @AfterClass
-  public static void destroyCluster() {
+  @After
+  public void destroyCluster() {
     teardown(CLUSTER)
   }
 
@@ -95,7 +97,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
     //now status to a temp file
     File jsonStatus = File.createTempFile("tempfile", ".json")
     try {
-      hoya(0,
+      slider(0,
            [
                HoyaActions.ACTION_STATUS, CLUSTER,
                ARG_OUTPUT, jsonStatus.canonicalPath
@@ -118,7 +120,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       log.info("Connected via HoyaClient {}", hoyaClient.toString())
 
       //freeze
-      hoya(0, [
+      slider(0, [
           HoyaActions.ACTION_FREEZE, CLUSTER,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
           ARG_MESSAGE, "freeze-in-testHBaseCreateCluster"
@@ -132,13 +134,13 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       // thaw then freeze the cluster
 
-      hoya(0,
+      slider(0,
            [
                HoyaActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
            ])
       exists(0, CLUSTER)
-      hoya(0, [
+      slider(0, [
           HoyaActions.ACTION_FREEZE, CLUSTER,
           ARG_FORCE,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
@@ -154,7 +156,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       // thaw with a restart count set to enable restart
 
       describe "the kill/restart phase may fail if yarn.resourcemanager.am.max-attempts is too low"
-      hoya(0,
+      slider(0,
            [
                HoyaActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),

@@ -55,7 +55,7 @@
               <quiet>true</quiet>
               <files>
                 <file>build.properties</file>
-                <file>../../build.properties</file>
+                <file>../../../build.properties</file>
               </files>
             </configuration>
           </execution>
@@ -109,7 +109,7 @@
             <java.security.krb5.kdc>${slider.test.java.security.krb5.kdc}</java.security.krb5.kdc>
             <!-- this property must be supplied-->
             <slider.conf.dir>${slider.conf.dir}</slider.conf.dir>
-            <slider.bin.dir>../../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
+            <slider.bin.dir>../../../slider-assembly/target/slider-${project.version}-all/slider-${project.version}</slider.bin.dir>
           </systemPropertyVariables>
           <includes>
             <include>**/Test*.java</include>
@@ -119,8 +119,6 @@
           </excludes>
         </configuration>
       </plugin>
-  
-
  
     </plugins>
   </build>

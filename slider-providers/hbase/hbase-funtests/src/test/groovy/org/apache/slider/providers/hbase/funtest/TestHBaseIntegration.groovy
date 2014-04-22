@@ -44,11 +44,11 @@ class TestHBaseIntegration extends TestFunctionalHBaseCluster {
       int numWorkers,
       Map<String, Integer> roleMap,
       ClusterDescription cd) {
-    String parent = "/yarnapps_hoya_yarn_"+clustername
+    String parent = "/yarnapps_hoya_yarn_" + clustername
     clientConf.set(HBaseConfigFileOptions.KEY_ZNODE_PARENT, parent)
 
     clientConf.set(IntegrationTestingUtility.IS_DISTRIBUTED_CLUSTER, "true")
-    
+
     String[] args = []
     IntegrationTestIngest test = new IntegrationTestIngest();
     test.setConf(clientConf)

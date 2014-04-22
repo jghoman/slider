@@ -56,7 +56,7 @@ slider_jvm_opts="-Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -Xmx25
 slider_jvm_opts=${SLIDER_JVM_OPTS:-$slider_jvm_opts}
 
 # allow for an extra classpath
-slider_classpath_extra=${SLIDER_CLASSPATH_EXTRA:""}
+slider_classpath_extra=${SLIDER_CLASSPATH_EXTRA:-""}
 
 slider_classpath="${libdir}/*:${confdir}:${slider_classpath_extra}"
 

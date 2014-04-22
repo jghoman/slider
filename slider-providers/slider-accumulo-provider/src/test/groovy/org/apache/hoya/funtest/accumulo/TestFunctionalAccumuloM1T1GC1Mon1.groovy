@@ -18,25 +18,11 @@
 
 package org.apache.hoya.funtest.accumulo
 
-import java.util.Map;
-
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.funtest.framework.PortAssignments
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import org.junit.Test
-
-import static org.apache.hoya.providers.accumulo.AccumuloKeys.*
-import static org.apache.hoya.providers.accumulo.AccumuloConfigFileOptions.*
 
 @CompileStatic
 @Slf4j
@@ -58,7 +44,7 @@ public class TestFunctionalAccumuloM1T1GC1Mon1 extends TestFunctionalAccumuloClu
       Map<String, Integer> roleMap,
       ClusterDescription cd) {
 
-    hoya(0, [
+    slider(0, [
       HoyaActions.ACTION_FREEZE,
       getClusterName(),
       Arguments.ARG_WAIT,

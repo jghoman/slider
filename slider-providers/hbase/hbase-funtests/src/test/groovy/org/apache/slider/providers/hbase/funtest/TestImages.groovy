@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.basic
+package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
@@ -38,7 +38,7 @@ class TestImages extends CommandTestBase implements FuntestProperties {
   @Test
   public void testImageExists() throws Throwable {
 
-    Configuration conf = loadHoyaConf()
+    Configuration conf = loadSliderConf()
     String testImage = conf.get(KEY_TEST_HBASE_TAR)
     assert testImage
     Path path = new Path(testImage)
@@ -50,7 +50,7 @@ class TestImages extends CommandTestBase implements FuntestProperties {
 
   @Test
   public void testAppConfExists() throws Throwable {
-    Configuration conf = loadHoyaConf()
+    Configuration conf = loadSliderConf()
     String dir = conf.get(KEY_TEST_HBASE_APPCONF)
 
     assert conf.get(KEY_TEST_HBASE_APPCONF)

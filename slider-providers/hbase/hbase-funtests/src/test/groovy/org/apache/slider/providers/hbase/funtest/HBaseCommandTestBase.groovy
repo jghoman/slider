@@ -18,7 +18,6 @@
 
 package org.apache.slider.providers.hbase.funtest
 
-import org.apache.hoya.HoyaXMLConfKeysForTesting
 import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
@@ -36,15 +35,18 @@ import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
 
 abstract class HBaseCommandTestBase extends CommandTestBase {
   public static final boolean HBASE_TESTS_ENABLED
-
+  public static final int HBASE_LAUNCH_WAIT_TIME
+  
   static {
     HBASE_TESTS_ENABLED =
         SLIDER_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
-
+    HBASE_LAUNCH_WAIT_TIME = SLIDER_CONFIG.getInt(
+        KEY_TEST_HBASE_LAUNCH_TIME,
+        DEFAULT_HBASE_LAUNCH_TIME)
   }
 
   @BeforeClass
-  public static void setupClass() {
+  public static void extendClasspath() {
     addExtraJar(HBaseClientProvider)
   }
 
