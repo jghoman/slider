@@ -17,6 +17,7 @@
 /slider-providers/slider-hbase-provider/target
 /slider-providers/hbase/hbase-funtests/target
 /slider-providers/slider-accumulo-provider/target
+/test-configs
 release.properties
 *.backup
 *.versionsBackup
