@@ -142,16 +142,28 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
    * The Hoya AM sets up all the dependency JARs above hoya.jar itself
    * {@inheritDoc}
    */
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem hoyaFileSystem,
-                                                                Configuration serviceConf,
-                                                                AbstractLauncher launcher,
-                                                                AggregateConf instanceDescription,
-                                                                Path originConfDirPath,
-                                                                Path generatedConfDirPath,
-                                                                Configuration clientConfExtras,
-                                                                String libdir,
-                                                                Path tempPath)
+  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+      Configuration serviceConf,
+      AbstractLauncher launcher,
+      AggregateConf instanceDescription,
+      Path snapshotConfDirPath,
+      Path generatedConfDirPath,
+      Configuration clientConfExtras,
+      String libdir,
+      Path tempPath, boolean miniClusterTestRun)
     throws IOException, SliderException {
+
+    Map<String, LocalResource> providerResources =
+        new HashMap<String, LocalResource>();
+
+
+    ProviderUtils.addProviderJar(providerResources,
+        this,
+        SLIDER_JAR,
+        fileSystem,
+        tempPath,
+        libdir,
+        miniClusterTestRun);
 
     Class<?>[] classes = {
       JCommander.class,
@@ -184,9 +196,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
         "jackson-xc",
         
       };
-    Map<String, LocalResource> providerResources =
-      new HashMap<String, LocalResource>();
-    ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
+    ProviderUtils.addDependencyJars(providerResources, fileSystem, tempPath,
                                     libdir, jars,
                                     classes);
     

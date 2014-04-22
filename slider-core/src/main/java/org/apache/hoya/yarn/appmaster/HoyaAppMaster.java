@@ -326,7 +326,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     //look at settings of Hadoop Auth, to pick up a problem seen once
     checkAndWarnForAuthTokenProblems();
-   
+
     //init all child services
     super.serviceInit(conf);
   }
@@ -359,6 +359,14 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
    */
   @Override
   public int runService() throws Throwable {
+    HoyaVersionInfo.loadAndPrintVersionInfo(log);
+
+
+    //dump the system properties if in debug mode
+    if (log.isDebugEnabled()) {
+      log.debug("System properties:\n" +
+                HoyaUtils.propertiesToString(System.getProperties()));
+    }
 
     //choose the action
     String action = serviceArgs.getAction();
@@ -397,7 +405,6 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
    * @throws Throwable on a failure
    */
   private int createAndRunCluster(String clustername) throws Throwable {
-    HoyaVersionInfo.loadAndPrintVersionInfo(log);
 
     //load the cluster description from the cd argument
     String hoyaClusterDir = serviceArgs.getHoyaClusterURI();

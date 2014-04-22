@@ -20,7 +20,6 @@ package org.apache.hoya.yarn.providers
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.providers.ProviderUtils
 import org.apache.hoya.yarn.HoyaTestBase

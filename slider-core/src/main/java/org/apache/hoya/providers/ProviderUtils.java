@@ -64,6 +64,49 @@ public class ProviderUtils implements RoleKeys {
   }
 
   /**
+   * Add oneself to the classpath. This does not work
+   * on minicluster test runs where the JAR is not built up
+   * @param providerResources map of provider resources to add these entries to
+   * @param provider provider to add
+   * @param jarName name of the jar to use
+   * @param hoyaFileSystem target filesystem
+   * @param tempPath path in the cluster FS for temp files
+   * @param libdir relative directory to place resources
+   * @param miniClusterTestRun
+   * @return true if the class was found in a JAR
+   * 
+   * @throws FileNotFoundException if the JAR was not found and this is NOT
+   * a mini cluster test run
+   * @throws IOException IO problems
+   * @throws SliderException any Hoya problem
+   */
+  public static boolean addProviderJar(Map<String, LocalResource> providerResources,
+      Object provider,
+      String jarName,
+      HoyaFileSystem hoyaFileSystem,
+      Path tempPath,
+      String libdir,
+      boolean miniClusterTestRun) throws
+      IOException,
+      SliderException {
+    try {
+      HoyaUtils.putJar(providerResources,
+          hoyaFileSystem,
+          provider.getClass(),
+          tempPath,
+          libdir,
+          jarName);
+      return true;
+    } catch (FileNotFoundException e) {
+      if (miniClusterTestRun) {
+        return false;
+      } else {
+        throw e;
+      }
+    }
+  }
+  
+  /**
    * Add a set of dependencies to the provider resources being built up,
    * by copying them from the local classpath to the remote one, then
    * registering them

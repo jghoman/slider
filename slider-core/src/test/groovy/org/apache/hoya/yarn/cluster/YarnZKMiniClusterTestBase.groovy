@@ -23,15 +23,13 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
+import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.zk.BlockingZKWatcher
 import org.apache.slider.core.registry.zk.ZKIntegration
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.MicroZKCluster
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import static org.apache.hoya.testtools.KeysForTests.*
+import static org.apache.hoya.testtools.KeysForTests.USERNAME
 
 /**
  * Base class for mini cluster tests that use Zookeeper

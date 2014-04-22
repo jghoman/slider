@@ -148,4 +148,7 @@ public interface HoyaXmlConfKeys {
    */
   String DEFAULT_REGISTRY_ZK_QUORUM = "localhost:2181";
 
+
+  String IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH =
+      "ipc.client.fallback-to-simple-auth-allowed";
 }

@@ -48,7 +48,6 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.MissingArgException;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 import org.apache.zookeeper.server.util.KerberosUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,8 +72,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -174,6 +175,23 @@ public final class HoyaUtils {
       log.debug("No output dir yet");
     }
   }
+
+  /**
+   * Find a containing JAR
+   * @param my_class class to find
+   * @return the file
+   * @throws IOException any IO problem, including the class not having a
+   * classloader
+   * @throws FileNotFoundException if the class did not resolve to a file
+   */
+  public static File findContainingJarOrFail(Class clazz) throws IOException {
+    File localFile = HoyaUtils.findContainingJar(clazz);
+    if (null == localFile) {
+      throw new FileNotFoundException("Could not find JAR containing " + clazz);
+    }
+    return localFile;
+  }
+
 
   /**
    * Find a containing JAR
@@ -385,8 +403,8 @@ public final class HoyaUtils {
 
     //if the fallback option is NOT set, enable it.
     //if it is explicitly set to anything -leave alone
-    if (conf.get(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
-      conf.set(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
+    if (conf.get(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
+      conf.set(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
     }
     return conf;
   }
@@ -1271,6 +1289,18 @@ public final class HoyaUtils {
     Timer timer = new Timer("halt timer", false);
     timer.schedule(new DelayedHalt(status, text), delay);
     return timer;
+  }
+
+  public static String propertiesToString(Properties props) {
+    TreeSet<String> keys = new TreeSet<String>(props.stringPropertyNames());
+    StringBuilder builder = new StringBuilder();
+    for (String key : keys) {
+      builder.append(key)
+             .append("=")
+             .append(props.getProperty(key))
+             .append("\n");
+    }
+    return builder.toString();
   }
 
   /**

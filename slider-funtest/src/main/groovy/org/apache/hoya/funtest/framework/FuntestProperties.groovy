@@ -31,12 +31,12 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   /**
    * Maven Property of location of hoya conf dir: {@value}
    */
-  String HOYA_CONF_DIR_PROP = "slider.conf.dir"
+  String SLIDER_CONF_DIR_PROP = "slider.conf.dir"
 
   /**
    * Maven Property of location of hoya binary image dir: {@value}
    */
-  String HOYA_BIN_DIR_PROP = "slider.bin.dir"
+  String SLIDER_BIN_DIR_PROP = "slider.bin.dir"
 
   String KEY_HOYA_TEST_NUM_WORKERS = "slider.test.cluster.size"
   int DEFAULT_HOYA_NUM_WORKERS = 1
@@ -55,6 +55,7 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   String CLIENT_CONFIG_FILENAME = HoyaKeys.CLIENT_RESOURCE
   
   String ENV_CONF_DIR = "SLIDER_CONF_DIR"
+  String ENV_SLIDER_CLASSPATH_EXTRA = "SLIDER_CLASSPATH_EXTRA"
 
   String SCRIPT_NAME = "slider"
 }

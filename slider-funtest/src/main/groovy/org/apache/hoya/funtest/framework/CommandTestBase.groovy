@@ -50,86 +50,101 @@ abstract class CommandTestBase extends HoyaTestUtils {
       LoggerFactory.getLogger(CommandTestBase.class);
   
   public static final String BASH = '/bin/bash -s'
-  public static final String HOYA_CONF_DIR = System.getProperty(
-      HOYA_CONF_DIR_PROP)
-  public static final String HOYA_BIN_DIR = System.getProperty(
-      HOYA_BIN_DIR_PROP)
-  public static final File HOYA_BIN_DIRECTORY = new File(
-      HOYA_BIN_DIR).canonicalFile
-  public static final File HOYA_SCRIPT = new File(
-      HOYA_BIN_DIRECTORY,
+  public static final String SLIDER_CONF_DIR = sysprop(SLIDER_CONF_DIR_PROP)
+  public static final String SLIDER_BIN_DIR = sysprop(SLIDER_BIN_DIR_PROP)
+  public static final File SLIDER_BIN_DIRECTORY = new File(
+      SLIDER_BIN_DIR).canonicalFile
+  public static final File SLIDER_SCRIPT = new File(
+      SLIDER_BIN_DIRECTORY,
       "bin/slider").canonicalFile
-  public static final File HOYA_CONF_DIRECTORY = new File(
-      HOYA_CONF_DIR).canonicalFile
-  public static final File HOYA_CONF_XML = new File(HOYA_CONF_DIRECTORY,
+  public static final File SLIDER_CONF_DIRECTORY = new File(SLIDER_CONF_DIR).canonicalFile
+  public static final File SLIDER_CONF_XML = new File(SLIDER_CONF_DIRECTORY,
       CLIENT_CONFIG_FILENAME).canonicalFile
 
-  public static final YarnConfiguration HOYA_CONFIG
+  public static final YarnConfiguration SLIDER_CONFIG
   public static final int THAW_WAIT_TIME
   public static final int FREEZE_WAIT_TIME
-  public static final int HBASE_LAUNCH_WAIT_TIME
+
   public static final int ACCUMULO_LAUNCH_WAIT_TIME
-  public static final int HOYA_TEST_TIMEOUT
+  public static final int SLIDER_TEST_TIMEOUT
   public static final boolean ACCUMULO_TESTS_ENABLED
-  public static final boolean HBASE_TESTS_ENABLED
+
   public static final boolean FUNTESTS_ENABLED
-  public static final boolean AGENTESTS_ENABLED
+  public static final boolean AGENTTESTS_ENABLED
 
 
   static {
-    HOYA_CONFIG = new YarnConfiguration()
-    HOYA_CONFIG.addResource(HOYA_CONF_XML.toURI().toURL())
-    THAW_WAIT_TIME = HOYA_CONFIG.getInt(
+    SLIDER_CONFIG = new YarnConfiguration()
+    SLIDER_CONFIG.addResource(SLIDER_CONF_XML.toURI().toURL())
+    THAW_WAIT_TIME = SLIDER_CONFIG.getInt(
         KEY_TEST_THAW_WAIT_TIME,
         DEFAULT_THAW_WAIT_TIME)
-    FREEZE_WAIT_TIME = HOYA_CONFIG.getInt(
+    FREEZE_WAIT_TIME = SLIDER_CONFIG.getInt(
         KEY_TEST_FREEZE_WAIT_TIME,
         DEFAULT_TEST_FREEZE_WAIT_TIME)
-    HBASE_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
-        KEY_TEST_HBASE_LAUNCH_TIME,
-        DEFAULT_HBASE_LAUNCH_TIME)
-    HOYA_TEST_TIMEOUT = HOYA_CONFIG.getInt(
+
+    SLIDER_TEST_TIMEOUT = SLIDER_CONFIG.getInt(
         KEY_TEST_TIMEOUT,
         DEFAULT_TEST_TIMEOUT)
-    ACCUMULO_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
+    ACCUMULO_LAUNCH_WAIT_TIME = SLIDER_CONFIG.getInt(
         KEY_ACCUMULO_LAUNCH_TIME,
         DEFAULT_ACCUMULO_LAUNCH_TIME)
     FUNTESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_HOYA_FUNTESTS_ENABLED, true)
+        SLIDER_CONFIG.getBoolean(KEY_HOYA_FUNTESTS_ENABLED, true)
     ACCUMULO_TESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
-    HBASE_TESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
-    AGENTESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_TEST_AGENT_ENABLED, true)
+        SLIDER_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
+
+    AGENTTESTS_ENABLED =
+        SLIDER_CONFIG.getBoolean(KEY_TEST_AGENT_ENABLED, true)
  }
 
   @Rule
-  public final Timeout testTimeout = new Timeout(HOYA_TEST_TIMEOUT);
+  public final Timeout testTimeout = new Timeout(SLIDER_TEST_TIMEOUT);
 
 
   @BeforeClass
-  public static void setupClass() {
-    Configuration conf = loadHoyaConf();
+  public static void setupTestBase() {
+    Configuration conf = loadSliderConf();
     if (HoyaUtils.maybeInitSecurity(conf)) {
       log.debug("Security enabled")
       HoyaUtils.forceLogin()
     } else {
       log.info "Security off, making cluster dirs broadly accessible"
     }
-    SliderShell.confDir = HOYA_CONF_DIRECTORY
-    SliderShell.script = HOYA_SCRIPT
-    log.info("Test using ${HadoopFS.getDefaultUri(HOYA_CONFIG)} " +
-             "and YARN RM @ ${HOYA_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
+    SliderShell.confDir = SLIDER_CONF_DIRECTORY
+    SliderShell.script = SLIDER_SCRIPT
+    log.info("Test using ${HadoopFS.getDefaultUri(SLIDER_CONFIG)} " +
+             "and YARN RM @ ${SLIDER_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
   }
 
+  /**
+   * Add a jar to the slider classpath
+   * @param clazz
+   */
+  public static void addExtraJar(Class clazz) {
+    def jar = HoyaUtils.findContainingJarOrFail(clazz)
+
+    def path = jar.absolutePath
+    if (!SliderShell.slider_classpath_extra.contains(path)) {
+      SliderShell.slider_classpath_extra << path
+    }
+  }
+
+  public static String sysprop(String key) {
+    def property = System.getProperty(key)
+    if (!property) {
+      throw new RuntimeException("Undefined property $key")
+    }
+    return property
+  }
+  
   /**
    * Exec any hoya command 
    * @param conf
    * @param commands
    * @return the shell
    */
-  public static SliderShell hoya(List<String> commands) {
+  public static SliderShell slider(List<String> commands) {
     SliderShell shell = new SliderShell(commands)
     shell.execute()
     return shell
@@ -141,7 +156,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param commands commands
    * @return
    */
-  public static SliderShell hoya(int exitCode, List<String> commands) {
+  public static SliderShell slider(int exitCode, List<String> commands) {
     return SliderShell.run(commands, exitCode)
   }
 
@@ -149,25 +164,25 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * Load the client XML file
    * @return
    */
-  public static Configuration loadHoyaConf() {
+  public static Configuration loadSliderConf() {
     Configuration conf = new Configuration(true)
-    conf.addResource(HOYA_CONF_XML.toURI().toURL())
+    conf.addResource(SLIDER_CONF_XML.toURI().toURL())
     return conf
   }
 
   public static HadoopFS getClusterFS() {
-    return HadoopFS.get(HOYA_CONFIG)
+    return HadoopFS.get(SLIDER_CONFIG)
   }
 
 
   static SliderShell destroy(String name) {
-    hoya([
+    slider([
         ACTION_DESTROY, name
     ])
   }
 
   static SliderShell destroy(int result, String name) {
-    hoya(result, [
+    slider(result, [
         ACTION_DESTROY, name
     ])
   }
@@ -180,7 +195,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (live) {
       args << Arguments.ARG_LIVE
     }
-    hoya(args)
+    slider(args)
   }
 
   static SliderShell exists(int result, String name, boolean live = true) {
@@ -190,30 +205,30 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (live) {
       args << ARG_LIVE
     }
-    hoya(result, args)
+    slider(result, args)
   }
 
   static SliderShell freeze(String name) {
-    hoya([
+    slider([
         ACTION_FREEZE, name
     ])
   }
 
   static SliderShell getConf(String name) {
-    hoya([
+    slider([
         ACTION_GETCONF, name
     ])
   }
 
   static SliderShell getConf(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_GETCONF, name
          ])
   }
 
   static SliderShell killContainer(String name, String containerID) {
-    hoya(0,
+    slider(0,
          [
              ACTION_KILL_CONTAINER,
              name,
@@ -222,7 +237,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
   }
   
   static SliderShell freezeForce(String name) {
-    hoya([
+    slider([
         ACTION_FREEZE, ARG_FORCE, name
     ])
   }
@@ -234,7 +249,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (name != null) {
       cmd << name
     }
-    hoya(cmd)
+    slider(cmd)
   }
 
   static SliderShell list(int result, String name) {
@@ -244,30 +259,30 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (name != null) {
       cmd << name
     }
-    hoya(result, cmd)
+    slider(result, cmd)
   }
 
   static SliderShell status(String name) {
-    hoya([
+    slider([
         ACTION_STATUS, name
     ])
   }
 
   static SliderShell status(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_STATUS, name
          ])
   }
 
   static SliderShell thaw(String name) {
-    hoya([
+    slider([
         ACTION_THAW, name
     ])
   }
 
   static SliderShell thaw(int result, String name) {
-    hoya(result,
+    slider(result,
          [
              ACTION_THAW, name
          ])
@@ -391,7 +406,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     List<String> argsList = [action, clustername]
 
     argsList << ARG_ZKHOSTS <<
-      HOYA_CONFIG.getTrimmed(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM)
+      SLIDER_CONFIG.getTrimmed(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM)
     
 
     if (blockUntilRunning) {
@@ -408,7 +423,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    hoya(0, argsList)
+    slider(0, argsList)
   }
 
   /**
@@ -420,7 +435,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return launcher which will have executed the command.
    */
-  public SliderShell createHoyaCluster(
+  public SliderShell createSliderApplication(
       String clustername,
       Map<String, Integer> roles,
       List<String> extraArgs,
@@ -444,7 +459,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
       HoyaClient hoyaClient, String cluster) {
     
     assert cluster
-    hoya(0, [
+    slider(0, [
         ACTION_AM_SUICIDE, cluster,
         ARG_EXITCODE, "1",
         ARG_WAIT, "1000",
@@ -453,7 +468,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
 
 
 
-    def sleeptime = HOYA_CONFIG.getInt( KEY_AM_RESTART_SLEEP_TIME,
+    def sleeptime = SLIDER_CONFIG.getInt( KEY_AM_RESTART_SLEEP_TIME,
                                         DEFAULT_AM_RESTART_SLEEP_TIME)
     sleep(sleeptime)
     ClusterDescription status
@@ -486,14 +501,9 @@ abstract class CommandTestBase extends HoyaTestUtils {
     assume(ACCUMULO_TESTS_ENABLED, "Accumulo tests disabled")
   }
 
-  public void assumeHBaseTestsEnabled() {
-    assumeFunctionalTestsEnabled()
-    assume(HBASE_TESTS_ENABLED, "HBase tests disabled")
-  }
-  
   public void assumeAgentTestsEnabled() {
     assumeFunctionalTestsEnabled()
-    assume(HBASE_TESTS_ENABLED, "HBase tests disabled")
+    assume(AGENTTESTS_ENABLED, "Agent tests disabled")
   }
 
 }

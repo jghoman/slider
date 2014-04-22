@@ -20,10 +20,9 @@ package org.apache.hoya.yarn.providers
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.conf.Configuration
 import org.apache.hoya.providers.HoyaProviderFactory
-import org.apache.hoya.providers.hbase.HBaseKeys
-import org.apache.hoya.providers.hbase.HBaseProviderFactory
+import org.apache.hoya.providers.agent.AgentKeys
+import org.apache.hoya.providers.agent.AgentProviderFactory
 import org.junit.Test
 
 @CompileStatic
@@ -32,27 +31,30 @@ class TestProviderFactory {
 
 
   @Test
-  public void testLoadHBaseProvider() throws Throwable {
-    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(HBaseKeys.PROVIDER_HBASE);
-    assert factory instanceof HBaseProviderFactory
+  public void testLoadAgentProvider() throws Throwable {
+    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(AgentKeys.PROVIDER_AGENT);
+    assert factory instanceof AgentProviderFactory
   }
 
   @Test
-  public void testCreateClientHBaseProvider() throws Throwable {
-    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(HBaseKeys.PROVIDER_HBASE);
+  public void testCreateClientProvider() throws Throwable {
+    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(
+        AgentKeys.PROVIDER_AGENT);
     assert null != factory.createClientProvider();
   }
 
   @Test
-  public void testCreateHBaseServerProvider() throws Throwable {
-    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(HBaseKeys.PROVIDER_HBASE);
+  public void testCreateHBaseProvider() throws Throwable {
+    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory(
+        AgentKeys.PROVIDER_AGENT);
     assert null != factory.createServerProvider();
   }
   
   @Test
   public void testCreateProviderByClassname() throws Throwable {
-    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory("org.apache.hoya.providers.hbase.HBaseProviderFactory");
+    HoyaProviderFactory factory = HoyaProviderFactory.createHoyaProviderFactory("org.apache.hoya.providers.agent.AgentProviderFactory");
     assert null != factory.createServerProvider();
+    assert factory instanceof AgentProviderFactory
   }
   
   

@@ -27,8 +27,7 @@ import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
-import static org.apache.hoya.providers.agent.AgentKeys.*
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.hoya.providers.agent.AgentKeys.CONF_RESOURCE
 
 /**
  * test base for all agent clusters

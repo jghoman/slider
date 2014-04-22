@@ -25,9 +25,6 @@ import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.HoyaTestBase
 import org.junit.Test
 
-import static org.junit.Assert.assertEquals
-
-
 class TestHoyaFileSystem extends HoyaTestBase {
   private static Configuration defaultConfiguration() {
     new Configuration()
