@@ -113,9 +113,11 @@ Checkout the HBase `trunk` branch from apache svn/github.
     git fetch --tags apache
 
 then
+
     git checkout -b apache/0.98
 or
-    git checkout tags/0.98.0RC1
+
+    git checkout tags/0.98.1
     
 If you have already been building versions of HBase, remove the existing
 set of artifacts for safety:
@@ -131,14 +133,15 @@ property of`/pom.xml`:
 
     mvn clean install assembly:single -DskipTests -Dmaven.javadoc.skip=true -Dhadoop-two.version=$HADOOP_VERSION
 
-This will create `hbase-0.98.0.tar.gz` in the directory `hbase-assembly/target/`
+This will create an hbase `tar.gz` file in the directory `hbase-assembly/target/`
 in the hbase source tree. 
 
-    export HBASE_VERSION=0.98.0
+    export HBASE_VERSION=0.98.1
     
     pushd hbase-assembly/target
-    gunzip -k hbase-$HBASE_VERSION-bin.tar.gz 
+    gunzip hbase-$HBASE_VERSION-bin.tar.gz 
     tar -xvf hbase-$HBASE_VERSION-bin.tar
+    gzip hbase-$HBASE_VERSION-bin.tar
     popd
 
 This will create an untarred directory containing
