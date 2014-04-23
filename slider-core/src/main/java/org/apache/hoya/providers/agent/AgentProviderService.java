@@ -65,6 +65,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -505,7 +506,7 @@ public class AgentProviderService extends AbstractProviderService implements
 
   protected void addRoleRelatedTokens(Map<String, String> tokens) {
     for (Map.Entry<String, List<String>> entry : roleHostMapping.entrySet()) {
-      String tokenName = entry.getKey().toUpperCase() + "_HOST";
+      String tokenName = entry.getKey().toUpperCase(Locale.ENGLISH) + "_HOST";
       String hosts = StringUtils.join(",", entry.getValue());
       tokens.put("${" + tokenName + "}", hosts);
     }
