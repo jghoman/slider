@@ -76,7 +76,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
 
-    status = waitForHoyaWorkerCount(
+    status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
         HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
@@ -127,7 +127,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     ApplicationReport report = hoyaClient.applicationReport
     assert report.yarnApplicationState != YarnApplicationState.FAILED;
 
-    status = waitForHoyaWorkerCount(
+    status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
         HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
