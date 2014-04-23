@@ -50,7 +50,6 @@ class TestLiveRegionServiceOnHDFS extends HBaseMiniClusterTestBase {
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
-    assert ZKHosts == status.zkHosts
 
 //    dumpFullHBaseConf(hoyaClient)
 

@@ -61,11 +61,7 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
-    assert ZKHosts == status.zkHosts
-
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
-
-
 
     status = waitForWorkerInstanceCount(
         hoyaClient,
@@ -85,8 +81,7 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
       Thread.sleep(1000);
     }
     if (duration.limitExceeded) {
-      HBaseTestUtils.describe(
-          "Cluster region server count of ${regionServerCount} not met:");
+      describe("Cluster region server count of ${regionServerCount} not met:");
       log.info(HBaseTestUtils.hbaseStatusToString(clustat));
       fail("Backup master count not reached");
     }
