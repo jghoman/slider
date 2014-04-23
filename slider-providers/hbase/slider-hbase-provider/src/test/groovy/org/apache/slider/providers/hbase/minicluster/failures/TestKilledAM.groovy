@@ -59,7 +59,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
 
     conf.setClass(YarnConfiguration.RM_SCHEDULER,
                   FifoScheduler, ResourceScheduler);
-    createMiniCluster(clustername, conf, 1, 1, 1, true, true)
+    createMiniCluster(clustername, conf, 1, 1, 1, true, false)
     describe(" Kill the AM, expect cluster to die");
 
     //now launch the cluster
@@ -117,10 +117,12 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     ApplicationReport report = hoyaClient.applicationReport
     assert report.yarnApplicationState != YarnApplicationState.FAILED;
 
+
+    def restartTime = 60000
     status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        restartTime)
 
     dumpClusterDescription("post-restart status", status)
     String restarted = status.getInfo(
@@ -135,7 +137,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
         hoyaClient,
         clustername,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        restartTime)
 
   }
 

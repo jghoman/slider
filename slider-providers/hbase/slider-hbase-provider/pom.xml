@@ -89,7 +89,7 @@
           <!--mvn process fork options-->
           <reuseForks>true</reuseForks>
           <forkCount>1</forkCount>
-          <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <forkedProcessTimeoutInSeconds>1200</forkedProcessTimeoutInSeconds>
           <threadCount>1</threadCount>
           <argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</argLine>
           <failIfNoTests>true</failIfNoTests>
