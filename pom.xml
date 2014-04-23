@@ -1194,15 +1194,7 @@
         <hadoop.version>2.4.0</hadoop.version>
       </properties>
     </profile>
-
-    <profile>
-      <!-- hadoop 2.3.0 release -->
-      <id>release-2.3</id>
-      <properties>
-        <hadoop.version>2.3.0</hadoop.version>
-      </properties>
-    </profile>
-
+    
     <profile>
       <!-- anything for a jenkins build -->
       <id>jenkins</id>
