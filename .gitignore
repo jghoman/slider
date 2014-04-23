@@ -22,4 +22,4 @@
 release.properties
 *.backup
 *.versionsBackup
-hoya-test.xml
+slider-test.xml
