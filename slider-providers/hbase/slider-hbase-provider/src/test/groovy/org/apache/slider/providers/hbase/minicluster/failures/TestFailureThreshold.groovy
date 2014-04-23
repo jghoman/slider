@@ -60,32 +60,36 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
         "Create a single region service cluster then " + action + " the RS");
 
     //now launch the cluster
-    ServiceLauncher launcher = createHBaseCluster(
+    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(
         clustername,
         regionServerCount,
-        [Arguments.ARG_OPTION, OptionKeys.INTERNAL_CONTAINER_FAILURE_THRESHOLD,
+        [
+            Arguments.ARG_OPTION, OptionKeys.INTERNAL_CONTAINER_FAILURE_THRESHOLD,
             Integer.toString(threshold)],
         true,
         true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    HoyaClient client = launcher.service
+    addToTeardown(client);
+    ClusterDescription status = client.getClusterDescription(clustername)
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(client)
+    ClusterStatus hbaseStat
     try {
       for (i in 1..killAttempts) {
-        status = waitForHoyaWorkerCount(
-            hoyaClient,
+        status = waitForWorkerInstanceCount(
+            client,
             regionServerCount,
             HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
         //get the hbase status
-        ClusterStatus hbaseStat = waitForHBaseRegionServerCount(
-            hoyaClient,
+/*
+        hbaseStat = waitForHBaseRegionServerCount(
+            client,
             clustername,
             regionServerCount,
             HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
 
         log.info("Initial cluster status : ${hbaseStatusToString(hbaseStat)}");
+*/
         describe("running processes")
         lsJavaProcesses()
         describe("about to " + action + " servers")
@@ -101,22 +105,22 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
         describe("waiting for recovery")
 
         //and expect a recovery
-        status = waitForHoyaWorkerCount(
-            hoyaClient,
+        status = waitForWorkerInstanceCount(
+            client,
             regionServerCount,
             HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-
+/*
         hbaseStat = waitForHBaseRegionServerCount(
-            hoyaClient,
+            client,
             clustername,
             regionServerCount,
-            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)*/
       }
     } catch (BadClusterStateException e) {
       assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
       assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
     }
-    ApplicationReport report = hoyaClient.getApplicationReport()
+    ApplicationReport report = client.applicationReport
     log.info(report.diagnostics)
     assert report.finalApplicationStatus == FinalApplicationStatus.FAILED
     assert report.diagnostics.contains(ErrorStrings.E_UNSTABLE_CLUSTER)

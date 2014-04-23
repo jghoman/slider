@@ -67,7 +67,7 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
 
 
 
-    status = waitForHoyaWorkerCount(
+    status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
         HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)

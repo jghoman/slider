@@ -71,7 +71,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
 
     //get the hbase status
     waitForHBaseRegionServerCount(hoyaClient, clustername, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForHoyaWorkerCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForWorkerInstanceCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
     waitForRoleCount(hoyaClient, HBaseKeys.ROLE_MASTER, 1,
                      HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
   }
