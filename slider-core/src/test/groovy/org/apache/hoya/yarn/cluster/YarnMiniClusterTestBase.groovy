@@ -163,7 +163,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public void stopRunningClusters() {
     clustersToTeardown.each { HoyaClient hoyaClient ->
       try {
-        maybeStopCluster(hoyaClient, "", "teardown");
+        maybeStopCluster(hoyaClient, "", "Teardown at end of test case");
       } catch (Exception e) {
         log.warn("While stopping cluster " + e, e);
       }

@@ -54,13 +54,12 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
       [
           Arguments.ARG_COMP_OPT, HBaseKeys.ROLE_MASTER, RoleKeys.JVM_HEAP, "256M",
           Arguments.ARG_DEFINE, HoyaXmlConfKeys.KEY_YARN_QUEUE + "=default"
-      ], 
+      ],
       true,
       true) 
     HoyaClient hoyaClient = (HoyaClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
-    assert ZKHosts == status.zkHosts
     
     //dumpFullHBaseConf(hoyaClient, clustername)
 
@@ -71,7 +70,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
 
     //get the hbase status
     waitForHBaseRegionServerCount(hoyaClient, clustername, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForHoyaWorkerCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForWorkerInstanceCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
     waitForRoleCount(hoyaClient, HBaseKeys.ROLE_MASTER, 1,
                      HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
   }

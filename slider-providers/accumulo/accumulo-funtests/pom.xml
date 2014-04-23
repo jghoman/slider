@@ -87,12 +87,15 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <!--mvn process fork options-->
-          <reuseForks>true</reuseForks>
+          <reuseForks>${test.reuseForks}</reuseForks>
+          <forkMode>${test.forkMode}</forkMode>
           <forkCount>1</forkCount>
-          <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <forkedProcessTimeoutInSeconds>${test.forkedProcessTimeoutInSeconds}
+          </forkedProcessTimeoutInSeconds>
           <threadCount>1</threadCount>
-          <argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</argLine>
-          <failIfNoTests>true</failIfNoTests>
+          <argLine>${test.argLine}</argLine>
+          <failIfNoTests>${test.failIfNoTests}</failIfNoTests>
+
           <trimStackTrace>false</trimStackTrace>
           <redirectTestOutputToFile>${build.redirect.test.output.to.file}</redirectTestOutputToFile>
           <systemPropertyVariables>

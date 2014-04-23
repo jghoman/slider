@@ -110,15 +110,20 @@
   
   <properties>
 
+    
+    <!-- 
+    options
+    -->
 
+    <test.forkedProcessTimeoutInSeconds>9000</test.forkedProcessTimeoutInSeconds>
+    <test.argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</test.argLine>
+    <test.reuseForks>false</test.reuseForks>
+    <test.failIfNoTests>true</test.failIfNoTests>
+    <test.forkMode>always</test.forkMode>
+    
     <!--
     core artifacts
     -->
-
-    <!-- AM-RESTART-SUPPORT hadoop 2.4+ mandatory-->
-<!--
-    <hadoop.version>2.4.0-SNAPSHOT</hadoop.version>
--->
     <hadoop.version>2.4.0</hadoop.version>
 
     <hbase.version>0.98.1-hadoop2</hbase.version>
@@ -1194,15 +1199,7 @@
         <hadoop.version>2.4.0</hadoop.version>
       </properties>
     </profile>
-
-    <profile>
-      <!-- hadoop 2.3.0 release -->
-      <id>release-2.3</id>
-      <properties>
-        <hadoop.version>2.3.0</hadoop.version>
-      </properties>
-    </profile>
-
+    
     <profile>
       <!-- anything for a jenkins build -->
       <id>jenkins</id>

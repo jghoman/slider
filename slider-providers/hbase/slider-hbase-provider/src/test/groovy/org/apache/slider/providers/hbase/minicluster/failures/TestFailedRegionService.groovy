@@ -62,7 +62,7 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
 
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
-    status = waitForHoyaWorkerCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
     //get the hbase status
     ClusterStatus hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
     
@@ -83,7 +83,7 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
     describe("waiting for recovery")
 
     //and expect a recovery
-    status = waitForHoyaWorkerCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
   
     //now we expect the failure count to be two
 
@@ -103,7 +103,7 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
     args.id = worker1
     assert 0 == hoyaClient.actionKillContainer(clustername, args)
     sleep(15000)
-    waitForHoyaWorkerCount(
+    waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
         HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)

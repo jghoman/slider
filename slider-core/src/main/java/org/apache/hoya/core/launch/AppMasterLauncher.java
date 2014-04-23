@@ -167,9 +167,9 @@ public class AppMasterLauncher extends AbstractLauncher {
     //container requirements
     submissionContext.setResource(resource);
 
-    if (keepContainersOverRestarts &&
-        AMRestartSupport.keepContainersAcrossSubmissions(submissionContext)) {
+    if (keepContainersOverRestarts) {
       log.debug("Requesting cluster stays running over AM failure");
+      submissionContext.setKeepContainersAcrossApplicationAttempts(true);
     }
 
     submissionContext.setMaxAppAttempts(maxAppAttempts);

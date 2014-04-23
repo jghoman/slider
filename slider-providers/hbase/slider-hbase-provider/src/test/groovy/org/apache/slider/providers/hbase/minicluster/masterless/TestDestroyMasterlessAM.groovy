@@ -125,7 +125,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     describe "recreating $clustername"
 
     //and create a new cluster
-    launcher = createMasterlessAM(clustername, 0, false, false)
+    launcher = createMasterlessAM(clustername, 0, false, true)
     HoyaClient cluster2 = launcher.service
 
     // do an echo here of a large string
@@ -137,7 +137,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     }
     ActionEchoArgs args = new ActionEchoArgs();
     args.message = sb.toString();
-    def echoed = hoyaClient.actionEcho(clustername, args)
+    def echoed = cluster2.actionEcho(clustername, args)
     assert echoed == args.message
     log.info(
         "Successful echo of a text document ${echoed.size()} characters long")

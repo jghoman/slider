@@ -303,7 +303,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
 
       //verify the #of roles is as expected
       //get the hbase status
-      waitForHoyaWorkerCount(hoyaClient, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+      waitForWorkerInstanceCount(hoyaClient, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
       waitForHoyaMasterCount(hoyaClient, masters, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
 
       log.info("Hoya worker count at $workers, waiting for region servers to match");
@@ -318,7 +318,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
               (ROLE_MASTER): masterFlexTarget
           ]
       );
-      waitForHoyaWorkerCount(hoyaClient, flexTarget, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+      waitForWorkerInstanceCount(hoyaClient, flexTarget, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
       waitForHoyaMasterCount(hoyaClient, masterFlexTarget,
                              HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
 
@@ -339,7 +339,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param desiredCount RS count
    * @param timeout timeout
    */
-  public static ClusterDescription waitForHoyaWorkerCount(HoyaClient hoyaClient,
+  public static ClusterDescription waitForWorkerInstanceCount(HoyaClient hoyaClient,
                                                    int desiredCount,
                                                    int timeout) {
     return waitForRoleCount(hoyaClient, ROLE_WORKER, desiredCount, timeout)

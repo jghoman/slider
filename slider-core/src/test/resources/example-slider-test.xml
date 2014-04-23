@@ -34,13 +34,13 @@
   
   <property>
     <name>slider.test.hbase.home</name>
-    <value>/Users/stevel/Projects/hbase/hbase-assembly/target/hbase-0.98.1</value>
+    <value>/home/slider/Projects/hbase/hbase-assembly/target/hbase-0.98.1</value>
     <description>HBASE Home</description>
   </property>
 
   <property>
     <name>slider.test.hbase.tar</name>
-    <value>/Users/stevel/Projects/hbase/hbase-assembly/target/hbase-0.98.1-bin.tar.gz</value>
+    <value>/home/slider/Projects/hbase/hbase-assembly/target/hbase-0.98.1-bin.tar.gz</value>
     <description>HBASE archive URI</description>
   </property>
 
@@ -52,25 +52,25 @@
 
   <property>
     <name>slider.test.accumulo.home</name>
-    <value>/Users/stevel/Java/Apache/accumulo</value>
+    <value>/home/slider/accumulo</value>
     <description>Accumulo Home</description>
   </property>
 
   <property>
     <name>slider.test.accumulo.tar</name>
-    <value>/Users/stevel/Projects/accumulo/accumulo-1.5.1-SNAPSHOT-bin.tar</value>
+    <value>/home/slider/Projects/accumulo/accumulo-1.5.1-bin.tar</value>
     <description>Accumulo archive URI</description>
   </property>
 
   <property>
     <name>zk.home</name>
-    <value>/Users/stevel/zookeeper</value>
+    <value>/home/slider/zookeeper</value>
     <description>Zookeeper home dir on target systems</description>
   </property>
 
   <property>
     <name>hadoop.home</name>
-    <value>/Users/stevel/hadoop/</value>
+    <value>/home/slider/hadoop/</value>
     <description>Hadoop home dir on target systems</description>
   </property>
   

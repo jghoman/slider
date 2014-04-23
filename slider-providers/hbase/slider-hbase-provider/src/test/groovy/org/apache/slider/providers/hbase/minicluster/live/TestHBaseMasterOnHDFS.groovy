@@ -49,7 +49,7 @@ class TestHBaseMasterOnHDFS extends HBaseMiniClusterTestBase {
     dumpClusterStatus(hoyaClient, "post-hbase-boot status")
 
     //get the hbase status
-    status = waitForHoyaWorkerCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    status = waitForWorkerInstanceCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
     waitForHBaseRegionServerCount(hoyaClient, clustername, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
 
     clusterActionFreeze(hoyaClient, clustername)

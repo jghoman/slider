@@ -24,7 +24,6 @@ import org.apache.hadoop.yarn.api.records.impl.pb.ApplicationSubmissionContextPB
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.core.launch.AMRestartSupport
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionKillContainerArgs
 import org.apache.slider.providers.hbase.HBaseKeys
@@ -99,20 +98,10 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
     // now trigger AM failure
     ClusterDescription status = killAmAndWaitForRestart(hoyaClient, clusterName)
 
-    ApplicationSubmissionContext ctx = new ApplicationSubmissionContextPBImpl()
-
-    def yarn_am_client_supports_restart = AMRestartSupport.keepContainersAcrossSubmissions(ctx)
-    def amRestartSupported = status.getInfoBool(StatusKeys.INFO_AM_RESTART_SUPPORTED)
-
-    if (yarn_am_client_supports_restart && amRestartSupported) {
-
-      // verify the AM restart container count was set
-      def restarted = status.getInfo(
-          StatusKeys.INFO_CONTAINERS_AM_RESTART)
-      assert restarted != null;
-
-      assert Integer.parseInt(restarted) == 1 + numWorkers
-    }
+    def restarted = status.getInfo(
+        StatusKeys.INFO_CONTAINERS_AM_RESTART)
+    assert restarted != null
+    assert Integer.parseInt(restarted) == 1 + numWorkers
 
   }
 

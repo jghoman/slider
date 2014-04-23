@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class AMRestartSupport {
   public static final String REGISTER_AM_RESPONSE =
-    "RegisterApplicationMasterResponse.getContainersFromPreviousAttempt()";
+    "RegisterApplicationMasterResponse.getContainersFromPreviousAttempts()";
   private static final Logger
     log = LoggerFactory.getLogger(HoyaServiceUtils.class);
 
@@ -117,7 +117,7 @@ public class AMRestartSupport {
     Class<? extends RegisterApplicationMasterResponse> cls =
       response.getClass();
     try {
-      m = cls.getDeclaredMethod("getContainersFromPreviousAttempt");
+      m = cls.getDeclaredMethod("getContainersFromPreviousAttempts");
     } catch (NoSuchMethodException e) {
       log.debug(REGISTER_AM_RESPONSE + " not found");
     } catch (SecurityException e) {

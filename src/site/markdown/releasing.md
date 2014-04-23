@@ -99,7 +99,7 @@ Create a a one-line plain text release note for commits and tags
 And a multi-line markdown release note, which will be used for artifacts.
 
 
-    Release of Hoya against hadoop 2.3.0, HBase-0.98.0 and Accumulo 1.5.1 artifacts. 
+    Release against hadoop 2.3.0, HBase-0.98.0 and Accumulo 1.5.1 artifacts. 
 
 The multi-line release notes should go into `slider/src/site/markdown/release_notes`.
 

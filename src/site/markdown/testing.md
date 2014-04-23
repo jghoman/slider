@@ -48,13 +48,13 @@ Here's
       
       <property>
         <name>slider.test.hbase.home</name>
-        <value>/home/slider/hbase-0.96.0</value>
+        <value>/home/slider/hbase-0.98.0</value>
         <description>HBASE Home</description>
       </property>
     
       <property>
         <name>slider.test.hbase.tar</name>
-        <value>/home/slider/Projects/hbase-0.96.0-bin.tar.gz</value>
+        <value>/home/slider/Projects/hbase-0.98.0-bin.tar.gz</value>
         <description>HBASE archive URI</description>
       </property>
     
@@ -114,9 +114,9 @@ a live cluster.
 For these to work you need
 1. A YARN Cluster -secure or insecure
 1. A `slider-client.xml` file configured to interact with the cluster
-1. HBase .tar.gz uploaded to HDFS, and a local or remote accumulo conf 
+1. HBase `.tar.gz` uploaded to HDFS, and a local or remote accumulo conf 
 directory
-1. Accumulo .tar.gz uploaded to HDFS, and a local or remote accumulo conf 
+1. Accumulo `.tar.gz` uploaded to HDFS, and a local or remote accumulo conf 
 directory
 
 ## Configuration of functional tests
@@ -201,6 +201,18 @@ filesystem -here a URI to a path visible across all nodes in the cluster are req
 the tests do not copy the .tar/.tar.gz files over. The application configuration
 directories may be local or remote -they are copied into the `.slider` directory
 during cluster creation.
+
+## 
+
+Provider-specific parameters
+
+An individual provider can pick up settings from their own
+`src/test/resources/slider-client.xml` file, or the one in `slider-core`.
+We strongly advice placing all the values in the `slider-core` file.
+
+1. All uncertainty about which file is picked up on the class path first goes
+away
+2. There's one place to  keep all the configuration values in sync.
 
 ### HBase Parameters
 
@@ -369,7 +381,9 @@ of a previous build of `slider-core.jar`. As a result, the fixes are not picked
 up.
 
 #### To propagate changes in slider-core through to the funtest classes for
-testing, you must build/install the slider packages from the root assembly.
+testing, you must build/install all the slider packages from the root assembly.
+
+    mvn clean install -DskipTests
 
 ## Limitations of slider-funtest
 
