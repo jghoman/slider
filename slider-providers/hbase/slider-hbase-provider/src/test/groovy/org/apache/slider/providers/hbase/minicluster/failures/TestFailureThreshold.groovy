@@ -21,6 +21,9 @@ package org.apache.slider.providers.hbase.minicluster.failures
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
+import org.apache.hadoop.yarn.api.records.ApplicationReport
+import org.apache.hadoop.yarn.api.records.FinalApplicationStatus
+import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.OptionKeys
@@ -29,16 +32,15 @@ import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.hadoop.yarn.api.records.FinalApplicationStatus
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
 
 /**
- * test create a live region service
+ * test that if a container is killed too many times,
+ * the AM stays down
  */
 @CompileStatic
 @Slf4j
+
 class TestFailureThreshold extends HBaseMiniClusterTestBase {
 
   @Test
@@ -47,6 +49,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
   }
 
 
+  
   private void failureThresholdTestRun(
       String testName,
       boolean toKill,
@@ -55,7 +58,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
     String clustername = testName
     String action = toKill ? "kill" : "stop"
     int regionServerCount = 2
-    createMiniCluster(clustername, getConfiguration(), 1, 1, 1, true, true)
+    createMiniCluster(clustername, configuration, 1, 1, 1, true, true)
     describe(
         "Create a single region service cluster then " + action + " the RS");
 
@@ -75,7 +78,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(client)
     ClusterStatus hbaseStat
     try {
-      for (i in 1..killAttempts) {
+      for (restarts in 1..killAttempts) {
         status = waitForWorkerInstanceCount(
             client,
             regionServerCount,
@@ -104,17 +107,33 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
 
         describe("waiting for recovery")
 
-        //and expect a recovery
-        status = waitForWorkerInstanceCount(
-            client,
-            regionServerCount,
-            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-/*
-        hbaseStat = waitForHBaseRegionServerCount(
-            client,
-            clustername,
-            regionServerCount,
-            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)*/
+        //and expect a recovery 
+        if (restarts < threshold) {
+
+          def restartTime = 1000
+          status = waitForWorkerInstanceCount(
+              client,
+              regionServerCount,
+              restartTime)
+          hbaseStat = waitForHBaseRegionServerCount(
+              client,
+              clustername,
+              regionServerCount,
+              restartTime)
+        } else {
+          //expect the cluster to have failed
+          try {
+            def finalCD = client.getClusterDescription(clustername)
+            dumpClusterDescription("expected the AM to have failed", finalCD)
+            fail("AM had not failed after $restarts worker kills")
+            
+          } catch (BadClusterStateException e) {
+            assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
+            assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
+            //success
+            break;
+          }
+        }
       }
     } catch (BadClusterStateException e) {
       assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
