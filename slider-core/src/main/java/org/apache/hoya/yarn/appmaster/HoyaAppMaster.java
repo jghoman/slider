@@ -70,9 +70,7 @@ import org.apache.hoya.core.build.InstanceIO;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.core.launch.AMRestartSupport;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
-import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.SliderInternalStateException;
@@ -362,18 +360,6 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
   public int runService() throws Throwable {
     HoyaVersionInfo.loadAndPrintVersionInfo(log);
 
-    // verify this is a Hadoop 2.4+ cluster, and fail with a meaningful message
-    // if not
-
-    if (!AMRestartSupport.isAMRestartInHadoopLibrary()) {
-      String text =
-          "This version of Hadoop is unsupported -Hadoop 2.4+ is required," +
-          " but got " +HoyaVersionInfo.getHadoopVersionString();
-      log.error(text);
-      throw new BadClusterStateException(text);
-    }
-
-
     //dump the system properties if in debug mode
     if (log.isDebugEnabled()) {
       log.debug("System properties:\n" +
@@ -609,8 +595,8 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       }
 
       // extract container list
-      List<Container> liveContainers = AMRestartSupport.retrieveContainersFromPreviousAttempt(
-        response);
+      List<Container> liveContainers =
+          response.getContainersFromPreviousAttempts();
 
       //now validate the installation
       Configuration providerConf =
