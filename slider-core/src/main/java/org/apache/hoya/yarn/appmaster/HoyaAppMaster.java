@@ -72,6 +72,7 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AMRestartSupport;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
+import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.SliderInternalStateException;
@@ -361,6 +362,17 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
   public int runService() throws Throwable {
     HoyaVersionInfo.loadAndPrintVersionInfo(log);
 
+    // verify this is a Hadoop 2.4+ cluster, and fail with a meaningful message
+    // if not
+
+    if (!AMRestartSupport.isAMRestartInHadoopLibrary()) {
+      String text =
+          "This version of Hadoop is unsupported -Hadoop 2.4+ is required," +
+          " but got " +HoyaVersionInfo.getHadoopVersionString();
+      log.error(text);
+      throw new BadClusterStateException(text);
+    }
+
 
     //dump the system properties if in debug mode
     if (log.isDebugEnabled()) {
@@ -599,9 +611,6 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       // extract container list
       List<Container> liveContainers = AMRestartSupport.retrieveContainersFromPreviousAttempt(
         response);
-      String amRestartSupported = Boolean.toString(liveContainers != null);
-      appInformation.put(StatusKeys.INFO_AM_RESTART_SUPPORTED,
-                         amRestartSupported);
 
       //now validate the installation
       Configuration providerConf =
@@ -763,7 +772,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
   /**
    * Get the path to the DFS configuration that is defined in the cluster specification 
-   * @return
+   * @return the generated configuration dir
    */
   public String getGeneratedConfDir() {
     return getInstanceDefinition()

@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -94,10 +95,14 @@ public class HoyaVersionInfo {
     logger.info(props.getProperty(APP_BUILD_INFO));
     logger.info("Compiled against Hadoop {}",
                 props.getProperty(HADOOP_BUILD_INFO));
-    logger.info(
-      "Hadoop runtime version {} with source checksum {} and build date {}",
-      VersionInfo.getBranch(),
-      VersionInfo.getSrcChecksum(),
-      VersionInfo.getDate());
+    logger.info(getHadoopVersionString());
+  }
+  
+  public static String getHadoopVersionString() {
+    return String.format(Locale.ENGLISH,
+        "Hadoop runtime version %s with source checksum %s and build date %s",
+        VersionInfo.getBranch(),
+        VersionInfo.getSrcChecksum(),
+        VersionInfo.getDate());
   }
 }

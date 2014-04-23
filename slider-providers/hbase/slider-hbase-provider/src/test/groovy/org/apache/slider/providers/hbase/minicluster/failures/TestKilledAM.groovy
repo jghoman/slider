@@ -113,16 +113,6 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     // give yarn some time to notice
     sleep(10000)
 
-    // policy here depends on YARN behavior
-    if (!status.getInfoBool(StatusKeys.INFO_AM_RESTART_SUPPORTED)) {
-      log.info("No lossless AM Restart")
-      // kill hbase masters for OS/X tests to pass
-      killAllMasterServers();
-      // expect hbase connection to have failed
-      assertNoHBaseMaster(hoyaClient, clientConf)
-    } else {
-      log.info("Lossless AM Restart")
-    }
     // await cluster startup
     ApplicationReport report = hoyaClient.applicationReport
     assert report.yarnApplicationState != YarnApplicationState.FAILED;
@@ -132,23 +122,14 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
         regionServerCount,
         HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
 
-    if (status.getInfoBool(StatusKeys.INFO_AM_RESTART_SUPPORTED)
-        && AMRestartSupport.AMRestartInHadoopLibrary) {
-
-      dumpClusterDescription("post-restart status", status)
-      // verify the AM restart container count was set
-      String restarted = status.getInfo(
-          StatusKeys.INFO_CONTAINERS_AM_RESTART)
-      assert restarted != null;
-      //and that the count == 1 master (the region servers were killed)
-      assert Integer.parseInt(restarted) == 1
-
-      // now verify the master container is as before (with strict checks for incomplete data)
-  
-      assert null != status.instances[HBaseKeys.ROLE_MASTER];
-      assert 1 == status.instances[HBaseKeys.ROLE_MASTER].size();
-      assert hbaseMasterContainer == status.instances[HBaseKeys.ROLE_MASTER][0]
-    }
+    dumpClusterDescription("post-restart status", status)
+    String restarted = status.getInfo(
+        StatusKeys.INFO_CONTAINERS_AM_RESTART)
+    assert restarted != null
+    assert Integer.parseInt(restarted) == 1
+    assert null != status.instances[HBaseKeys.ROLE_MASTER]
+    assert 1 == status.instances[HBaseKeys.ROLE_MASTER].size()
+    assert hbaseMasterContainer == status.instances[HBaseKeys.ROLE_MASTER][0]
 
     waitForHBaseRegionServerCount(
         hoyaClient,

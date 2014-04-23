@@ -30,25 +30,17 @@ import org.junit.Test
 class TestHoyaServiceUtils extends HoyaTestBase {
 
   @Test
-  public void testKeepContainers() throws Throwable {
-
-    ApplicationSubmissionContext ctx = new ApplicationSubmissionContextPBImpl()
-
-    def success = AMRestartSupport.keepContainersAcrossSubmissions(ctx)
-    log.info("AM restart enabled=$success")
-  }
-
-  @Test
   public void testRetrieveContainers() throws Throwable {
     RegisterApplicationMasterResponsePBImpl registration = new RegisterApplicationMasterResponsePBImpl()
 
-    def method = AMRestartSupport.retrieveContainersFromPreviousAttempt(registration)
+    def method = AMRestartSupport.retrieveContainersFromPreviousAttempt(
+        registration)
     def hasMethod = method != null
     def containers = AMRestartSupport.retrieveContainersFromPreviousAttempt(
         registration)
     def success = containers != null;
-    
-    assert (hasMethod==success)
+
+    assert (hasMethod == success)
     log.info("AM container recovery support=$hasMethod")
   }
 }
