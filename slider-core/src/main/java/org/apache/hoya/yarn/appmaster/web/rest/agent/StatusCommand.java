@@ -38,6 +38,7 @@ public class StatusCommand {
   private Map<String, Map<String, String>> configurations;
   private Map<String, String> commandParams = new HashMap<String, String>();
   private Map<String, String> hostLevelParams = new HashMap<String, String>();
+  private String roleCommand = "STATUS";
 
   public StatusCommand() {
     this.agentCommandType = AgentCommandType.STATUS_COMMAND;
@@ -103,13 +104,23 @@ public class StatusCommand {
     this.commandParams = commandParams;
   }
 
-  @JsonIgnore
+  @JsonProperty("commandType")
   public AgentCommandType getCommandType() {
     return agentCommandType;
   }
 
-  @JsonIgnore
+  @JsonProperty("commandType")
   public void setCommandType(AgentCommandType commandType) {
     this.agentCommandType = commandType;
+  }
+
+  @JsonProperty("roleCommand")
+  public String getRoleCommand() {
+    return roleCommand;
+  }
+
+  @JsonProperty("roleCommand")
+  public void setRoleCommand(String roleCommand) {
+    this.roleCommand = roleCommand;
   }
 }

@@ -52,6 +52,7 @@ class CustomServiceOrchestrator():
     self.status_commands_stderr = os.path.join(self.tmp_dir,
                                                'status_command_stderr.txt')
     self.public_fqdn = hostname.public_hostname()
+    self.applied_configs = {}
     # Clean up old status command files if any
     try:
       os.unlink(self.status_commands_stdout)
@@ -63,7 +64,7 @@ class CustomServiceOrchestrator():
 
 
   def runCommand(self, command, tmpoutfile, tmperrfile,
-                 override_output_files=True):
+                 override_output_files=True, store_config=False, retreive_config=False):
     try:
       script_type = command['commandParams']['script_type']
       script = command['commandParams']['script']
@@ -81,7 +82,7 @@ class CustomServiceOrchestrator():
         message = "Unknown script type {0}".format(script_type)
         raise AgentException(message)
         # Execute command using proper interpreter
-      json_path = self.dump_command_to_json(command)
+      json_path = self.dump_command_to_json(command, store_config)
       py_file_list = [script_tuple]
       # filter None values
       filtered_py_file_list = [i for i in py_file_list if i]
@@ -119,6 +120,9 @@ class CustomServiceOrchestrator():
         'structuredOut': '{}',
         'exitcode': 1,
       }
+
+    if retreive_config:
+      ret['configurations'] = self.applied_configs
     return ret
 
 
@@ -141,15 +145,24 @@ class CustomServiceOrchestrator():
     override_output_files = True # by default, we override status command output
     if logger.level == logging.DEBUG:
       override_output_files = False
+
+    retrieve_config = False
+    if "retrieveConfig" in command:
+      logger.info("Requesting applied config ...")
+      retrieve_config = command['commandParams']['retrieve_config'] == "true"
+
     res = self.runCommand(command, self.status_commands_stdout,
                           self.status_commands_stderr,
-                          override_output_files=override_output_files)
+                          override_output_files=override_output_files,
+                          retreive_config=retrieve_config)
     if res['exitcode'] == 0:
-      return CustomServiceOrchestrator.LIVE_STATUS
+      res['exitcode'] = CustomServiceOrchestrator.LIVE_STATUS
     else:
-      return CustomServiceOrchestrator.DEAD_STATUS
+      res['exitcode'] = CustomServiceOrchestrator.DEAD_STATUS
 
-  def dump_command_to_json(self, command):
+    return res
+
+  def dump_command_to_json(self, command, store_config=False, ):
     """
     Converts command to json file and returns file path
     """
@@ -171,14 +184,41 @@ class CustomServiceOrchestrator():
       # Json may contain passwords, that's why we need proper permissions
     if os.path.isfile(file_path):
       os.unlink(file_path)
+
+    self.finalize_command(command, store_config)
+
     with os.fdopen(os.open(file_path, os.O_WRONLY | os.O_CREAT,
                            0600), 'w') as f:
       content = json.dumps(command, sort_keys=False, indent=4)
-      # patch content
-      # ${AGENT_WORK_ROOT} -> AgentConfig.getWorkRootPath()
-      # ${AGENT_LOG_ROOT} -> AgentConfig.getLogPath()
-      content = content.replace("${AGENT_WORK_ROOT}",
-                                self.config.getWorkRootPath())
-      content = content.replace("${AGENT_LOG_ROOT}", self.config.getLogPath())
       f.write(content)
     return file_path
+
+  """
+  patch content
+  ${AGENT_WORK_ROOT} -> AgentConfig.getWorkRootPath()
+  ${AGENT_LOG_ROOT} -> AgentConfig.getLogPath()
+  """
+
+  def finalize_command(self, command, store_config):
+    if 'configurations' in command:
+      for key in command['configurations']:
+        if len(command['configurations'][key]) > 0:
+          for k, value in command['configurations'][key].items():
+            if value and len(value) > 0 and isinstance(value, basestring) > 0:
+              value = value.replace("${AGENT_WORK_ROOT}",
+                                    self.config.getWorkRootPath())
+              value = value.replace("${AGENT_LOG_ROOT}",
+                                    self.config.getLogPath())
+              command['configurations'][key][k] = value
+              pass
+            pass
+          pass
+        pass
+      pass
+
+    if store_config:
+      self.applied_configs = command['configurations']
+
+  pass
+
+

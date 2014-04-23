@@ -83,6 +83,15 @@ class TestActionQueue(TestCase):
     'configurations': {}
   }
 
+  status_command_with_config = {
+    "serviceName": 'ACCUMULO',
+    "commandType": "STATUS_COMMAND",
+    "clusterName": "c1",
+    "componentName": "ACCUMULO_MASTER",
+    'configurations': {},
+    "commandParams": {"retrieve_config": "true"}
+  }
+
   @patch.object(ActionQueue, "process_command")
   @patch.object(Queue, "get")
   @patch.object(CustomServiceOrchestrator, "__init__")
@@ -156,7 +165,7 @@ class TestActionQueue(TestCase):
     dummy_controller = MagicMock()
     actionQueue = ActionQueue(AgentConfig("", ""), dummy_controller)
 
-    requestComponentStatus_mock.return_value = "dummy report"
+    requestComponentStatus_mock.return_value = {'exitcode': 'dummy report'}
     actionQueue.execute_status_command(self.status_command)
     report = actionQueue.result()
     expected = 'dummy report'
@@ -166,6 +175,32 @@ class TestActionQueue(TestCase):
     self.assertEqual(report['componentStatus'][0]["serviceName"], "ACCUMULO")
     self.assertEqual(report['componentStatus'][0]["clusterName"], "c1")
     self.assertTrue(requestComponentStatus_mock.called)
+
+  @patch.object(ActionQueue, "status_update_callback")
+  @patch.object(CustomServiceOrchestrator, "runCommand")
+  @patch.object(ActionQueue, "execute_command")
+  @patch('CustomServiceOrchestrator.CustomServiceOrchestrator', autospec=True)
+  def test_execute_status_command_expect_config(self, CustomServiceOrchestrator_mock,
+                                                execute_command_mock,
+                                                runCommand_mock,
+                                                status_update_callback):
+    csoMocks = [MagicMock()]
+    CustomServiceOrchestrator_mock.side_effect = csoMocks
+    csoMocks[0].status_commands_stdout = None
+    csoMocks[0].status_commands_stderr = None
+    dummy_controller = MagicMock()
+    actionQueue = ActionQueue(AgentConfig("", ""), dummy_controller)
+
+    runCommand_mock.return_value = {'exitcode': '0', 'configurations': {}}
+    actionQueue.execute_status_command(self.status_command_with_config)
+    report = actionQueue.result()
+    self.assertEqual(len(report['componentStatus']), 1)
+    self.assertEqual(report['componentStatus'][0]["status"], 'INSTALLED')
+    self.assertEqual(report['componentStatus'][0]["componentName"], "ACCUMULO_MASTER")
+    self.assertEqual(report['componentStatus'][0]["serviceName"], "ACCUMULO")
+    self.assertEqual(report['componentStatus'][0]["clusterName"], "c1")
+    self.assertEqual(report['componentStatus'][0]["configurations"], {})
+    self.assertTrue(runCommand_mock.called)
 
 
   @patch("traceback.print_exc")

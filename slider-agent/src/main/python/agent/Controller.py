@@ -42,13 +42,12 @@ logger = logging.getLogger()
 
 AGENT_AUTO_RESTART_EXIT_CODE = 77
 
+
 class State:
   INIT, INSTALLING, INSTALLED, STARTING, STARTED, FAILED = range(6)
 
 
 class Controller(threading.Thread):
-  MAX_FAILURE_COUNT = 3;
-
   def __init__(self, config, range=30):
     threading.Thread.__init__(self)
     logger.debug('Initializing Controller RPC thread.')
@@ -218,7 +217,7 @@ class Controller(threading.Thread):
           self.updateStateBasedOnCommand(response['executionCommands'])
           self.addToQueue(response['executionCommands'])
           pass
-        if 'statusCommands' in response.keys() and self.actionQueue.empty():
+        if 'statusCommands' in response.keys() and len(response['statusCommands']) > 0:
           self.addToQueue(response['statusCommands'])
           pass
         if "true" == response['restartAgent']:
@@ -230,7 +229,7 @@ class Controller(threading.Thread):
 
         # Add a status command
         if (self.componentActualState != State.STARTING and \
-                   self.componentExpectedState == State.STARTED) and \
+                self.componentExpectedState == State.STARTED) and \
             not self.statusCommand == None:
           self.addToQueue([self.statusCommand])
 

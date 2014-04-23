@@ -102,9 +102,9 @@ public class HoyaAMWebApp extends WebApp {
     params.put(FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING, "true");
     params.put(ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS, GZIPContentEncodingFilter.class.getName());
     params.put(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, GZIPContentEncodingFilter.class.getName());
-    params.put("com.sun.jersey.spi.container.ContainerRequestFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
-    params.put("com.sun.jersey.spi.container.ContainerResponseFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
-    params.put("com.sun.jersey.config.feature.Trace", "true");
+    //params.put("com.sun.jersey.spi.container.ContainerRequestFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
+    //params.put("com.sun.jersey.spi.container.ContainerResponseFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
+    //params.put("com.sun.jersey.config.feature.Trace", "true");
     params.put("com.sun.jersey.config.property.WadlGeneratorConfig",
                "org.apache.hoya.yarn.appmaster.web.rest.AMWadlGeneratorConfig");
     filter("/*").through(GuiceContainer.class, params);

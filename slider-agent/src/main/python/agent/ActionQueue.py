@@ -43,15 +43,13 @@ class ActionQueue(threading.Thread):
 
   STATUS_COMMAND = 'STATUS_COMMAND'
   EXECUTION_COMMAND = 'EXECUTION_COMMAND'
-  ROLE_COMMAND_INSTALL = 'INSTALL'
-  ROLE_COMMAND_START = 'START'
-  ROLE_COMMAND_STOP = 'STOP'
-  ROLE_COMMAND_CUSTOM_COMMAND = 'CUSTOM_COMMAND'
-  CUSTOM_COMMAND_RESTART = 'RESTART'
 
   IN_PROGRESS_STATUS = 'IN_PROGRESS'
   COMPLETED_STATUS = 'COMPLETED'
   FAILED_STATUS = 'FAILED'
+
+  STORE_APPLIED_CONFIG = 'record_config'
+  RETRIEVE_APPLIED_CONFIG = 'retrieve_config'
 
   def __init__(self, config, controller):
     super(ActionQueue, self).__init__()
@@ -134,12 +132,17 @@ class ActionQueue(threading.Thread):
       'status': self.IN_PROGRESS_STATUS
     })
     self.commandStatuses.put_command_status(command, in_progress_status)
+    store_config = False
+    if ActionQueue.STORE_APPLIED_CONFIG in command['commandParams']:
+      store_config = "true" == command['commandParams'][ActionQueue.STORE_APPLIED_CONFIG]
+
     # running command
     commandresult = self.customServiceOrchestrator.runCommand(command,
                                                               in_progress_status[
                                                                 'tmpout'],
                                                               in_progress_status[
-                                                                'tmperr'])
+                                                                'tmperr'],
+                                                              store_config)
     # dumping results
     status = self.COMPLETED_STATUS
     if commandresult['exitcode'] != 0:
@@ -182,10 +185,13 @@ class ActionQueue(threading.Thread):
 
       result = {"componentName": component,
                 "msg": "",
-                "status": component_status,
+                "status": component_status['exitcode'],
                 "clusterName": cluster,
                 "serviceName": service
       }
+
+      if 'configurations' in component_status:
+        result['configurations'] = component_status['configurations']
 
       logger.debug("Got live status for component " + component + \
                    " of service " + str(service) + \
