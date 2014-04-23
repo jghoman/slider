@@ -36,24 +36,30 @@ public class AggregateConfResource {
   private Map<String, ConfTreeResource> confMap;
 
   public AggregateConfResource(AggregateConf conf, UriBuilder uriBuilder) {
-    this.href =
-        uriBuilder.build(null).toASCIIString();
-    resources =
-        ResourceFactory.createConfTreeResource(conf.getAppConf(),
-                                               uriBuilder.clone().path(
-                                                   "configurations").path(
-                                                   "resources"));
-    internal =
-        ResourceFactory.createConfTreeResource(conf.getInternal(),
-                                               uriBuilder.clone().path(
-                                                   "configurations").path(
-                                                   "internal"));
-    appConf =
-        ResourceFactory.createConfTreeResource(conf.getAppConf(),
-                                               uriBuilder.clone().path(
-                                                   "configurations").path(
-                                                   "appConf"));
-    initConfMap();
+    if (uriBuilder != null) {
+      this.href =
+          uriBuilder.build(null).toASCIIString();
+      resources =
+          ResourceFactory.createConfTreeResource(conf.getAppConf(),
+                                                 uriBuilder.clone().path(
+                                                     "configurations").path(
+                                                     "resources"));
+      internal =
+          ResourceFactory.createConfTreeResource(conf.getInternal(),
+                                                 uriBuilder.clone().path(
+                                                     "configurations").path(
+                                                     "internal"));
+      appConf =
+          ResourceFactory.createConfTreeResource(conf.getAppConf(),
+                                                 uriBuilder.clone().path(
+                                                     "configurations").path(
+                                                     "appConf"));
+      initConfMap();
+    } else {
+      resources = null;
+      internal = null;
+      appConf = null;
+    }
   }
 
   private void initConfMap() {

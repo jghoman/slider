@@ -28,6 +28,7 @@ import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -35,9 +36,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -56,6 +60,21 @@ public class RegistryRestResources extends DiscoveryResource<ServiceInstanceData
     super(context);
     this.context = context;
     this.registry = registry;
+  }
+
+  @GET
+  public Response getWadl (@Context HttpServletRequest request) {
+    try {
+      java.net.URI location = new URL(request.getScheme(),
+                                      request.getServerName(),
+                                      request.getServerPort(),
+                                      "/application.wadl").toURI();
+      return Response.temporaryRedirect(location).build();
+    } catch (Exception e) {
+      log.error("Error during redirect to WADL", e);
+      throw new WebApplicationException(Response.serverError().build());
+    }
+
   }
 
   @Override
