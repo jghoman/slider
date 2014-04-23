@@ -88,11 +88,13 @@
         <configuration>
           <!--mvn process fork options-->
           <reuseForks>${test.reuseForks}</reuseForks>
+          <forkMode>${test.forkMode}</forkMode>
           <forkCount>1</forkCount>
           <forkedProcessTimeoutInSeconds>${test.forkedProcessTimeoutInSeconds}</forkedProcessTimeoutInSeconds>
           <threadCount>1</threadCount>
           <argLine>${test.argLine}</argLine>
-          <failIfNoTests>true</failIfNoTests>
+          <failIfNoTests>${test.failIfNoTests}</failIfNoTests>
+          
           <trimStackTrace>false</trimStackTrace>
           <redirectTestOutputToFile>${build.redirect.test.output.to.file}</redirectTestOutputToFile>
           <systemPropertyVariables>
