@@ -32,9 +32,9 @@ public class ComponentInstanceState {
   private State state = State.INIT;
   private State targetState = State.STARTED;
   private int failuresSeen = 0;
-  private String compName;
-  private String containerId;
-  private String applicationId;
+  private final String compName;
+  private final String containerId;
+  private final String applicationId;
 
 
   public ComponentInstanceState(String compName,
