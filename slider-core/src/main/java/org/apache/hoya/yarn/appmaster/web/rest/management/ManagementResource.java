@@ -22,20 +22,28 @@ import org.apache.hoya.yarn.appmaster.web.rest.RestPaths;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.AggregateConfResource;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.ConfTreeResource;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.ResourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.net.URL;
 
 /**
  *
  */
 public class ManagementResource {
+  protected static final Logger log =
+      LoggerFactory.getLogger(ManagementResource.class);
   private final WebAppApi slider;
 
   public ManagementResource(WebAppApi slider) {
@@ -44,6 +52,20 @@ public class ManagementResource {
 
   private void init(HttpServletResponse res) {
     res.setContentType(null);
+  }
+
+  @GET
+  public Response getWadl (@Context HttpServletRequest request) {
+    try {
+      java.net.URI location = new URL(request.getScheme(),
+                                      request.getServerName(),
+                                      request.getServerPort(),
+                                      "/application.wadl").toURI();
+      return Response.temporaryRedirect(location).build();
+    } catch (Exception e) {
+      log.error("Error during redirect to WADL", e);
+      throw new WebApplicationException(Response.serverError().build());
+    }
   }
 
   @GET

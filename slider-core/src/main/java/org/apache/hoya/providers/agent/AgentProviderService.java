@@ -54,12 +54,17 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.core.registry.info.RegisteredEndpoint;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -515,5 +520,29 @@ public class AgentProviderService extends AbstractProviderService implements
     config.put("app_log_dir", "${AGENT_LOG_ROOT}/app/log");
     config.put("app_pid_dir", "${AGENT_WORK_ROOT}/app/run");
     config.put("app_install_dir", "${AGENT_WORK_ROOT}/app/install");
+  }
+
+  @Override
+  public Map<String, URL> buildMonitorDetails(ClusterDescription clusterDesc) {
+    Map<String,URL> details = new HashMap<String, URL>();
+    try {
+      List<CuratorServiceInstance<ServiceInstanceData>> services =
+          registry.listInstances("slider");
+      assert services.size() == 1;
+      CuratorServiceInstance<ServiceInstanceData> service = services.get(0);
+      Map payload = (Map) service.getPayload();
+      Map<String,Map<String,String>> endpoints =
+          (Map) ((Map) payload.get("externalView")).get("endpoints");
+      for ( Map.Entry<String,Map<String,String>> endpoint : endpoints.entrySet()) {
+        if ("http".equals(endpoint.getValue().get("protocol"))) {
+          URL url = new URL(endpoint.getValue().get("value"));
+          details.put(endpoint.getValue().get("description"),
+                      url);
+        }
+      }
+    } catch (IOException e) {
+      log.error("Error creating list of slider URIs", e);
+    }
+    return details;
   }
 }

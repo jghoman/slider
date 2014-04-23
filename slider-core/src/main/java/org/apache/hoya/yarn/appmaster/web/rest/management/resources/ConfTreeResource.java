@@ -38,11 +38,18 @@ public class ConfTreeResource {
 
   public ConfTreeResource(ConfTree confTree,
                           UriBuilder uriBuilder) {
-    uriBuilder = uriBuilder.clone();
-    metadata = confTree.metadata;
-    global = confTree.global;
-    components = confTree.components;
-    this.href = uriBuilder.build(null).toASCIIString();
+    if (uriBuilder != null && confTree != null) {
+      metadata = confTree.metadata;
+      global = confTree.global;
+      components = confTree.components;
+      uriBuilder = uriBuilder.clone();
+      this.href = uriBuilder.build(null).toASCIIString();
+    } else {
+      this.href = null;
+      this.metadata = null;
+      this.global = null;
+      this.components = null;
+    }
   }
 
   public Map<String, Object> getMetadata() {

@@ -105,6 +105,8 @@ public class HoyaAMWebApp extends WebApp {
     params.put("com.sun.jersey.spi.container.ContainerRequestFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
     params.put("com.sun.jersey.spi.container.ContainerResponseFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
     params.put("com.sun.jersey.config.feature.Trace", "true");
+    params.put("com.sun.jersey.config.property.WadlGeneratorConfig",
+               "org.apache.hoya.yarn.appmaster.web.rest.AMWadlGeneratorConfig");
     filter("/*").through(GuiceContainer.class, params);
   }
 }
