@@ -215,11 +215,11 @@ public class RpcBinder {
   }
 
   public static HoyaClusterProtocol getProxy(final Configuration conf,
-                                       ApplicationReport application,
-                                       final int rpcTimeout) throws
-                                                             IOException,
+      ApplicationReport application,
+      final int rpcTimeout) throws
+      IOException,
       SliderException,
-                                                             InterruptedException {
+      InterruptedException {
 
     String host = application.getHost();
     int port = application.getRpcPort();
