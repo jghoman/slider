@@ -67,8 +67,8 @@ public class RunningApplication extends LaunchedApplication {
                                 RPC_TIMEOUT);
     } catch (InterruptedException e) {
       throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
-                              e,
-                              "Interrupted waiting for communications with the HoyaAM");
+          e,
+          "Interrupted waiting for communications with the Application Master");
     }
   }
 

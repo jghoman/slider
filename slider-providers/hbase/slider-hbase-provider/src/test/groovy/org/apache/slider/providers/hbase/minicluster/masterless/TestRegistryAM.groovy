@@ -116,7 +116,7 @@ class TestRegistryAM extends HBaseMiniClusterTestBase {
 
     String AmRootPage = hoyaClient.applicationReport.originalTrackingUrl
     assert AmRootPage
-    log.info("Hoya root = ${AmRootPage}")
+    log.info("Slider root = ${AmRootPage}")
     def page = fetchWebPage(AmRootPage)
     
     

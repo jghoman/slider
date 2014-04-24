@@ -28,12 +28,12 @@ public interface OptionKeys {
    * Home dir of the app: {@value}
    * If set, implies there is a home dir to use
    */
-  String INTERNAL_APPLICATION_HOME = "hoya.application.home";
+  String INTERNAL_APPLICATION_HOME = "internal.application.home";
   
   /**
    * Path to an image file containing the app: {@value}
    */
-  String INTERNAL_APPLICATION_IMAGE_PATH = "hoya.application.image.path";
+  String INTERNAL_APPLICATION_IMAGE_PATH = "internal.application.image.path";
 
   /**
    * Time in milliseconds to wait after forking any in-AM 
@@ -99,7 +99,7 @@ public interface OptionKeys {
   /**
    * Version of the app: {@value}
    */
-  String KEYTAB_LOCATION = "hoya.keytab.location";
+  String KEYTAB_LOCATION = "internal.keytab.location";
 
   /**
    * Prefix for site.xml options: {@value}

@@ -68,7 +68,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
   protected static final Logger log =
     LoggerFactory.getLogger(HoyaAMClientProvider.class);
-  protected static final String NAME = "hoyaAM";
+  protected static final String NAME = "SliderAM";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   public static final String INSTANCE_RESOURCE_BASE = PROVIDER_RESOURCE_BASE_ROOT +
                                                        "hoyaam/instance/";

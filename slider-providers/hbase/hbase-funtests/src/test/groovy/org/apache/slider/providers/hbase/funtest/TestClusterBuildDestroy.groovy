@@ -22,6 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
+import org.apache.hoya.HoyaKeys
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -63,12 +64,15 @@ public class TestClusterBuildDestroy extends CommandTestBase
     --roleopt master app.infoport 8180  \\
     --role master 1 
 '''
+    def clusterDir = HoyaKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
+    def clusterDirPath = new Path(clusterFS.homeDirectory, clusterDir)
+    clusterFS.delete(clusterDirPath, true)
     slider(0,
         [
             HoyaActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
-            SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS),
+            SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
             ARG_IMAGE,
             SLIDER_CONFIG.get(KEY_TEST_HBASE_TAR),
             ARG_CONFDIR,
@@ -78,7 +82,9 @@ public class TestClusterBuildDestroy extends CommandTestBase
             ARG_OPTION, "site.hbase.master.info.port", "8180",
         ])
 
-    assert clusterFS.exists(new Path(clusterFS.homeDirectory, ".hoya/cluster/$CLUSTER"))
+
+
+    assert clusterFS.exists(clusterDirPath)
     //cluster exists if you don't want it to be live
     exists(0, CLUSTER, false)
     // condition returns false if it is required to be live

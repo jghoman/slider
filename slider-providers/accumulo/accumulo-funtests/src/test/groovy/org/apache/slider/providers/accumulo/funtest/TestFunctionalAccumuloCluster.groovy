@@ -117,7 +117,7 @@ class TestFunctionalAccumuloCluster extends AccumuloCommandTestBase
     ClusterDescription cd = hoyaClient.clusterDescription
     assert getClusterName() == cd.name
 
-    log.info("Connected via HoyaClient {}", hoyaClient.toString())
+    log.info("Connected via Client {}", hoyaClient.toString())
 
     //wait for the role counts to be reached
     waitForRoleCount(hoyaClient, roleMap, ACCUMULO_LAUNCH_WAIT_TIME)

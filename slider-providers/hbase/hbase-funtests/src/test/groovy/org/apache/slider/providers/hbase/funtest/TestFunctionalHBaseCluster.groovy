@@ -58,7 +58,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
   @Before
   public void prepareCluster() {
 
-    String quorumServers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_HOYA_ZK_HOSTS)
+    String quorumServers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS)
   
     ZooKeeper monitor = new ZooKeeper(quorumServers,
       1000, new Watcher(){
@@ -110,7 +110,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     ClusterDescription cd2 = hoyaClient.getClusterDescription()
     assert clusterName == cd2.name
 
-    log.info("Connected via HoyaClient {} with {} workers", hoyaClient.toString(),
+    log.info("Connected via Client {} with {} workers", hoyaClient.toString(),
         numWorkers)
 
     //wait for the role counts to be reached

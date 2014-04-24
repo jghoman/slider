@@ -306,7 +306,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
       waitForWorkerInstanceCount(hoyaClient, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
       waitForHoyaMasterCount(hoyaClient, masters, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
 
-      log.info("Hoya worker count at $workers, waiting for region servers to match");
+      log.info("Slider worker count at $workers, waiting for region servers to match");
       waitForHBaseRegionServerCount(hoyaClient, clustername, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
 
       //now flex

@@ -41,8 +41,8 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   String KEY_HOYA_TEST_NUM_WORKERS = "slider.test.cluster.size"
   int DEFAULT_HOYA_NUM_WORKERS = 1
 
-  String KEY_HOYA_TEST_ZK_HOSTS = "slider.test.zkhosts";
-  String DEFAULT_HOYA_ZK_HOSTS = "localhost:2181";
+  String KEY_SLIDER_TEST_ZK_HOSTS = "slider.test.zkhosts";
+  String DEFAULT_SLIDER_ZK_HOSTS = "localhost:2181";
 
   /**
    * Time to sleep waiting for the AM to come back up
@@ -50,7 +50,7 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
   String KEY_AM_RESTART_SLEEP_TIME = "slider.test.am.restart.time"
   int DEFAULT_AM_RESTART_SLEEP_TIME = 30000
 
-  String KEY_HOYA_FUNTESTS_ENABLED = "hoya.funtest.enabled"
+  String KEY_HOYA_FUNTESTS_ENABLED = "slider.funtest.enabled"
 
   String CLIENT_CONFIG_FILENAME = HoyaKeys.CLIENT_RESOURCE
   

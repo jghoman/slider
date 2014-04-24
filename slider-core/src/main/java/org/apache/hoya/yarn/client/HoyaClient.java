@@ -148,7 +148,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public HoyaClient() {
     super("Slider Client");
-    log.debug("Hoya constructed");
   }
 
   @Override
@@ -854,7 +853,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     }
 
     // set the cluster directory path
-    commandLine.add(Arguments.ARG_HOYA_CLUSTER_URI, clusterDirectory.toUri());
+    commandLine.add(Arguments.ARG_CLUSTER_URI, clusterDirectory.toUri());
 
     if (!isUnset(rmAddr)) {
       commandLine.add(Arguments.ARG_RM_ADDR, rmAddr);
@@ -1082,7 +1081,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    * @return an application-specific path in ZK
    */
   private String getAppName() {
-    return "hoya";
+    return "slider";
   }
 
   /**
@@ -1528,7 +1527,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     } catch (InterruptedException e) {
       throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
                               e,
-                              "Interrupted waiting for communications with the HoyaAM");
+                              "Interrupted waiting for communications with the Slider AM");
     }
   }
 
@@ -1671,7 +1670,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     if (clustername == null) {
       clustername = getDeployedClusterName();
     }
-    String description = "Hoya cluster " + clustername;
+    String description = "Slider Application Instance " + clustername;
     
     Configuration siteConf = new Configuration(false);
     for (String key : desc.clientProperties.keySet()) {
@@ -1712,7 +1711,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
       toPrint = true;
     }
     try {
-      String description = "Hoya cluster " + clustername;
+      String description = "Slider Application Instance " + clustername;
       if (format.equals(Arguments.FORMAT_XML)) {
         Configuration siteConf = getSiteConf(status, clustername);
         siteConf.writeXml(writer);
@@ -2009,8 +2008,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
 
   @Override
   public String toString() {
-    return "HoyaClient in state " + getServiceState()
-           + " and cluster name " + deployedClusterName;
+    return "Slider Client in state " + getServiceState()
+           + " and Slider Application Instance " + deployedClusterName;
   }
 
   /**
