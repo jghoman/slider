@@ -115,7 +115,7 @@
     options
     -->
 
-    <test.forkedProcessTimeoutInSeconds>9000</test.forkedProcessTimeoutInSeconds>
+    <test.forkedProcessTimeoutInSeconds>18000</test.forkedProcessTimeoutInSeconds>
     <test.argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</test.argLine>
     <test.reuseForks>false</test.reuseForks>
     <test.failIfNoTests>true</test.failIfNoTests>
