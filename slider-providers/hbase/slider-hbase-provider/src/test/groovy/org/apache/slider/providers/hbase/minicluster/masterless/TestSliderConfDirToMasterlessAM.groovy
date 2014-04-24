@@ -61,7 +61,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
   @Test
   public void testSliderConfDirToMasterlessAM() throws Throwable {
     String clustername = "test_slider_conf_dir_to_masterless_am"
-    YarnConfiguration conf = getConfiguration()
+    YarnConfiguration conf = configuration
     createMiniCluster(clustername, conf, 1, true)
 
     describe "verify that a conf dir will propagate via the sytem proerpty"
@@ -76,12 +76,12 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
     out.close()
     try {
       System.setProperty(HoyaKeys.PROPERTY_CONF_DIR,localConf.absolutePath);
-      ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
-      addToTeardown(hoyaClient);
-      ApplicationReport report = waitForClusterLive(hoyaClient)
+      ServiceLauncher<HoyaClient> launcher = createMasterlessAM(clustername, 0, true, true)
+      HoyaClient client = launcher.service
+      addToTeardown(client);
+      ApplicationReport report = waitForClusterLive(client)
 
-      ClusterDescription cd = waitForRoleCount(hoyaClient,HoyaKeys.COMPONENT_AM,
+      ClusterDescription cd = waitForRoleCount(client,HoyaKeys.COMPONENT_AM,
           1, HBASE_CLUSTER_STARTUP_TIME)
       HadoopFS fs = HadoopFS.getLocal(conf);
       
@@ -93,7 +93,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
       assert fs.exists(remoteXml)
       
 
-      clusterActionFreeze(hoyaClient, clustername)
+      clusterActionFreeze(client, clustername)
     } finally {
       HoyaUtils.deleteDirectoryTree(localConf)
     }
