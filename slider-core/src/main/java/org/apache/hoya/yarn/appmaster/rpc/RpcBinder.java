@@ -133,7 +133,7 @@ public class RpcBinder {
     Class<HoyaClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
       conf);
 
-    log.debug("Connecting to Hoya Server at {}", addr);
+    log.debug("Connecting to Slider AM at {}", addr);
     ProtocolProxy<HoyaClusterProtocolPB> protoProxy =
       RPC.getProtocolProxy(hoyaClusterAPIClass,
                            1,
@@ -226,9 +226,9 @@ public class RpcBinder {
     String address = host + ":" + port;
     if (host == null || 0 == port) {
       throw new SliderException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
-                              "Hoya YARN instance " + application.getName()
+                              "Slider instance " + application.getName()
                               + " isn't providing a valid address for the" +
-                              " Hoya RPC protocol: " + address);
+                              " Slider RPC protocol: " + address);
     }
 
     UserGroupInformation currentUser = UserGroupInformation.getCurrentUser();

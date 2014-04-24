@@ -43,8 +43,8 @@ public class HoyaAMCreateAction extends AbstractActionArgs implements
    * This is the URI in the FS to the Hoya cluster; the conf file (and any
    * other cluster-specifics) can be picked up here
    */
-  @Parameter(names = ARG_HOYA_CLUSTER_URI,
-             description = "URI to the hoya cluster", required = true)
+  @Parameter(names = ARG_CLUSTER_URI,
+             description = "URI to the Slider cluster", required = true)
   public String hoyaClusterURI;
 
   @ParametersDelegate

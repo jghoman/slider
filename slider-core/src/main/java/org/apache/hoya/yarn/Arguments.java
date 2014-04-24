@@ -94,7 +94,7 @@ public interface Arguments {
   /**
    * server: URI for the cluster
    */
-  String ARG_HOYA_CLUSTER_URI = "--hoya-cluster-uri";
+  String ARG_CLUSTER_URI = "-cluster-uri";
 
 
   /**

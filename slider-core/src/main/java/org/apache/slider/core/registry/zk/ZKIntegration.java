@@ -44,15 +44,15 @@ public class ZKIntegration implements Watcher {
   /**
    * Base path for all Hoya references
    */
-  public static String ZK_HOYA = "hoya";
+  public static String ZK_SLIDER = "slider";
   public static String ZK_USERS = "users";
-  public static String SVC_HOYA = "/" + ZK_SERVICES + "/" + ZK_HOYA;
-  public static String SVC_HOYA_USERS = SVC_HOYA + "/" + ZK_USERS;
+  public static String SVC_SLIDER = "/" + ZK_SERVICES + "/" + ZK_SLIDER;
+  public static String SVC_SLIDER_USERS = SVC_SLIDER + "/" + ZK_USERS;
 
   public static List<String> ZK_USERS_PATH_LIST = new ArrayList<String>();
   static {
     ZK_USERS_PATH_LIST.add(ZK_SERVICES);
-    ZK_USERS_PATH_LIST.add(ZK_HOYA);
+    ZK_USERS_PATH_LIST.add(ZK_SLIDER);
     ZK_USERS_PATH_LIST.add(ZK_USERS);
   }
 
@@ -274,7 +274,7 @@ public class ZKIntegration implements Watcher {
  * @return a strin
  */
   public static String mkHoyaUserPath(String username) {
-    return SVC_HOYA_USERS + "/" + username;
+    return SVC_SLIDER_USERS + "/" + username;
   }
 
 

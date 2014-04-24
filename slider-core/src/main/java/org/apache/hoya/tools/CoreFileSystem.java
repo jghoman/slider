@@ -63,16 +63,16 @@ public class CoreFileSystem {
 
   public CoreFileSystem(FileSystem fileSystem, Configuration configuration) {
     Preconditions.checkNotNull(fileSystem,
-                               "Cannot create a HoyaFileSystem with a null FileSystem");
+                               "Cannot create a CoreFileSystem with a null FileSystem");
     Preconditions.checkNotNull(configuration,
-                               "Cannot create a HoyaFileSystem with a null Configuration");
+                               "Cannot create a CoreFileSystem with a null Configuration");
     this.fileSystem = fileSystem;
     this.configuration = configuration;
   }
 
   public CoreFileSystem(Configuration configuration) throws IOException {
     Preconditions.checkNotNull(configuration,
-                               "Cannot create a HoyaFileSystem with a null Configuration");
+                               "Cannot create a CoreFileSystem with a null Configuration");
     this.fileSystem = FileSystem.get(configuration);
     this.configuration = fileSystem.getConf();
   }

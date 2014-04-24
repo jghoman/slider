@@ -378,7 +378,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     } else {
       throw new SliderException("Unimplemented: " + action);
     }
-    log.info("Exiting HoyaAM; final exit code = {}", exitCode);
+    log.info("Exiting AM; final exit code = {}", exitCode);
     return exitCode;
   }
 
@@ -463,7 +463,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     appAttemptID = appMasterContainerID.getApplicationAttemptId();
 
     ApplicationId appid = appAttemptID.getApplicationId();
-    log.info("Hoya AM for ID {}", appid.getId());
+    log.info("AM for ID {}", appid.getId());
 
     appInformation.put(StatusKeys.INFO_AM_CONTAINER_ID,
                        appMasterContainerID.toString());
