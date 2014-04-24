@@ -325,9 +325,9 @@ public class AgentProviderService extends AbstractProviderService implements
     String roleName = getRoleName(label);
     StateAccessForProviders accessor = getStateAccessor();
     String scriptPath;
-    try {
-      scriptPath = accessor.getClusterStatus().getMandatoryRoleOpt(roleName, AgentKeys.COMPONENT_SCRIPT);
-    } catch (BadConfigException bce) {
+      scriptPath = accessor.getInstanceDefinitionSnapshot().
+          getAppConfOperations().getComponentOpt(roleName, AgentKeys.COMPONENT_SCRIPT, null);
+    if (scriptPath == null) {
       log.error("role.script is unavailable for " + roleName + ". Commands will not be sent.");
       return response;
     }
