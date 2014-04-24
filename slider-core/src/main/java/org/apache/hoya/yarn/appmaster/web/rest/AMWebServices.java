@@ -21,6 +21,7 @@ import com.google.inject.Singleton;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentResource;
 import org.apache.hoya.yarn.appmaster.web.rest.management.ManagementResource;
+import org.apache.hoya.yarn.appmaster.web.rest.publisher.PublisherResource;
 
 import javax.ws.rs.*;
 
@@ -46,4 +47,8 @@ public class AMWebServices {
     return new AgentResource(slider);
   }
 
+  @Path(RestPaths.SLIDER_SUBPATH_PUBLISHER) 
+  public PublisherResource getPublisherResource() {
+    return new PublisherResource(slider);
+  }
 }
