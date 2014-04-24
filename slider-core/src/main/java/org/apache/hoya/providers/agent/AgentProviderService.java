@@ -145,10 +145,10 @@ public class AgentProviderService extends AbstractProviderService implements
 
     String workDir = ApplicationConstants.Environment.PWD.$();
     launcher.setEnv("AGENT_WORK_ROOT", workDir);
-    log.info("AGENT_WORK_ROOT set to " + workDir);
+    log.info("AGENT_WORK_ROOT set to {}", workDir);
     String logDir = ApplicationConstants.Environment.LOG_DIRS.$();
     launcher.setEnv("AGENT_LOG_ROOT", logDir);
-    log.info("AGENT_LOG_ROOT set to " + logDir);
+    log.info("AGENT_LOG_ROOT set to {}", logDir);
 
     //local resources
 
@@ -167,7 +167,7 @@ public class AgentProviderService extends AbstractProviderService implements
       launcher.addLocalResource(AgentKeys.AGENT_INSTALL_DIR, agentImageRes);
     }
 
-    log.info("Using " + scriptPath + " for agent.");
+    log.info("Using {} for agent.", scriptPath);
     String appDef = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
     LocalResource appDefRes = fileSystem.createAmResource(
@@ -343,14 +343,14 @@ public class AgentProviderService extends AbstractProviderService implements
       CommandResult result = getCommandResult(report.getStatus());
       Command command = getCommand(report.getRoleCommand());
       componentStatus.applyCommandResult(result, command);
-      log.info("Component operation. Status: " + result);
+      log.info("Component operation. Status: {}", result);
     }
 
     int waitForCount = accessor.getInstanceDefinitionSnapshot().
         getAppConfOperations().getComponentOptInt(roleName, AgentKeys.WAIT_HEARTBEAT, 0);
 
     if (id < waitForCount) {
-      log.info("Waiting until heartbeat count " + waitForCount + ". Current val: " + id);
+      log.info("Waiting until heartbeat count {}. Current val: {}", waitForCount, id);
       componentStatuses.put(roleName, componentStatus);
       return response;
     }
