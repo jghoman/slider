@@ -83,47 +83,63 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public static final String YRAM = "256"
 
 
-  public static final YarnConfiguration HOYA_CONFIG = HoyaUtils.createConfiguration();
+  public static final YarnConfiguration SLIDER_CONFIG = HoyaUtils.createConfiguration();
   static {
-    HOYA_CONFIG.setInt(HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT, 1)
-    HOYA_CONFIG.setInt(YarnConfiguration.RM_AM_MAX_ATTEMPTS, 100)
-    HOYA_CONFIG.setBoolean(YarnConfiguration.NM_PMEM_CHECK_ENABLED, false)
-    HOYA_CONFIG.setBoolean(YarnConfiguration.NM_VMEM_CHECK_ENABLED, false)
-    HOYA_CONFIG.setInt(YarnConfiguration.RM_SCHEDULER_MINIMUM_ALLOCATION_MB, 1)
+    SLIDER_CONFIG.setInt(HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT, 1)
+    SLIDER_CONFIG.setInt(YarnConfiguration.RM_AM_MAX_ATTEMPTS, 100)
+    SLIDER_CONFIG.setBoolean(YarnConfiguration.NM_PMEM_CHECK_ENABLED, false)
+    SLIDER_CONFIG.setBoolean(YarnConfiguration.NM_VMEM_CHECK_ENABLED, false)
+    SLIDER_CONFIG.setInt(YarnConfiguration.RM_SCHEDULER_MINIMUM_ALLOCATION_MB, 1)
     
   }
 
 
   public static final int THAW_WAIT_TIME
   public static final int FREEZE_WAIT_TIME
-  public static final int HBASE_LAUNCH_WAIT_TIME
-  public static final int ACCUMULO_LAUNCH_WAIT_TIME
   public static final int SLIDER_TEST_TIMEOUT
+  public static final boolean TEARDOWN_KILLALL
+  
+  
   public static final boolean ACCUMULO_TESTS_ENABLED
+  public static final int ACCUMULO_LAUNCH_WAIT_TIME
+  
   public static final boolean HBASE_TESTS_ENABLED
+  public static final int HBASE_LAUNCH_WAIT_TIME
+  
   static {
-    THAW_WAIT_TIME = HOYA_CONFIG.getInt(
+    THAW_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
         KEY_TEST_THAW_WAIT_TIME,
         DEFAULT_THAW_WAIT_TIME)
-    FREEZE_WAIT_TIME = HOYA_CONFIG.getInt(
+    FREEZE_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
         KEY_TEST_FREEZE_WAIT_TIME,
         DEFAULT_TEST_FREEZE_WAIT_TIME)
-    HBASE_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
-        KEY_TEST_HBASE_LAUNCH_TIME,
-        DEFAULT_HBASE_LAUNCH_TIME)
-    SLIDER_TEST_TIMEOUT = HOYA_CONFIG.getInt(
+    SLIDER_TEST_TIMEOUT = 1000 * SLIDER_CONFIG.getInt(
         KEY_TEST_TIMEOUT,
         DEFAULT_TEST_TIMEOUT)
-    ACCUMULO_LAUNCH_WAIT_TIME = HOYA_CONFIG.getInt(
+    TEARDOWN_KILLALL =
+        SLIDER_CONFIG.getBoolean(KEY_TEST_TEARDOWN_KILLALL,
+            DEFAULT_TEARDOWN_KILLALL)
+    
+    HBASE_TESTS_ENABLED =
+        SLIDER_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, false)
+    HBASE_LAUNCH_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
+        KEY_TEST_HBASE_LAUNCH_TIME,
+        DEFAULT_HBASE_LAUNCH_TIME)
+
+    ACCUMULO_TESTS_ENABLED =
+        SLIDER_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
+    ACCUMULO_LAUNCH_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
         KEY_ACCUMULO_LAUNCH_TIME,
         DEFAULT_ACCUMULO_LAUNCH_TIME)
-    ACCUMULO_TESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, true)
-    HBASE_TESTS_ENABLED =
-        HOYA_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
-
   }
 
+  /**
+   * Getter so that groovy compile static doesn't complain about access
+   */
+  static YarnConfiguration getSLIDER_CONFIG() {
+    return SLIDER_CONFIG
+  }
+  
   protected MiniDFSCluster hdfsCluster
   protected MiniYARNCluster miniCluster
   protected boolean switchToImageDeploy = false
@@ -154,7 +170,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
 
   protected YarnConfiguration getConfiguration() {
-    return HOYA_CONFIG;
+    return SLIDER_CONFIG;
   }
 
   /**

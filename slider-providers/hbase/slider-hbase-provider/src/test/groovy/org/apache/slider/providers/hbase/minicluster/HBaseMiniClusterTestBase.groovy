@@ -42,6 +42,7 @@ import static HBaseKeys.*
 @CompileStatic
 @Slf4j
 public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase {
+
   public static final int HBASE_CLUSTER_STARTUP_TIME = HBASE_LAUNCH_WAIT_TIME
 
   /**
@@ -64,7 +65,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   @Override
   void setup() {
     super.setup()
-    assumeBoolOption(HOYA_CONFIG, KEY_TEST_HBASE_ENABLED, true)
+    assumeBoolOption(SLIDER_CONFIG, KEY_TEST_HBASE_ENABLED, true)
     assumeArchiveDefined();
     assumeApplicationHome();
   }
@@ -75,8 +76,10 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   @Override
   void teardown() {
     super.teardown();
-    killAllRegionServers();
-    killAllMasterServers();
+    if (TEARDOWN_KILLALL) {
+      killAllRegionServers();
+      killAllMasterServers();
+    }
   }
 
   /**

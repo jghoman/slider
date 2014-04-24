@@ -32,34 +32,36 @@ public interface HoyaXMLConfKeysForTesting {
 
   String KEY_TEST_THAW_WAIT_TIME = "slider.test.thaw.wait.seconds";
 
-  int DEFAULT_THAW_WAIT_TIME = 60000;
+  int DEFAULT_THAW_WAIT_TIME = 60;
 
 
   String KEY_TEST_FREEZE_WAIT_TIME = "slider.test.freeze.wait.seconds";
 
-  int DEFAULT_TEST_FREEZE_WAIT_TIME = 60000;
+  int DEFAULT_TEST_FREEZE_WAIT_TIME = 60;
 
-  String KEY_TEST_TIMEOUT = "slider.test.timeout.millisec";
+  String KEY_TEST_TIMEOUT = "slider.test.timeout.seconds";
 
-  int DEFAULT_TEST_TIMEOUT = 10 * 60 * 1000;
+  int DEFAULT_TEST_TIMEOUT = 10 * 60;
 
   String KEY_TEST_HBASE_LAUNCH_TIME = "slider.test.hbase.launch.wait.seconds";
 
-  String KEY_TEST_HBASE_ENABLED = "slider.test.hbase.enabled";
+  int DEFAULT_HBASE_LAUNCH_TIME = 60 * 3;
 
-  int DEFAULT_HBASE_LAUNCH_TIME = 60 * 3 * 1000;
+  String KEY_TEST_HBASE_ENABLED = "slider.test.hbase.enabled";
 
   String KEY_TEST_ACCUMULO_ENABLED = "slider.test.accumulo.enabled";
 
   String KEY_ACCUMULO_LAUNCH_TIME =
     "slider.test.accumulo.launch.wait.seconds";
 
-  int DEFAULT_ACCUMULO_LAUNCH_TIME = 60 * 3 * 1000;
+  int DEFAULT_ACCUMULO_LAUNCH_TIME = 60 * 3;
   String KEY_TEST_AGENT_ENABLED = "slider.test.agent.enabled";
 
-  int DEFAULT_AGENT_LAUNCH_TIME = 60 * 3 * 1000;
+  int DEFAULT_AGENT_LAUNCH_TIME = 60 * 3;
 
   String KEY_TEST_AGENT_HOME = "slider.test.agent.home";
   String KEY_TEST_AGENT_TAR = "slider.test.agent.tar";
 
+  String KEY_TEST_TEARDOWN_KILLALL = "slider.test.teardown.killall";
+  boolean DEFAULT_TEARDOWN_KILLALL = true;
 }
