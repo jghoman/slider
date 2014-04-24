@@ -65,7 +65,7 @@ class TestAccumuloCI extends TestFunctionalAccumuloCluster {
 
     String currentUser = System.getProperty("user.name");
     String zookeepers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM,
-        FuntestProperties.DEFAULT_HOYA_ZK_HOSTS)
+        FuntestProperties.DEFAULT_SLIDER_ZK_HOSTS)
     ZooKeeperInstance inst = new ZooKeeperInstance(currentUser + "-" + clustername, zookeepers)
     PasswordToken passwd = new PasswordToken(getPassword())
     Connector conn = inst.getConnector("root", new PasswordToken(getPassword()))

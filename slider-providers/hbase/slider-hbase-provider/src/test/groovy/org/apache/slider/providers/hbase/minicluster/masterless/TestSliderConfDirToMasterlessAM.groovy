@@ -55,19 +55,19 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 
-class TestHoyaConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
+class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
 
 
   @Test
-  public void testHoyaConfDirToMasterlessAM() throws Throwable {
-    String clustername = "test_hoya_conf_dir_to_masterless_am"
+  public void testSliderConfDirToMasterlessAM() throws Throwable {
+    String clustername = "test_slider_conf_dir_to_masterless_am"
     YarnConfiguration conf = getConfiguration()
     createMiniCluster(clustername, conf, 1, true)
 
     describe "verify that a conf dir will propagate via the sytem proerpty"
 
     File localConf = File.createTempDir("conf","dir")
-    String name = "hoya.xml"
+    String name = "slider.xml"
     File hoyaXML = new File(localConf, name)
     def out = new FileWriter(hoyaXML)
     out.write(['a','b','c'] as char[])

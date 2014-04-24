@@ -115,7 +115,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       ClusterDescription cd2 = hoyaClient.getClusterDescription()
       assert CLUSTER == cd2.name
 
-      log.info("Connected via HoyaClient {}", hoyaClient.toString())
+      log.info("Connected via Client {}", hoyaClient.toString())
 
       //freeze
       slider(0, [

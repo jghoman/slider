@@ -71,10 +71,10 @@ class TestLiveTwoNodeRegionService extends HBaseMiniClusterTestBase {
 
     dumpClusterDescription("final status", status)
 
-    String hoyaRootPage = hoyaClient.applicationReport.originalTrackingUrl
-    assert hoyaRootPage
-    log.info("Hoya root = ${hoyaRootPage}")
-    def page = fetchWebPage(hoyaRootPage)
+    String rootPage = hoyaClient.applicationReport.originalTrackingUrl
+    assert rootPage
+    log.info("Slider root = ${rootPage}")
+    def page = fetchWebPage(rootPage)
     log.info(page)
   }
 

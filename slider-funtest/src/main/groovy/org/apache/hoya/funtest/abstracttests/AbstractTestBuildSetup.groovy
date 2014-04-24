@@ -92,7 +92,7 @@ abstract class AbstractTestBuildSetup extends HoyaTestUtils implements FuntestPr
   @Test
   public void testConfDirSet() throws Throwable {
     assert getHoyaConfDirProp()
-    log.info("Hoya Configuration directory $hoyaConfDirProp")
+    log.info("Slider Configuration directory $hoyaConfDirProp")
   }
 
   @Test
