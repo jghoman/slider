@@ -383,7 +383,7 @@ that can be obtained in the status operation
 These are clearly abnormal operations; they are here primarily for testing
 -and documented for completeness.
 
-### `killcontainer <name> --id container-id`
+### `kill-container <name> --id container-id`
 
 Kill a  YARN container belong to the application. This is useful primarily for testing the 
 resilience to failures.
