@@ -4,7 +4,6 @@
   },
   "global": {
     "agent.conf": "/slider/agent/conf/agent.ini",
-    "agent.version": "/slider/agent/version",
     "application.def": "/slider/hbase_v096.tar",
     "config_types": "core-site,hdfs-site,hbase-site",
     "java_home": "/usr/jdk64/jdk1.7.0_45",
@@ -53,8 +52,6 @@
   "components": {
     "HBASE_MASTER": {
       "wait.heartbeat": "5",
-      "role.priority": "1",
-      "component.instances": "1",
       "role.script": "scripts/hbase_master.py"
     },
     "slider-appmaster": {
@@ -62,8 +59,6 @@
     },
     "HBASE_REGIONSERVER": {
       "wait.heartbeat": "3",
-      "role.priority": "2",
-      "component.instances": "1",
       "role.script": "scripts/hbase_regionserver.py"
     }
   }

@@ -4,7 +4,6 @@
   },
   "global": {
     "agent.conf": "/slider/agent/conf/agent.ini",
-    "agent.version": "/slider/agent/version",
     "application.def": "/slider/accumulo_v15.tar",
     "config_types": "accumulo-site",
     "java_home": "/usr/jdk64/jdk1.7.0_45",
@@ -47,8 +46,6 @@
   "components": {
     "ACCUMULO_MASTER": {
       "wait.heartbeat": "3",
-      "role.priority": "1",
-      "component.instances": "1",
       "role.script": "scripts/accumulo_master.py"
     },
     "slider-appmaster": {
@@ -56,26 +53,18 @@
     },
     "ACCUMULO_TSERVER": {
       "wait.heartbeat": "6",
-      "role.priority": "2",
-      "component.instances": "1",
       "role.script": "scripts/accumulo_tserver.py"
     },
     "ACCUMULO_MONITOR": {
       "wait.heartbeat": "8",
-      "role.priority": "3",
-      "component.instances": "1",
       "role.script": "scripts/accumulo_monitor.py"
     },
     "ACCUMULO_GC": {
       "wait.heartbeat": "6",
-      "role.priority": "4",
-      "component.instances": "1",
       "role.script": "scripts/accumulo_gc.py"
     },
     "ACCUMULO_TRACER": {
       "wait.heartbeat": "8",
-      "role.priority": "5",
-      "component.instances": "1",
       "role.script": "scripts/accumulo_tracer.py"
     }
   }

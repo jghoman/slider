@@ -30,6 +30,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class StatusCommand {
+  public static String STATUS_COMMAND = "STATUS";
+  public static String GET_CONFIG_COMMAND = "GET_CONFIG";
+
   AgentCommandType agentCommandType;
 
   private String clusterName;
@@ -38,7 +41,7 @@ public class StatusCommand {
   private Map<String, Map<String, String>> configurations;
   private Map<String, String> commandParams = new HashMap<String, String>();
   private Map<String, String> hostLevelParams = new HashMap<String, String>();
-  private String roleCommand = "STATUS";
+  private String roleCommand;
 
   public StatusCommand() {
     this.agentCommandType = AgentCommandType.STATUS_COMMAND;
