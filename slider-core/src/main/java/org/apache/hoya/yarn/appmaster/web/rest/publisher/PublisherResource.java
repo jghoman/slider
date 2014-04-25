@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.appmaster.web.rest.publisher;
 
 import org.apache.hadoop.yarn.webapp.NotFoundException;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
-import org.apache.slider.core.registry.docstore.ConfigSet;
+import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 import org.apache.slider.core.registry.docstore.PublishedConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,21 +44,30 @@ public class PublisherResource {
     this.slider = slider;
   }
 
-  private void init(HttpServletResponse res) {
+  private void init(HttpServletResponse res, UriInfo uriInfo) {
     res.setContentType(null);
+    log.debug(uriInfo.getRequestUri().toString());
   }
 
-  private ConfigSet getContent() {
+  private PublishedConfigSet getContent() {
     return slider.getAppState().getPublishedConfigurations();
   }
 
   @GET
   @Path("/")
   @Produces({MediaType.APPLICATION_JSON})
-  public ConfigSet getPublishedConfiguration(
+  public PublishedConfigSet getPublishedConfiguration(
+      @Context UriInfo uriInfo,
       @Context HttpServletResponse res) {
-    init(res);
-    return getContent();
+    init(res, uriInfo);
+
+    PublishedConfigSet publishedConfigSet = getContent();
+    log.debug("number of avaiable configurations: {}", publishedConfigSet.size());
+    return publishedConfigSet;
+  }
+
+  private void logRequest(UriInfo uriInfo) {
+    log.debug(uriInfo.getRequestUri().toString());
   }
 
   @GET
@@ -68,10 +77,11 @@ public class PublisherResource {
       @PathParam("config") String config,
       @Context UriInfo uriInfo,
       @Context HttpServletResponse res) {
-    init(res);
+    init(res, uriInfo);
 
     PublishedConfiguration publishedConfig = getContent().get(config);
     if (publishedConfig == null) {
+      log.info("Configuration {} not found", config);
       throw new NotFoundException("Not found: " + uriInfo.getAbsolutePath());
     }
     return publishedConfig;

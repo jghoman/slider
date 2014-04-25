@@ -55,7 +55,7 @@ import org.apache.hoya.exceptions.TriggerClusterTeardownException;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaUtils;
-import org.apache.slider.core.registry.docstore.ConfigSet;
+import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,7 +142,8 @@ public class AppState implements StateAccessForProviders {
    */
   private ClusterDescription clusterSpec = new ClusterDescription();
 
-  private final ConfigSet publishedConfigurations = new ConfigSet();
+  private final PublishedConfigSet
+      publishedConfigurations = new PublishedConfigSet();
 
 
   private final Map<Integer, RoleStatus> roleStatusMap =
@@ -326,7 +327,7 @@ public class AppState implements StateAccessForProviders {
 
 
   @Override
-  public ConfigSet getPublishedConfigurations() {
+  public PublishedConfigSet getPublishedConfigurations() {
     return publishedConfigurations;
   }  
   

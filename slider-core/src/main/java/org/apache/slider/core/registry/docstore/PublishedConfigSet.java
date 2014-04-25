@@ -23,6 +23,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Represents a set of configurations for an application, component, etc.
@@ -30,20 +32,30 @@ import java.util.Map;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class ConfigSet {
+public class PublishedConfigSet {
 
-  private Map<String, PublishedConfiguration> configurations =
+  public Map<String, PublishedConfiguration> configurations =
       new HashMap<String, PublishedConfiguration>();
 
-  public synchronized void put(String name, PublishedConfiguration conf) {
+  public void put(String name, PublishedConfiguration conf) {
     configurations.put(name, conf);
   }
 
-  public synchronized PublishedConfiguration get(String name) {
+  public PublishedConfiguration get(String name) {
     return configurations.get(name);
   }
   
-  public synchronized boolean contains(String name) {
+  public boolean contains(String name) {
     return configurations.containsKey(name);
+  }
+  
+  public int size() {
+    return configurations.size();
+  }
+  
+  public Set<String> keys() {
+    TreeSet<String> keys = new TreeSet<String>();
+    keys.addAll(configurations.keySet());
+    return keys;
   }
 }

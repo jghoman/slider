@@ -25,7 +25,7 @@ import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.exceptions.NoSuchNodeException;
-import org.apache.slider.core.registry.docstore.ConfigSet;
+import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +41,7 @@ public interface StateAccessForProviders {
    * Get the published configurations
    * @return the configuration set
    */
-  ConfigSet getPublishedConfigurations();
+  PublishedConfigSet getPublishedConfigurations();
 
   Map<ContainerId, RoleInstance> getFailedNodes();
 

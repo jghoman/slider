@@ -107,6 +107,7 @@ import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
+import org.apache.slider.core.registry.docstore.PublishedConfiguration;
 import org.apache.slider.core.registry.info.RegisteredEndpoint;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.RegistryBinderService;
@@ -722,6 +723,11 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       instanceData);
 
     
+    // now publish yarn-site.xml
+    PublishedConfiguration pubconf = new PublishedConfiguration();
+    pubconf.description = "YARN site settings";
+    pubconf.putValues(new YarnConfiguration());
+    appState.getPublishedConfigurations().put("yarn-site.xml", pubconf);
 
     // launch the provider; this is expected to trigger a callback that
     // starts the node review process

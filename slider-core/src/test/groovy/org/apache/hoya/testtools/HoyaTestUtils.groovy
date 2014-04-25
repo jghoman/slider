@@ -339,22 +339,52 @@ class HoyaTestUtils extends Assert {
   }
 
   /**
-   * Fetch a web page -the response code is not checked
+   * Fetch a web page
    * @param url URL
    * @return the response body
    */
 
-  public static String fetchWebPage(URL url) {
-    return fetchWebPage(url.toString())
+  public static String GET(URL url) {
+    return fetchWebPageWithoutError(url.toString())
+  }
+  
+  public static String GET(URL url, String path) {
+    return GET(url.toString(), path)
+  }
+  
+  public static String GET(String base, String path) {
+    String s = appendToURL(base, path)
+    return GET(s)
+    
   }
 
-    /**
-   * Fetch a web page -the response code is not checked
+  def static String GET(String s) {
+    return fetchWebPageWithoutError(s)
+  }
+
+  def static String appendToURL(String base, String path) {
+    StringBuilder fullpath = new StringBuilder(base)
+    if (!base.endsWith("/")) {
+      fullpath.append("/")
+    }
+    if (path.startsWith("/")) {
+      fullpath.append(path.substring(1))
+    } else {
+      fullpath.append(path)
+    }
+
+    def s = fullpath.toString()
+    return s
+  }
+
+  /**
+   * Fetch a web page 
    * @param url URL
    * @return the response body
    */
 
   public static String fetchWebPage(String url) {
+    log.info("GET $url")
     def httpclient = new HttpClient(new MultiThreadedHttpConnectionManager());
     httpclient.httpConnectionManager.params.connectionTimeout = 10000;
     GetMethod get = new GetMethod(url);
@@ -363,18 +393,14 @@ class HoyaTestUtils extends Assert {
     int resultCode
     try {
       resultCode = httpclient.executeMethod(get);
+      if (resultCode!=200) {
+        log.warn("Result code of $resultCode")
+      }
     } catch (IOException e) {
       log.error("Failed on $url: $e",e)
       throw e;
     }
     String body = get.responseBodyAsString;
-    
-    // handle error status codes here -after getting the body
-    if (resultCode != 200) {
-      def errorText = "Status code $resultCode on $url"
-      log.error(errorText +":\n $body")
-      throw new IOException(errorText)
-    }
     return body;
   }
   

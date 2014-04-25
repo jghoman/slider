@@ -71,10 +71,10 @@ public class PublishedConfiguration {
    * @param entries entries to put
    */
   @JsonIgnore
-  public void putValues(Iterable<Map.Entry<Object, Object>> entries) {
+  public void putValues(Iterable<Map.Entry<String, String>> entries) {
     values = new HashMap<String, String>();
-    for (Map.Entry<Object, Object> entry : entries) {
-      values.put(entry.getKey().toString(), entry.getValue().toString());
+    for (Map.Entry<String, String> entry : entries) {
+      values.put(entry.getKey(), entry.getValue());
     }
     
   }

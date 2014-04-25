@@ -25,8 +25,10 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
+import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
+import org.apache.slider.core.registry.docstore.PublishedConfigSet
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
@@ -40,6 +42,9 @@ import org.junit.Test
 
 class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
+
+  public static final String YARN_SITE = "yarn-site.xml"
+
   @Test
   public void testRegistryAM() throws Throwable {
     
@@ -47,7 +52,7 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     describe "create a masterless AM then perform registry operations on it"
 
     //launch fake master
-    String clustername = "test_registry_am"
+    String clustername = "test_standalone_registry_am"
     createMiniCluster(clustername, configuration, 1, true)
     ServiceLauncher<HoyaClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
@@ -118,25 +123,42 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     def externalEndpoints = serviceInstanceData.externalView.endpoints
 
 
+
+
+    def publisherURL = externalEndpoints.get("publisher").asURL()
+    def publisher = publisherURL.toString()
+    describe("Publisher")
+
+    def publishedJSON = GET(publisherURL)
+    log.info(publishedJSON)
+    JsonSerDeser< PublishedConfigSet> serDeser= new JsonSerDeser<PublishedConfigSet>(
+        PublishedConfigSet)
+    def configSet = serDeser.fromJson(publishedJSON)
+    assert configSet.size() >= 1
+    assert configSet.contains(YARN_SITE)
+    def publishedYarnSite = configSet.get(YARN_SITE)
+
+    
+    def yarnSitePublisher = appendToURL(publisher, YARN_SITE)
+    def yarnSiteXML = appendToURL(yarnSitePublisher, "xml")
+
+
+    String confXML = GET(yarnSiteXML)
+    log.info("Conf XML at $yarnSiteXML = \n $confXML")
+
+    String confJSON = GET(yarnSitePublisher, "json")
+
     // hit the registry web page
 
     def registryEndpoint = externalEndpoints.get("registry")
     def registry = registryEndpoint.asURL()
     describe("Registry WADL @ $registry")
 
-    log.info(fetchWebPage(registry))
-/*
-
     describe("Registry List")
-    log.info(fetchWebPage(new URL(registry,"v1/service")))
-*/
+    log.info(GET(registry, "v1/service" ))
 
 
-    def publisher = externalEndpoints.get("publisher").asURL()
-    describe("Publisher")
-    log.info(fetchWebPage(publisher))
-//    log.info(fetchWebPage(new URL(publisher, "v1/service")))
-    
+
     describe "teardown of cluster"
     //now kill that cluster
     assert 0 == clusterActionFreeze(client, clustername)
