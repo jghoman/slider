@@ -43,7 +43,7 @@ abstract class HBaseCommandTestBase extends CommandTestBase {
         SLIDER_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, true)
     HBASE_LAUNCH_WAIT_TIME = SLIDER_CONFIG.getInt(
         KEY_TEST_HBASE_LAUNCH_TIME,
-        DEFAULT_HBASE_LAUNCH_TIME)
+        DEFAULT_HBASE_LAUNCH_TIME_SECONDS)
   }
 
   @BeforeClass

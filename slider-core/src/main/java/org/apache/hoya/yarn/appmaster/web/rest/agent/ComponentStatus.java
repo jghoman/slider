@@ -32,7 +32,6 @@ public class ComponentStatus {
   String status;
   String serviceName;
   String clusterName;
-  String stackVersion;
   private Map<String, Map<String, String>> configurations;
 
   public String getComponentName() {
@@ -59,22 +58,6 @@ public class ComponentStatus {
     this.status = status;
   }
 
-  public String getStackVersion() {
-    return this.stackVersion;
-  }
-
-  public void setStackVersion(String stackVersion) {
-    this.stackVersion = stackVersion;
-  }
-
-  public String getMsg() {
-    return msg;
-  }
-
-  public void setMsg(String msg) {
-    this.msg = msg;
-  }
-
   public String getServiceName() {
     return serviceName;
   }
@@ -91,19 +74,14 @@ public class ComponentStatus {
     this.clusterName = clusterName;
   }
 
-  /**
-   * @param configs the config tags that match this status
-   */
-  public void setConfiguration(Map<String, Map<String,String>> configs) {
-    configurations = configs;
+  /** @return the config tags that match this command, or <code>null</code> if none are present */
+  public Map<String, Map<String, String>> getConfiguration() {
+    return configurations;
   }
 
-  /**
-   * @return the config tags that match this command, or <code>null</code>
-   * if none are present
-   */
-  public Map<String, Map<String,String>> getConfiguration() {
-    return configurations;
+  /** @param configurations the config tags that match this status */
+  public void setConfiguration(Map<String, Map<String, String>> configurations) {
+    this.configurations = configurations;
   }
 
   @Override
@@ -114,7 +92,6 @@ public class ComponentStatus {
            ", status='" + status + '\'' +
            ", serviceName='" + serviceName + '\'' +
            ", clusterName='" + clusterName + '\'' +
-           ", stackVersion='" + stackVersion + '\'' +
            '}';
   }
 }

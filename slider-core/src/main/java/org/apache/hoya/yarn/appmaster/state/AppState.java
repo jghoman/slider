@@ -571,6 +571,7 @@ public class AppState implements StateAccessForProviders {
                                          ResourceKeys.COMPONENT_PRIORITY,
                                          priOpt, 0, 1, -1
                                         );
+    log.info("Role {} assigned priority {}", name, pri);
     String placementOpt = component.getOption(
       ResourceKeys.COMPONENT_PLACEMENT_POLICY, "0");
     int placement = HoyaUtils.parseAndValidate("value of " + name + " " +
@@ -657,6 +658,9 @@ public class AppState implements StateAccessForProviders {
         resources.getComponent(role);
       int desiredInstanceCount =
         resources.getComponentOptInt(role, ResourceKeys.COMPONENT_INSTANCES, 0);
+      if (desiredInstanceCount == 0) {
+        log.warn("Role {} has 0 instances specified", role);
+      }
       if (currentDesired != desiredInstanceCount) {
         log.info("Role {} flexed from {} to {}", role, currentDesired,
                  desiredInstanceCount);

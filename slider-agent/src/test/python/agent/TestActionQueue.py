@@ -80,7 +80,8 @@ class TestActionQueue(TestCase):
     "commandType": "STATUS_COMMAND",
     "clusterName": "c1",
     "componentName": "ACCUMULO_MASTER",
-    'configurations': {}
+    'configurations': {},
+    'roleCommand': "STATUS"
   }
 
   status_command_with_config = {
@@ -89,7 +90,8 @@ class TestActionQueue(TestCase):
     "clusterName": "c1",
     "componentName": "ACCUMULO_MASTER",
     'configurations': {},
-    "commandParams": {"retrieve_config": "true"}
+    "commandParams": {"retrieve_config": "false"},
+    'roleCommand': "GET_CONFIG"
   }
 
   @patch.object(ActionQueue, "process_command")
@@ -191,16 +193,15 @@ class TestActionQueue(TestCase):
     dummy_controller = MagicMock()
     actionQueue = ActionQueue(AgentConfig("", ""), dummy_controller)
 
-    runCommand_mock.return_value = {'exitcode': '0', 'configurations': {}}
+    runCommand_mock.return_value = {'configurations': {}}
     actionQueue.execute_status_command(self.status_command_with_config)
     report = actionQueue.result()
     self.assertEqual(len(report['componentStatus']), 1)
-    self.assertEqual(report['componentStatus'][0]["status"], 'INSTALLED')
     self.assertEqual(report['componentStatus'][0]["componentName"], "ACCUMULO_MASTER")
     self.assertEqual(report['componentStatus'][0]["serviceName"], "ACCUMULO")
     self.assertEqual(report['componentStatus'][0]["clusterName"], "c1")
     self.assertEqual(report['componentStatus'][0]["configurations"], {})
-    self.assertTrue(runCommand_mock.called)
+    self.assertFalse(runCommand_mock.called)
 
 
   @patch("traceback.print_exc")

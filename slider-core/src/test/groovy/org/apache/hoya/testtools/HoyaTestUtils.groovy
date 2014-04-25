@@ -655,4 +655,22 @@ class HoyaTestUtils extends Assert {
     names.each { String it -> log.info(it) }
   }
 
+  /**
+   * Get a time option in seconds if set, otherwise the default value (also in seconds).
+   * This operation picks up the time value as a system property if set -that
+   * value overrides anything in the test file
+   * @param conf
+   * @param key
+   * @param defVal
+   * @return
+   */
+  public static int getTimeOptionMillis(Configuration conf, String key, int defValMillis) {
+    int val = conf.getInt(key, 0)
+    val = Integer.getInteger(key, val)
+    int time = 1000 * val
+    if (time == 0) {
+      time = defValMillis
+    }
+    return time;
+  }
 }

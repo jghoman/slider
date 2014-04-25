@@ -69,10 +69,10 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     dumpClusterStatus(hoyaClient, "post-hbase-boot status")
 
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForWorkerInstanceCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForHBaseRegionServerCount(hoyaClient, clustername, 1, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(hoyaClient, 1, hbaseClusterStartupToLiveTime)
     waitForRoleCount(hoyaClient, HBaseKeys.ROLE_MASTER, 1,
-                     HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                     hbaseClusterStartupToLiveTime)
   }
 
   @Test

@@ -50,8 +50,8 @@ class TestLiveClusterFromArchive extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForWorkerInstanceCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
 
     clusterActionFreeze(hoyaClient, clustername,"end of run")
   }

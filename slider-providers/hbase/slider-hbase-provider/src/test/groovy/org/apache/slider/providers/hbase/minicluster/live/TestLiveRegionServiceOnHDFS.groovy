@@ -57,11 +57,11 @@ class TestLiveRegionServiceOnHDFS extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
 
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
     describe("Cluster status")
     log.info(prettyPrint(status.toJsonString()))
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
 
   }
 

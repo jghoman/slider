@@ -49,7 +49,6 @@ class ActionQueue(threading.Thread):
   FAILED_STATUS = 'FAILED'
 
   STORE_APPLIED_CONFIG = 'record_config'
-  RETRIEVE_APPLIED_CONFIG = 'retrieve_config'
 
   def __init__(self, config, controller):
     super(ActionQueue, self).__init__()
@@ -134,7 +133,7 @@ class ActionQueue(threading.Thread):
     self.commandStatuses.put_command_status(command, in_progress_status)
     store_config = False
     if ActionQueue.STORE_APPLIED_CONFIG in command['commandParams']:
-      store_config = "true" == command['commandParams'][ActionQueue.STORE_APPLIED_CONFIG]
+      store_config = 'true' == command['commandParams'][ActionQueue.STORE_APPLIED_CONFIG]
 
     # running command
     commandresult = self.customServiceOrchestrator.runCommand(command,
@@ -142,6 +141,7 @@ class ActionQueue(threading.Thread):
                                                                 'tmpout'],
                                                               in_progress_status[
                                                                 'tmperr'],
+                                                              True,
                                                               store_config)
     # dumping results
     status = self.COMPLETED_STATUS
@@ -181,26 +181,28 @@ class ActionQueue(threading.Thread):
       cluster = command['clusterName']
       service = command['serviceName']
       component = command['componentName']
+      reportResult = True
+      if 'auto_generated' in command:
+        reportResult = not command['auto_generated']
+
       component_status = self.customServiceOrchestrator.requestComponentStatus(command)
 
       result = {"componentName": component,
                 "msg": "",
-                "status": component_status['exitcode'],
                 "clusterName": cluster,
-                "serviceName": service
+                "serviceName": service,
+                "reportResult": reportResult,
+                "roleCommand": command['roleCommand']
       }
 
       if 'configurations' in component_status:
         result['configurations'] = component_status['configurations']
-
-      logger.debug("Got live status for component " + component + \
-                   " of service " + str(service) + \
-                   " of cluster " + str(cluster))
-      logger.debug(pprint.pformat(result))
-
-      reportResult = True
-      if 'auto_generated' in command:
-        reportResult = not command['auto_generated']
+      if 'exitcode' in component_status:
+        result['status'] = component_status['exitcode']
+        logger.debug("Got live status for component " + component + \
+                     " of service " + str(service) + \
+                     " of cluster " + str(cluster))
+        logger.debug(pprint.pformat(result))
 
       if result is not None:
         self.commandStatuses.put_command_status(command, result, reportResult)

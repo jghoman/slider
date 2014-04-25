@@ -119,10 +119,6 @@ public class AgentClientProvider extends AbstractClientProvider
     for (String name : names) {
       MapOperations component = resources.getMandatoryComponent(name);
 
-      //look for the app configuration -optional- 
-      MapOperations appComponent = appConf.getComponent(name);
-      int count = component.getMandatoryOptionInt(
-          ResourceKeys.COMPONENT_INSTANCES);
       // Validate count against the metainfo.xml
 
       int priority =

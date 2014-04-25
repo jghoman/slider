@@ -75,7 +75,7 @@ class TestFreezeReconfigureThawLiveRegionService
         hoyaClient,
         clustername,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hbaseClusterStartupToLiveTime)
     describe("Cluster status")
     log.info(hbaseStatusToString(clustat));
 

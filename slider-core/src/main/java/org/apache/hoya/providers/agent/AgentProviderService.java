@@ -56,7 +56,6 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.StatusCommand;
 import org.apache.hoya.yarn.service.EventCallback;
-import org.apache.slider.core.registry.info.RegisteredEndpoint;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.slf4j.Logger;
@@ -64,7 +63,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -325,9 +323,9 @@ public class AgentProviderService extends AbstractProviderService implements
     String roleName = getRoleName(label);
     StateAccessForProviders accessor = getStateAccessor();
     String scriptPath;
-    try {
-      scriptPath = accessor.getClusterStatus().getMandatoryRoleOpt(roleName, AgentKeys.COMPONENT_SCRIPT);
-    } catch (BadConfigException bce) {
+      scriptPath = accessor.getInstanceDefinitionSnapshot().
+          getAppConfOperations().getComponentOpt(roleName, AgentKeys.COMPONENT_SCRIPT, null);
+    if (scriptPath == null) {
       log.error("role.script is unavailable for " + roleName + ". Commands will not be sent.");
       return response;
     }
@@ -403,7 +401,7 @@ public class AgentProviderService extends AbstractProviderService implements
 
     setInstallCommandConfigurations(cmd);
 
-    cmd.setCommandParams(setCommandParameters(scriptPath, false, false));
+    cmd.setCommandParams(setCommandParameters(scriptPath, false));
 
     cmd.setHostname(getClusterInfoPropertyValue(StatusKeys.INFO_AM_HOSTNAME));
     response.addExecutionCommand(cmd);
@@ -414,8 +412,7 @@ public class AgentProviderService extends AbstractProviderService implements
     cmd.setCommandId(cmd.getTaskId() + "-1");
   }
 
-  private Map<String, String> setCommandParameters(String scriptPath, boolean recordConfig,
-                                                   boolean retrieveConfig) {
+  private Map<String, String> setCommandParameters(String scriptPath, boolean recordConfig) {
     Map<String, String> cmdParams = new TreeMap<String, String>();
     cmdParams.put("service_package_folder", "${AGENT_WORK_ROOT}/work/app/definition/package");
     cmdParams.put("script", scriptPath);
@@ -423,7 +420,6 @@ public class AgentProviderService extends AbstractProviderService implements
     cmdParams.put("command_timeout", "300");
     cmdParams.put("script_type", "PYTHON");
     cmdParams.put("record_config", Boolean.toString(recordConfig));
-    cmdParams.put("retrieve_config", Boolean.toString(retrieveConfig));
     return cmdParams;
   }
 
@@ -446,16 +442,34 @@ public class AgentProviderService extends AbstractProviderService implements
     cmd.setComponentName(roleName);
     cmd.setServiceName(clusterName);
     cmd.setClusterName(clusterName);
+    cmd.setRoleCommand(StatusCommand.STATUS_COMMAND);
 
     Map<String, String> hostLevelParams = new TreeMap<String, String>();
     hostLevelParams.put(JAVA_HOME, appConf.getGlobalOptions().getMandatoryOption(JAVA_HOME));
     cmd.setHostLevelParams(hostLevelParams);
 
-    cmd.setCommandParams(setCommandParameters(scriptPath, false, false));
+    cmd.setCommandParams(setCommandParameters(scriptPath, false));
 
     Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
 
     cmd.setConfigurations(configurations);
+
+    response.addStatusCommand(cmd);
+  }
+
+  protected void addGetConfigCommand(String roleName, HeartBeatResponse response)
+      throws SliderException {
+    assert getStateAccessor().isApplicationLive();
+    ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();
+
+    StatusCommand cmd = new StatusCommand();
+    String clusterName = internalsConf.get(OptionKeys.APPLICATION_NAME);
+
+    cmd.setCommandType(AgentCommandType.STATUS_COMMAND);
+    cmd.setComponentName(roleName);
+    cmd.setServiceName(clusterName);
+    cmd.setClusterName(clusterName);
+    cmd.setRoleCommand(StatusCommand.GET_CONFIG_COMMAND);
 
     response.addStatusCommand(cmd);
   }
@@ -480,7 +494,7 @@ public class AgentProviderService extends AbstractProviderService implements
     hostLevelParams.put(JAVA_HOME, appConf.getGlobalOptions().getMandatoryOption(JAVA_HOME));
     cmd.setHostLevelParams(hostLevelParams);
 
-    cmd.setCommandParams(setCommandParameters(scriptPath, true, false));
+    cmd.setCommandParams(setCommandParameters(scriptPath, true));
 
     Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
 
@@ -557,16 +571,16 @@ public class AgentProviderService extends AbstractProviderService implements
 
   @Override
   public Map<String, URL> buildMonitorDetails(ClusterDescription clusterDesc) {
-    Map<String,URL> details = new HashMap<String, URL>();
+    Map<String, URL> details = new HashMap<String, URL>();
     try {
       List<CuratorServiceInstance<ServiceInstanceData>> services =
           registry.listInstances("slider");
       assert services.size() == 1;
       CuratorServiceInstance<ServiceInstanceData> service = services.get(0);
       Map payload = (Map) service.getPayload();
-      Map<String,Map<String,String>> endpoints =
+      Map<String, Map<String, String>> endpoints =
           (Map) ((Map) payload.get("externalView")).get("endpoints");
-      for ( Map.Entry<String,Map<String,String>> endpoint : endpoints.entrySet()) {
+      for (Map.Entry<String, Map<String, String>> endpoint : endpoints.entrySet()) {
         if ("http".equals(endpoint.getValue().get("protocol"))) {
           URL url = new URL(endpoint.getValue().get("value"));
           details.put(endpoint.getValue().get("description"),

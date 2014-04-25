@@ -64,7 +64,7 @@ class CustomServiceOrchestrator():
 
 
   def runCommand(self, command, tmpoutfile, tmperrfile,
-                 override_output_files=True, store_config=False, retreive_config=False):
+                 override_output_files=True, store_config=False):
     try:
       script_type = command['commandParams']['script_type']
       script = command['commandParams']['script']
@@ -121,8 +121,6 @@ class CustomServiceOrchestrator():
         'exitcode': 1,
       }
 
-    if retreive_config:
-      ret['configurations'] = self.applied_configs
     return ret
 
 
@@ -146,23 +144,25 @@ class CustomServiceOrchestrator():
     if logger.level == logging.DEBUG:
       override_output_files = False
 
-    retrieve_config = False
-    if "retrieveConfig" in command:
+    if command['roleCommand'] == "GET_CONFIG":
       logger.info("Requesting applied config ...")
-      retrieve_config = command['commandParams']['retrieve_config'] == "true"
+      return {
+        'configurations': self.applied_configs
+      }
 
-    res = self.runCommand(command, self.status_commands_stdout,
-                          self.status_commands_stderr,
-                          override_output_files=override_output_files,
-                          retreive_config=retrieve_config)
-    if res['exitcode'] == 0:
-      res['exitcode'] = CustomServiceOrchestrator.LIVE_STATUS
     else:
-      res['exitcode'] = CustomServiceOrchestrator.DEAD_STATUS
+      res = self.runCommand(command, self.status_commands_stdout,
+                            self.status_commands_stderr,
+                            override_output_files=override_output_files)
+      if res['exitcode'] == 0:
+        res['exitcode'] = CustomServiceOrchestrator.LIVE_STATUS
+      else:
+        res['exitcode'] = CustomServiceOrchestrator.DEAD_STATUS
 
-    return res
+      return res
+    pass
 
-  def dump_command_to_json(self, command, store_config=False, ):
+  def dump_command_to_json(self, command, store_config=False):
     """
     Converts command to json file and returns file path
     """
@@ -200,6 +200,7 @@ class CustomServiceOrchestrator():
   """
 
   def finalize_command(self, command, store_config):
+
     if 'configurations' in command:
       for key in command['configurations']:
         if len(command['configurations'][key]) > 0:
@@ -217,6 +218,7 @@ class CustomServiceOrchestrator():
       pass
 
     if store_config:
+      logger.info("Storing applied config: " + pprint.pformat(command['configurations']))
       self.applied_configs = command['configurations']
 
   pass
