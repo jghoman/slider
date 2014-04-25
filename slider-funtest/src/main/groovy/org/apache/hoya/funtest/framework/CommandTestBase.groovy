@@ -367,7 +367,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
 
     String address = getRequiredConfOption(conf, YarnConfiguration.RM_ADDRESS)
 
-    ServiceLauncher<HoyaClient> launcher = launchHoyaClientAgainstRM(
+    ServiceLauncher<HoyaClient> launcher = launchClientAgainstRM(
         address,
         ["exists", clustername],
         conf)

@@ -35,7 +35,6 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
@@ -47,7 +46,6 @@ import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentCommandType;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.CommandReport;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.ComponentStatus;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.ExecutionCommand;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
@@ -69,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -414,7 +413,8 @@ public class AgentProviderService extends AbstractProviderService implements
 
   private Map<String, String> setCommandParameters(String scriptPath, boolean recordConfig) {
     Map<String, String> cmdParams = new TreeMap<String, String>();
-    cmdParams.put("service_package_folder", "${AGENT_WORK_ROOT}/work/app/definition/package");
+    cmdParams.put("service_package_folder",
+                  "${AGENT_WORK_ROOT}/work/app/definition/package");
     cmdParams.put("script", scriptPath);
     cmdParams.put("schema_version", "2.0");
     cmdParams.put("command_timeout", "300");
@@ -571,7 +571,20 @@ public class AgentProviderService extends AbstractProviderService implements
 
   @Override
   public Map<String, URL> buildMonitorDetails(ClusterDescription clusterDesc) {
-    Map<String, URL> details = new HashMap<String, URL>();
+    Map<String, URL> details = new LinkedHashMap<String, URL>();
+    buildEndpointDetails(details);
+    buildRoleHostDetails(details);
+    return details;
+  }
+
+  private void buildRoleHostDetails(Map<String, URL> details) {
+    for (Map.Entry<String, List<String>> entry : roleHostMapping.entrySet()) {
+      details.put(entry.getKey() + " Host(s): " + entry.getValue(),
+                  null);
+    }
+  }
+
+  private void buildEndpointDetails(Map<String, URL> details) {
     try {
       List<CuratorServiceInstance<ServiceInstanceData>> services =
           registry.listInstances("slider");
@@ -590,6 +603,5 @@ public class AgentProviderService extends AbstractProviderService implements
     } catch (IOException e) {
       log.error("Error creating list of slider URIs", e);
     }
-    return details;
   }
 }
