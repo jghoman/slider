@@ -37,7 +37,7 @@ import static org.apache.hoya.providers.agent.AgentKeys.CONF_RESOURCE
 public abstract class AgentTestBase extends YarnZKMiniClusterTestBase {
 
   public static
-  final int AGENT_CLUSTER_STARTUP_TIME = 1000 * DEFAULT_AGENT_LAUNCH_TIME
+  final int AGENT_CLUSTER_STARTUP_TIME = 1000 * DEFAULT_AGENT_LAUNCH_TIME_SECONDS
 
   /**
    * The time to sleep before trying to talk to the HBase Master and

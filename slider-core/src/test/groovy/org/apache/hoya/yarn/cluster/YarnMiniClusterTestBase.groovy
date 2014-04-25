@@ -92,17 +92,17 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
 
-  public int thawWaitTime = DEFAULT_THAW_WAIT_TIME * 1000
-  public int freezeWaitTime = DEFAULT_TEST_FREEZE_WAIT_TIME * 1000
-  public int sliderTestTimeout = DEFAULT_TEST_TIMEOUT * 1000
+  public int thawWaitTime = DEFAULT_THAW_WAIT_TIME_SECONDS * 1000
+  public int freezeWaitTime = DEFAULT_TEST_FREEZE_WAIT_TIME_SECONDS * 1000
+  public int sliderTestTimeout = DEFAULT_TEST_TIMEOUT_SECONDS * 1000
   public boolean teardownKillall = DEFAULT_TEARDOWN_KILLALL
   
   
   public boolean accumuloTestsEnabled = true
-  public int accumuloLaunchWaitTime = DEFAULT_ACCUMULO_LAUNCH_TIME * 1000
+  public int accumuloLaunchWaitTime = DEFAULT_ACCUMULO_LAUNCH_TIME_SECONDS * 1000
   
   public boolean hbaseTestsEnabled = true
-  public int hbaseLaunchWaitTime = DEFAULT_HBASE_LAUNCH_TIME * 1000
+  public int hbaseLaunchWaitTime = DEFAULT_HBASE_LAUNCH_TIME_SECONDS * 1000
   
 
   protected MiniDFSCluster hdfsCluster
@@ -127,31 +127,9 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public Timeout testTimeout = new Timeout(
       getTimeOptionMillis(testConfiguration,
           KEY_TEST_TIMEOUT,
-          DEFAULT_TEST_TIMEOUT * 1000)
+          DEFAULT_TEST_TIMEOUT_SECONDS * 1000)
   )
 
-      
-
-  /**
-   * Get a time option in seconds if set, otherwise the default value (also in seconds).
-   * This operation picks up the time value as a system property if set -that
-   * value overrides anything in the test file
-   * @param conf
-   * @param key
-   * @param defVal
-   * @return
-   */
-  public int getTimeOptionMillis(Configuration conf, String key, int defValMillis) {
-    int val = 0
-    val = conf.getInt(key, 0)
-    val = Integer.getInteger(key, val)
-    int time = 1000 * val
-    if (time == 0) {
-      time = defValMillis
-    }
-    return time;
-  }
-  
   @Override
   void setup() {
     super.setup()
