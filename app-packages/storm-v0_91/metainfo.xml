@@ -81,8 +81,8 @@
           <osType>any</osType>
           <packages>
             <package>
-              <type>rpm</type>
-              <name>storm</name>
+              <type>tarball</type>
+              <name>files/apache-storm-0.9.1.2.1.1.0-237.tar.gz</name>
             </package>
           </packages>
         </osSpecific>
