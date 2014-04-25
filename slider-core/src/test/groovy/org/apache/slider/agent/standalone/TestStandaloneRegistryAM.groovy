@@ -27,7 +27,6 @@ import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
-import org.apache.slider.core.registry.info.RegisteredEndpoint
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
@@ -123,10 +122,17 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     def registryEndpoint = externalEndpoints.get("registry")
     def registry = registryEndpoint.asURL()
-    def page = fetchWebPage(registry)
-    log.info("registry = ${registry}\n $page" )
-    
+    describe("Registry WADL @ $registry")
 
+    log.info(fetchWebPage(registry))
+
+    describe("Registry List")
+    log.info(fetchWebPage(new URL(registry,"v1/service")))
+
+    describe("Registry List")
+    log.info(fetchWebPage(new URL(registry,"v1/service")))
+
+    def publisher = externalEndpoints.get("publisher").asURL()
 
     describe "teardown of cluster"
     //now kill that cluster

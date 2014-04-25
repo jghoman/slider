@@ -360,13 +360,21 @@ class HoyaTestUtils extends Assert {
     GetMethod get = new GetMethod(url);
 
     get.followRedirects = true;
+    int resultCode
     try {
-      int resultCode = httpclient.executeMethod(get);
+      resultCode = httpclient.executeMethod(get);
     } catch (IOException e) {
       log.error("Failed on $url: $e",e)
       throw e;
     }
     String body = get.responseBodyAsString;
+    
+    // handle error status codes here -after getting the body
+    if (resultCode != 200) {
+      def errorText = "Status code $resultCode on $url"
+      log.error(errorText +":\n $body")
+      throw new IOException(errorText)
+    }
     return body;
   }
   
