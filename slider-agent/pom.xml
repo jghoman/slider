@@ -22,7 +22,6 @@
     <version>0.21.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.slider</groupId>
   <artifactId>slider-agent</artifactId>
   <packaging>pom</packaging>
   <version>0.21.0-SNAPSHOT</version>
