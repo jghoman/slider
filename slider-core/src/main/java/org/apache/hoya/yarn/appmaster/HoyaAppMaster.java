@@ -107,6 +107,7 @@ import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
+import org.apache.slider.core.registry.docstore.PublishedConfiguration;
 import org.apache.slider.core.registry.info.RegisteredEndpoint;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.RegistryBinderService;
@@ -674,6 +675,9 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     RegisteredEndpoint webUI =
       new RegisteredEndpoint(amWeb, "Application Master Web UI");
 
+    
+    // public REST services
+    
     instanceData.externalView.endpoints.put("web", webUI);
 
     instanceData.externalView.endpoints.put(SLIDER_SUBPATH_MANAGEMENT,
@@ -687,19 +691,30 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
         new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
         "Registry Web Service" )
     );
-    
-    instanceData.externalView.endpoints.put("slider/IPC",
-      new RegisteredEndpoint(rpcServiceAddress,
-        RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
-        "Slider AM RPC" )
+
+    instanceData.externalView.endpoints.put("publisher",
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_PUBLISHER),
+        "Publisher Service" )
     );
     
-    
+    // IPC services
+    instanceData.externalView.endpoints.put("slider/IPC",
+        new RegisteredEndpoint(rpcServiceAddress,
+            RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
+            "Slider AM RPC")
+    );
+
+
+    // internal services
+
     instanceData.internalView.endpoints.put(SLIDER_SUBPATH_AGENTS,
       new RegisteredEndpoint(
         new URL(amWeb, SLIDER_PATH_AGENTS),
         "Agent REST API" )
     );
+
+
     
     registry.register(
       appRegistryName,
@@ -708,6 +723,11 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
       instanceData);
 
     
+    // now publish yarn-site.xml
+    PublishedConfiguration pubconf = new PublishedConfiguration();
+    pubconf.description = "YARN site settings";
+    pubconf.putValues(new YarnConfiguration());
+    appState.getPublishedConfigurations().put("yarn-site.xml", pubconf);
 
     // launch the provider; this is expected to trigger a callback that
     // starts the node review process

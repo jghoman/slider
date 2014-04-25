@@ -52,7 +52,7 @@ class TestKillMasterlessAM extends HBaseMiniClusterTestBase {
         (HBaseKeys.ROLE_MASTER): 0,
         (HBaseKeys.ROLE_WORKER): 0,
     ]
-    ServiceLauncher launcher = createHoyaCluster(clustername,
+    ServiceLauncher launcher = createCluster(clustername,
         roles,
         [
 /*

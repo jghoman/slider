@@ -42,7 +42,7 @@ class TestThawUnknownCluster extends YarnZKMiniClusterTestBase {
     describe "try to start a cluster that isn't defined"
 
     try {
-      ServiceLauncher launcher = thawHoyaCluster(clustername, [], true);
+      ServiceLauncher launcher = thawCluster(clustername, [], true);
       fail("expected a failure, got ${launcher.serviceExitCode}")
     } catch (UnknownApplicationInstanceException e) {
       assert e.toString().contains(clustername)

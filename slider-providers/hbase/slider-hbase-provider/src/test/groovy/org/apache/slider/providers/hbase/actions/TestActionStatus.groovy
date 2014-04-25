@@ -55,7 +55,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     //launch the cluster
     //exec the status command
     try {
-      ServiceLauncher launcher = launchHoyaClientAgainstMiniMR(
+      ServiceLauncher launcher = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
@@ -93,7 +93,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     assert status == HoyaExitCodes.EXIT_SUCCESS
 
     //now exec the status command
-    ServiceLauncher statusLauncher = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher statusLauncher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
@@ -116,7 +116,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     
     //status to a file via the command line :  bin/hoya status cl1 --out file.json
     String path = "target/cluster.json"
-    statusLauncher = launchHoyaClientAgainstMiniMR(
+    statusLauncher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params

@@ -33,6 +33,7 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +94,7 @@ public class AgentClientProvider extends AbstractClientProvider
 
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (appHome == null || appHome.equals("")) {
+    if (HoyaUtils.isUnset(appHome)) {
       String agentImage = instanceDefinition.getInternalOperations().
           get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
       hoyaFileSystem.verifyFileExists(new Path(agentImage));
@@ -147,7 +148,7 @@ public class AgentClientProvider extends AbstractClientProvider
       instanceDefinition.getAppConfOperations().
           getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
     } catch (BadConfigException bce) {
-      throw new SliderException("Application definition must be provided." + bce.getMessage(), bce);
+      throw new BadConfigException("Application definition must be provided." + bce.getMessage());
     }
 
     String appHome = instanceDefinition.getAppConfOperations().
@@ -155,8 +156,11 @@ public class AgentClientProvider extends AbstractClientProvider
     String agentImage = instanceDefinition.getInternalOperations().
         get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
 
-    if ((appHome == null || appHome.equals("")) && (agentImage == null || agentImage.equals(""))) {
-      throw new SliderException("Either agent package path or image root must be provided");
+    if (HoyaUtils.isUnset(appHome) && HoyaUtils.isUnset(agentImage)) {
+      throw new BadConfigException("Either agent package path " +
+                                   AgentKeys.PACKAGE_PATH + " or image root " +
+                                   OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH
+                                   + " must be provided");
     }
 
     try {
@@ -164,7 +168,8 @@ public class AgentClientProvider extends AbstractClientProvider
       instanceDefinition.getAppConfOperations().
           getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
     } catch (BadConfigException bce) {
-      throw new SliderException("Agent config must be provided." + bce.getMessage(), bce);
+      throw new BadConfigException("Agent config "+ AgentKeys.AGENT_CONF 
+                                   + " property must be provided.");
     }
   }
 

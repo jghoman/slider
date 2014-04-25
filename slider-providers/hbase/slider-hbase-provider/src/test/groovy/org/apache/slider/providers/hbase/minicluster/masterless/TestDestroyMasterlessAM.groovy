@@ -49,7 +49,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     describe "create a masterless AM, stop it, try to create" +
              "a second cluster with the same name, destroy it, try a third time"
 
-    ServiceLauncher launcher1 = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher launcher1 = launchClientAgainstMiniMR(
         getConfiguration(),
         [
             CommonArgs.ACTION_DESTROY,

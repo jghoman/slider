@@ -43,7 +43,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
 
     describe "verify that a built cluster can be thawed"
 
-    ServiceLauncher launcher = createOrBuildHoyaCluster(
+    ServiceLauncher launcher = createOrBuildCluster(
         HoyaActions.ACTION_BUILD,
         clustername,
         [
@@ -63,7 +63,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
     assert report == null;
 
     //thaw time
-    ServiceLauncher l2 = thawHoyaCluster(clustername, [], true)
+    ServiceLauncher l2 = thawCluster(clustername, [], true)
     HoyaClient client2 = (HoyaClient) l2.service
     addToTeardown(client2);
     waitForClusterLive(l2.service as HoyaClient)

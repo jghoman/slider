@@ -50,7 +50,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
     describe "verify that bad Java heap options are picked up"
 
     try {
-      ServiceLauncher launcher = createHoyaCluster(clustername,
+      ServiceLauncher launcher = createCluster(clustername,
            [
                (HBaseKeys.ROLE_MASTER): 0,
                (HBaseKeys.ROLE_WORKER): 0,
@@ -85,7 +85,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
     describe "verify that bad Java heap options are picked up"
 
     try {
-      ServiceLauncher launcher = createHoyaCluster(clustername,
+      ServiceLauncher launcher = createCluster(clustername,
            [
                (HBaseKeys.ROLE_MASTER): 0,
                (HBaseKeys.ROLE_WORKER): 0,

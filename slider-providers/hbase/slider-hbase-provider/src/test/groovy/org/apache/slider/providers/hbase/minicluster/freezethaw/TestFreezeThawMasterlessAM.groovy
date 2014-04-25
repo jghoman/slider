@@ -73,7 +73,7 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
     localFS.delete(tempConfPath,true)
     
     //now start the cluster
-    ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
+    ServiceLauncher launcher2 = thawCluster(clustername, [], true);
     HoyaClient newCluster = launcher.getService() as HoyaClient
     newCluster.getClusterDescription(clustername);
     

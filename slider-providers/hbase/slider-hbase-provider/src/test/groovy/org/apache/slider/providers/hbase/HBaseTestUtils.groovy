@@ -34,7 +34,6 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.HoyaTestUtils
-import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.client.HoyaClient

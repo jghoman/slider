@@ -1,49 +1,44 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-package org.apache.slider.providers.hbase.minicluster.masterless
+package org.apache.slider.agent.standalone
 
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.hoya.HoyaKeys
+import org.apache.hoya.api.ClusterNode
+import org.apache.hoya.exceptions.SliderException
+import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
 
-/**
- * create masterless AMs and work with them. This is faster than
- * bringing up full clusters
- */
-//@CompileStatic
+@CompileStatic
 @Slf4j
-
-class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
-
+class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
   @Test
   public void testCreateMasterlessAM() throws Throwable {
-    
+
 
     describe "create a masterless AM then get the service and look it up via the AM"
 
@@ -58,7 +53,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive(client)
     logReport(report)
     List<ApplicationReport> apps = client.applications;
-    
+
     //get some of its status
     dumpClusterStatus(client, "masterless application status")
     List<ClusterNode> clusterNodes = client.listClusterNodesInRole(
@@ -79,8 +74,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     assert nodes.size() == 1;
     nodes = listNodesInRole(client, "")
     assert nodes.size() == 1;
-    ClusterNode master = nodes[0]
-    assert master.role == HoyaKeys.COMPONENT_AM
+    assert nodes[0].role == HoyaKeys.COMPONENT_AM
 
 
 
@@ -98,22 +92,22 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     logReport(instance)
     assert instance != null
 
-    
     //switch to the ZK-based registry
 
     describe "service registry names"
     def names = client.listRegistryNames(clustername)
     log.info("number of names: ${names.size()}")
-    names.each {String it -> log.info( it) }
+    names.each { String it -> log.info(it) }
     describe "service registry instance IDs"
 
     def instanceIds = client.listRegistryInstanceIDs(clustername)
-    
+
     log.info("number of instanceIds: ${instanceIds.size()}")
-    instanceIds.each {String it -> log.info( it) }
+    instanceIds.each { String it -> log.info(it) }
 
     describe "service registry slider instances"
-    List<CuratorServiceInstance<ServiceInstanceData>> instances = client.listRegistryInstances(clustername)
+    List<CuratorServiceInstance<ServiceInstanceData>> instances = client.listRegistryInstances(
+        clustername)
     instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
       log.info svc.toString()
     }
@@ -123,7 +117,8 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     //now kill that cluster
     assert 0 == clusterActionFreeze(client, clustername)
     //list it & See if it is still there
-    ApplicationReport oldInstance = serviceRegistryClient.findInstance(clustername)
+    ApplicationReport oldInstance = serviceRegistryClient.findInstance(
+        clustername)
     assert oldInstance != null
     assert oldInstance.yarnApplicationState >= YarnApplicationState.FINISHED
 
@@ -138,9 +133,10 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     assert userInstances.size() == 2
 
     //but when we look up an instance, we get the new App ID
-    ApplicationReport instance2 = serviceRegistryClient.findInstance(clustername)
+    ApplicationReport instance2 = serviceRegistryClient.findInstance(
+        clustername)
     assert i2AppID == instance2.applicationId
-    
+
 
 
     describe("attempting to create instance #3")
@@ -158,16 +154,17 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     assert 0 == clusterActionFreeze(client, clustername)
 
     logApplications(client.listHoyaInstances(username))
-    
+
     //verify it is down
     ApplicationReport reportFor = client.getApplicationReport(i2AppID)
-    
+
     //downgrade this to a fail
 //    Assume.assumeTrue(YarnApplicationState.FINISHED <= report.yarnApplicationState)
     assert YarnApplicationState.FINISHED <= reportFor.yarnApplicationState
 
 
-    ApplicationReport instance3 = serviceRegistryClient.findInstance(clustername)
+    ApplicationReport instance3 = serviceRegistryClient.findInstance(
+        clustername)
     assert instance3.yarnApplicationState >= YarnApplicationState.FINISHED
 
 
