@@ -66,10 +66,10 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
     status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hbaseClusterStartupToLiveTime)
     //get the hbase status
 
-    Duration duration = new Duration(HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    Duration duration = new Duration(hbaseClusterStartupToLiveTime)
     duration.start()
 
     Configuration clientConf = HBaseTestUtils.createHBaseConfiguration(

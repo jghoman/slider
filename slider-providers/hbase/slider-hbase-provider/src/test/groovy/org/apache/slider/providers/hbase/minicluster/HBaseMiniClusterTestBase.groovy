@@ -42,14 +42,14 @@ import static HBaseKeys.*
 @CompileStatic
 @Slf4j
 public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase {
-  public static final int HBASE_CLUSTER_STARTUP_TIME = HBASE_LAUNCH_WAIT_TIME
+
+  public int hbaseClusterStartupTime = hbaseLaunchWaitTime
 
   /**
    * The time to sleep before trying to talk to the HBase Master and
    * expect meaningful results.
    */
-  public static
-  final int HBASE_CLUSTER_STARTUP_TO_LIVE_TIME = HBASE_CLUSTER_STARTUP_TIME
+  public int hbaseClusterStartupToLiveTime = hbaseClusterStartupTime
 
   public static final String HREGION = "HRegion"
   public static final String HMASTER = "HMaster"
@@ -64,7 +64,8 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   @Override
   void setup() {
     super.setup()
-    assumeBoolOption(HOYA_CONFIG, KEY_TEST_HBASE_ENABLED, true)
+    def testConf = getTestConfiguration()
+    assumeBoolOption(testConf, KEY_TEST_HBASE_ENABLED, true)
     assumeArchiveDefined();
     assumeApplicationHome();
   }
@@ -75,8 +76,10 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   @Override
   void teardown() {
     super.teardown();
-    killAllRegionServers();
-    killAllMasterServers();
+    if (teardownKillall) {
+      killAllRegionServers();
+      killAllMasterServers();
+    }
   }
 
   /**
@@ -246,10 +249,10 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
         [:])
   }
 
-  public static ClusterStatus basicHBaseClusterStartupSequence(HoyaClient hoyaClient) {
+  public ClusterStatus basicHBaseClusterStartupSequence(HoyaClient hoyaClient) {
     return HBaseTestUtils.basicHBaseClusterStartupSequence(hoyaClient,
-                                   HBASE_CLUSTER_STARTUP_TIME,
-                                   HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                                   hbaseClusterStartupTime,
+                                   hbaseClusterStartupToLiveTime)
   }
 
   /**
@@ -303,11 +306,11 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
 
       //verify the #of roles is as expected
       //get the hbase status
-      waitForWorkerInstanceCount(hoyaClient, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
-      waitForHoyaMasterCount(hoyaClient, masters, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+      waitForWorkerInstanceCount(hoyaClient, workers, hbaseClusterStartupToLiveTime);
+      waitForHoyaMasterCount(hoyaClient, masters, hbaseClusterStartupToLiveTime);
 
       log.info("Slider worker count at $workers, waiting for region servers to match");
-      waitForHBaseRegionServerCount(hoyaClient, clustername, workers, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+      waitForHBaseRegionServerCount(hoyaClient, clustername, workers, hbaseClusterStartupToLiveTime);
 
       //now flex
       describe("Flexing  masters:$masters -> $masterFlexTarget ; workers $workers -> $flexTarget");
@@ -318,13 +321,13 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
               (ROLE_MASTER): masterFlexTarget
           ]
       );
-      waitForWorkerInstanceCount(hoyaClient, flexTarget, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+      waitForWorkerInstanceCount(hoyaClient, flexTarget, hbaseClusterStartupToLiveTime);
       waitForHoyaMasterCount(hoyaClient, masterFlexTarget,
-                             HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+                             hbaseClusterStartupToLiveTime);
 
       if (testHBaseAfter) {
         waitForHBaseRegionServerCount(hoyaClient, clustername, flexTarget,
-                                      HBASE_CLUSTER_STARTUP_TO_LIVE_TIME);
+                                      hbaseClusterStartupToLiveTime);
       }
       return flexed;
     } finally {

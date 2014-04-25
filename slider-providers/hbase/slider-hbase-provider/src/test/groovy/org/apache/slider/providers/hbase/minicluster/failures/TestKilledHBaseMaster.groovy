@@ -54,9 +54,9 @@ class TestKilledHBaseMaster extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
 
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
     //get the hbase status
-    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
     ServerName master = hbaseStat.master
     log.info("HBase master providing status information at {}",
              hbaseStat.master)
@@ -65,12 +65,12 @@ class TestKilledHBaseMaster extends HBaseMiniClusterTestBase {
     clientConf.setInt(HConstants.HBASE_CLIENT_RETRIES_NUMBER, 10);
     killAllMasterServers();
     status = waitForRoleCount(
-        hoyaClient, HBaseKeys.ROLE_MASTER, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hoyaClient, HBaseKeys.ROLE_MASTER, 1, hbaseClusterStartupToLiveTime)
     hbaseStat = waitForHBaseRegionServerCount(
         hoyaClient,
         clustername,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hbaseClusterStartupToLiveTime)
 
     ServerName master2 = hbaseStat.master
     log.info("HBase master providing status information again at {}",

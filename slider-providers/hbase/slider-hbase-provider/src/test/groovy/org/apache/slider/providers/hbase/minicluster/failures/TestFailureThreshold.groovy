@@ -82,7 +82,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
         status = waitForWorkerInstanceCount(
             client,
             regionServerCount,
-            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+            hbaseClusterStartupToLiveTime)
         //get the hbase status
 /*
         hbaseStat = waitForHBaseRegionServerCount(

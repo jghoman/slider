@@ -82,7 +82,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
       ApplicationReport report = waitForClusterLive(client)
 
       ClusterDescription cd = waitForRoleCount(client,HoyaKeys.COMPONENT_AM,
-          1, HBASE_CLUSTER_STARTUP_TIME)
+          1, hbaseClusterStartupTime)
       HadoopFS fs = HadoopFS.getLocal(conf);
       
       Path clusterDir = new HoyaFileSystem(fs, conf).buildHoyaClusterDirPath(clustername)

@@ -33,6 +33,7 @@ import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.rules.Timeout
@@ -76,19 +77,18 @@ abstract class CommandTestBase extends HoyaTestUtils {
   static {
     SLIDER_CONFIG = new YarnConfiguration()
     SLIDER_CONFIG.addResource(SLIDER_CONF_XML.toURI().toURL())
-    THAW_WAIT_TIME = SLIDER_CONFIG.getInt(
+    THAW_WAIT_TIME = getTimeOptionMillis(SLIDER_CONFIG, 
         KEY_TEST_THAW_WAIT_TIME,
-        DEFAULT_THAW_WAIT_TIME)
-    FREEZE_WAIT_TIME = SLIDER_CONFIG.getInt(
+        1000 * DEFAULT_THAW_WAIT_TIME_SECONDS)
+    FREEZE_WAIT_TIME = getTimeOptionMillis(SLIDER_CONFIG,
         KEY_TEST_FREEZE_WAIT_TIME,
-        DEFAULT_TEST_FREEZE_WAIT_TIME)
-
-    SLIDER_TEST_TIMEOUT = SLIDER_CONFIG.getInt(
+        1000 * DEFAULT_TEST_FREEZE_WAIT_TIME_SECONDS)
+    SLIDER_TEST_TIMEOUT = getTimeOptionMillis(SLIDER_CONFIG,
         KEY_TEST_TIMEOUT,
-        DEFAULT_TEST_TIMEOUT)
-    ACCUMULO_LAUNCH_WAIT_TIME = SLIDER_CONFIG.getInt(
+        1000 * DEFAULT_TEST_TIMEOUT_SECONDS)
+    ACCUMULO_LAUNCH_WAIT_TIME = getTimeOptionMillis(SLIDER_CONFIG,
         KEY_ACCUMULO_LAUNCH_TIME,
-        DEFAULT_ACCUMULO_LAUNCH_TIME)
+        1000 * DEFAULT_ACCUMULO_LAUNCH_TIME_SECONDS)
     FUNTESTS_ENABLED =
         SLIDER_CONFIG.getBoolean(KEY_HOYA_FUNTESTS_ENABLED, true)
     ACCUMULO_TESTS_ENABLED =
@@ -115,6 +115,14 @@ abstract class CommandTestBase extends HoyaTestUtils {
     SliderShell.script = SLIDER_SCRIPT
     log.info("Test using ${HadoopFS.getDefaultUri(SLIDER_CONFIG)} " +
              "and YARN RM @ ${SLIDER_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
+  }
+
+  /**
+   * give our thread a name
+   */
+  @Before
+  public void nameThread() {
+    Thread.currentThread().name = "JUnit"
   }
 
   /**

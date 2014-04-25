@@ -41,6 +41,10 @@ import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT
 @Slf4j
 public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
 
+  public static final int ACCUMULO_LAUNCH_WAIT_TIME
+  public static final boolean ACCUMULO_TESTS_ENABLED
+
+
   public static final int ACCUMULO_CLUSTER_STARTUP_TIME = ACCUMULO_LAUNCH_WAIT_TIME
   public static final int ACCUMULO_CLUSTER_STOP_TIME = 1 * 60 * 1000
 
@@ -51,7 +55,6 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
   public static final int ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME = ACCUMULO_CLUSTER_STARTUP_TIME
   public static final int ACCUMULO_GO_LIVE_TIME = 60000
 
-
   @Override
   public String getTestConfigurationPath() {
     return "src/main/resources/" + CONF_RESOURCE; 
@@ -60,7 +63,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
   @Override
   void setup() {
     super.setup()
-    assumeBoolOption(HOYA_CONFIG, KEY_TEST_ACCUMULO_ENABLED, true)
+    assumeBoolOption(SLIDER_CONFIG, KEY_TEST_ACCUMULO_ENABLED, true)
     assumeArchiveDefined();
     assumeApplicationHome();
     YarnConfiguration conf = testConfiguration
@@ -73,7 +76,9 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
   @Override
   void teardown() {
     super.teardown();
-    killAllAccumuloProcesses();
+    if (teardownKillall) {
+      killAllAccumuloProcesses();
+    }
   }
   
   void killAllAccumuloProcesses() {
