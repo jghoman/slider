@@ -76,7 +76,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
   @Override
   void teardown() {
     super.teardown();
-    if (TEARDOWN_KILLALL) {
+    if (teardownKillall) {
       killAllAccumuloProcesses();
     }
   }

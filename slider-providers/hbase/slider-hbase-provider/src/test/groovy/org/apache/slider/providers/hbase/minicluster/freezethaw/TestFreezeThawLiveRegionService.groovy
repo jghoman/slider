@@ -59,7 +59,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
     clustat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount,
-                            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                            hbaseClusterStartupToLiveTime)
     describe("Cluster status")
     log.info(hbaseStatusToString(clustat));
     
@@ -83,7 +83,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
 
     //get the hbase status
     waitForHBaseRegionServerCount(newCluster, clustername, regionServerCount,
-                            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                            hbaseClusterStartupToLiveTime)
     
     // finally, attempt to thaw it while it is running
     //now let's start the cluster up again

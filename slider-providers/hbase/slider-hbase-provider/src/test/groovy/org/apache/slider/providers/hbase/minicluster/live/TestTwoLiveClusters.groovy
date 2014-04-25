@@ -54,8 +54,8 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     dumpClusterStatus(hoyaClient, "post-hbase-boot status")
 
     //get the hbase status
-    waitForWorkerInstanceCount(hoyaClient, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForWorkerInstanceCount(hoyaClient, 1, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, hbaseClusterStartupToLiveTime)
 
     //now here comes cluster #2
     String clustername2 = "testtwoliveclusters-b"
@@ -72,11 +72,11 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     addToTeardown(cluster2Client);
 
     basicHBaseClusterStartupSequence(cluster2Client)
-    waitForWorkerInstanceCount(cluster2Client, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
-    waitForHBaseRegionServerCount(cluster2Client, clustername2, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForWorkerInstanceCount(cluster2Client, 1, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(cluster2Client, clustername2, 1, hbaseClusterStartupToLiveTime)
 
     //and now verify that cluster 1 is still happy
-    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, hbaseClusterStartupToLiveTime)
 
     // registry instances
     def names = hoyaClient.listRegistryNames(clustername1)

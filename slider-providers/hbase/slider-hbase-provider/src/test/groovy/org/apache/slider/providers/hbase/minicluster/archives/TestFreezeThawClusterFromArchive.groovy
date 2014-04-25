@@ -49,7 +49,7 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
     ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
 
     waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount,
-                            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                            hbaseClusterStartupToLiveTime)
 
 
     clusterActionFreeze(hoyaClient, clustername, "test freeze")
@@ -63,7 +63,7 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
 
     //get the hbase status
     waitForHBaseRegionServerCount(newCluster, clustername, regionServerCount,
-                            HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+                            hbaseClusterStartupToLiveTime)
 
   }
 

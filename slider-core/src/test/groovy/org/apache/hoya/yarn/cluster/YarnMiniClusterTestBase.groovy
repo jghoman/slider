@@ -50,7 +50,6 @@ import org.apache.hoya.yarn.appmaster.HoyaAppMaster
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
 import org.junit.After
-import org.junit.Assume
 import org.junit.Rule
 import org.junit.rules.Timeout
 
@@ -74,7 +73,6 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public static final int SIGTERM = -15
   public static final int SIGKILL = -9
   public static final int SIGSTOP = -17
-  public static final String SERVICE_LAUNCHER = "ServiceLauncher"
   public static
   final String NO_ARCHIVE_DEFINED = "Archive configuration option not set: "
   /**
@@ -94,52 +92,19 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
 
-  public static final int THAW_WAIT_TIME
-  public static final int FREEZE_WAIT_TIME
-  public static final int SLIDER_TEST_TIMEOUT
-  public static final boolean TEARDOWN_KILLALL
+  public int thawWaitTime = DEFAULT_THAW_WAIT_TIME * 1000
+  public int freezeWaitTime = DEFAULT_TEST_FREEZE_WAIT_TIME * 1000
+  public int sliderTestTimeout = DEFAULT_TEST_TIMEOUT * 1000
+  public boolean teardownKillall = DEFAULT_TEARDOWN_KILLALL
   
   
-  public static final boolean ACCUMULO_TESTS_ENABLED
-  public static final int ACCUMULO_LAUNCH_WAIT_TIME
+  public boolean accumuloTestsEnabled = true
+  public int accumuloLaunchWaitTime = DEFAULT_ACCUMULO_LAUNCH_TIME * 1000
   
-  public static final boolean HBASE_TESTS_ENABLED
-  public static final int HBASE_LAUNCH_WAIT_TIME
+  public boolean hbaseTestsEnabled = true
+  public int hbaseLaunchWaitTime = DEFAULT_HBASE_LAUNCH_TIME * 1000
   
-  static {
-    THAW_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
-        KEY_TEST_THAW_WAIT_TIME,
-        DEFAULT_THAW_WAIT_TIME)
-    FREEZE_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
-        KEY_TEST_FREEZE_WAIT_TIME,
-        DEFAULT_TEST_FREEZE_WAIT_TIME)
-    SLIDER_TEST_TIMEOUT = 1000 * SLIDER_CONFIG.getInt(
-        KEY_TEST_TIMEOUT,
-        DEFAULT_TEST_TIMEOUT)
-    TEARDOWN_KILLALL =
-        SLIDER_CONFIG.getBoolean(KEY_TEST_TEARDOWN_KILLALL,
-            DEFAULT_TEARDOWN_KILLALL)
-    
-    HBASE_TESTS_ENABLED =
-        SLIDER_CONFIG.getBoolean(KEY_TEST_HBASE_ENABLED, false)
-    HBASE_LAUNCH_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
-        KEY_TEST_HBASE_LAUNCH_TIME,
-        DEFAULT_HBASE_LAUNCH_TIME)
 
-    ACCUMULO_TESTS_ENABLED =
-        SLIDER_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
-    ACCUMULO_LAUNCH_WAIT_TIME = 1000 * SLIDER_CONFIG.getInt(
-        KEY_ACCUMULO_LAUNCH_TIME,
-        DEFAULT_ACCUMULO_LAUNCH_TIME)
-  }
-
-  /**
-   * Getter so that groovy compile static doesn't complain about access
-   */
-  static YarnConfiguration getSLIDER_CONFIG() {
-    return SLIDER_CONFIG
-  }
-  
   protected MiniDFSCluster hdfsCluster
   protected MiniYARNCluster miniCluster
   protected boolean switchToImageDeploy = false
@@ -148,10 +113,74 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
   protected List<HoyaClient> clustersToTeardown = [];
 
+  /**
+   * This is set in a system property
+   */
+/*
+  @Rule
+  public Timeout testTimeout = new Timeout(1000* 
+      Integer.getInteger(KEY_TEST_TIMEOUT, DEFAULT_TEST_TIMEOUT))
+
+*/
 
   @Rule
-  public final Timeout testTimeout = new Timeout(SLIDER_TEST_TIMEOUT);
+  public Timeout testTimeout = new Timeout(
+      getTimeOptionMillis(testConfiguration,
+          KEY_TEST_TIMEOUT,
+          DEFAULT_TEST_TIMEOUT * 1000)
+  )
 
+      
+
+  /**
+   * Get a time option in seconds if set, otherwise the default value (also in seconds).
+   * This operation picks up the time value as a system property if set -that
+   * value overrides anything in the test file
+   * @param conf
+   * @param key
+   * @param defVal
+   * @return
+   */
+  public int getTimeOptionMillis(Configuration conf, String key, int defValMillis) {
+    int val = 0
+    val = conf.getInt(key, 0)
+    val = Integer.getInteger(key, val)
+    int time = 1000 * val
+    if (time == 0) {
+      time = defValMillis
+    }
+    return time;
+  }
+  
+  @Override
+  void setup() {
+    super.setup()
+    def testConf = getTestConfiguration();
+    thawWaitTime = getTimeOptionMillis(testConf,
+        KEY_TEST_THAW_WAIT_TIME,
+        thawWaitTime)
+    freezeWaitTime = getTimeOptionMillis(testConf,
+        KEY_TEST_FREEZE_WAIT_TIME,
+        freezeWaitTime)
+    sliderTestTimeout = getTimeOptionMillis(testConf,
+        KEY_TEST_TIMEOUT,
+        sliderTestTimeout)
+    teardownKillall =
+        testConf.getBoolean(KEY_TEST_TEARDOWN_KILLALL,
+            teardownKillall)
+
+    hbaseTestsEnabled =
+        testConf.getBoolean(KEY_TEST_HBASE_ENABLED, hbaseTestsEnabled)
+    hbaseLaunchWaitTime = getTimeOptionMillis(testConf,
+        KEY_TEST_HBASE_LAUNCH_TIME,
+        hbaseLaunchWaitTime)
+
+    accumuloTestsEnabled =
+        testConf.getBoolean(KEY_TEST_ACCUMULO_ENABLED, hbaseTestsEnabled)
+    accumuloLaunchWaitTime = getTimeOptionMillis(testConf,
+        KEY_ACCUMULO_LAUNCH_TIME,
+        accumuloLaunchWaitTime)
+  }
 
   @After
   public void teardown() {
@@ -522,22 +551,27 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     return "$key=$val"
   }
 
+  public void assumeTestEnabled(boolean flag) {
+    assume(flag, "test disabled")
+  }
+  
   public void assumeArchiveDefined() {
     String archive = archivePath
     boolean defined = archive != null && archive != ""
     if (!defined) {
       log.warn(NO_ARCHIVE_DEFINED + archiveKey);
     }
-    Assume.assumeTrue(NO_ARCHIVE_DEFINED + archiveKey, defined)
+    assume(defined,NO_ARCHIVE_DEFINED + archiveKey)
   }
+  
   /**
    * Assume that application home is defined. This does not check that the
    * path is valid -that is expected to be a failure on tests that require
    * application home to be set.
    */
   public void assumeApplicationHome() {
-    Assume.assumeTrue("Application home dir option not set " + applicationHomeKey,
-        applicationHome != null && applicationHome != "")
+    assume(applicationHome != null && applicationHome != "",
+        "Application home dir option not set " + applicationHomeKey)
   }
 
 

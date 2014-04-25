@@ -33,7 +33,6 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.core.launch.AMRestartSupport
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hoya.yarn.params.ActionAMSuicideArgs
@@ -81,13 +80,13 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     status = waitForWorkerInstanceCount(
         hoyaClient,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hbaseClusterStartupToLiveTime)
     //get the hbase status
     ClusterStatus hbaseStat = waitForHBaseRegionServerCount(
         hoyaClient,
         clustername,
         regionServerCount,
-        HBASE_CLUSTER_STARTUP_TO_LIVE_TIME)
+        hbaseClusterStartupToLiveTime)
 
     log.info("Initial cluster status : ${hbaseStatusToString(hbaseStat)}");
 
