@@ -693,7 +693,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     instanceData.externalView.endpoints.put("publisher",
       new RegisteredEndpoint(
-        new URL(amWeb, SLIDER_SUBPATH_PUBLISHER),
+        new URL(amWeb, SLIDER_PATH_PUBLISHER),
         "Publisher Service" )
     );
     

@@ -125,15 +125,18 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     describe("Registry WADL @ $registry")
 
     log.info(fetchWebPage(registry))
+/*
 
     describe("Registry List")
     log.info(fetchWebPage(new URL(registry,"v1/service")))
+*/
 
-    describe("Registry List")
-    log.info(fetchWebPage(new URL(registry,"v1/service")))
 
     def publisher = externalEndpoints.get("publisher").asURL()
-
+    describe("Publisher")
+    log.info(fetchWebPage(publisher))
+//    log.info(fetchWebPage(new URL(publisher, "v1/service")))
+    
     describe "teardown of cluster"
     //now kill that cluster
     assert 0 == clusterActionFreeze(client, clustername)

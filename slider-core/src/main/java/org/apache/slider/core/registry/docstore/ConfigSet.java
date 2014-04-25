@@ -18,6 +18,9 @@
 
 package org.apache.slider.core.registry.docstore;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +28,8 @@ import java.util.Map;
  * Represents a set of configurations for an application, component, etc.
  * Json serialisable; accessors are synchronized
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ConfigSet {
 
   private Map<String, PublishedConfiguration> configurations =

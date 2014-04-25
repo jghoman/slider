@@ -23,7 +23,9 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.tools.ConfigHelper;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -38,6 +40,8 @@ import java.util.Properties;
  * The values themselves are not serialized in the external view; they have
  * to be served up by the far end
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class PublishedConfiguration {
 
   public String description;
