@@ -18,10 +18,13 @@
 
 package org.apache.slider.core.registry.info;
 
+import org.apache.hoya.exceptions.SliderException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -142,4 +145,27 @@ public class RegisteredEndpoint {
     this(url.toURI(), description);
   }
 
+  /**
+   * Get the value as a URL
+   * @return  URL of the value -if the value type is URL
+   * @throws SliderException if the value is of the wrong type, or unparsable
+   */
+  public URL asURL() throws SliderException {
+    verifyEndpointType(TYPE_URL);
+    try {
+      return new URL(value);
+    } catch (MalformedURLException e) {
+      throw new SliderException(-1, e,
+          "could not create a URL from %s : %s", value, e.toString());
+    }
+  }
+
+  
+  
+  public void verifyEndpointType(String desiredType) throws SliderException {
+    if (!type.equals(desiredType)) {
+      throw new SliderException(-1, "Body of endpoint is of type %s and not %s",
+          type, desiredType);
+    }
+  }
 }

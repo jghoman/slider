@@ -344,6 +344,16 @@ class HoyaTestUtils extends Assert {
    * @return the response body
    */
 
+  public static String fetchWebPage(URL url) {
+    return fetchWebPage(url.toString())
+  }
+
+    /**
+   * Fetch a web page -the response code is not checked
+   * @param url URL
+   * @return the response body
+   */
+
   public static String fetchWebPage(String url) {
     def httpclient = new HttpClient(new MultiThreadedHttpConnectionManager());
     httpclient.httpConnectionManager.params.connectionTimeout = 10000;
