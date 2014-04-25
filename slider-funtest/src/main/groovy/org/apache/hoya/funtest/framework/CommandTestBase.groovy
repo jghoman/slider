@@ -33,6 +33,7 @@ import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.rules.Timeout
@@ -115,6 +116,14 @@ abstract class CommandTestBase extends HoyaTestUtils {
     SliderShell.script = SLIDER_SCRIPT
     log.info("Test using ${HadoopFS.getDefaultUri(SLIDER_CONFIG)} " +
              "and YARN RM @ ${SLIDER_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
+  }
+
+  /**
+   * give our thread a name
+   */
+  @Before
+  public void nameThread() {
+    Thread.currentThread().name = "JUnit"
   }
 
   /**
