@@ -213,32 +213,32 @@ class HoyaTestUtils extends Assert {
 
   /**
    * Spin waiting for the Hoya role count to match expected
-   * @param hoyaClient client
+   * @param client client
    * @param role role to look for
    * @param desiredCount RS count
    * @param timeout timeout
    */
   public static ClusterDescription waitForRoleCount(
-      HoyaClient hoyaClient,
+      HoyaClient client,
       String role,
       int desiredCount,
       int timeout) {
-    return waitForRoleCount(hoyaClient, [(role): desiredCount], timeout)
+    return waitForRoleCount(client, [(role): desiredCount], timeout)
   }
 
   /**
    * Spin waiting for the Hoya role count to match expected
-   * @param hoyaClient client
+   * @param client client
    * @param roles map of roles to look for
    * @param desiredCount RS count
    * @param timeout timeout
    */
   public static ClusterDescription waitForRoleCount(
-      HoyaClient hoyaClient,
+      HoyaClient client,
       Map<String, Integer> roles,
       int timeout,
       String operation = "startup") {
-    String clustername = hoyaClient.deployedClusterName;
+    String clustername = client.deployedClusterName;
     ClusterDescription status = null
     Duration duration = new Duration(timeout);
     duration.start()
@@ -248,7 +248,7 @@ class HoyaTestUtils extends Assert {
 
       boolean timedOut = duration.limitExceeded
       try {
-        status = hoyaClient.getClusterDescription(clustername)
+        status = client.getClusterDescription(clustername)
         roleCountFound = true;
         for (Map.Entry<String, Integer> entry : roles.entrySet()) {
           String role = entry.key
@@ -277,7 +277,7 @@ class HoyaTestUtils extends Assert {
         describe("$operation: role count not met after $duration: $details")
         log.info(prettyPrint(status.toJsonString()))
         fail(
-            "$operation: role counts not met  after $duration: $details in \n$status ")
+            "$operation: role counts not met after $duration: $details in \n$status ")
       }
       log.debug("Waiting: " + details)
       Thread.sleep(1000)
@@ -293,21 +293,21 @@ class HoyaTestUtils extends Assert {
    * @throws IOException
    * @throws SliderException
    */
-  public static boolean spinForClusterStartup(HoyaClient hoyaClient, long spintime,
+  public static boolean spinForClusterStartup(HoyaClient client, long spintime,
       String role)
       throws WaitTimeoutException, IOException, SliderException {
-    int state = hoyaClient.waitForRoleInstanceLive(role, spintime);
+    int state = client.waitForRoleInstanceLive(role, spintime);
     return state == ClusterDescription.STATE_LIVE;
   }
 
-  public static ClusterDescription dumpClusterStatus(HoyaClient hoyaClient, String text) {
-    ClusterDescription status = hoyaClient.clusterDescription;
+  public static ClusterDescription dumpClusterStatus(HoyaClient client, String text) {
+    ClusterDescription status = client.clusterDescription;
     dumpClusterDescription(text, status)
     return status;
   }
 
-  public static List<ClusterNode> listNodesInRole(HoyaClient hoyaClient, String role) {
-    return hoyaClient.listClusterNodesInRole(role)
+  public static List<ClusterNode> listNodesInRole(HoyaClient client, String role) {
+    return client.listClusterNodesInRole(role)
   }
 
   public static void dumpClusterDescription(String text, ClusterDescription status) {
@@ -325,12 +325,12 @@ class HoyaTestUtils extends Assert {
   /**
    * Fetch the current site config from the Hoya AM, from the 
    * <code>clientProperties</code> field of the ClusterDescription
-   * @param hoyaClient client
+   * @param client client
    * @param clustername name of the cluster
    * @return the site config
    */
-  public static Configuration fetchClientSiteConfig(HoyaClient hoyaClient) {
-    ClusterDescription status = hoyaClient.clusterDescription;
+  public static Configuration fetchClientSiteConfig(HoyaClient client) {
+    ClusterDescription status = client.clusterDescription;
     Configuration siteConf = new Configuration(false)
     status.clientProperties.each { String key, String val ->
       siteConf.set(key, val, "hoya cluster");
@@ -345,13 +345,13 @@ class HoyaTestUtils extends Assert {
    */
 
   public static String fetchWebPage(String url) {
-    def client = new HttpClient(new MultiThreadedHttpConnectionManager());
-    client.httpConnectionManager.params.connectionTimeout = 10000;
+    def httpclient = new HttpClient(new MultiThreadedHttpConnectionManager());
+    httpclient.httpConnectionManager.params.connectionTimeout = 10000;
     GetMethod get = new GetMethod(url);
 
     get.followRedirects = true;
     try {
-      int resultCode = client.executeMethod(get);
+      int resultCode = httpclient.executeMethod(get);
     } catch (IOException e) {
       log.error("Failed on $url: $e",e)
       throw e;
@@ -426,7 +426,7 @@ class HoyaTestUtils extends Assert {
    * @param args arg list
    * @return the return code
    */
-  protected static ServiceLauncher<HoyaClient> execHoyaCommand(
+  protected static ServiceLauncher<HoyaClient> execSliderCommand(
       Configuration conf,
       List args) {
     ServiceLauncher<HoyaClient> serviceLauncher =
@@ -442,7 +442,7 @@ class HoyaTestUtils extends Assert {
                                        List<Object> args) throws
       Throwable {
     ServiceLauncher serviceLauncher =
-        new ServiceLauncher(serviceClass.getName());
+        new ServiceLauncher(serviceClass.name);
     serviceLauncher.launchService(conf,
                                   toArray(args),
                                   false);
@@ -458,7 +458,7 @@ class HoyaTestUtils extends Assert {
       ServiceLauncher launch = launch(serviceClass, conf, args);
       fail("Expected an exception with text containing " + expectedText
                + " -but the service completed with exit code "
-               + launch.getServiceExitCode());
+               + launch.serviceExitCode);
     } catch (Throwable thrown) {
       if (!thrown.toString().contains(expectedText)) {
         //not the right exception -rethrow
@@ -468,7 +468,7 @@ class HoyaTestUtils extends Assert {
   }
 
 
-  public static ServiceLauncher<HoyaClient> launchHoyaClientAgainstRM(
+  public static ServiceLauncher<HoyaClient> launchClientAgainstRM(
       String address,
       List args,
       Configuration conf) {
@@ -477,7 +477,7 @@ class HoyaTestUtils extends Assert {
     if (!args.contains(Arguments.ARG_MANAGER)) {
       args += [Arguments.ARG_MANAGER, address]
     }
-    ServiceLauncher<HoyaClient> launcher = execHoyaCommand(conf, args)
+    ServiceLauncher<HoyaClient> launcher = execSliderCommand(conf, args)
     return launcher
   }
 

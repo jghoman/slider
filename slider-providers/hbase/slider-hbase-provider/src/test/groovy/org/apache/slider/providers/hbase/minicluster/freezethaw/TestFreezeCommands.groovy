@@ -52,18 +52,18 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
 
     
     log.info("ListOp")
-    assertSucceeded(execHoyaCommand(conf,
+    assertSucceeded(execSliderCommand(conf,
               [HoyaActions.ACTION_LIST,clustername]))
     
     log.info("First Freeze command");
-    ServiceLauncher freezeCommand = execHoyaCommand(conf,
+    ServiceLauncher freezeCommand = execSliderCommand(conf,
                           [HoyaActions.ACTION_FREEZE, clustername,
                             Arguments.ARG_WAIT, waitTimeArg]);
     assertSucceeded(freezeCommand)
 
     log.info("Second Freeze command");
 
-    ServiceLauncher freeze2 = execHoyaCommand(conf,
+    ServiceLauncher freeze2 = execSliderCommand(conf,
                                 [
                                     HoyaActions.ACTION_FREEZE, clustername,
                                     Arguments.ARG_WAIT, waitTimeArg
@@ -74,7 +74,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
 
     //assert there is no running cluster
     try {
-      ServiceLauncher exists1 = launchHoyaClientAgainstMiniMR(
+      ServiceLauncher exists1 = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           [
@@ -98,16 +98,16 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     ]
     commands.addAll(extraCLIArgs)
     
-    ServiceLauncher thawCommand = execHoyaCommand(conf, commands);
+    ServiceLauncher thawCommand = execSliderCommand(conf, commands);
     assertSucceeded(thawCommand)
-    assertSucceeded(execHoyaCommand(conf,
+    assertSucceeded(execSliderCommand(conf,
                   [HoyaActions.ACTION_LIST, clustername]))
-    assertSucceeded(execHoyaCommand(conf,
+    assertSucceeded(execSliderCommand(conf,
                   [HoyaActions.ACTION_EXISTS, clustername]))
 
     log.info("Freeze 3");
 
-    ServiceLauncher freeze3 = execHoyaCommand(conf,
+    ServiceLauncher freeze3 = execSliderCommand(conf,
                 [
                     HoyaActions.ACTION_FREEZE, clustername,
                     Arguments.ARG_WAIT, waitTimeArg
@@ -115,14 +115,14 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     assertSucceeded(freeze3)
 
     log.info("thaw2");
-    ServiceLauncher thaw2 = execHoyaCommand(conf,
+    ServiceLauncher thaw2 = execSliderCommand(conf,
         commands);
     assert 0 == thaw2.serviceExitCode;
     assertSucceeded(thaw2)
 
     try {
       log.info("thaw3 - should fail");
-      ServiceLauncher thaw3 = execHoyaCommand(conf,
+      ServiceLauncher thaw3 = execSliderCommand(conf,
           commands);
       assert 0 != thaw3.serviceExitCode;
     } catch (SliderException e) {
@@ -134,7 +134,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     log.info("destroy1");
 
     try {
-      ServiceLauncher destroy1 = execHoyaCommand(conf,
+      ServiceLauncher destroy1 = execSliderCommand(conf,
           [
               HoyaActions.ACTION_DESTROY, clustername,
               Arguments.ARG_FILESYSTEM, fsDefaultName
@@ -149,7 +149,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     //kill -19 the process to hang it, then force kill
     killHoyaAM(SIGSTOP)
 
-    ServiceLauncher freeze4 = execHoyaCommand(conf,
+    ServiceLauncher freeze4 = execSliderCommand(conf,
                                               [
                                                   HoyaActions.ACTION_FREEZE, clustername,
                                                   Arguments.ARG_FORCE,
@@ -158,7 +158,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     assertSucceeded(freeze4)
 
     log.info("destroy2");
-    ServiceLauncher destroy2 = execHoyaCommand(conf,
+    ServiceLauncher destroy2 = execSliderCommand(conf,
                                                [
                                                    HoyaActions.ACTION_DESTROY, clustername,
                                                    Arguments.ARG_FILESYSTEM, fsDefaultName,

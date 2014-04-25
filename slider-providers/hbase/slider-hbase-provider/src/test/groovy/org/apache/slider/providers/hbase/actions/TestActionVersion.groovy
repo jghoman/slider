@@ -41,7 +41,7 @@ class TestActionVersion extends YarnMiniClusterTestBase {
   @Test
   public void testVersion() throws Throwable {
     
-    ServiceLauncher launcher = execHoyaCommand(
+    ServiceLauncher launcher = execSliderCommand(
         new YarnConfiguration(),
         [
             HoyaActions.ACTION_VERSION,

@@ -46,7 +46,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
 
     describe "verify that a build cluster is created but not started"
 
-    ServiceLauncher launcher = createOrBuildHoyaCluster(
+    ServiceLauncher launcher = createOrBuildCluster(
         HoyaActions.ACTION_BUILD,
         clustername,
         [
@@ -75,7 +75,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
 
     //and a second attempt will fail as the cluster now exists
     try {
-      createOrBuildHoyaCluster(
+      createOrBuildCluster(
           HoyaActions.ACTION_BUILD,
           clustername,
           [

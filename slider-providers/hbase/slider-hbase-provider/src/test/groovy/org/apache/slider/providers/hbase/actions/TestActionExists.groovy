@@ -50,7 +50,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
   public void testExistsFailsWithUnknownCluster() throws Throwable {
     log.info("RM address = ${RMAddr}")
     try {
-      ServiceLauncher launcher = launchHoyaClientAgainstMiniMR(
+      ServiceLauncher launcher = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
@@ -76,7 +76,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive((HoyaClient) launcher.service)
 
     // exists holds when cluster is running
-    launcher = launchHoyaClientAgainstMiniMR(
+    launcher = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
@@ -89,7 +89,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     assertSucceeded(launcher)
 
     //and when cluster is running
-    launcher = launchHoyaClientAgainstMiniMR(
+    launcher = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params

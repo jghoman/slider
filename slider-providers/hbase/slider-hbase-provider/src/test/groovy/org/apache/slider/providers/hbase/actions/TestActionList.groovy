@@ -46,7 +46,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
   @Test
   public void testListThisUserNoClusters() throws Throwable {
     log.info("RM address = ${RMAddr}")
-    ServiceLauncher launcher = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
@@ -62,7 +62,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
   @Test
   public void testListAllUsersNoClusters() throws Throwable {
     log.info("RM address = ${RMAddr}")
-    ServiceLauncher launcher = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
@@ -82,7 +82,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive((HoyaClient) launcher.service)
 
     //now list
-    launcher = launchHoyaClientAgainstMiniMR(
+    launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
@@ -101,7 +101,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     log.info(instance.toString())
 
     //now list with the named cluster
-    launcher = launchHoyaClientAgainstMiniMR(
+    launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
@@ -122,7 +122,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     //exec the status command
     ServiceLauncher launcher
     try {
-      launcher = launchHoyaClientAgainstMiniMR(
+      launcher = launchClientAgainstMiniMR(
           //config includes RM binding info
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params

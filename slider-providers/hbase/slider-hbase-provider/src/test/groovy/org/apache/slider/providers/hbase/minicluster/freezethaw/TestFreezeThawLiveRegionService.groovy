@@ -77,7 +77,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     clusterActionFreeze(hoyaClient, clustername)
     killAllRegionServers();
     //now let's start the cluster up again
-    ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
+    ServiceLauncher launcher2 = thawCluster(clustername, [], true);
     HoyaClient newCluster = launcher2.service as HoyaClient
     basicHBaseClusterStartupSequence(newCluster)
 
@@ -88,7 +88,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     // finally, attempt to thaw it while it is running
     //now let's start the cluster up again
     try {
-      ServiceLauncher launcher3 = thawHoyaCluster(clustername, [], true);
+      ServiceLauncher launcher3 = thawCluster(clustername, [], true);
       HoyaClient cluster3 = launcher3.service as HoyaClient
       fail("expected a failure, got ${cluster3}")
     } catch (SliderException e) {

@@ -48,7 +48,7 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
     describe "verify that role options propagate down to deployed roles"
 
     String ENV = "env.ENV_VAR"
-    ServiceLauncher launcher = createHoyaCluster(clustername,
+    ServiceLauncher launcher = createCluster(clustername,
                    [
                        (HBaseKeys.ROLE_MASTER): 0,
                        (HBaseKeys.ROLE_WORKER): 0,
@@ -77,7 +77,7 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
     describe "verify that unknown role results in cluster creation failure"
     try {
       String MALLOC_ARENA = "env.MALLOC_ARENA_MAX"
-      ServiceLauncher launcher = createHoyaCluster(clustername,
+      ServiceLauncher launcher = createCluster(clustername,
          [
              (HBaseKeys.ROLE_MASTER): 0,
              (HBaseKeys.ROLE_WORKER): 0,

@@ -49,19 +49,19 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
     //launch fake master
     String clustername = "test_create_masterless_am"
-    createMiniCluster(clustername, getConfiguration(), 1, true)
-    ServiceLauncher launcher
+    createMiniCluster(clustername, configuration, 1, true)
+    ServiceLauncher<HoyaClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
+    HoyaClient client = launcher.service
+    addToTeardown(client);
 
-    ApplicationReport report = waitForClusterLive(hoyaClient)
+    ApplicationReport report = waitForClusterLive(client)
     logReport(report)
-    List<ApplicationReport> apps = hoyaClient.applications;
+    List<ApplicationReport> apps = client.applications;
     
     //get some of its status
-    dumpClusterStatus(hoyaClient, "masterless application status")
-    List<ClusterNode> clusterNodes = hoyaClient.listClusterNodesInRole(
+    dumpClusterStatus(client, "masterless application status")
+    List<ClusterNode> clusterNodes = client.listClusterNodesInRole(
         HoyaKeys.COMPONENT_AM)
     assert clusterNodes.size() == 1
 
@@ -69,15 +69,15 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     log.info("Master node = ${masterNode}");
 
     List<ClusterNode> nodes
-    String[] uuids = hoyaClient.listNodeUUIDsByRole(HoyaKeys.COMPONENT_AM)
+    String[] uuids = client.listNodeUUIDsByRole(HoyaKeys.COMPONENT_AM)
     assert uuids.length == 1;
-    nodes = hoyaClient.listClusterNodes(uuids);
+    nodes = client.listClusterNodes(uuids);
     assert nodes.size() == 1;
     describe "AM Node UUID=${uuids[0]}"
 
-    nodes = listNodesInRole(hoyaClient, HoyaKeys.COMPONENT_AM)
+    nodes = listNodesInRole(client, HoyaKeys.COMPONENT_AM)
     assert nodes.size() == 1;
-    nodes = listNodesInRole(hoyaClient, "")
+    nodes = listNodesInRole(client, "")
     assert nodes.size() == 1;
     ClusterNode master = nodes[0]
     assert master.role == HoyaKeys.COMPONENT_AM
@@ -85,8 +85,8 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
 
 
-    String username = hoyaClient.username
-    def serviceRegistryClient = hoyaClient.YARNRegistryClient
+    String username = client.username
+    def serviceRegistryClient = client.YARNRegistryClient
     describe("list of all applications")
     logApplications(apps)
     describe("apps of user $username")
@@ -102,18 +102,18 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     //switch to the ZK-based registry
 
     describe "service registry names"
-    def names = hoyaClient.listRegistryNames(clustername)
+    def names = client.listRegistryNames(clustername)
     log.info("number of names: ${names.size()}")
     names.each {String it -> log.info( it) }
     describe "service registry instance IDs"
 
-    def instanceIds = hoyaClient.listRegistryInstanceIDs(clustername)
+    def instanceIds = client.listRegistryInstanceIDs(clustername)
     
     log.info("number of instanceIds: ${instanceIds.size()}")
     instanceIds.each {String it -> log.info( it) }
 
     describe "service registry slider instances"
-    List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(clustername)
+    List<CuratorServiceInstance<ServiceInstanceData>> instances = client.listRegistryInstances(clustername)
     instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
       log.info svc.toString()
     }
@@ -121,7 +121,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
     describe "teardown of cluster instance #1"
     //now kill that cluster
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
+    assert 0 == clusterActionFreeze(client, clustername)
     //list it & See if it is still there
     ApplicationReport oldInstance = serviceRegistryClient.findInstance(clustername)
     assert oldInstance != null
@@ -129,8 +129,8 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
 
     //create another AM
     launcher = createMasterlessAM(clustername, 0, true, true)
-    hoyaClient = (HoyaClient) launcher.service
-    ApplicationId i2AppID = hoyaClient.applicationId
+    client = launcher.service
+    ApplicationId i2AppID = client.applicationId
 
     //expect 2 in the list
     userInstances = serviceRegistryClient.listInstances()
@@ -155,12 +155,12 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     describe("Stopping instance #2")
 
     //now stop that cluster
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
+    assert 0 == clusterActionFreeze(client, clustername)
 
-    logApplications(hoyaClient.listHoyaInstances(username))
+    logApplications(client.listHoyaInstances(username))
     
     //verify it is down
-    ApplicationReport reportFor = hoyaClient.getApplicationReport(i2AppID)
+    ApplicationReport reportFor = client.getApplicationReport(i2AppID)
     
     //downgrade this to a fail
 //    Assume.assumeTrue(YarnApplicationState.FINISHED <= report.yarnApplicationState)

@@ -90,7 +90,7 @@ class TestAccFreezeThaw extends AccumuloTestBase {
 
     log.info("Thawing")
     
-    ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
+    ServiceLauncher launcher2 = thawCluster(clustername, [], true);
     HoyaClient hoyaClient2 = (HoyaClient) launcher2.service
     addToTeardown(hoyaClient2)
     waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME, "thawing")

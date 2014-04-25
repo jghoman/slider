@@ -46,7 +46,7 @@ class TestFreezeUnknownCluster extends HBaseMiniClusterTestBase {
 
     //we are secretly picking up the RM details from the configuration file
     try {
-      ServiceLauncher command = execHoyaCommand(conf,
+      ServiceLauncher command = execSliderCommand(conf,
                                                 [
                                                     HoyaActions.ACTION_FREEZE,
                                                     "no-such-cluster"

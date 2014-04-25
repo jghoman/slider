@@ -184,9 +184,9 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * Stop any running cluster that has been added
    */
   public void stopRunningClusters() {
-    clustersToTeardown.each { HoyaClient hoyaClient ->
+    clustersToTeardown.each { HoyaClient client ->
       try {
-        maybeStopCluster(hoyaClient, "", "Teardown at end of test case");
+        maybeStopCluster(client, "", "Teardown at end of test case");
       } catch (Exception e) {
         log.warn("While stopping cluster " + e, e);
       }
@@ -256,34 +256,34 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
   /**
-   * Launch the hoya client with the specific args against the MiniMR cluster
+   * Launch the client with the specific args against the MiniMR cluster
    * launcher ie expected to have successfully completed
    * @param conf configuration
    * @param args arg list
    * @return the return code
    */
-  protected ServiceLauncher<HoyaClient> launchHoyaClientAgainstMiniMR(Configuration conf,
+  protected ServiceLauncher<HoyaClient> launchClientAgainstMiniMR(Configuration conf,
                                                                       List args) {
-    ServiceLauncher<HoyaClient> launcher = launchHoyaClientNoExitCodeCheck(conf, args)
+    ServiceLauncher<HoyaClient> launcher = launchClientNoExitCodeCheck(conf, args)
     int exited = launcher.serviceExitCode
     if (exited != 0) {
-      throw new SliderException(exited,"Launch failed with exit code $exited")
+      throw new SliderException(exited, "Launch failed with exit code $exited")
     }
     return launcher;
   }
 
   /**
-   * Launch the hoya client with the specific args against the MiniMR cluster
+   * Launch the client with the specific args against the MiniMR cluster
    * without any checks for exit codes
    * @param conf configuration
    * @param args arg list
    * @return the return code
    */
-  public ServiceLauncher<HoyaClient> launchHoyaClientNoExitCodeCheck(
+  public ServiceLauncher<HoyaClient> launchClientNoExitCodeCheck(
       Configuration conf,
       List args) {
     assert miniCluster != null
-    return launchHoyaClientAgainstRM(RMAddr, args, conf)
+    return launchClientAgainstRM(RMAddr, args, conf)
   }
 
 
@@ -387,14 +387,14 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createHoyaCluster(
+  public ServiceLauncher<HoyaClient> createCluster(
       String clustername,
       Map<String, Integer> roles,
       List<String> extraArgs,
       boolean deleteExistingData,
       boolean blockUntilRunning,
       Map<String, String> clusterOps) {
-    createOrBuildHoyaCluster(
+    createOrBuildCluster(
         HoyaActions.ACTION_CREATE,
         clustername,
         roles,
@@ -416,7 +416,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createOrBuildHoyaCluster(String action, String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning, Map<String, String> clusterOps) {
+  public ServiceLauncher<HoyaClient> createOrBuildCluster(String action, String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning, Map<String, String> clusterOps) {
     assert clustername != null
     assert miniCluster != null
     if (deleteExistingData) {
@@ -458,16 +458,16 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    ServiceLauncher<HoyaClient> launcher = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher<HoyaClient> launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient hoyaClient = launcher.service
+    HoyaClient client = launcher.service
     if (blockUntilRunning) {
-      hoyaClient.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
+      client.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
     return launcher;
   }
@@ -586,7 +586,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> thawHoyaCluster(String clustername, List<String> extraArgs, boolean blockUntilRunning) {
+  public ServiceLauncher<HoyaClient> thawCluster(String clustername, List<String> extraArgs, boolean blockUntilRunning) {
     assert clustername != null
     assert miniCluster != null
 
@@ -601,16 +601,16 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    ServiceLauncher<HoyaClient> launcher = launchHoyaClientAgainstMiniMR(
+    ServiceLauncher<HoyaClient> launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    HoyaClient client = (HoyaClient) launcher.service
     if (blockUntilRunning) {
-      hoyaClient.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
+      client.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
     return launcher;
   }
@@ -653,40 +653,40 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
   /**
    * Wait for the cluster live; fail if it isn't within the (standard) timeout
-   * @param hoyaClient client
+   * @param client client
    * @return the app report of the live cluster
    */
-  public ApplicationReport waitForClusterLive(HoyaClient hoyaClient) {
-    return waitForClusterLive(hoyaClient, CLUSTER_GO_LIVE_TIME)
+  public ApplicationReport waitForClusterLive(HoyaClient client) {
+    return waitForClusterLive(client, CLUSTER_GO_LIVE_TIME)
   }
 
   /**
    * force kill the application after waiting for
    * it to shut down cleanly
-   * @param hoyaClient client to talk to
+   * @param client client to talk to
    */
-  public ApplicationReport waitForAppToFinish(HoyaClient hoyaClient) {
+  public ApplicationReport waitForAppToFinish(HoyaClient client) {
 
-    int waitTime = getWaitTimeMillis(hoyaClient.config)
-    return waitForAppToFinish(hoyaClient, waitTime)
+    int waitTime = getWaitTimeMillis(client.config)
+    return waitForAppToFinish(client, waitTime)
   }
 
   public static ApplicationReport waitForAppToFinish(
-      HoyaClient hoyaClient,
+      HoyaClient client,
       int waitTime) {
-    ApplicationReport report = hoyaClient.monitorAppToState(
+    ApplicationReport report = client.monitorAppToState(
         YarnApplicationState.FINISHED,
         new Duration(waitTime));
     if (report == null) {
       log.info("Forcibly killing application")
-      dumpClusterStatus(hoyaClient, "final application status")
+      dumpClusterStatus(client, "final application status")
       //list all the nodes' details
-      List<ClusterNode> nodes = listNodesInRole(hoyaClient, "")
+      List<ClusterNode> nodes = listNodesInRole(client, "")
       if (nodes.empty) {
         log.info("No live nodes")
       }
       nodes.each { ClusterNode node -> log.info(node.toString())}
-      hoyaClient.forceKillApplication("timed out waiting for application to complete");
+      client.forceKillApplication("timed out waiting for application to complete");
     }
     return report;
   }

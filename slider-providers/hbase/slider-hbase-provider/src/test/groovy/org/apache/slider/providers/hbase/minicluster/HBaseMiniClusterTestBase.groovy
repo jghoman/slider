@@ -218,7 +218,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
     extraArgs << ARG_RES_COMP_OPT << ROLE_WORKER << ResourceKeys.YARN_MEMORY << YRAM
     extraArgs << ARG_PROVIDER << PROVIDER_HBASE;
     
-    return createHoyaCluster(clustername,
+    return createCluster(clustername,
         roles,
         extraArgs,
         deleteExistingData,
@@ -239,7 +239,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
         (ROLE_MASTER): 0,
         (ROLE_WORKER): size,
     ];
-    return createHoyaCluster(clustername,
+    return createCluster(clustername,
         roles,
         [
             ARG_PROVIDER, PROVIDER_HBASE
@@ -285,7 +285,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
                       true);
     //now launch the cluster
     HoyaClient hoyaClient;
-    ServiceLauncher<HoyaClient> launcher = createHoyaCluster(clustername,
+    ServiceLauncher<HoyaClient> launcher = createCluster(clustername,
            [
                (ROLE_MASTER): masters,
                (ROLE_WORKER): workers,

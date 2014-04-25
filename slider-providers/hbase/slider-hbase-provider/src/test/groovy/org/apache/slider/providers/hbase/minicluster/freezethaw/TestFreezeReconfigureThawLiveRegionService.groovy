@@ -110,7 +110,7 @@ class TestFreezeReconfigureThawLiveRegionService
     ConfigHelper.saveConfig(dfs, hbaseSiteXML, originalConf);
 
     //now let's start the cluster up again
-    ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
+    ServiceLauncher launcher2 = thawCluster(clustername, [], true);
     HoyaClient thawed = launcher2.service as HoyaClient
     clustat = basicHBaseClusterStartupSequence(thawed)
 

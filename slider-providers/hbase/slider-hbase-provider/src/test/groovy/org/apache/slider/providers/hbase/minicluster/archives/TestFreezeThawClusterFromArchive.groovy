@@ -57,7 +57,7 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
     killAllRegionServers();
 
     //now let's start the cluster up again
-    ServiceLauncher launcher2 = thawHoyaCluster(clustername, [], true);
+    ServiceLauncher launcher2 = thawCluster(clustername, [], true);
     HoyaClient newCluster = launcher2.service
     basicHBaseClusterStartupSequence(newCluster)
 

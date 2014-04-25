@@ -44,7 +44,7 @@ class TestBadClusterName extends HBaseMiniClusterTestBase {
     describe "verify that bad cluster are picked up"
 
     try {
-      ServiceLauncher launcher = createHoyaCluster(clustername,
+      ServiceLauncher launcher = createCluster(clustername,
            [
                (HBaseKeys.ROLE_MASTER): 0,
                (HBaseKeys.ROLE_WORKER): 0,

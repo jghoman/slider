@@ -110,7 +110,7 @@ public abstract class AgentTestBase extends YarnZKMiniClusterTestBase {
         :
     ]
 
-    return createOrBuildHoyaCluster(
+    return createOrBuildCluster(
         create ? HoyaActions.ACTION_CREATE : HoyaActions.ACTION_BUILD,
         clustername,
         roles,

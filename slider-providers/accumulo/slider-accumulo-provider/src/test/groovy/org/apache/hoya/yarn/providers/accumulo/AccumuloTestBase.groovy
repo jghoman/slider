@@ -154,7 +154,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
     extraArgs << ARG_RES_COMP_OPT << ROLE_MONITOR << ResourceKeys.YARN_MEMORY << YRAM
     extraArgs << ARG_RES_COMP_OPT << ROLE_GARBAGE_COLLECTOR << ResourceKeys.YARN_MEMORY << YRAM
 
-    return createHoyaCluster(clustername,
+    return createCluster(clustername,
                              roles,
                              extraArgs,
                              deleteExistingData,

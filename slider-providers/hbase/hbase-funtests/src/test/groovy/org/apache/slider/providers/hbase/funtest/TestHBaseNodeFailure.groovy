@@ -19,8 +19,6 @@
 package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.yarn.api.records.ApplicationSubmissionContext
-import org.apache.hadoop.yarn.api.records.impl.pb.ApplicationSubmissionContextPBImpl
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.api.StatusKeys
