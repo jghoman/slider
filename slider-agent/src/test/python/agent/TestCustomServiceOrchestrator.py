@@ -204,6 +204,11 @@ class TestCustomServiceOrchestrator(TestCase):
       'commandId': '1-1'
     }
 
+    command_get = {
+      'roleCommand': 'GET_CONFIG',
+      'commandType': 'STATUS_COMMAND'
+    }
+
     tempdir = tempfile.gettempdir()
     config = MagicMock()
     config.get.return_value = "something"
@@ -226,12 +231,12 @@ class TestCustomServiceOrchestrator(TestCase):
         'hbase.log': tempdir, 'hbase.number': '10485760'},
       'hbase-log4j': {'a': 'b'}}
 
-    ret = orchestrator.runCommand(command, "out.txt", "err.txt", True, True, False)
+    ret = orchestrator.runCommand(command, "out.txt", "err.txt", True, True)
     self.assertEqual(ret['exitcode'], 0)
     self.assertTrue(run_file_mock.called)
     self.assertEqual(orchestrator.applied_configs, expected)
 
-    ret = orchestrator.runCommand(command, "out.txt", "err.txt", True, False, True)
+    ret = orchestrator.requestComponentStatus(command_get)
     self.assertEqual(ret['configurations'], expected)
     pass
 
@@ -242,7 +247,8 @@ class TestCustomServiceOrchestrator(TestCase):
       "commandType": "STATUS_COMMAND",
       "clusterName": "",
       "componentName": "DATANODE",
-      'configurations': {}
+      'configurations': {},
+      'roleCommand' : "STATUS"
     }
     dummy_controller = MagicMock()
 

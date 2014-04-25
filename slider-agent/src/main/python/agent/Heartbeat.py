@@ -69,11 +69,18 @@ class Heartbeat:
         commandResult["commandStatus"] = report["status"]
       pass
 
+    # Process component status - it can have internal or external STATUS requests and CONFIG requests
     if queueResult['componentStatus']:
+      componentStatuses = []
       for componentStatus in queueResult['componentStatus']:
-        commandResult["healthStatus"] = componentStatus["status"]
-        break
-      pass
+        if componentStatus['reportResult']:
+          del componentStatus['reportResult']
+          componentStatuses.append(componentStatus)
+        else:
+          commandResult["healthStatus"] = componentStatus["status"]
+        pass
+      if len(componentStatuses) > 0:
+        heartbeat['componentStatus'] = componentStatuses
 
     logger.info("Sending heartbeat with response id: " + str(id) + " and "
                                                                    "timestamp: " + str(timestamp) +

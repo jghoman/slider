@@ -29,6 +29,7 @@ import time
 from mock.mock import patch, MagicMock, call
 import StringIO
 import sys
+import logging
 
 
 class TestHeartbeat(TestCase):
@@ -122,8 +123,9 @@ class TestHeartbeat(TestCase):
 
       ],
       'componentStatus': [
-        {'status': 'HEALTHY', 'componentName': 'DATANODE'},
-        {'status': 'UNHEALTHY', 'componentName': 'NAMENODE'},
+        {'status': 'HEALTHY', 'componentName': 'DATANODE', 'reportResult' : True},
+        {'status': 'UNHEALTHY', 'componentName': 'NAMENODE', 'reportResult' : True},
+        {'status': 'UNHEALTHY', 'componentName': 'HBASE_MASTER', 'reportResult' : False},
       ],
     }
     heartbeat = Heartbeat(actionQueue, config)
@@ -151,9 +153,12 @@ class TestHeartbeat(TestCase):
        'configurationTags': {'global': {'tag': 'v1'}}, 'taskId': 3,
        'exitCode': 0, 'roleCommand': u'INSTALL', 'clusterName': u'cc',
        'serviceName': u'HDFS', 'role': u'DATANODE', 'actionId': '1-1',
-       'stderr': 'stderr'}]}
+       'stderr': 'stderr'}],  'componentStatus': [
+      {'status': 'HEALTHY', 'componentName': 'DATANODE'},
+      {'status': 'UNHEALTHY', 'componentName': 'NAMENODE'}]}
     self.assertEquals(hb, expected)
 
 
 if __name__ == "__main__":
+  logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
   unittest.main()
