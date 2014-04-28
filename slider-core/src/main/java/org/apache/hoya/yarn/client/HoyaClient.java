@@ -1330,7 +1330,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public RegistryBinderService<ServiceInstanceData> maybeStartRegistry() throws
       SliderException,
-                                                                                           IOException {
+      IOException {
 
     if (registry == null) {
       registry = startRegistrationService();
