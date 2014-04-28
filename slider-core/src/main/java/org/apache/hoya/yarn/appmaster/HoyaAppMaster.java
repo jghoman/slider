@@ -108,7 +108,7 @@ import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
 import org.apache.slider.core.registry.docstore.PublishedConfiguration;
-import org.apache.slider.core.registry.info.AMSpecificRegistryConstants;
+import org.apache.slider.core.registry.info.CustomRegistryConstants;
 import org.apache.slider.core.registry.info.CommonRegistryConstants;
 import org.apache.slider.core.registry.info.RegisteredEndpoint;
 import org.apache.slider.core.registry.info.RegistryView;
@@ -719,14 +719,14 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     externalView.endpoints.put(CommonRegistryConstants.WEB_UI, webUI);
 
     externalView.endpoints.put(
-        AMSpecificRegistryConstants.MANAGEMENT_REST_API,
+        CustomRegistryConstants.MANAGEMENT_REST_API,
       new RegisteredEndpoint(
         new URL(amWeb, SLIDER_PATH_MANAGEMENT),
         "Management REST API" )
     );
 
     externalView.endpoints.put(
-        AMSpecificRegistryConstants.REGISTRY_REST_API,
+        CustomRegistryConstants.REGISTRY_REST_API,
       new RegisteredEndpoint(
         new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
         "Registry Web Service" )
@@ -734,7 +734,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     URL publisherURL = new URL(amWeb, SLIDER_PATH_PUBLISHER);
     externalView.endpoints.put(
-        AMSpecificRegistryConstants.PUBLISHER_REST_API,
+        CustomRegistryConstants.PUBLISHER_REST_API,
       new RegisteredEndpoint(
           publisherURL,
         "Publisher Service" )
@@ -742,7 +742,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     // IPC services
     externalView.endpoints.put(
-        AMSpecificRegistryConstants.AM_IPC_PROTOCOL,
+        CustomRegistryConstants.AM_IPC_PROTOCOL,
         new RegisteredEndpoint(rpcServiceAddress,
             RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
             "Slider AM RPC") );
@@ -756,7 +756,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     // internal services
 
     instanceData.internalView.endpoints.put(
-        AMSpecificRegistryConstants.AGENT_REST_API,
+        CustomRegistryConstants.AGENT_REST_API,
       new RegisteredEndpoint(
         new URL(amWeb, SLIDER_PATH_AGENTS),
         "Agent REST API" )

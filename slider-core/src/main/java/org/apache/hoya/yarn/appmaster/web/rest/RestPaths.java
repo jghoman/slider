@@ -36,5 +36,11 @@ public class RestPaths {
   
   public static final String SLIDER_PATH_PUBLISHER = SLIDER_CONTEXT_ROOT
                                       + SLIDER_SUBPATH_PUBLISHER;
-  
+
+  public static final String SLIDER_SUBPATH_REGISTRY = "/registry";
+  public static final String SLIDER_PATH_REGISTRY = WS_CONTEXT_ROOT
+                                                    + SLIDER_SUBPATH_REGISTRY;
+
+  public static final String REGISTRY_SERVICE = "v1/service";
+  public static final String REGISTRY_ANYSERVICE = "v1/anyservice";
 }

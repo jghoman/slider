@@ -21,7 +21,7 @@ package org.apache.slider.core.registry.info;
 /**
  * These are constants unique to the Slider AM
  */
-public class AMSpecificRegistryConstants {
+public class CustomRegistryConstants {
 
   public static final String MANAGEMENT_REST_API =
       "org.apache.slider.management";
@@ -37,5 +37,4 @@ public class AMSpecificRegistryConstants {
   public static final String AM_IPC_PROTOCOL =
       "org.apache.slider.appmaster";
 
-  public static final String REGISTRY_SUB_PATH = "v1/service"; 
 }
