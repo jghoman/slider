@@ -16,16 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.slider.core.registry.docstore;
+package org.apache.slider.core.registry.info;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+/**
+ * Fieldnames in registry entries
+ */
+public class RegistryFields {
 
-import java.util.Map;
+  public static final String ENDPOINTS = "endpoints";
+  public static final String INTERNAL_VIEW = "internalView";
+  public static final String EXTERNAL_VIEW = "externalView";
+  
+  public static final String PROTOCOL = "protocol";
+  public static final String VALUE = "value";
+  public static final String DESCRIPTION = "description";
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class ConfigurationMap {
-
-  Map<String, String> values;
 }

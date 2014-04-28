@@ -18,23 +18,24 @@
 
 package org.apache.slider.core.registry.info;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+/**
+ * These are constants unique to the Slider AM
+ */
+public class AMSpecificRegistryConstants {
 
-import java.util.HashMap;
-import java.util.Map;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class RegistryView {
-
-  /**
-   * Endpoints
-   */
-  public Map<String, RegisteredEndpoint> endpoints = new HashMap<String, RegisteredEndpoint>(2);
-
-  public String configurationsURL;
+  public static final String MANAGEMENT_REST_API =
+      "org.apache.slider.management";
+  public static final String REGISTRY_REST_API =
+      "org.apache.slider.registry";
   
-  public String documentsURL;
+  public static final String PUBLISHER_REST_API =
+      "org.apache.slider.publisher";
+  
+  public static final String AGENT_REST_API =
+      "org.apache.slider.publisher";
 
+  public static final String AM_IPC_PROTOCOL =
+      "org.apache.slider.appmaster";
+
+  public static final String REGISTRY_SUB_PATH = "v1/service"; 
 }

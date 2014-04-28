@@ -18,23 +18,8 @@
 
 package org.apache.slider.core.registry.info;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+public class CommonRegistryConstants {
 
-import java.util.HashMap;
-import java.util.Map;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class RegistryView {
-
-  /**
-   * Endpoints
-   */
-  public Map<String, RegisteredEndpoint> endpoints = new HashMap<String, RegisteredEndpoint>(2);
-
-  public String configurationsURL;
+  public static final String WEB_UI = "org.apache.http.UI";
   
-  public String documentsURL;
-
 }

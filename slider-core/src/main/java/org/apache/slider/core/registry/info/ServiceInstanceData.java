@@ -35,6 +35,9 @@ import java.util.Map;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ServiceInstanceData implements Serializable {
 
+  public String name;
+  public String id;
+  public long registrationTimeUTC;
 
   /**
    * Anything can go into the internal view, it's specific

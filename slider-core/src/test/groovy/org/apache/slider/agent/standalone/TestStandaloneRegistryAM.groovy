@@ -29,6 +29,7 @@ import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.docstore.PublishedConfigSet
+import org.apache.slider.core.registry.info.AMSpecificRegistryConstants
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Test
@@ -105,7 +106,7 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     def names = client.listRegistryNames(clustername)
     dumpRegistryNames(names)
 
-    List<String> instanceIds = client.listRegistryInstanceIDs(clustername)
+    List<String> instanceIds = client.listRegistryInstanceIDs()
 
 
     dumpRegistryInstanceIDs(instanceIds)
@@ -122,10 +123,9 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     def externalEndpoints = serviceInstanceData.externalView.endpoints
 
-
-
-
-    def publisherURL = externalEndpoints.get("publisher").asURL()
+    def endpoint = externalEndpoints.get(AMSpecificRegistryConstants.PUBLISHER_REST_API)
+    assert endpoint != null
+    def publisherURL = endpoint.asURL()
     def publisher = publisherURL.toString()
     describe("Publisher")
 
@@ -150,12 +150,13 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     // hit the registry web page
 
-    def registryEndpoint = externalEndpoints.get("registry")
+    def registryEndpoint = externalEndpoints.get(AMSpecificRegistryConstants.REGISTRY_REST_API)
+    assert registryEndpoint != null
     def registry = registryEndpoint.asURL()
     describe("Registry WADL @ $registry")
 
     describe("Registry List")
-    log.info(GET(registry, "v1/service" ))
+    log.info(GET(registry, AMSpecificRegistryConstants.REGISTRY_SUB_PATH ))
 
 
 

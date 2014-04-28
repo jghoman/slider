@@ -229,8 +229,8 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     } else if (HoyaActions.ACTION_LIST.equals(action)) {
       exitCode = actionList(clusterName);
     } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {     
-      exitCode = actionRegistry(clusterName,
-                                serviceArgs.getActionRegistryArgs());
+      exitCode = actionRegistry(
+          serviceArgs.getActionRegistryArgs());
     } else if (HoyaActions.ACTION_STATUS.equals(action)) {     
       exitCode = actionStatus(clusterName,
                               serviceArgs.getActionStatusArgs());
@@ -1244,22 +1244,21 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   /**
    * Status operation
    *
-   * @param clustername cluster name
    * @param registryArgs registry Arguments
    * @throws YarnException
    * @throws IOException
    */
   @VisibleForTesting
-  public int actionRegistry(String clustername,
-                            ActionRegistryArgs registryArgs) throws
+  public int actionRegistry(ActionRegistryArgs registryArgs) throws
                                                              YarnException,
                                                              IOException {
+    String clustername = registryArgs.getClusterName();
     List<CuratorServiceInstance<ServiceInstanceData>> instances =
-      listRegistryInstances(clustername);
+        listRegistryInstances(clustername);
 
     for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
       log.info("{} at http://{}:{}/", instance.id, instance.address,
-               instance.port);
+          instance.port);
     }
     return EXIT_SUCCESS;
   }
@@ -1305,13 +1304,11 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   
   /**
    * List instances in the registry
-   * @param clustername
    * @return
    * @throws IOException
    * @throws YarnException
    */
-  public List<String> listRegistryInstanceIDs(
-    String clustername) throws IOException, YarnException {
+  public List<String> listRegistryInstanceIDs() throws IOException, YarnException {
     try {
 
       maybeStartRegistry();
