@@ -16,16 +16,25 @@
  * limitations under the License.
  */
 
-package org.apache.slider.core.registry.docstore;
+package org.apache.slider.core.registry.info;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+/**
+ * These are constants unique to the Slider AM
+ */
+public class CustomRegistryConstants {
 
-import java.util.Map;
+  public static final String MANAGEMENT_REST_API =
+      "org.apache.slider.management";
+  public static final String REGISTRY_REST_API =
+      "org.apache.slider.registry";
+  
+  public static final String PUBLISHER_REST_API =
+      "org.apache.slider.publisher";
+  
+  public static final String AGENT_REST_API =
+      "org.apache.slider.publisher";
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class ConfigurationMap {
+  public static final String AM_IPC_PROTOCOL =
+      "org.apache.slider.appmaster";
 
-  Map<String, String> values;
 }

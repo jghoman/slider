@@ -108,7 +108,10 @@ import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
 import org.apache.hoya.yarn.service.WebAppService;
 import org.apache.slider.core.registry.docstore.PublishedConfiguration;
+import org.apache.slider.core.registry.info.CustomRegistryConstants;
+import org.apache.slider.core.registry.info.CommonRegistryConstants;
 import org.apache.slider.core.registry.info.RegisteredEndpoint;
+import org.apache.slider.core.registry.info.RegistryView;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.apache.slider.server.services.curator.RegistryConsts;
@@ -656,78 +659,8 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
 
     //Give the provider restricted access to the state, registry
     providerService.bind(appState, registry);
-    
-    // the registry is running, so register services
-    URL amWeb = new URL(appMasterTrackingUrl);
-    String serviceName = HoyaKeys.APP_TYPE;
-    int id = appid.getId();
-    String appRegistryName = RegistryNaming.createRegistryName(clustername,
-                                                               service_user_name,
-                                                               serviceName);
-    String registryId =
-      RegistryNaming.createUniqueInstanceId(clustername, service_user_name, serviceName, id);
+    registerServiceInstance(clustername, appid);
 
-    List<String> serviceInstancesRunning = registry.instanceIDs(serviceName);
-    log.info("service instances already running: {}", serviceInstancesRunning);
-
-    ServiceInstanceData instanceData = new ServiceInstanceData();
-
-    RegisteredEndpoint webUI =
-      new RegisteredEndpoint(amWeb, "Application Master Web UI");
-
-    
-    // public REST services
-    
-    instanceData.externalView.endpoints.put("web", webUI);
-
-    instanceData.externalView.endpoints.put(SLIDER_SUBPATH_MANAGEMENT,
-      new RegisteredEndpoint(
-        new URL(amWeb, SLIDER_PATH_MANAGEMENT),
-        "Management REST API" )
-    );
-
-    instanceData.externalView.endpoints.put("registry",
-      new RegisteredEndpoint(
-        new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
-        "Registry Web Service" )
-    );
-
-    instanceData.externalView.endpoints.put("publisher",
-      new RegisteredEndpoint(
-        new URL(amWeb, SLIDER_PATH_PUBLISHER),
-        "Publisher Service" )
-    );
-    
-    // IPC services
-    instanceData.externalView.endpoints.put("slider/IPC",
-        new RegisteredEndpoint(rpcServiceAddress,
-            RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
-            "Slider AM RPC")
-    );
-
-
-    // internal services
-
-    instanceData.internalView.endpoints.put(SLIDER_SUBPATH_AGENTS,
-      new RegisteredEndpoint(
-        new URL(amWeb, SLIDER_PATH_AGENTS),
-        "Agent REST API" )
-    );
-
-
-    
-    registry.register(
-      appRegistryName,
-      registryId,
-      amWeb,
-      instanceData);
-
-    
-    // now publish yarn-site.xml
-    PublishedConfiguration pubconf = new PublishedConfiguration();
-    pubconf.description = "YARN site settings";
-    pubconf.putValues(new YarnConfiguration());
-    appState.getPublishedConfigurations().put("yarn-site.xml", pubconf);
 
     // launch the provider; this is expected to trigger a callback that
     // starts the node review process
@@ -743,6 +676,98 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
     }
 
     return amExitCode;
+  }
+
+
+  /**
+   * This registers the service instance and its external values
+   * @param instanceName name of this instance
+   * @param appid application ID
+   * @throws Exception
+   */
+  private void registerServiceInstance(String instanceName,
+      ApplicationId appid) throws Exception {
+    // the registry is running, so register services
+    URL amWeb = new URL(appMasterTrackingUrl);
+    String serviceName = HoyaKeys.APP_TYPE;
+    int id = appid.getId();
+    String appRegistryName = RegistryNaming.createRegistryName(instanceName,
+        service_user_name,
+        serviceName);
+    String registryId =
+      RegistryNaming.createUniqueInstanceId(instanceName, service_user_name, serviceName, id);
+
+    List<String> serviceInstancesRunning = registry.instanceIDs(serviceName);
+    log.info("service instances already running: {}", serviceInstancesRunning);
+
+
+    // now publish yarn-site.xml
+    PublishedConfiguration pubconf = new PublishedConfiguration();
+    pubconf.description = "YARN site settings";
+    pubconf.putValues(new YarnConfiguration());
+    appState.getPublishedConfigurations().put("yarn-site.xml", pubconf);
+
+    ServiceInstanceData instanceData = new ServiceInstanceData();
+
+    RegisteredEndpoint webUI =
+      new RegisteredEndpoint(amWeb, "Application Master Web UI");
+
+
+    // public REST services
+
+    RegistryView externalView = instanceData.externalView;
+    externalView.endpoints.put(CommonRegistryConstants.WEB_UI, webUI);
+
+    externalView.endpoints.put(
+        CustomRegistryConstants.MANAGEMENT_REST_API,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_MANAGEMENT),
+        "Management REST API" )
+    );
+
+    externalView.endpoints.put(
+        CustomRegistryConstants.REGISTRY_REST_API,
+      new RegisteredEndpoint(
+        new URL(amWeb, RegistryConsts.REGISTRY_RESOURCE_PATH),
+        "Registry Web Service" )
+    );
+
+    URL publisherURL = new URL(amWeb, SLIDER_PATH_PUBLISHER);
+    externalView.endpoints.put(
+        CustomRegistryConstants.PUBLISHER_REST_API,
+      new RegisteredEndpoint(
+          publisherURL,
+        "Publisher Service" )
+    );
+
+    // IPC services
+    externalView.endpoints.put(
+        CustomRegistryConstants.AM_IPC_PROTOCOL,
+        new RegisteredEndpoint(rpcServiceAddress,
+            RegisteredEndpoint.PROTOCOL_HADOOP_PROTOBUF,
+            "Slider AM RPC") );
+
+    /**
+     * Set the configurations URL.
+     */
+    externalView.configurationsURL = publisherURL.toExternalForm();
+    
+
+    // internal services
+
+    instanceData.internalView.endpoints.put(
+        CustomRegistryConstants.AGENT_REST_API,
+      new RegisteredEndpoint(
+        new URL(amWeb, SLIDER_PATH_AGENTS),
+        "Agent REST API" )
+    );
+
+
+    registry.register(
+      appRegistryName,
+      registryId,
+      amWeb,
+      instanceData);
   }
 
   /**

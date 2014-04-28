@@ -107,7 +107,7 @@ class TestCreateMasterlessAM extends HBaseMiniClusterTestBase {
     names.each {String it -> log.info( it) }
     describe "service registry instance IDs"
 
-    def instanceIds = client.listRegistryInstanceIDs(clustername)
+    def instanceIds = client.listRegistryInstanceIDs()
     
     log.info("number of instanceIds: ${instanceIds.size()}")
     instanceIds.each {String it -> log.info( it) }

@@ -82,7 +82,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     def names = hoyaClient.listRegistryNames(clustername1)
     dumpRegistryNames(names)
 
-    List<String> instanceIds = hoyaClient.listRegistryInstanceIDs(clustername1)
+    List<String> instanceIds = hoyaClient.listRegistryInstanceIDs()
 
 
     dumpRegistryInstanceIDs(instanceIds)

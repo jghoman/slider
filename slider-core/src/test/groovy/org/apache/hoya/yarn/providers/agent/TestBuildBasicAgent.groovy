@@ -260,8 +260,8 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "missing package home or image path")
-    } catch (SliderException expected) {
-      assert expected.message.contains("Either agent package path or image root must be provided")
+    } catch (BadConfigException expected) {
+     
     }
 
     try {
@@ -279,8 +279,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad image path")
-    } catch (SliderException expected) {
-      assert expected.message.contains("Both application image path and home dir have been provided")
+    } catch (BadConfigException expected) {
     }
 
     try {
@@ -296,8 +295,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad app def file")
-    } catch (SliderException expected) {
-      assert expected.message.contains("Application definition must be provided")
+    } catch (BadConfigException expected) {
     }
 
     try {
@@ -314,8 +312,7 @@ class TestBuildBasicAgent extends AgentTestBase {
           true, false,
           false)
       failWithBuildSucceeding(badArgs1, "bad agent conf file")
-    } catch (SliderException expected) {
-      assert expected.message.contains("Agent config must be provided")
+    } catch (BadConfigException expected) {
     }
   }
 

@@ -73,14 +73,15 @@ class TestServiceInstanceSerDeser {
     builder.address(null).id("testPayload").name("").port(0).uriSpec(null)
 
     ServiceInstanceData data = new ServiceInstanceData()
-    data.externalView.settings["key"] = "value"
+    data.name = "testPayload"
+    data.externalView.documentsURL = "http://documents"
     builder.payload(data)
 
     def instance = buildAndRoundTrip("", builder)
 
-    def payload = instance.payload
+    def payload = instance.payload as ServiceInstanceData
     log.info("payload = $payload")
-    assert data.externalView.settings["key"] == "value"
+    assert payload.externalView.documentsURL == "http://documents"
   }
 
   @Test
@@ -91,17 +92,17 @@ class TestServiceInstanceSerDeser {
            .uriSpec(new UriSpec("http:{}:{}"))
     .sslPort(443)
     ServiceInstanceData data = new ServiceInstanceData()
-    data.externalView.settings["key"] = "value"
-    builder.payload(data)
-    assert data.externalView.settings["key"] == "value"
+    data.externalView.documentsURL = "http://documents"
+
     builder.payload(data)
     log.info("Test: testHackedDeser")
     String json = serialize(builder)
-    CuratorServiceInstance curatorInstance = deser.fromJson(json)
+    CuratorServiceInstance<ServiceInstanceData> curatorInstance = deser.fromJson(json)
     log.info("resolved =$curatorInstance")
     def payload = curatorInstance.payload
     log.info("payload = $payload")
-    assert data.externalView.settings["key"] == "value"
+    assert payload.externalView.documentsURL == "http://documents"
+
   }
 
   def buildAndRoundTrip(String testname, ServiceInstanceBuilder builder) {

@@ -31,5 +31,23 @@ public class ActionRegistryArgs extends AbstractActionArgs {
     return HoyaActions.ACTION_REGISTRY;
   }
 
+  //--format 
+  @Parameter(names = ARG_FORMAT,
+      description = "Format for a response: [text|xml|json|properties]")
+  public String format = FORMAT_XML;
+
+
+  @Parameter(names = {ARG_OUTPUT, ARG_OUTPUT_SHORT},
+      description = "Output file for the configuration data")
+  public String output;
+
+
+  @Parameter(names = {ARG_GET},
+      description = "get files")
+  public boolean get;
+
+  @Parameter(names = {ARG_LIST},
+      description = "list files")
+  public boolean list;
 
 }

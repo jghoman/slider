@@ -55,6 +55,7 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.StatusCommand;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
+import static org.apache.slider.core.registry.info.RegistryFields.*;
 import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -587,16 +588,16 @@ public class AgentProviderService extends AbstractProviderService implements
   private void buildEndpointDetails(Map<String, URL> details) {
     try {
       List<CuratorServiceInstance<ServiceInstanceData>> services =
-          registry.listInstances("slider");
+          registry.listInstances(HoyaKeys.APP_TYPE);
       assert services.size() == 1;
       CuratorServiceInstance<ServiceInstanceData> service = services.get(0);
       Map payload = (Map) service.getPayload();
       Map<String, Map<String, String>> endpoints =
-          (Map) ((Map) payload.get("externalView")).get("endpoints");
+          (Map) ((Map) payload.get(EXTERNAL_VIEW)).get(ENDPOINTS);
       for (Map.Entry<String, Map<String, String>> endpoint : endpoints.entrySet()) {
-        if ("http".equals(endpoint.getValue().get("protocol"))) {
-          URL url = new URL(endpoint.getValue().get("value"));
-          details.put(endpoint.getValue().get("description"),
+        if ("http".equals(endpoint.getValue().get(PROTOCOL))) {
+          URL url = new URL(endpoint.getValue().get(VALUE));
+          details.put(endpoint.getValue().get(DESCRIPTION),
                       url);
         }
       }
