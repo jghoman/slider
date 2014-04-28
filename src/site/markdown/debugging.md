@@ -16,7 +16,27 @@ The log files are accessible via the Yarn Resource Manager UI.  From the main pa
 
 ### Accessing the host machine
 
-If access to other log files is required, there is the option of logging in to the host machine on which the application component is running.  The root directory for all Yarn associated files is /hadoop/yarn/log.  Below the root directory you will find an application and container sub-directory (e.g. /application_1398372047522_0009/container_1398372047522_0009_01_000001/).  Below the container directory you will find any log files associated with the processes running in the given Yarn container.
+If access to other log files is required, there is the option of logging in to the host machine on which the application component is running.  The root directory for all Yarn associated files is the value of "yarn.nodemanager.log-dirs" in yarn-site.xml - e.g. /hadoop/yarn/log.  Below the root directory you will find an application and container sub-directory (e.g. /application_1398372047522_0009/container_1398372047522_0009_01_000001/).  Below the container directory you will find any log files associated with the processes running in the given Yarn container.
+
+Within a container log the following files are useful while debugging the application.
+
+**agent.log** 
+  
+E.g. application_1398098639743_0024/container_1398098639743_0024_01_000003/infra/log/agent.log
+This file contains the logs from the Slider-Agent.
+
+**application component log**
+
+E.g. ./log/application_1398098639743_0024/container_1398098639743_0024_01_000003/app/log/hbase-yarn-regionserver-c6403.ambari.apache.org.log
+
+The location of the application log is defined by the application. "${AGENT_LOG_ROOT}" is a symbol available to the app developers to use as a root folder for logging.
+
+**agent operations log**
+
+E.g. ./log/application_1398098639743_0024/container_1398098639743_0024_01_000003/app/command-log/
+
+The command logs produced by the slider-agent are available in the "command-log" folder relative to "${AGENT_LOG_ROOT}"/app
+
 
 ## IDE-based remote debugging of the Application Master
 
