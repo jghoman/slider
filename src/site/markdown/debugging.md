@@ -12,7 +12,7 @@ There are a number of options for viewing the generated log files:
   
 ### Using a web browser
 
-The log files are accessible via the Yarn Resource Manager UI.  From the main page (e.g. http://<the RM Host>:8088), click on the link for the application instance of interest, and then click on the "logs" link.  This will present you with a page with links to the slider-err.txt file and the slider-out.txt file.  The former is the file you should select.  Once the log page is presented, click on the link at the top of the page ("Click here for full log") to view the entire file.
+The log files are accessible via the Yarn Resource Manager UI.  From the main page (e.g. http://YARN_RESOURCE_MGR_HOST:8088), click on the link for the application instance of interest, and then click on the "logs" link.  This will present you with a page with links to the slider-err.txt file and the slider-out.txt file.  The former is the file you should select.  Once the log page is presented, click on the link at the top of the page ("Click here for full log") to view the entire file.
 
 ### Accessing the host machine
 
