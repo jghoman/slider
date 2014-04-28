@@ -1240,104 +1240,6 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
     log.info(HoyaUtils.appReportToString(report, "\n"));
   }
 
-
-  /**
-   * Status operation
-   *
-   * @param registryArgs registry Arguments
-   * @throws YarnException
-   * @throws IOException
-   */
-  @VisibleForTesting
-  public int actionRegistry(ActionRegistryArgs registryArgs) throws
-                                                             YarnException,
-                                                             IOException {
-    String clustername = registryArgs.getClusterName();
-    List<CuratorServiceInstance<ServiceInstanceData>> instances =
-        listRegistryInstances(clustername);
-
-    for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
-      log.info("{} at http://{}:{}/", instance.id, instance.address,
-          instance.port);
-    }
-    return EXIT_SUCCESS;
-  }
-
-  /**
-   * List names in the registry
-   * @param clustername
-   * @return
-   * @throws IOException
-   * @throws YarnException
-   */
-  public Collection<String> listRegistryNames(
-    String clustername) throws IOException, YarnException {
-    Collection<String> names;
-    try {
-      verifyBindingsDefined();
-
-      maybeStartRegistry();
-      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
-      names = discovery.queryForNames();
-    } catch (IOException e) {
-      throw e;
-    } catch (YarnException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new IOException(e);
-    }
-    return names;
-  }
-
-  /**
-   * List instances in the registry
-   * @param clustername
-   * @return
-   * @throws IOException
-   * @throws YarnException
-   */
-  public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances(
-    String clustername) throws IOException, YarnException {
-    maybeStartRegistry();
-    return registry.listInstances(HoyaKeys.APP_TYPE);
-  }
-  
-  /**
-   * List instances in the registry
-   * @return
-   * @throws IOException
-   * @throws YarnException
-   */
-  public List<String> listRegistryInstanceIDs() throws IOException, YarnException {
-    try {
-
-      maybeStartRegistry();
-      return registry.instanceIDs(HoyaKeys.APP_TYPE);
-    } catch (IOException e) {
-      throw e;
-    } catch (YarnException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new IOException(e);
-    }
-  }
-
-  /**
-   * Start the registry if it is not there yet
-   * @return the registry service
-   * @throws SliderException
-   * @throws IOException
-   */
-  public RegistryBinderService<ServiceInstanceData> maybeStartRegistry() throws
-      SliderException,
-      IOException {
-
-    if (registry == null) {
-      registry = startRegistrationService();
-    }
-    return registry;
-  }
-  
   /**
    * Implement the islive action: probe for a cluster of the given name existing
    * @return exit code
@@ -2034,5 +1936,116 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   @VisibleForTesting
   public AggregateConf getLaunchedInstanceDefinition() {
     return launchedInstanceDefinition;
+  }
+
+
+  /**
+   * Status operation
+   *
+   * @param registryArgs registry Arguments
+   * @throws YarnException
+   * @throws IOException
+   */
+  @VisibleForTesting
+  public int actionRegistry(ActionRegistryArgs registryArgs) throws
+      YarnException,
+      IOException {
+    String clustername = registryArgs.getClusterName();
+    List<CuratorServiceInstance<ServiceInstanceData>> instances =
+        listRegistryInstances();
+
+    for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
+      log.info("{} at http://{}:{}/", instance.id, instance.address,
+          instance.port);
+    }
+    return EXIT_SUCCESS;
+  }
+
+  /**
+   * List names in the registry
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public Collection<String> listRegistryNames() throws IOException, YarnException {
+    Collection<String> names;
+    try {
+      verifyBindingsDefined();
+
+      maybeStartRegistry();
+      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
+      names = discovery.queryForNames();
+    } catch (IOException e) {
+      throw e;
+    } catch (YarnException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+    return names;
+  }
+
+  /**
+   * List instances in the registry
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances()
+      throws IOException, YarnException {
+    maybeStartRegistry();
+    return registry.listInstances(HoyaKeys.APP_TYPE);
+  }
+
+  /**
+   * List instances in the registry
+   * @return
+   * @throws IOException
+   * @throws YarnException
+   */
+  public List<String> listRegistryInstanceIDs() throws
+      IOException,
+      YarnException {
+    try {
+      maybeStartRegistry();
+      return registry.instanceIDs(HoyaKeys.APP_TYPE);
+    } catch (IOException e) {
+      throw e;
+    } catch (YarnException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+
+  /**
+   * Start the registry if it is not there yet
+   * @return the registry service
+   * @throws SliderException
+   * @throws IOException
+   */
+  private synchronized RegistryBinderService<ServiceInstanceData> maybeStartRegistry() throws
+      SliderException,
+      IOException {
+
+    if (registry == null) {
+      registry = startRegistrationService();
+    }
+    return registry;
+  }
+
+  /**
+   * Get the registry binding. As this may start the registry, it can take time
+   * and fail
+   * @return registry the registry service
+   * @throws SliderException slider-specific failures
+   * @throws IOException other failures
+   */
+  @VisibleForTesting
+
+  public RegistryBinderService<ServiceInstanceData> getRegistry() throws
+      SliderException,
+      IOException {
+    return maybeStartRegistry();
   }
 }

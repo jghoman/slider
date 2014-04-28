@@ -20,6 +20,7 @@ package org.apache.slider.agent.standalone
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.curator.x.discovery.ServiceDiscovery
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -33,6 +34,7 @@ import org.apache.slider.core.registry.docstore.PublishedConfigSet
 import org.apache.slider.core.registry.info.CustomRegistryConstants
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
+import org.apache.slider.server.services.curator.RegistryBinderService
 import org.junit.Test
 
 /**
@@ -104,7 +106,10 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     //switch to the ZK-based registry
 
-    def names = client.listRegistryNames(clustername)
+    describe "service registry names"
+    RegistryBinderService<ServiceInstanceData> registry = client.registry
+    ServiceDiscovery<ServiceInstanceData> discovery = registry.discovery;
+    def names = discovery.queryForNames();
     dumpRegistryNames(names)
 
     List<String> instanceIds = client.listRegistryInstanceIDs()
@@ -114,7 +119,7 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     assert instanceIds.size() == 1
 
     List<CuratorServiceInstance<ServiceInstanceData>> instances = client.listRegistryInstances(
-        clustername)
+    )
     dumpRegistryInstances(instances)
 
     assert instances.size() == 1
@@ -153,11 +158,11 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     def registryEndpoint = externalEndpoints.get(CustomRegistryConstants.REGISTRY_REST_API)
     assert registryEndpoint != null
-    def registry = registryEndpoint.asURL()
-    describe("Registry WADL @ $registry")
+    def registryURL = registryEndpoint.asURL()
+    describe("Registry WADL @ $registryURL")
 
     describe("Registry List")
-    log.info(GET(registry, RestPaths.REGISTRY_SERVICE ))
+    log.info(GET(registryURL, RestPaths.REGISTRY_SERVICE ))
 
 
 
@@ -173,7 +178,7 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     sleep(20000)
 
-    instances = client.listRegistryInstances(clustername)
+    instances = client.listRegistryInstances()
     assert instances.size() == 0
 
   }
