@@ -24,10 +24,14 @@ Download: [slider-0.22.0-all.tar.gz](http://public-repo-1.hortonworks.com/slider
 
 ## Key changes
 
-### Added support for Slider App Package and Slider Agent to manages Slider App Packages
+### Added support for Slider App Package
 
-Applications deployed and managed on YARN using Slider
-Use of slider minimizes custom code for deployment + lifecycle management
-Requires apps to follow Slider guidelines and packaging ("Sliderize")
+Slider AppPackages are a declarative definition of an application for application management. Slider can deploy and manage any application described in the App Package format.
 
-### Built against Hadoop 2.4.0
+
+### Added support for Slider Agent
+
+Slider agent is a generic provider that can process Slider App Packages.
+
+### Added documentation on developing and using Slider App Packages
+
