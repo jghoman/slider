@@ -26,7 +26,6 @@ import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.avro.RoleHistoryWriter
 import org.apache.hoya.core.conf.ConfTreeOperations
 import org.apache.hoya.exceptions.BadConfigException
-import org.apache.hoya.exceptions.HoyaRuntimeException
 import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRecordFactory
@@ -105,7 +104,7 @@ class TestFlexDynamicRoles extends BaseMockAppStateTest
     //gaps are still there
     try {
       assert null == appState.lookupRoleStatus(5)
-    } catch (HoyaRuntimeException expected) {
+    } catch (RuntimeException expected) {
     }
   }
   

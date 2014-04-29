@@ -23,13 +23,11 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 import org.apache.hoya.tools.HoyaUtils;
 import java.util.Map;
 
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_HOSTS;
+import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_QUORUM;
 import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PATH;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PORT;
 
 /**
  * Operations on Cluster Descriptions
@@ -75,9 +73,7 @@ public class ClusterDescriptionOperations {
     cd.setImagePath(internalOptions.get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH));
     cd.setApplicationHome(internalOptions.get(OptionKeys.INTERNAL_APPLICATION_HOME));
     cd.setZkPath(appOptions.get(ZOOKEEPER_PATH));
-    cd.setZkPort(appOptions.getOptionInt(ZOOKEEPER_PORT,
-                                              HBaseConfigFileOptions.HBASE_ZK_PORT));
-    cd.setZkHosts(appOptions.get(ZOOKEEPER_HOSTS));
+    cd.setZkHosts(appOptions.get(ZOOKEEPER_QUORUM));
     
     return cd;
   }

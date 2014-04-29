@@ -49,7 +49,7 @@ class MicroZKCluster implements Closeable {
     baseDir.delete()
     baseDir.mkdirs()
     port = zkCluster.startup(baseDir)
-    zkBindingString = HOSTS +":"+port
+    zkBindingString = HOSTS + ":" + port
     log.info("Created $this")
   }
 

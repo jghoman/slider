@@ -627,31 +627,6 @@ else only the one running (or one of the finished ones)
        let e = yarn-application-instances(YARN, instancename, user) 
        e.toString() in STDOUT'
 
-## Action: emergency-force-kill
-
-This is an administration operation added while implementing security in
-Slider: it will force kill an application without issuing an RPC Call -instead
-it tells the YARN AM to kill it.
-
-    emergency-force-kill appid
-
-
-#### Preconditions
-
-    appid == valid application ID or appid == "all"
-
-
-#### Postconditions
-
-If `all` was requested, then no applications of the user should be running:
-
-    if appid == "all" :
-        not exists a for app in YARN'.Apps'.values where app.report.User = username and app.report.State <= RUNNING
-
-If an appId was provided, that application should be in a finished state
-
-    YARN'.Apps'[appId].report.State >= FINISHED
-
 ## Action: killcontainer
 
 This is an operation added for testing. It will kill a container in the cluster
@@ -661,8 +636,6 @@ of the cluster
 
     killcontainer cluster --id container-id
     
-
-
 #### Preconditions
 
     if not slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)

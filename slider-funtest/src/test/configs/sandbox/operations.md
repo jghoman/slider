@@ -23,7 +23,7 @@
 
     slider create cluster1 \
          --component worker 4\
-          --zkhosts sandbox \
+          --zkhosts sandbox:2181 \
           --provider hbase \
           --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
           --appconf file:////Users/hoya/Hadoop/configs/master/hbase \
@@ -37,7 +37,7 @@
     --manager sandbox:8032 --filesystem hdfs://sandbox.hortonworks.com:8020 \
             --component worker 1\
             --component master 0\
-        --zkhosts sandbox  \
+        --zkhosts sandbox:2181  \
         --provider hbase \
         --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
         --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
@@ -49,7 +49,7 @@
 
     bin/slider create cl1 \
         --component master 0 \
-        --zkhosts sandbox  \
+        --zkhosts sandbox:2181  \
         --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
         --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
         --compopt master jvm.heap 128 \
@@ -68,7 +68,7 @@
 # single master & workre
      
     bin/slider create cluster3 \
-    --zkhosts sandbox  \
+    --zkhosts sandbox:2181  \
     --provider hbase \
     --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
     --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
@@ -79,7 +79,7 @@
 # one master
      
     bin/slider create cl1 \
-    --zkhosts sandbox   \
+    --zkhosts sandbox:2181   \
     --provider hbase \
     --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
     --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
@@ -88,7 +88,7 @@
 # one master env set up
       
      bin/slider create cl1 \
-     --zkhosts sandbox   \
+     --zkhosts sandbox:2181   \
      --provider hbase \
      --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
      --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
@@ -98,7 +98,7 @@
 # build but don't deploy single master
      
     bin/slider build cl1 \
-    --zkhosts sandbox \
+    --zkhosts sandbox:2181 \
     --provider hbase \
     --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \
     --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \
@@ -133,7 +133,7 @@
     bin/slider create cl1 \
       --component worker 1\
       --component master 2\
-      --zkhosts sandbox \
+      --zkhosts sandbox:2181 \
       --provider hbase \
       --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz  \
       --appconf file:///Users/stevel/Projects/slider/slider-core/src/test/configs/sandbox/hbase \

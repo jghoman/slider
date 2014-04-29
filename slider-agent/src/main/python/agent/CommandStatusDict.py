@@ -43,7 +43,7 @@ class CommandStatusDict():
     self.lock = threading.RLock()
 
 
-  def put_command_status(self, command, new_report):
+  def put_command_status(self, command, new_report, wakeupController=True):
     """
     Stores new version of report for command (replaces previous)
     """
@@ -53,7 +53,10 @@ class CommandStatusDict():
       key = id(command)
     with self.lock: # Synchronized
       self.current_state[key] = (command, new_report)
-    self.callback_action()
+
+    # Usually, status commands are not reported immediately
+    if wakeupController:
+      self.callback_action()
 
 
   def generate_report(self):

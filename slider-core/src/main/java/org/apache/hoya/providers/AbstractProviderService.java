@@ -25,7 +25,7 @@ import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
@@ -33,6 +33,8 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.service.ForkedProcessService;
 import org.apache.hoya.yarn.service.Parent;
 import org.apache.hoya.yarn.service.SequenceService;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +63,7 @@ public abstract class AbstractProviderService
   protected  AggregateConf instanceDefinition;
   protected StateAccessForProviders stateAccessor;
   protected AgentRestOperations restOps;
+  protected RegistryBinderService<ServiceInstanceData> registry;
 
   public AbstractProviderService(String name) {
     super(name);
@@ -80,8 +83,10 @@ public abstract class AbstractProviderService
   }
 
   @Override
-  public void bind(StateAccessForProviders stateAccessor) {
+  public void bind(StateAccessForProviders stateAccessor,
+      RegistryBinderService<ServiceInstanceData> registry) {
     this.stateAccessor = stateAccessor;
+    this.registry = registry;
   }
 
   @Override
@@ -125,11 +130,11 @@ public abstract class AbstractProviderService
    * {@inheritDoc}
    */
   @Override
-  public void validateApplicationConfiguration(AggregateConf instanceDefinition,
+  public void validateApplicationConfiguration(AggregateConf instance,
                                                File confDir,
                                                boolean secure) throws
                                                                IOException,
-                                                               HoyaException {
+      SliderException {
     
   }
 
@@ -224,13 +229,13 @@ public abstract class AbstractProviderService
    * @param env environment
    * @param commands command line
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    */
   protected ForkedProcessService queueCommand(String name,
                               Map<String, String> env,
                               List<String> commands) throws
                                                      IOException,
-                                                     HoyaException {
+      SliderException {
     ForkedProcessService process = buildProcess(name, env, commands);
     //register the service for lifecycle management; when this service
     //is terminated, so is the master process
@@ -242,7 +247,7 @@ public abstract class AbstractProviderService
                                            Map<String, String> env,
                                            List<String> commands) throws
                                                                   IOException,
-                                                                  HoyaException {
+      SliderException {
     ForkedProcessService process;
     process = new ForkedProcessService(name);
     process.init(getConfig());

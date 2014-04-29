@@ -18,12 +18,9 @@
 
 package org.apache.hoya.yarn
 
-import groovy.transform.CompileStatic;
-import groovy.util.logging.Slf4j;
-import org.apache.hoya.tools.HoyaUtils;
-import org.apache.hadoop.yarn.conf.YarnConfiguration
+import groovy.transform.CompileStatic
 import org.apache.hoya.testtools.HoyaTestUtils
-import org.junit.Before;
+import org.junit.Before
 
 /**
  * Base class for unit tests as well as ones starting mini clusters

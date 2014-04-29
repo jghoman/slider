@@ -74,8 +74,6 @@ public interface StatusKeys {
    */
   String INFO_STATUS_TIME_HUMAN = "status.time";
 
-  String INFO_AM_RESTART_SUPPORTED = "info.am.restart.supported";
-
   String INFO_AM_APP_ID = "info.am.app.id";
   String INFO_AM_ATTEMPT_ID = "info.am.attempt.id";
   String INFO_AM_CONTAINER_ID = "info.am.container.id";

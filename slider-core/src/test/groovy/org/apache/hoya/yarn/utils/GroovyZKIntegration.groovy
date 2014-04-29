@@ -18,7 +18,7 @@
 
 package org.apache.hoya.yarn.utils
 
-import org.apache.hoya.tools.ZKCallback
+import org.apache.slider.core.registry.zk.ZKCallback
 import org.apache.zookeeper.WatchedEvent
 
 class GroovyZKIntegration {

@@ -78,9 +78,6 @@ class Grep:
       return "".join(tailed)
 
   def filterMarkup(self, string):
-    """
-    Filters given string from puppet colour markup done using escape codes like [0;36m
-    """
     if string is None:
       result = None
     else:

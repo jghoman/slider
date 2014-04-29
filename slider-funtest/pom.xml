@@ -15,7 +15,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>slider-funtest</artifactId>
-  <version>0.20.0</version>
+  <version>0.22.0</version>
   <name>Slider Functional Tests</name>
   <packaging>jar</packaging>
   <description>
@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.apache.slider</groupId>
     <artifactId>slider</artifactId>
-    <version>0.20.0</version>
+    <version>0.22.0</version>
   </parent>
 
   <build>
@@ -93,12 +93,15 @@
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <!--mvn process fork options-->
-          <reuseForks>true</reuseForks>
+          <reuseForks>${test.reuseForks}</reuseForks>
+          <forkMode>${test.forkMode}</forkMode>
           <forkCount>1</forkCount>
-          <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+          <forkedProcessTimeoutInSeconds>${test.forkedProcessTimeoutInSeconds}
+          </forkedProcessTimeoutInSeconds>
           <threadCount>1</threadCount>
-          <argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</argLine>
-          <failIfNoTests>true</failIfNoTests>
+          <argLine>${test.argLine}</argLine>
+          <failIfNoTests>${test.failIfNoTests}</failIfNoTests>
+          
           <trimStackTrace>false</trimStackTrace>
           <redirectTestOutputToFile>${build.redirect.test.output.to.file}</redirectTestOutputToFile>
           <systemPropertyVariables>
@@ -225,29 +228,6 @@
       <artifactId>itest-common</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-minicluster</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-start</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.accumulo</groupId>
-      <artifactId>accumulo-trace</artifactId>
-      <scope>test</scope>
-    </dependency>
     
   </dependencies>
 

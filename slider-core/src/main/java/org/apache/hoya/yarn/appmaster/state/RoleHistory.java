@@ -27,7 +27,6 @@ import org.apache.hadoop.yarn.client.api.AMRMClient;
 import org.apache.hoya.avro.RoleHistoryHeader;
 import org.apache.hoya.avro.RoleHistoryWriter;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaIOException;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.tools.HoyaUtils;
 import org.slf4j.Logger;
@@ -171,7 +170,7 @@ public class RoleHistory {
 
     int roleCountInSource = header.getRoles();
     if (roleCountInSource != roleSize) {
-      throw new HoyaIOException("Number of roles in source " + roleCountInSource
+      throw new IOException("Number of roles in source " + roleCountInSource
                                 + " does not match the expected number of " +
                                 roleSize);
     }

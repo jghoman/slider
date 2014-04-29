@@ -22,7 +22,7 @@ package org.apache.hoya.exceptions;
  * An Exception to be thrown for an explicit "shut down the cluster" operation
  * raised by the application state or other parts of the AM
  */
-public class TriggerClusterTeardownException extends HoyaException {
+public class TriggerClusterTeardownException extends SliderException {
 
   public TriggerClusterTeardownException(int code,
                                          String message,

@@ -20,16 +20,6 @@ package org.apache.hoya.tools;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.core.persist.Filenames;
-import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
-import org.apache.hoya.exceptions.UnknownClusterException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 

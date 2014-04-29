@@ -162,7 +162,6 @@ def stop_agent():
     time.sleep(5)
     if os.path.exists(ProcessHelper.pidfile):
       raise Exception("PID file still exists.")
-    os._exit(0)
   except Exception, err:
     if pid == -1:
       print ("Agent process is not running")
@@ -226,9 +225,12 @@ def main():
   # Launch Controller communication
   controller = Controller(agentConfig)
   controller.start()
-  controller.join()
-  stop_agent()
-  logger.info("... agent finished")
+  try:
+    while controller.is_alive():
+      controller.join(timeout=1.0)
+  except (KeyboardInterrupt, SystemExit):
+    logger.info("... agent interrupted")
+    pass
 
 
 if __name__ == "__main__":

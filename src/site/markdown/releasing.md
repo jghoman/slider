@@ -66,7 +66,11 @@ versions plugin)[http://mojo.codehaus.org/versions-maven-plugin/]
 
 In the `slider` directory, run:
 
-    mvn clean test
+    mvn clean install -DskipTests
+
+Once everything is built- including .tar files, run the tests
+
+    mvn test
 
 This will run the functional tests as well as the `slider-core` tests.
 
@@ -74,18 +78,19 @@ It is wise to reset any VMs here, and on live clusters kill all running jobs.
 This stops functional tests failing because the job doesn't get started before
 the tests time out.
 
+As the test run takes 30-60+ minutes, now is a good time to consider
+finalizing the release notes.
+
 
 **Step #7:** Build the release package
 
 Run
     
-    mvn clean site:site site:stage package 
-
-As the test run takes 30-60+ minutes, now is a good time to consider
-finalizing the release notes.
+    mvn clean site:site site:stage package -DskipTests
 
 
-**Step #8:** validate the Tar
+
+**Step #8:** validate the tar file
 
 Look in `slider-assembly/target` to find the `.tar.gz` file, and the
 expanded version of it. Inspect that expanded version to make sure that
@@ -99,7 +104,7 @@ Create a a one-line plain text release note for commits and tags
 And a multi-line markdown release note, which will be used for artifacts.
 
 
-    Release of Hoya against hadoop 2.3.0, HBase-0.98.0 and Accumulo 1.5.1 artifacts. 
+    Release against hadoop 2.4.0, HBase-0.98.1 and Accumulo 1.5.1 artifacts. 
 
 The multi-line release notes should go into `slider/src/site/markdown/release_notes`.
 

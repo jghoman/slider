@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hoya.yarn.appmaster.web.view;
+package org.apache.hoya.yarn.appmaster.web.view
 
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
@@ -38,14 +38,7 @@ import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl
 import org.apache.hoya.yarn.appmaster.web.view.ContainerStatsBlock.ClusterNodeNameComparator
 import org.apache.hoya.yarn.appmaster.web.view.ContainerStatsBlock.TableAnchorContent
 import org.apache.hoya.yarn.appmaster.web.view.ContainerStatsBlock.TableContent
-import org.apache.hoya.yarn.model.mock.MockAppState
-import org.apache.hoya.yarn.model.mock.MockContainer
-import org.apache.hoya.yarn.model.mock.MockContainerId
-import org.apache.hoya.yarn.model.mock.MockHoyaClusterProtocol
-import org.apache.hoya.yarn.model.mock.MockNodeId
-import org.apache.hoya.yarn.model.mock.MockProviderService
-import org.apache.hoya.yarn.model.mock.MockRecordFactory
-import org.apache.hoya.yarn.model.mock.MockResource
+import org.apache.hoya.yarn.model.mock.*
 import org.junit.Before
 import org.junit.Test
 

@@ -24,8 +24,8 @@ import traceback
 import threading
 import pprint
 import os
+import time
 
-from LiveStatus import LiveStatus
 from shell import shellRunner
 from AgentConfig import AgentConfig
 from CommandStatusDict import CommandStatusDict
@@ -43,18 +43,12 @@ class ActionQueue(threading.Thread):
 
   STATUS_COMMAND = 'STATUS_COMMAND'
   EXECUTION_COMMAND = 'EXECUTION_COMMAND'
-  ROLE_COMMAND_INSTALL = 'INSTALL'
-  ROLE_COMMAND_START = 'START'
-  ROLE_COMMAND_STOP = 'STOP'
-  ROLE_COMMAND_CUSTOM_COMMAND = 'CUSTOM_COMMAND'
-  CUSTOM_COMMAND_RESTART = 'RESTART'
 
   IN_PROGRESS_STATUS = 'IN_PROGRESS'
   COMPLETED_STATUS = 'COMPLETED'
   FAILED_STATUS = 'FAILED'
 
-  COMMAND_FORMAT_V1 = "1.0"
-  COMMAND_FORMAT_V2 = "2.0"
+  STORE_APPLIED_CONFIG = 'record_config'
 
   def __init__(self, config, controller):
     super(ActionQueue, self).__init__()
@@ -90,8 +84,10 @@ class ActionQueue(threading.Thread):
 
   def run(self):
     while not self.stopped():
+      time.sleep(2)
       command = self.commandQueue.get() # Will block if queue is empty
       self.process_command(command)
+    logger.info("ActionQueue stopped.")
 
 
   def process_command(self, command):
@@ -110,32 +106,17 @@ class ActionQueue(threading.Thread):
       logger.warn(err)
 
 
-  def determine_command_format_version(self, command):
-    """
-    Returns either COMMAND_FORMAT_V1 or COMMAND_FORMAT_V2
-    """
-    try:
-      if command['commandParams']['schema_version'] == self.COMMAND_FORMAT_V2:
-        return self.COMMAND_FORMAT_V2
-      else:
-        return self.COMMAND_FORMAT_V1
-    except KeyError:
-      pass # ignore
-    return self.COMMAND_FORMAT_V1 # Fallback
-
-
   def execute_command(self, command):
     '''
     Executes commands of type  EXECUTION_COMMAND
     '''
     clusterName = command['clusterName']
     commandId = command['commandId']
-    command_format = self.determine_command_format_version(command)
 
     message = "Executing command with id = {commandId} for role = {role} of " \
-              "cluster {cluster}. Command format={command_format}".format(
+              "cluster {cluster}".format(
       commandId=str(commandId), role=command['role'],
-      cluster=clusterName, command_format=command_format)
+      cluster=clusterName)
     logger.info(message)
     logger.debug(pprint.pformat(command))
 
@@ -150,18 +131,23 @@ class ActionQueue(threading.Thread):
       'status': self.IN_PROGRESS_STATUS
     })
     self.commandStatuses.put_command_status(command, in_progress_status)
+    store_config = False
+    if ActionQueue.STORE_APPLIED_CONFIG in command['commandParams']:
+      store_config = 'true' == command['commandParams'][ActionQueue.STORE_APPLIED_CONFIG]
+
     # running command
     commandresult = self.customServiceOrchestrator.runCommand(command,
                                                               in_progress_status[
                                                                 'tmpout'],
                                                               in_progress_status[
-                                                                'tmperr'])
+                                                                'tmperr'],
+                                                              True,
+                                                              store_config)
     # dumping results
     status = self.COMPLETED_STATUS
     if commandresult['exitcode'] != 0:
       status = self.FAILED_STATUS
     roleResult = self.commandStatuses.generate_report_template(command)
-    # assume some puppet plumbing to run these commands
     roleResult.update({
       'stdout': commandresult['stdout'],
       'stderr': commandresult['stderr'],
@@ -183,6 +169,9 @@ class ActionQueue(threading.Thread):
         roleResult['configurationTags'] = command['configurationTags']
     self.commandStatuses.put_command_status(command, roleResult)
 
+  # Store action result to agent response queue
+  def result(self):
+    return self.commandStatuses.generate_report()
 
   def execute_status_command(self, command):
     '''
@@ -192,39 +181,35 @@ class ActionQueue(threading.Thread):
       cluster = command['clusterName']
       service = command['serviceName']
       component = command['componentName']
-      configurations = command['configurations']
-      if configurations.has_key('global'):
-        globalConfig = configurations['global']
-      else:
-        globalConfig = {}
+      reportResult = True
+      if 'auto_generated' in command:
+        reportResult = not command['auto_generated']
 
-      command_format = self.determine_command_format_version(command)
+      component_status = self.customServiceOrchestrator.requestComponentStatus(command)
 
-      livestatus = LiveStatus(cluster, service, component,
-                              globalConfig, self.config)
-      component_status = None
-      if command_format == self.COMMAND_FORMAT_V2:
-        # For custom services, responsibility to determine service status is
-        # delegated to python scripts
-        component_status = self.customServiceOrchestrator.requestComponentStatus(
-          command)
+      result = {"componentName": component,
+                "msg": "",
+                "clusterName": cluster,
+                "serviceName": service,
+                "reportResult": reportResult,
+                "roleCommand": command['roleCommand']
+      }
 
-      result = livestatus.build(forsed_component_status=component_status)
-      logger.debug("Got live status for component " + component + \
-                   " of service " + str(service) + \
-                   " of cluster " + str(cluster))
-      logger.debug(pprint.pformat(result))
+      if 'configurations' in component_status:
+        result['configurations'] = component_status['configurations']
+      if 'exitcode' in component_status:
+        result['status'] = component_status['exitcode']
+        logger.debug("Got live status for component " + component + \
+                     " of service " + str(service) + \
+                     " of cluster " + str(cluster))
+        logger.debug(pprint.pformat(result))
+
       if result is not None:
-        self.commandStatuses.put_command_status(command, result)
+        self.commandStatuses.put_command_status(command, result, reportResult)
     except Exception, err:
       traceback.print_exc()
       logger.warn(err)
     pass
-
-
-  # Store action result to agent response queue
-  def result(self):
-    return self.commandStatuses.generate_report()
 
 
   def status_update_callback(self):

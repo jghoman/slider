@@ -23,7 +23,6 @@ import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
@@ -33,11 +32,11 @@ import org.junit.Test
 
 import javax.ws.rs.core.MediaType
 
-import static org.apache.hoya.api.RoleKeys.*
 import static org.apache.hoya.providers.agent.AgentKeys.*
-import static org.apache.hoya.yarn.Arguments.*
-import static org.apache.hoya.testtools.HoyaTestUtils.*;
-import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.*;
+import static org.apache.hoya.testtools.HoyaTestUtils.log
+import static org.apache.hoya.yarn.Arguments.ARG_OPTION
+import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createDummyJSONRegister
+import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClient;
 
 @CompileStatic
 @Slf4j

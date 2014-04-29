@@ -19,8 +19,7 @@ package org.apache.hoya.servicemonitor;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
-import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.UnknownClusterException;
+import org.apache.hoya.exceptions.UnknownApplicationInstanceException;
 import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +77,7 @@ public class YarnApplicationProbe extends Probe {
       ApplicationReport instance =
         yarnClient.findClusterInInstanceList(instances, clustername);
       if (null == instance) {
-        throw UnknownClusterException.unknownCluster(clustername);
+        throw UnknownApplicationInstanceException.unknownInstance(clustername);
       }
 
       status.succeed(this);

@@ -31,7 +31,6 @@ import org.apache.hadoop.security.SecurityUtil;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.ExitUtil;
 import org.apache.hadoop.util.VersionInfo;
-import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.LocalResource;
@@ -42,13 +41,13 @@ import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
 import org.apache.hoya.core.conf.MapOperations;
+import org.apache.hoya.core.launch.ClasspathConstructor;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.MissingArgException;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 import org.apache.zookeeper.server.util.KerberosUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +63,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -72,8 +72,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -173,6 +175,23 @@ public final class HoyaUtils {
       log.debug("No output dir yet");
     }
   }
+
+  /**
+   * Find a containing JAR
+   * @param my_class class to find
+   * @return the file
+   * @throws IOException any IO problem, including the class not having a
+   * classloader
+   * @throws FileNotFoundException if the class did not resolve to a file
+   */
+  public static File findContainingJarOrFail(Class clazz) throws IOException {
+    File localFile = HoyaUtils.findContainingJar(clazz);
+    if (null == localFile) {
+      throw new FileNotFoundException("Could not find JAR containing " + clazz);
+    }
+    return localFile;
+  }
+
 
   /**
    * Find a containing JAR
@@ -384,8 +403,8 @@ public final class HoyaUtils {
 
     //if the fallback option is NOT set, enable it.
     //if it is explicitly set to anything -leave alone
-    if (conf.get(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
-      conf.set(HBaseConfigFileOptions.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
+    if (conf.get(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
+      conf.set(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
     }
     return conf;
   }
@@ -404,13 +423,34 @@ public final class HoyaUtils {
     return l;
   }
 
+  /**
+   * Join an collection of objects with a separator that appears after every
+   * instance in the list -including at the end
+   * @param collection collection to call toString() on each element
+   * @param separator separator string
+   * @return the joined entries
+   */
   public static String join(Collection collection, String separator) {
+    return join(collection, separator, true);
+  }
+
+  /**
+   * Join an collection of objects with a separator that appears after every
+   * instance in the list -optionally at the end
+   * @param collection collection to call toString() on each element
+   * @param separator separator string
+   * @param trailing add a trailing entry or not
+   * @return the joined entries
+   */
+  public static String join(Collection collection, String separator, boolean trailing) {
     StringBuilder b = new StringBuilder();
     for (Object o : collection) {
       b.append(o);
       b.append(separator);
     }
-    return b.toString();
+    return trailing? 
+           b.toString()
+           : (b.substring(0, b.length() - 1));
   }
 
   /**
@@ -418,15 +458,24 @@ public final class HoyaUtils {
    * instance in the list -including at the end
    * @param collection strings
    * @param separator separator string
-   * @return the list
+   * @return the joined entries
    */
   public static String join(String[] collection, String separator) {
-    StringBuilder b = new StringBuilder();
-    for (String o : collection) {
-      b.append(o);
-      b.append(separator);
-    }
-    return b.toString();
+    return join(collection, separator, true);
+    
+    
+  }
+  /**
+   * Join an array of strings with a separator that appears after every
+   * instance in the list -optionally at the end
+   * @param collection strings
+   * @param separator separator string
+   * @param trailing add a trailing entry or not
+   * @return the joined entries
+   */
+  public static String join(String[] collection, String separator,
+                            boolean trailing) {
+    return join(Arrays.asList(collection), separator, trailing);
   }
 
   /**
@@ -691,7 +740,8 @@ public final class HoyaUtils {
            "# " +
            report.getApplicationId() + " user " + report.getUser() +
            " is in state " + report.getYarnApplicationState() +
-           "RPC: " + report.getHost() + ":" + report.getRpcPort();
+           " RPC: " + report.getHost() + ":" + report.getRpcPort() +
+           " URL" + report.getOriginalTrackingUrl();
   }
 
   /**
@@ -928,7 +978,7 @@ public final class HoyaUtils {
                               String libdir,
                               String jarName
                              )
-    throws IOException, HoyaException {
+    throws IOException, SliderException {
     LocalResource res = hoyaFileSystem.submitJarWithClass(
             clazz,
             tempPath,
@@ -1051,40 +1101,27 @@ public final class HoyaUtils {
    * (and hence the current classpath should be used, not anything built up)
    * @return a classpath
    */
-  public static String buildClasspath(String hoyaConfDir,
-                                      String libdir,
-                                      Configuration config,
-                                      boolean usingMiniMRCluster) {
-    // Add AppMaster.jar location to classpath
-    // At some point we should not be required to add
-    // the hadoop specific classpaths to the env.
-    // It should be provided out of the box.
-    // For now setting all required classpaths including
-    // the classpath to "." for the application jar
-    StringBuilder classPathEnv = new StringBuilder();
+  public static ClasspathConstructor buildClasspath(String hoyaConfDir,
+                                                    String libdir,
+                                                    Configuration config,
+                                                    boolean usingMiniMRCluster) {
+
+    ClasspathConstructor classpath = new ClasspathConstructor();
+    
     // add the runtime classpath needed for tests to work
     if (usingMiniMRCluster) {
       // for mini cluster we pass down the java CP properties
       // and nothing else
-      classPathEnv.append(System.getProperty("java.class.path"));
+      classpath.appendAll(classpath.javaVMClasspath());
     } else {
-      char col = File.pathSeparatorChar;
-      classPathEnv.append(ApplicationConstants.Environment.CLASSPATH.$());
-      String[] strs = config.getStrings(
-        YarnConfiguration.YARN_APPLICATION_CLASSPATH,
-        YarnConfiguration.DEFAULT_YARN_APPLICATION_CLASSPATH);
-      if (strs != null) {
-        for (String c : strs) {
-          classPathEnv.append(col);
-          classPathEnv.append(c.trim());
-        }
-      }
-      classPathEnv.append(col).append("./").append(libdir).append("/*");
+      classpath.addLibDir("./" + libdir);
       if (hoyaConfDir != null) {
-        classPathEnv.append(col).append(hoyaConfDir);
+        classpath.addClassDirectory(hoyaConfDir);
       }
+      classpath.addRemoteClasspathEnvVar();
+      classpath.appendAll(classpath.yarnApplicationClasspath(config));
     }
-    return classPathEnv.toString();
+    return classpath;
   }
 
   /**
@@ -1222,7 +1259,7 @@ public final class HoyaUtils {
   }
 
   public static Path extractImagePath(CoreFileSystem fs,  MapOperations internalOptions) throws
-                                                                                         HoyaException,
+      SliderException,
                                                                                          IOException {
     Path imagePath;
     String imagePathOption =
@@ -1252,6 +1289,18 @@ public final class HoyaUtils {
     Timer timer = new Timer("halt timer", false);
     timer.schedule(new DelayedHalt(status, text), delay);
     return timer;
+  }
+
+  public static String propertiesToString(Properties props) {
+    TreeSet<String> keys = new TreeSet<String>(props.stringPropertyNames());
+    StringBuilder builder = new StringBuilder();
+    for (String key : keys) {
+      builder.append(key)
+             .append("=")
+             .append(props.getProperty(key))
+             .append("\n");
+    }
+    return builder.toString();
   }
 
   /**

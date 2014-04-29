@@ -56,7 +56,7 @@ import org.apache.hoya.HoyaExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +133,7 @@ public class RpcBinder {
     Class<HoyaClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
       conf);
 
-    log.debug("Connecting to Hoya Server at {}", addr);
+    log.debug("Connecting to Slider AM at {}", addr);
     ProtocolProxy<HoyaClusterProtocolPB> protoProxy =
       RPC.getProtocolProxy(hoyaClusterAPIClass,
                            1,
@@ -215,20 +215,20 @@ public class RpcBinder {
   }
 
   public static HoyaClusterProtocol getProxy(final Configuration conf,
-                                       ApplicationReport application,
-                                       final int rpcTimeout) throws
-                                                             IOException,
-                                                             HoyaException,
-                                                             InterruptedException {
+      ApplicationReport application,
+      final int rpcTimeout) throws
+      IOException,
+      SliderException,
+      InterruptedException {
 
     String host = application.getHost();
     int port = application.getRpcPort();
     String address = host + ":" + port;
     if (host == null || 0 == port) {
-      throw new HoyaException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
-                              "Hoya YARN instance " + application.getName()
+      throw new SliderException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
+                              "Slider instance " + application.getName()
                               + " isn't providing a valid address for the" +
-                              " Hoya RPC protocol: " + address);
+                              " Slider RPC protocol: " + address);
     }
 
     UserGroupInformation currentUser = UserGroupInformation.getCurrentUser();

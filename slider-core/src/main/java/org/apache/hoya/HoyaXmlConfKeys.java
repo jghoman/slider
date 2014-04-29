@@ -111,7 +111,7 @@ public interface HoyaXmlConfKeys {
    * The hoya base path: {@value}
    * Defaults to HomeDir/.hoya
    */
-  String KEY_BASE_HOYA_PATH = "slider.base.path";
+  String KEY_SLIDER_BASE_PATH = "slider.base.path";
 
 
   /**
@@ -131,4 +131,24 @@ public interface HoyaXmlConfKeys {
    * Default value for the data directory permissions: {@value}
    */
   String DEFAULT_DATA_DIRECTORY_PERMISSIONS = "750";
+
+
+  String REGISTRY_PATH = "slider.registry.path";
+
+  /**
+   * Default value for the registry: {@value}
+   */
+  String DEFAULT_REGISTRY_PATH = "/registry";
+
+
+  String REGISTRY_ZK_QUORUM = "slider.zookeeper.quorum";
+
+  /**
+   * Default value for the registry: {@value}
+   */
+  String DEFAULT_REGISTRY_ZK_QUORUM = "localhost:2181";
+
+
+  String IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH =
+      "ipc.client.fallback-to-simple-auth-allowed";
 }

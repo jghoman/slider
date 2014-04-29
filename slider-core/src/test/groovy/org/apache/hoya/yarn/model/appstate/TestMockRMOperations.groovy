@@ -21,7 +21,6 @@ package org.apache.hoya.yarn.model.appstate
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.exceptions.HoyaRuntimeException
 import org.apache.hoya.yarn.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockFactory
@@ -162,7 +161,7 @@ class TestMockRMOperations extends BaseMockAppStateTest implements MockRoles {
     try {
       appState.innerOnNodeManagerContainerStarted(target.id)
       fail("Expected an exception")
-    } catch (HoyaRuntimeException expected) {
+    } catch (RuntimeException expected) {
       // expected
     }
     //and non-faulter should not downgrade to a null

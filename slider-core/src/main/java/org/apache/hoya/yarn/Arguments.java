@@ -56,9 +56,11 @@ public interface Arguments {
   String ARG_BASE_PATH = "--basepath";
   String ARG_FORMAT = "--format";
   String ARG_FORCE = "--force";
+  String ARG_GET = "--get";
+  String ARG_HELP = "--help";
   String ARG_ID = "--id";
   String ARG_IMAGE = "--image";
-  String ARG_HELP = "--help";
+  String ARG_LIST = "--list";
   String ARG_LIVE = "--live";
   String ARG_MANAGER = "--manager";
   String ARG_MESSAGE = "--message";
@@ -94,7 +96,7 @@ public interface Arguments {
   /**
    * server: URI for the cluster
    */
-  String ARG_HOYA_CLUSTER_URI = "--hoya-cluster-uri";
+  String ARG_CLUSTER_URI = "-cluster-uri";
 
 
   /**

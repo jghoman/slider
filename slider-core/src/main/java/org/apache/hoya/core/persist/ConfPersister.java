@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -233,7 +233,7 @@ public class ConfPersister {
 
   private void maybeExecLockHeldAction(LockHeldAction action) throws
                                                               IOException,
-                                                              HoyaException {
+      SliderException {
     if (action != null) {
       action.execute();
     }
@@ -248,7 +248,7 @@ public class ConfPersister {
    */
   public void save(AggregateConf conf, LockHeldAction action) throws
                                         IOException,
-                                        HoyaException,
+      SliderException,
                                         LockAcquireFailedException {
     acquireWritelock();
     try {
@@ -270,7 +270,7 @@ public class ConfPersister {
   public void load(AggregateConf conf) throws
                                        FileNotFoundException,
                                         IOException,
-                                        HoyaException,
+      SliderException,
                                         LockAcquireFailedException {
     boolean owner = acquireReadLock();
     try {

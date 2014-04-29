@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.yarn.HoyaActions;
 
 import java.util.Collection;
@@ -51,13 +51,12 @@ public class ClientArgs extends CommonArgs {
   private final ActionDestroyArgs actionDestroyArgs = new ActionDestroyArgs();
   private final ActionExistsArgs actionExistsArgs = new ActionExistsArgs();
   private final ActionFlexArgs actionFlexArgs = new ActionFlexArgs();
-  private final ActionForceKillArgs actionForceKillArgs =
-    new ActionForceKillArgs();
   private final ActionFreezeArgs actionFreezeArgs = new ActionFreezeArgs();
   private final ActionGetConfArgs actionGetConfArgs = new ActionGetConfArgs();
   private final ActionKillContainerArgs actionKillContainerArgs =
     new ActionKillContainerArgs();
   private final ActionListArgs actionListArgs = new ActionListArgs();
+  private final ActionRegistryArgs actionRegistryArgs = new ActionRegistryArgs();
   private final ActionStatusArgs actionStatusArgs = new ActionStatusArgs();
   private final ActionThawArgs actionThawArgs = new ActionThawArgs();
   private final ActionVersionArgs actionVersionArgs = new ActionVersionArgs();
@@ -82,11 +81,11 @@ public class ClientArgs extends CommonArgs {
       actionDestroyArgs,
       actionExistsArgs,
       actionFlexArgs,
-      actionForceKillArgs,
       actionFreezeArgs,
       actionGetConfArgs,
       actionKillContainerArgs,
       actionListArgs,
+      actionRegistryArgs,
       actionStatusArgs,
       actionThawArgs,
       actionHelpArgs,
@@ -105,7 +104,7 @@ public class ClientArgs extends CommonArgs {
     }
     if ( getBasePath() != null ) {
       log.debug("Setting basePath to {}", getBasePath());
-      conf.set(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH, getBasePath().toString());
+      conf.set(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH, getBasePath().toString());
     }
   }
 
@@ -137,10 +136,6 @@ public class ClientArgs extends CommonArgs {
     return actionFlexArgs;
   }
 
-  public ActionForceKillArgs getActionForceKillArgs() {
-    return actionForceKillArgs;
-  }
-
   public ActionFreezeArgs getActionFreezeArgs() {
     return actionFreezeArgs;
   }
@@ -157,6 +152,10 @@ public class ClientArgs extends CommonArgs {
     return actionListArgs;
   }
 
+  public ActionRegistryArgs getActionRegistryArgs() {
+    return actionRegistryArgs;
+  }
+
   public ActionStatusArgs getActionStatusArgs() {
     return actionStatusArgs;
   }
@@ -170,10 +169,10 @@ public class ClientArgs extends CommonArgs {
    * In theory this could be done by introspecting on the list of actions and 
    * choosing it without the switch statement. In practise this switch, while
    * verbose, is easier to debug.
-   * @throws HoyaException bad argument or similar
+   * @throws SliderException bad argument or similar
    */
   @Override
-  public void applyAction() throws HoyaException {
+  public void applyAction() throws SliderException {
     String action = getAction();
     if (HoyaActions.ACTION_BUILD.equals(action)) {
       bindCoreAction(actionBuildArgs);
@@ -196,9 +195,6 @@ public class ClientArgs extends CommonArgs {
     } else if (HoyaActions.ACTION_DESTROY.equals(action)) {
       bindCoreAction(actionDestroyArgs);
 
-    } else if (HoyaActions.ACTION_EMERGENCY_FORCE_KILL.equals(action)) {
-      bindCoreAction(actionForceKillArgs);
-
     } else if (HoyaActions.ACTION_EXISTS.equals(action)) {
       bindCoreAction(actionExistsArgs);
 
@@ -217,6 +213,9 @@ public class ClientArgs extends CommonArgs {
 
     } else if (HoyaActions.ACTION_LIST.equals(action)) {
       bindCoreAction(actionListArgs);
+
+    } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {
+      bindCoreAction(actionRegistryArgs);
 
     } else if (HoyaActions.ACTION_STATUS.equals(action)) {
       bindCoreAction(actionStatusArgs);

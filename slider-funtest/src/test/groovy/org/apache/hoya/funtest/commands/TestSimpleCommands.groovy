@@ -31,14 +31,14 @@ import org.junit.Test
 public class TestSimpleCommands extends CommandTestBase {
 
   @Test
-  public void testHoyaVersion() throws Throwable {
-    Shell shell = hoya([HoyaActions.ACTION_VERSION])
+  public void testVersion() throws Throwable {
+    Shell shell = slider([HoyaActions.ACTION_VERSION])
     assertSuccess(shell)
   }
 
   @Test
-  public void testHoyaUsage() throws Throwable {
-    SliderShell shell = hoya(0, [HoyaActions.ACTION_USAGE])
+  public void testUsage() throws Throwable {
+    SliderShell shell = slider(0, [HoyaActions.ACTION_USAGE])
     assertSuccess(shell)
   }
   

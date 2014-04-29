@@ -22,19 +22,17 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions
-import org.apache.hoya.tools.BlockingZKWatcher
-import org.apache.hoya.tools.ZKIntegration
-import org.apache.hoya.yarn.Arguments
+import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.yarn.MicroZKCluster
+import org.apache.slider.core.registry.zk.BlockingZKWatcher
+import org.apache.slider.core.registry.zk.ZKIntegration
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import static org.apache.hoya.testtools.KeysForTests.*
+import static org.apache.hoya.testtools.KeysForTests.USERNAME
 
 /**
- * Base class for mini cluster tests -creates a field for the
- * mini yarn cluster
+ * Base class for mini cluster tests that use Zookeeper
  */
 @CompileStatic
 @Slf4j
@@ -142,15 +140,20 @@ public abstract class YarnZKMiniClusterTestBase extends YarnMiniClusterTestBase 
   }
 
   protected int getZKPort() {
-    return microZKCluster ? microZKCluster.port : HBaseConfigFileOptions.HBASE_ZK_PORT;
+    return microZKCluster ? microZKCluster.port : 2181;
   }
 
   protected String getZKHosts() {
     return MicroZKCluster.HOSTS;
   }
 
-  protected List<String> getExtraHoyaClientArgs() {
-    [Arguments.ARG_ZKHOSTS, ZKHosts,
-     Arguments.ARG_ZKPORT, ZKPort.toString()]
+  /**
+   * CLI args include all the ZK bindings needed
+   * @return
+   */
+  protected List<String> getExtraCLIArgs() {
+    [
+      "-D", define(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, ZKBinding)
+    ]
   }
 }

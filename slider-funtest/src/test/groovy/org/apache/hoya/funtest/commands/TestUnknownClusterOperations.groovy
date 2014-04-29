@@ -21,6 +21,7 @@ package org.apache.hoya.funtest.commands
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.funtest.framework.CommandTestBase
@@ -33,6 +34,7 @@ import org.junit.Test
  */
 @CompileStatic
 @Slf4j
+@org.junit.experimental.categories.Category(FunctionalTests)
 public class TestUnknownClusterOperations extends CommandTestBase {
 
   public static final String UNKNOWN = "unknown_cluster"
@@ -50,7 +52,7 @@ public class TestUnknownClusterOperations extends CommandTestBase {
 
   @Test
   public void testFreezeUnknownClusterWithMessage() throws Throwable {
-      hoya(HoyaExitCodes.EXIT_UNKNOWN_INSTANCE,
+      slider(HoyaExitCodes.EXIT_UNKNOWN_INSTANCE,
          [
         HoyaActions.ACTION_FREEZE, UNKNOWN,
         Arguments.ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),

@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>slider-core</artifactId>
   <name>Slider Core</name>
-  <version>0.20.0</version>
+  <version>0.22.0</version>
   <packaging>jar</packaging>
   <description>Core Slider Module and minicluster tests
   </description>
   <parent>
     <groupId>org.apache.slider</groupId>
     <artifactId>slider</artifactId>
-    <version>0.20.0</version>
+    <version>0.22.0</version>
   </parent>
 
   <build>
@@ -93,7 +93,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>${maven-jar-plugin.version}</version>
-
         <executions>
           <execution>
             <goals>
@@ -108,11 +107,14 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven-surefire-plugin.version}</version>
         <configuration>
-          <forkMode>always</forkMode>
-          <forkedProcessTimeoutInSeconds>9000</forkedProcessTimeoutInSeconds>
-          <argLine>-Xmx1024m -XX:+HeapDumpOnOutOfMemoryError</argLine>
-          <failIfNoTests>true</failIfNoTests>
-          <trimStackTrace>false</trimStackTrace>
+          <reuseForks>${test.reuseForks}</reuseForks>
+          <forkMode>${test.forkMode}</forkMode>
+          <forkCount>1</forkCount>
+          <forkedProcessTimeoutInSeconds>${test.forkedProcessTimeoutInSeconds}
+          </forkedProcessTimeoutInSeconds>
+          <threadCount>1</threadCount>
+          <argLine>${test.argLine}</argLine>
+          <failIfNoTests>${test.failIfNoTests}</failIfNoTests>
           <redirectTestOutputToFile>${build.redirect.test.output.to.file}</redirectTestOutputToFile>
           <systemPropertyVariables>
             <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
@@ -355,6 +357,18 @@
 
     <dependency>
       <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-yarn-common</artifactId>
+      <version>${hadoop.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-yarn-server-web-proxy</artifactId>
+      <version>${hadoop.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-client</artifactId>
       <type>pom</type>
         <exclusions>
@@ -377,11 +391,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!--
         <dependency>
           <groupId>org.apache.accumulo</groupId>
@@ -436,6 +445,39 @@
       <artifactId>commons-codec</artifactId>
     </dependency>
 
+    <!-- ======================================================== -->
+    <!-- service registry -->
+    <!-- ======================================================== -->
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-client</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-framework</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-x-discovery</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.curator</groupId>
+      <artifactId>curator-x-discovery-server</artifactId>
+      <version>${curator.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+    </dependency>
+    
     <!-- ======================================================== -->
     <!-- Jersey and webapp support -->
     <!-- ======================================================== -->
@@ -494,12 +536,6 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>

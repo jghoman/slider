@@ -32,12 +32,11 @@
 
 package org.apache.hoya.yarn.utils
 
-import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.junit.Test
 
 @Slf4j
@@ -90,7 +89,7 @@ class TestClientResourceRegistration {
     String hostname = "nosuchhost:0"
     conf.set(YarnConfiguration.RM_ADDRESS, hostname)
     YarnConfiguration yc = new YarnConfiguration()
-    ConfigHelper.mergeConfigurations(yc, conf, "hoya-client")
+    ConfigHelper.mergeConfigurations(yc, conf, "slider-client")
     InetSocketAddress addr = HoyaUtils.getRmAddress(yc)
     assert HoyaUtils.isAddressDefined(addr)
   }

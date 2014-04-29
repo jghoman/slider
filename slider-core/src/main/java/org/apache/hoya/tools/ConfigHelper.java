@@ -36,12 +36,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -157,6 +159,18 @@ public class ConfigHelper {
     }
   }
 
+  /**
+   * Convert to an XML string
+   * @param conf configuration
+   * @return conf
+   * @throws IOException
+   */
+  public static String toXml(Configuration conf) throws IOException {
+    StringWriter writer = new StringWriter();
+    conf.writeXml(writer);
+    return writer.toString();
+  }
+  
   /**
    * This will load and parse a configuration to an XML document
    * @param fs filesystem

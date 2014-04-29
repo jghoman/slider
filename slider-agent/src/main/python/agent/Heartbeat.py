@@ -25,40 +25,35 @@ from pprint import pformat
 
 from ActionQueue import ActionQueue
 import AgentConfig
-import hostname
 
 
 logger = logging.getLogger()
 
-firstContact = True
 class Heartbeat:
-
   def __init__(self, actionQueue, config=None):
     self.actionQueue = actionQueue
     self.config = config
     self.reports = []
 
-  def build(self, id='-1', state_interval=-1, componentsMapped=False):
-    global clusterId, clusterDefinitionRevision, firstContact
-    timestamp = int(time.time()*1000)
+  def build(self, commandResult, id='-1', componentsMapped=False):
+    timestamp = int(time.time() * 1000)
     queueResult = self.actionQueue.result()
+    logger.info("Queue result: " + pformat(queueResult))
 
-    
-    nodeStatus = { "status" : "HEALTHY",
-                   "cause" : "NONE"}
-    
-    heartbeat = { 'responseId'        : int(id),
-                  'timestamp'         : timestamp,
-                  'hostname'          : self.config.getLabel(),
-                  'nodeStatus'        : nodeStatus
-                }
+    nodeStatus = {"status": "HEALTHY",
+                  "cause": "NONE"}
+
+    heartbeat = {'responseId': int(id),
+                 'timestamp': timestamp,
+                 'hostname': self.config.getLabel(),
+                 'nodeStatus': nodeStatus
+    }
 
     commandsInProgress = False
     if not self.actionQueue.commandQueue.empty():
       commandsInProgress = True
     if len(queueResult) != 0:
       heartbeat['reports'] = queueResult['reports']
-      heartbeat['componentStatus'] = queueResult['componentStatus']
       if len(heartbeat['reports']) > 0:
         # There may be IN_PROGRESS tasks
         commandsInProgress = True
@@ -68,18 +63,39 @@ class Heartbeat:
     if int(id) == 0:
       componentsMapped = False
 
+    # create a report of command results (there is only one component at any point)
+    if len(heartbeat['reports']) > 0:
+      for report in heartbeat['reports']:
+        commandResult["commandStatus"] = report["status"]
+      pass
+
+    # Process component status - it can have internal or external STATUS requests and CONFIG requests
+    if queueResult['componentStatus']:
+      componentStatuses = []
+      for componentStatus in queueResult['componentStatus']:
+        if componentStatus['reportResult']:
+          del componentStatus['reportResult']
+          componentStatuses.append(componentStatus)
+        else:
+          commandResult["healthStatus"] = componentStatus["status"]
+        pass
+      if len(componentStatuses) > 0:
+        heartbeat['componentStatus'] = componentStatuses
+
     logger.info("Sending heartbeat with response id: " + str(id) + " and "
-                "timestamp: " + str(timestamp) +
+                                                                   "timestamp: " + str(timestamp) +
                 ". Command(s) in progress: " + repr(commandsInProgress) +
                 ". Components mapped: " + repr(componentsMapped))
     logger.debug("Heartbeat : " + pformat(heartbeat))
 
     return heartbeat
 
+
 def main(argv=None):
   actionQueue = ActionQueue(AgentConfig.getConfig())
   heartbeat = Heartbeat(actionQueue)
-  print json.dumps(heartbeat.build('3',3))
+  print json.dumps(heartbeat.build('3', 3))
+
 
 if __name__ == '__main__':
   main()

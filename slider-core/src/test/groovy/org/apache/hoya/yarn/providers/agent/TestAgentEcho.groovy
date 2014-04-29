@@ -23,11 +23,11 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ResourceKeys
+import org.apache.hoya.yarn.client.HoyaClient
+import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*
 import static org.apache.hoya.yarn.Arguments.*
-import org.apache.hoya.yarn.client.HoyaClient
-import org.junit.Test
 
 /**
  * Tests an echo command

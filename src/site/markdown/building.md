@@ -56,20 +56,20 @@ to have a local version of Hadoop -so that we can find and fix bugs/add features
 Hadoop as well in Slider.
 
 
-To build and install locally, check out apache svn/github, branch `release-2.2.0`,
+To build and install locally, check out apache svn/github, branch `release-2.4.0`,
 and create a branch off that tag
 
     git clone git://git.apache.org/hadoop-common.git 
     cd hadoop-common
     git remote rename origin apache
     git fetch --tags apache
-    git checkout release-2.2.0 -- 
-    git checkout -b release-2.2.0
+    git checkout release-2.4.0 -- 
+    git checkout -b release-2.4.0
 
 
 For the scripts below, set the `HADOOP_VERSION` variable to the version
 
-    export HADOOP_VERSION=2.2.0
+    export HADOOP_VERSION=2.4.0
     
 or, for building against a pre-release version of Hadoop 2.4
  
@@ -97,8 +97,7 @@ Then expand this
 
 This creates an expanded version of Hadoop. You can now actually run Hadoop
 from this directory. Do note that unless you have the native code built for
-your target platform, Hadoop will be slower. For installations, use
-the Apache Hadoop 2.2 package or Hortownworks HDP-2.0.
+your target platform, Hadoop will be slower. 
 
 ## building a compatible HBase version
 
@@ -114,9 +113,11 @@ Checkout the HBase `trunk` branch from apache svn/github.
     git fetch --tags apache
 
 then
+
     git checkout -b apache/0.98
 or
-    git checkout tags/0.98.0RC1
+
+    git checkout tags/0.98.1
     
 If you have already been building versions of HBase, remove the existing
 set of artifacts for safety:
@@ -132,14 +133,15 @@ property of`/pom.xml`:
 
     mvn clean install assembly:single -DskipTests -Dmaven.javadoc.skip=true -Dhadoop-two.version=$HADOOP_VERSION
 
-This will create `hbase-0.98.0.tar.gz` in the directory `hbase-assembly/target/`
+This will create an hbase `tar.gz` file in the directory `hbase-assembly/target/`
 in the hbase source tree. 
 
-    export HBASE_VERSION=0.98.0
+    export HBASE_VERSION=0.98.1
     
     pushd hbase-assembly/target
-    gunzip -k hbase-$HBASE_VERSION-bin.tar.gz 
+    gunzip hbase-$HBASE_VERSION-bin.tar.gz 
     tar -xvf hbase-$HBASE_VERSION-bin.tar
+    gzip hbase-$HBASE_VERSION-bin.tar
     popd
 
 This will create an untarred directory containing
@@ -177,7 +179,7 @@ In the accumulo project directory, build it
     mvn clean install -Passemble -DskipTests -Dmaven.javadoc.skip=true \
      -Dhadoop.profile=2 
      
-The default Hadoop version for accumulo-1.5.1 is hadoop 2.2.0; to build
+The default Hadoop version for accumulo-1.5.1 is hadoop 2.4.0; to build
 against a different version use the command
      
     mvn clean install -Passemble -DskipTests -Dmaven.javadoc.skip=true \

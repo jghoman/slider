@@ -26,7 +26,6 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.providers.hbase.HBaseConfigFileOptions;
 
 import java.io.File;
 import java.util.List;
@@ -54,10 +53,6 @@ public abstract class AbstractClusterBuildingActionArgs extends AbstractActionAr
   @Parameter(names = ARG_ZKHOSTS,
              description = "comma separated list of the Zookeeper hosts")
   public String zkhosts;
-
-  @Parameter(names = ARG_ZKPORT,
-             description = "Zookeeper port")
-  public int zkport = HBaseConfigFileOptions.HBASE_ZK_PORT;
 
   /**
    * --image path
@@ -158,10 +153,6 @@ public abstract class AbstractClusterBuildingActionArgs extends AbstractActionAr
 
   public String getZKhosts() {
     return zkhosts;
-  }
-
-  public int getZKport() {
-    return zkport;
   }
 
   public Path getImage() {

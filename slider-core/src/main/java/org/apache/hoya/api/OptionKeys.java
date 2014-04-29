@@ -28,12 +28,12 @@ public interface OptionKeys {
    * Home dir of the app: {@value}
    * If set, implies there is a home dir to use
    */
-  String INTERNAL_APPLICATION_HOME = "hoya.application.home";
+  String INTERNAL_APPLICATION_HOME = "internal.application.home";
   
   /**
    * Path to an image file containing the app: {@value}
    */
-  String INTERNAL_APPLICATION_IMAGE_PATH = "hoya.application.image.path";
+  String INTERNAL_APPLICATION_IMAGE_PATH = "internal.application.image.path";
 
   /**
    * Time in milliseconds to wait after forking any in-AM 
@@ -99,7 +99,7 @@ public interface OptionKeys {
   /**
    * Version of the app: {@value}
    */
-  String KEYTAB_LOCATION = "hoya.keytab.location";
+  String KEYTAB_LOCATION = "internal.keytab.location";
 
   /**
    * Prefix for site.xml options: {@value}
@@ -132,22 +132,16 @@ public interface OptionKeys {
    */
   String INTERNAL_DATA_DIR_PATH = "internal.data.dir.path";
   
-  
-  
   /**
    * Zookeeper quorum host list: {@value}
    */
+  String ZOOKEEPER_QUORUM = "zookeeper.quorum";
   String ZOOKEEPER_HOSTS = "zookeeper.hosts";
-  
-  /**
-   * Zookeeper port value (int): {@value}
-   */
   String ZOOKEEPER_PORT = "zookeeper.port";
-  
+
   /**
-   * Zookeeper port value (int): {@value}
+   * Zookeeper path value (string): {@value}
    */
   String ZOOKEEPER_PATH = "zookeeper.path";
-
 
 }

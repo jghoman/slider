@@ -37,7 +37,7 @@ public interface HoyaKeys extends HoyaXmlConfKeys {
    * The path under which cluster and temp data are stored
    * {@value}
    */
-  String HOYA_BASE_DIRECTORY = ".slider";
+  String SLIDER_BASE_DIRECTORY = ".slider";
 
   /**
    *  name of the relative path to expaned an image into:  {@value}.
@@ -50,7 +50,7 @@ public interface HoyaKeys extends HoyaXmlConfKeys {
   /**
    * Application type for YARN  {@value}
    */
-  String APP_TYPE = "slider";
+  String APP_TYPE = "org.apache.slider";
 
   /**
    * JVM arg to force IPv4  {@value}

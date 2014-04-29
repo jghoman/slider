@@ -21,9 +21,6 @@ package org.apache.hoya.yarn.appmaster;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.service.AbstractService;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
-import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.ContainerLauncher;
@@ -261,37 +258,23 @@ public class RoleLaunchService extends AbstractService {
                   container.getId(),
                   containerRole);
 
-        ContainerLaunchContext ctx = Records
-          .newRecord(ContainerLaunchContext.class);
 
         //now build up the configuration data
         Path containerTmpDirPath =
           new Path(launcherTmpDirPath, container.getId().toString());
-        provider.buildContainerLaunchContext(ctx,
-                                             instanceDefinition, container,
-                                             containerRole,
-                                             fs,
-                                             generatedConfDirPath,
-                                             resourceComponent,
-                                             appComponent,
-                                             containerTmpDirPath
-                                            );
+        provider.buildContainerLaunchContext(containerLauncher,
+            instanceDefinition,
+            container,
+            containerRole,
+            fs,
+            generatedConfDirPath,
+            resourceComponent,
+            appComponent,
+            containerTmpDirPath
+        );
 
         RoleInstance instance = new RoleInstance(container);
-
-        //extract these and feed back in to the container
-
-        Map<String, LocalResource> lr = ctx.getLocalResources();
-        containerLauncher.addLocalResources(lr);
-
-        // complete setting up the environment
-        Map<String, String> environment = ctx.getEnvironment();
-
-        containerLauncher.putEnv(environment);
-
         String[] envDescription = containerLauncher.dumpEnvToString();
-
-        containerLauncher.addCommands(ctx.getCommands());
 
         String commandsAsString = containerLauncher.getCommandsAsString();
         log.info("Starting container with command: {}",
@@ -305,9 +288,8 @@ public class RoleLaunchService extends AbstractService {
                                         containerLauncher.completeContainerLaunch(),
                                         instance);
       } catch (Exception e) {
-        log.error(
-          "Exception thrown while trying to start " + containerRole + ": " + e,
-          e);
+        log.error("Exception thrown while trying to start {}: {}",
+            containerRole, e);
         ex = e;
       } finally {
         launchedThreadCompleted(this, ex);

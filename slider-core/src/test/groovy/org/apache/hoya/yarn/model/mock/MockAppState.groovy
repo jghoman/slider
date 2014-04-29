@@ -17,7 +17,7 @@
 
 package org.apache.hoya.yarn.model.mock
 
-import org.apache.hoya.yarn.appmaster.state.AbstractRecordFactory;
+import org.apache.hoya.yarn.appmaster.state.AbstractRecordFactory
 import org.apache.hoya.yarn.appmaster.state.AppState
 
 class MockAppState extends AppState {

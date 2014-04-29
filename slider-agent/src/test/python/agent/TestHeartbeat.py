@@ -22,15 +22,14 @@ from unittest import TestCase
 import unittest
 from agent.Heartbeat import Heartbeat
 from agent.ActionQueue import ActionQueue
-from agent.LiveStatus import LiveStatus
 from agent.AgentConfig import AgentConfig
 import socket
 import os
 import time
 from mock.mock import patch, MagicMock, call
-from agent.StackVersionsFileHandler import StackVersionsFileHandler
 import StringIO
 import sys
+import logging
 
 
 class TestHeartbeat(TestCase):
@@ -48,17 +47,15 @@ class TestHeartbeat(TestCase):
   def test_build(self):
     config = AgentConfig("", "")
     config.set('agent', 'prefix', 'tmp')
-    config.set('agent', 'cache_dir', "/var/lib/ambari-agent/cache")
-    config.set('agent', 'tolerate_download_failures', "true")
     dummy_controller = MagicMock()
     actionQueue = ActionQueue(config, dummy_controller)
     heartbeat = Heartbeat(actionQueue, config)
-    result = heartbeat.build(100)
+    result = heartbeat.build({}, 100)
     print "Heartbeat: " + str(result)
     self.assertEquals(result['hostname'] != '', True,
                       "hostname should not be empty")
     self.assertEquals(result['responseId'], 100)
-    self.assertEquals(result['componentStatus'] is not None, True,
+    self.assertEquals('componentStatus' not in result, True,
                       "Heartbeat should contain componentStatus")
     self.assertEquals(result['reports'] is not None, True,
                       "Heartbeat should contain reports")
@@ -67,7 +64,7 @@ class TestHeartbeat(TestCase):
     self.assertEquals(result['nodeStatus']['cause'], "NONE")
     self.assertEquals(result['nodeStatus']['status'], "HEALTHY")
     # result may or may NOT have an agentEnv structure in it
-    self.assertEquals((len(result) is 6) or (len(result) is 7), True)
+    self.assertEquals((len(result) is 4) or (len(result) is 5), True)
     self.assertEquals(not heartbeat.reports, True,
                       "Heartbeat should not contain task in progress")
 
@@ -76,8 +73,6 @@ class TestHeartbeat(TestCase):
   def test_build_long_result(self, result_mock):
     config = AgentConfig("", "")
     config.set('agent', 'prefix', 'tmp')
-    config.set('agent', 'cache_dir', "/var/lib/ambari-agent/cache")
-    config.set('agent', 'tolerate_download_failures', "true")
     dummy_controller = MagicMock()
     actionQueue = ActionQueue(config, dummy_controller)
     result_mock.return_value = {
@@ -128,12 +123,13 @@ class TestHeartbeat(TestCase):
 
       ],
       'componentStatus': [
-        {'status': 'HEALTHY', 'componentName': 'DATANODE'},
-        {'status': 'UNHEALTHY', 'componentName': 'NAMENODE'},
+        {'status': 'HEALTHY', 'componentName': 'DATANODE', 'reportResult' : True},
+        {'status': 'UNHEALTHY', 'componentName': 'NAMENODE', 'reportResult' : True},
+        {'status': 'UNHEALTHY', 'componentName': 'HBASE_MASTER', 'reportResult' : False},
       ],
     }
     heartbeat = Heartbeat(actionQueue, config)
-    hb = heartbeat.build(10)
+    hb = heartbeat.build({}, 10)
     hb['hostname'] = 'hostname'
     hb['timestamp'] = 'timestamp'
     expected = {'nodeStatus':
@@ -157,11 +153,12 @@ class TestHeartbeat(TestCase):
        'configurationTags': {'global': {'tag': 'v1'}}, 'taskId': 3,
        'exitCode': 0, 'roleCommand': u'INSTALL', 'clusterName': u'cc',
        'serviceName': u'HDFS', 'role': u'DATANODE', 'actionId': '1-1',
-       'stderr': 'stderr'}], 'componentStatus': [
+       'stderr': 'stderr'}],  'componentStatus': [
       {'status': 'HEALTHY', 'componentName': 'DATANODE'},
       {'status': 'UNHEALTHY', 'componentName': 'NAMENODE'}]}
     self.assertEquals(hb, expected)
 
 
 if __name__ == "__main__":
+  logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
   unittest.main()

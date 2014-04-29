@@ -20,6 +20,10 @@ package org.apache.hoya.providers.hoyaam;
 
 import com.beust.jcommander.JCommander;
 import com.google.gson.GsonBuilder;
+import org.apache.curator.CuratorZookeeperClient;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.x.discovery.ServiceInstance;
+import org.apache.curator.x.discovery.server.entity.ServiceNames;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
@@ -33,18 +37,20 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.core.launch.CommandLineBuilder;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +68,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
   protected static final Logger log =
     LoggerFactory.getLogger(HoyaAMClientProvider.class);
-  protected static final String NAME = "hoyaAM";
+  protected static final String NAME = "SliderAM";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   public static final String INSTANCE_RESOURCE_BASE = PROVIDER_RESOURCE_BASE_ROOT +
                                                        "hoyaam/instance/";
@@ -107,39 +113,6 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
   }
 
 
-  /**
-   * Get a map of all the default options for the cluster; values
-   * that can be overridden by user defaults after
-   * @return a possibly empty map of default cluster options.
-   */
-  @Override
-  public Configuration getDefaultClusterConfiguration() throws
-                                                        FileNotFoundException {
-    return ConfigHelper.loadMandatoryResource(
-      "org/apache/hoya/providers/hoyaam/cluster.xml");
-  }
-
-  /**
-   * Create the default cluster role instance for a named
-   * cluster role; 
-   *
-   * @param rolename role name
-   * @return a node that can be added to the JSON
-   */
-  @Override
-  public Map<String, String> createDefaultClusterRole(String rolename) throws
-                                                                       HoyaException,
-                                                                       FileNotFoundException {
-    Map<String, String> rolemap = new HashMap<String, String>();
-    if (rolename.equals(COMPONENT_AM)) {
-      Configuration conf = ConfigHelper.loadMandatoryResource(
-        AM_ROLE_CONFIG_RESOURCE);
-      HoyaUtils.mergeEntries(rolemap, conf);
-    }
-    return rolemap;
-  }
-
-
   @Override //Client
   public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
                                                     String clustername,
@@ -148,7 +121,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                     Path clusterDirPath,
                                                     Path generatedConfDirPath,
                                                     boolean secure) throws
-                                                                    HoyaException,
+      SliderException,
                                                                     IOException {
 
     super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername, configuration, instanceDefinition, clusterDirPath, generatedConfDirPath, secure);
@@ -169,31 +142,64 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
    * The Hoya AM sets up all the dependency JARs above hoya.jar itself
    * {@inheritDoc}
    */
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem hoyaFileSystem,
-                                                                Configuration serviceConf,
-                                                                AbstractLauncher launcher,
-                                                                AggregateConf instanceDescription,
-                                                                Path originConfDirPath,
-                                                                Path generatedConfDirPath,
-                                                                Configuration clientConfExtras,
-                                                                String libdir,
-                                                                Path tempPath)
-    throws IOException, HoyaException {
-    
+  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+      Configuration serviceConf,
+      AbstractLauncher launcher,
+      AggregateConf instanceDescription,
+      Path snapshotConfDirPath,
+      Path generatedConfDirPath,
+      Configuration clientConfExtras,
+      String libdir,
+      Path tempPath, boolean miniClusterTestRun)
+    throws IOException, SliderException {
+
     Map<String, LocalResource> providerResources =
-      new HashMap<String, LocalResource>();
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     JCommander.class,
-                     tempPath,
-                     libdir,
-                     JCOMMANDER_JAR);
-    HoyaUtils.putJar(providerResources,
-                     hoyaFileSystem,
-                     GsonBuilder.class,
-                     tempPath,
-                     libdir,
-                     GSON_JAR);
+        new HashMap<String, LocalResource>();
+
+
+    ProviderUtils.addProviderJar(providerResources,
+        this,
+        SLIDER_JAR,
+        fileSystem,
+        tempPath,
+        libdir,
+        miniClusterTestRun);
+
+    Class<?>[] classes = {
+      JCommander.class,
+      GsonBuilder.class,
+      
+      CuratorFramework.class,
+      CuratorZookeeperClient.class,
+      ServiceInstance.class,
+      ServiceNames.class,
+
+      JacksonJaxbJsonProvider.class,
+      JsonFactory.class,
+      JsonNodeFactory.class,
+      JaxbAnnotationIntrospector.class,
+      
+    };
+    String[] jars =
+      {
+        JCOMMANDER_JAR,
+        GSON_JAR,
+        
+        "curator-framework.jar",
+        "curator-client.jar",
+        "curator-x-discovery.jar",
+        "curator-x-discovery-service.jar",
+        
+        "jackson-jaxrs",
+        "jackson-core-asl",
+        "jackson-mapper-asl",
+        "jackson-xc",
+        
+      };
+    ProviderUtils.addDependencyJars(providerResources, fileSystem, tempPath,
+                                    libdir, jars,
+                                    classes);
+    
     launcher.addLocalResources(providerResources);
     //also pick up all env variables from a map
     launcher.copyEnvVars(
@@ -239,7 +245,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
   @Override
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
-                                                                        HoyaException,
+      SliderException,
                                                                         IOException {
     mergeTemplates(aggregateConf,
                    INTERNAL_JSON, RESOURCES_JSON, APPCONF_JSON

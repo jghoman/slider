@@ -23,7 +23,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.persist.ConfPersister;
 import org.apache.hoya.core.persist.LockAcquireFailedException;
 import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +40,13 @@ public class InstanceIO {
    * @param clusterDirectory CD
    * @return
    * @throws IOException
-   * @throws HoyaException
+   * @throws SliderException
    */
   public static AggregateConf loadInstanceDefinitionUnresolved(
     CoreFileSystem hoyaFileSystem,
     Path clusterDirectory) throws
                            IOException,
-                           HoyaException {
+      SliderException {
     AggregateConf instanceDefinition = new AggregateConf();
     ConfPersister persister =
       new ConfPersister(hoyaFileSystem, clusterDirectory);
@@ -68,14 +68,14 @@ public class InstanceIO {
    * @param coreFS
    * @param dir
    * @param instanceDefinition
-   * @throws HoyaException
+   * @throws SliderException
    * @throws IOException
    * @throws LockAcquireFailedException
    */
   public static void updateInstanceDefinition(CoreFileSystem coreFS,
                                               Path dir,
                                               AggregateConf instanceDefinition)
-      throws HoyaException, IOException, LockAcquireFailedException {
+      throws SliderException, IOException, LockAcquireFailedException {
     ConfPersister persister =
       new ConfPersister(coreFS, dir);
     persister.save(instanceDefinition, null);

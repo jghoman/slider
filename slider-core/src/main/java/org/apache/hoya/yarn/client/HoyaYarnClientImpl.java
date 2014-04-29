@@ -34,7 +34,6 @@ import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.HoyaUtils;
-import org.apache.hoya.yarn.params.ActionForceKillArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,8 +147,8 @@ public class HoyaYarnClientImpl extends YarnClientImpl {
                                                             IOException {
     
 
-    if (ActionForceKillArgs.ALL.equals(applicationId)) {
-      // user wants all hoya applications killed
+    if ("all".equals(applicationId)) {
+      // user wants all instances killed
       String user = getUsername();
       log.info("Killing all applications belonging to {}", user);
       Collection<ApplicationReport> instances = listInstances(user);

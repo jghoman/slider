@@ -18,12 +18,13 @@
 
 package org.apache.hoya.yarn.client
 
+import com.google.common.collect.Maps
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import com.google.common.collect.Maps
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hdfs.DFSConfigKeys
+import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
@@ -32,22 +33,7 @@ import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.params.AbstractClusterBuildingActionArgs
-import org.apache.hoya.yarn.params.ActionBuildArgs
-import org.apache.hoya.yarn.params.ActionCreateArgs
-import org.apache.hoya.yarn.params.ActionDestroyArgs
-import org.apache.hoya.yarn.params.ActionExistsArgs
-import org.apache.hoya.yarn.params.ActionFlexArgs
-import org.apache.hoya.yarn.params.ActionForceKillArgs
-import org.apache.hoya.yarn.params.ActionFreezeArgs
-import org.apache.hoya.yarn.params.ActionGetConfArgs
-import org.apache.hoya.yarn.params.ActionListArgs
-
-import org.apache.hoya.yarn.params.ActionStatusArgs
-import org.apache.hoya.yarn.params.ActionThawArgs
-import org.apache.hoya.yarn.params.ArgOps
-import org.apache.hoya.yarn.params.ClientArgs
-import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.hoya.yarn.params.*
 import org.junit.Assert
 import org.junit.Test
 
@@ -143,7 +129,7 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH) == null
+    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == null
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(
         conf,
@@ -163,7 +149,7 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_BASE_HOYA_PATH) == "/projects/hoya/clusters"
+    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 
@@ -194,11 +180,11 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
    * 
    */
   @Test
-  public void testEmergencyKillSplit() throws Throwable {
+  public void testStatusSplit() throws Throwable {
 
     String appId = "application_1381252124398_0013"
     ClientArgs ca = createClientArgs([
-        ACTION_EMERGENCY_FORCE_KILL,
+        ACTION_STATUS,
         "--manager", "rhel:8032",
         "--filesystem", "hdfs://rhel:9090",
         "-S","java.security.krb5.realm=LOCAL",
@@ -208,34 +194,6 @@ class TestCommonArgParsing implements HoyaActions, Arguments {
         appId
     ])
     assert appId == ca.clusterName
-  }
-  
-  /**
-   * Test a force kill command where appID == all
-   * @throws Throwable
-   * 
-   */
-  @Test
-  public void testEmergencyKillAll() throws Throwable {
-
-    String appId = ActionForceKillArgs.ALL
-    ClientArgs ca = createClientArgs([
-        ACTION_EMERGENCY_FORCE_KILL,
-        appId
-    ])
-    assert appId == ca.clusterName
-    assert ca.coreAction instanceof ActionForceKillArgs
-  }
-  /**
-   * Test a force kill command without args
-   * @throws Throwable
-   * 
-   */
-  @Test
-  public void testEmergencyKillNeedsOneArg() throws Throwable {
-    assertParseFails([
-        ACTION_EMERGENCY_FORCE_KILL,
-    ])
   }
   
   @Test

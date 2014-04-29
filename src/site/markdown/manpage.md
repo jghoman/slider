@@ -238,23 +238,16 @@ Example
     --rco worker worker yarn.memory max
 
 
-##### `--zkport port` 
+##### `--zkhosts host1:port1,[host2:port2,host3:port3, ...] `
 
-The port on which the zookeeper processes are listening.
-
-Example
-    
-    --zkport 29181
-
-##### `--zkhosts host1[,host2,host3, ...] `
-
-The list of hosts on which the ZK quorum is running.
-
+The zookeeper quorum.
 
 Example
 
-    --zkhosts zk1,zk2,zk3,zk4,zk5,zk6,zk7,zk8,zk8,zk10,zk11
+    --zkhosts zk1:2181,zk2:2181,zk3:4096
 
+If unset, the zookeeper quorum defined in the property `slider.zookeeper.quorum`
+is used
 
 ### `destroy <name>`
 
@@ -390,26 +383,13 @@ that can be obtained in the status operation
 These are clearly abnormal operations; they are here primarily for testing
 -and documented for completeness.
 
-### `killcontainer <name> --id container-id`
+### `kill-container <name> --id container-id`
 
 Kill a  YARN container belong to the application. This is useful primarily for testing the 
 resilience to failures.
 
 Container IDs can be determined from the application instance status JSON document.
 
-
-### `emergency-force-kill <applicationID>`
-
-This attempts to force kill any YARN application referenced by application ID.
-There is no attempt to notify the running AM. 
-
-If the application ID is `all` then all slider instances belonging to the current
-user are killed.
-
-
-Example
-
-    slider emergency-force-kill application_1386596138212_0001
 
 ### `am-suicide <name> [--exitcode code] [--message message] [--wait time]`
 

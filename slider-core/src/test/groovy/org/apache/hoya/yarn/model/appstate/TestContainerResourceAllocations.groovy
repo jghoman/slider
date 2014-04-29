@@ -21,7 +21,6 @@ package org.apache.hoya.yarn.model.appstate
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Resource
-import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.core.conf.ConfTree
 import org.apache.hoya.core.conf.ConfTreeOperations

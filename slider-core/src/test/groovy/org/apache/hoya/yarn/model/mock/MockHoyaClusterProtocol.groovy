@@ -16,30 +16,28 @@
  */
 package org.apache.hoya.yarn.model.mock
 
+import org.apache.hadoop.ipc.ProtocolSignature
+import org.apache.hadoop.yarn.exceptions.YarnException
+import org.apache.hoya.api.HoyaClusterProtocol
 import org.apache.hoya.api.proto.Messages
-
-import java.io.IOException
-import org.apache.hadoop.ipc.ProtocolSignature;
-import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.api.proto.Messages.AMSuicideRequestProto;
-import org.apache.hoya.api.proto.Messages.AMSuicideResponseProto;
-import org.apache.hoya.api.proto.Messages.EchoRequestProto;
-import org.apache.hoya.api.proto.Messages.EchoResponseProto;
-import org.apache.hoya.api.proto.Messages.FlexClusterRequestProto;
-import org.apache.hoya.api.proto.Messages.FlexClusterResponseProto;
-import org.apache.hoya.api.proto.Messages.GetClusterNodesRequestProto;
-import org.apache.hoya.api.proto.Messages.GetClusterNodesResponseProto;
-import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusRequestProto;
-import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusResponseProto;
-import org.apache.hoya.api.proto.Messages.GetNodeRequestProto;
-import org.apache.hoya.api.proto.Messages.GetNodeResponseProto;
-import org.apache.hoya.api.proto.Messages.KillContainerRequestProto;
-import org.apache.hoya.api.proto.Messages.KillContainerResponseProto;
-import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleRequestProto;
-import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleResponseProto;
-import org.apache.hoya.api.proto.Messages.StopClusterRequestProto;
-import org.apache.hoya.api.proto.Messages.StopClusterResponseProto;
-import org.apache.hoya.api.HoyaClusterProtocol;
+import org.apache.hoya.api.proto.Messages.AMSuicideRequestProto
+import org.apache.hoya.api.proto.Messages.AMSuicideResponseProto
+import org.apache.hoya.api.proto.Messages.EchoRequestProto
+import org.apache.hoya.api.proto.Messages.EchoResponseProto
+import org.apache.hoya.api.proto.Messages.FlexClusterRequestProto
+import org.apache.hoya.api.proto.Messages.FlexClusterResponseProto
+import org.apache.hoya.api.proto.Messages.GetClusterNodesRequestProto
+import org.apache.hoya.api.proto.Messages.GetClusterNodesResponseProto
+import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusRequestProto
+import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusResponseProto
+import org.apache.hoya.api.proto.Messages.GetNodeRequestProto
+import org.apache.hoya.api.proto.Messages.GetNodeResponseProto
+import org.apache.hoya.api.proto.Messages.KillContainerRequestProto
+import org.apache.hoya.api.proto.Messages.KillContainerResponseProto
+import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleRequestProto
+import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleResponseProto
+import org.apache.hoya.api.proto.Messages.StopClusterRequestProto
+import org.apache.hoya.api.proto.Messages.StopClusterResponseProto
 
 /**
  * 

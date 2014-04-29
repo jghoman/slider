@@ -32,7 +32,6 @@ import org.apache.hadoop.yarn.webapp.WebApps;
 public class WebAppService<T extends WebApp> extends AbstractService {
 
   private T webApp;
-  private final WebApps wa = new WebApps();
 
   public WebAppService(String name) {
     super(name);

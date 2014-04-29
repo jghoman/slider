@@ -72,6 +72,22 @@
     </fileSet>
 
     <fileSet>
+      <directory>${project.build.directory}/../../slider-agent/target</directory>
+      <outputDirectory>agent</outputDirectory>
+      <includes>
+        <include>*.tar.gz</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory>${project.build.directory}/../../slider-agent/conf</directory>
+      <outputDirectory>agent/conf</outputDirectory>
+      <includes>
+        <include>*.ini</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
       <directory>..</directory>
       <outputDirectory>/</outputDirectory>
       <includes>

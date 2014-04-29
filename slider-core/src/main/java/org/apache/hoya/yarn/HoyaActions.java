@@ -29,7 +29,6 @@ public interface HoyaActions {
   String ACTION_CREATE = "create";
   String ACTION_DESTROY = "destroy";
   String ACTION_ECHO = "echo";
-  String ACTION_EMERGENCY_FORCE_KILL = "emergency-force-kill";
   String ACTION_EXISTS = "exists";
   String ACTION_FLEX = "flex";
   String ACTION_FREEZE = "freeze";
@@ -37,43 +36,41 @@ public interface HoyaActions {
   String ACTION_HELP = "help";
   String ACTION_KILL_CONTAINER = "kill-container";
   String ACTION_LIST = "list";
-  String ACTION_MIGRATE = "migrate";
-  String ACTION_MONITOR = "monitor";
   String ACTION_PREFLIGHT = "preflight";
   String ACTION_RECONFIGURE = "reconfigure";
-  String ACTION_REIMAGE = "reimage";
+  String ACTION_REGISTRY = "registry";
   String ACTION_STATUS = "status";
   String ACTION_THAW = "thaw";
   String ACTION_USAGE = "usage";
   String ACTION_VERSION = "version";
   String DESCRIBE_ACTION_AM_SUICIDE =
-    "Tell the Hoya Application Master to simulate a process failure by terminating itself";
+    "Tell the Slider Application Master to simulate a process failure by terminating itself";
   String DESCRIBE_ACTION_BUILD =
-    "Build a Hoya cluster specification -but do not start it";
+    "Build a Slider cluster specification -but do not start it";
   String DESCRIBE_ACTION_CREATE =
-      "Create a live Hoya cluster";
+      "Create a live Slider application";
   String DESCRIBE_ACTION_DESTROY =
-        "Destroy a frozen Hoya cluster)";
-  String DESCRIBE_ACTION_FORCE_KILL =
-          "Force kill an application by its YARN application ID";
+        "Destroy a frozen Slider application)";
   String DESCRIBE_ACTION_EXISTS =
-            "Probe for a cluster running";
-  String DESCRIBE_ACTION_FLEX = "Flex a Hoya cluster";
+            "Probe for an application running";
+  String DESCRIBE_ACTION_FLEX = "Flex a Slider application";
   String DESCRIBE_ACTION_FREEZE =
-              "Freeze/suspend a running cluster";
+              "Freeze/suspend a running application";
   String DESCRIBE_ACTION_GETCONF =
-                "Get the configuration of a cluster";
+                "Get the configuration of an application";
   String DESCRIBE_ACTION_KILL_CONTAINER =
-    "Kill a container in the cluster";
+    "Kill a container in the application";
   String DESCRIBE_ACTION_HELP = "Print help information";
   String DESCRIBE_ACTION_LIST =
-                  "List running Hoya clusters";
+                  "List running Slider applications";
   String DESCRIBE_ACTION_MONITOR =
-                    "Monitor a running cluster";
+                    "Monitor a running application";
+  String DESCRIBE_ACTION_REGISTRY =
+                      "Query the registry of a YARN application";
   String DESCRIBE_ACTION_STATUS =
-                      "Get the status of a cluster";
+                      "Get the status of an application";
   String DESCRIBE_ACTION_THAW =
-                        "Thaw a frozen cluster";
+                        "Thaw a frozen application";
   String DESCRIBE_ACTION_VERSION =
-                        "Print the Hoya version information";
+                        "Print the Slider version information";
 }

@@ -20,9 +20,9 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.LocalResourceType;
 import org.apache.hoya.HoyaKeys;
@@ -33,9 +33,9 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.CommandLineBuilder;
+import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
@@ -52,18 +52,25 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
+import org.apache.hoya.yarn.appmaster.web.rest.agent.StatusCommand;
 import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
+import static org.apache.slider.core.registry.info.RegistryFields.*;
+import org.apache.slider.server.services.curator.CuratorServiceInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -78,9 +85,10 @@ public class AgentProviderService extends AbstractProviderService implements
   protected static final Logger log =
       LoggerFactory.getLogger(AgentProviderService.class);
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
-  private static String LABEL_MAKER = "___";
+  private static final String LABEL_MAKER = "___";
   private AgentClientProvider clientProvider;
   private Map<String, ComponentInstanceState> componentStatuses = new HashMap<String, ComponentInstanceState>();
+  private Map<String, List<String>> roleHostMapping = new HashMap<String, List<String>>();
   private AtomicInteger taskId = new AtomicInteger(0);
 
   public AgentProviderService() {
@@ -109,94 +117,92 @@ public class AgentProviderService extends AbstractProviderService implements
   @Override
   public void validateInstanceDefinition(AggregateConf instanceDefinition)
       throws
-      HoyaException {
+      SliderException {
     clientProvider.validateInstanceDefinition(instanceDefinition);
   }
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx,
+  public void buildContainerLaunchContext(ContainerLauncher launcher,
                                           AggregateConf instanceDefinition,
                                           Container container,
                                           String role,
-                                          HoyaFileSystem hoyaFileSystem,
+                                          HoyaFileSystem fileSystem,
                                           Path generatedConfPath,
                                           MapOperations resourceComponent,
                                           MapOperations appComponent,
                                           Path containerTmpDirPath) throws
       IOException,
-      HoyaException {
+      SliderException {
 
     this.instanceDefinition = instanceDefinition;
     log.info("Build launch context for Agent");
     log.debug(instanceDefinition.toString());
 
     // Set the environment
-    Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
+    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
 
     String workDir = ApplicationConstants.Environment.PWD.$();
-    env.put("AGENT_WORK_ROOT", workDir);
-    log.info("AGENT_WORK_ROOT set to " + workDir);
+    launcher.setEnv("AGENT_WORK_ROOT", workDir);
+    log.info("AGENT_WORK_ROOT set to {}", workDir);
     String logDir = ApplicationConstants.Environment.LOG_DIRS.$();
-    env.put("AGENT_LOG_ROOT", logDir);
-    log.info("AGENT_LOG_ROOT set to " + logDir);
+    launcher.setEnv("AGENT_LOG_ROOT", logDir);
+    log.info("AGENT_LOG_ROOT set to {}", logDir);
 
     //local resources
-    Map<String, LocalResource> localResources =
-        new HashMap<String, LocalResource>();
 
     // TODO: Should agent need to support App Home
     String scriptPath = new File(AgentKeys.AGENT_MAIN_SCRIPT_ROOT, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (appHome != null && !appHome.equals("")) {
+    if (HoyaUtils.isSet(appHome)) {
       scriptPath = new File(appHome, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     }
 
     String agentImage = instanceDefinition.getInternalOperations().
         get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
     if (agentImage != null) {
-      LocalResource agentImageRes = hoyaFileSystem.createAmResource(new Path(agentImage), LocalResourceType.ARCHIVE);
-      localResources.put(AgentKeys.AGENT_INSTALL_DIR, agentImageRes);
+      LocalResource agentImageRes = fileSystem.createAmResource(new Path(agentImage), LocalResourceType.ARCHIVE);
+      launcher.addLocalResource(AgentKeys.AGENT_INSTALL_DIR, agentImageRes);
     }
 
-    log.info("Using " + scriptPath + " for agent.");
+    log.info("Using {} for agent.", scriptPath);
     String appDef = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
-    LocalResource appDefRes = hoyaFileSystem.createAmResource(new Path(appDef),
-                                                              LocalResourceType.ARCHIVE);
-    localResources.put(AgentKeys.APP_DEFINITION_DIR, appDefRes);
+    LocalResource appDefRes = fileSystem.createAmResource(
+        fileSystem.getFileSystem().resolvePath(new Path(appDef)),
+        LocalResourceType.ARCHIVE);
+    launcher.addLocalResource(AgentKeys.APP_DEFINITION_DIR, appDefRes);
 
     String agentConf = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
-    LocalResource agentConfRes = hoyaFileSystem.createAmResource(new Path(agentConf),
-                                                                 LocalResourceType.FILE);
-    localResources.put(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
+    LocalResource agentConfRes = fileSystem.createAmResource(
+        fileSystem.getFileSystem().resolvePath(new Path(agentConf)),
+        LocalResourceType.FILE);
+    launcher.addLocalResource(AgentKeys.AGENT_CONFIG_FILE, agentConfRes);
 
     String agentVer = instanceDefinition.getAppConfOperations().
-        getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_VERSION);
-    LocalResource agentVerRes = hoyaFileSystem.createAmResource(new Path(agentVer),
-                                                                LocalResourceType.FILE);
-    localResources.put(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
+        getGlobalOptions().getOption(AgentKeys.AGENT_VERSION, null);
+    if (agentVer != null) {
+      LocalResource agentVerRes = fileSystem.createAmResource(
+          fileSystem.getFileSystem().resolvePath(new Path(agentVer)),
+          LocalResourceType.FILE);
+      launcher.addLocalResource(AgentKeys.AGENT_VERSION_FILE, agentVerRes);
+    }
 
-    ctx.setLocalResources(localResources);
-
-    List<String> commandList = new ArrayList<String>();
     String label = getContainerLabel(container, role);
+    setRoleHostMapping(role, container.getNodeId().getHost());
     CommandLineBuilder operation = new CommandLineBuilder();
 
     operation.add(AgentKeys.PYTHON_EXE);
 
     operation.add(scriptPath);
-    operation.add(ARG_LABEL);
-    operation.add(label);
+    operation.add(ARG_LABEL, label);
     operation.add(ARG_HOST);
     operation.add(getClusterInfoPropertyValue(StatusKeys.INFO_AM_HOSTNAME));
     operation.add(ARG_PORT);
     operation.add(getClusterInfoPropertyValue(StatusKeys.INFO_AM_WEB_PORT));
 
-    commandList.add(operation.build());
-    ctx.setCommands(commandList);
-    ctx.setEnvironment(env);
+    launcher.addCommand(operation.build());
 
     // initialize the component instance state
     componentStatuses.put(label,
@@ -204,6 +210,19 @@ public class AgentProviderService extends AbstractProviderService implements
                               role,
                               container.getId().toString(),
                               getClusterInfoPropertyValue(OptionKeys.APPLICATION_NAME)));
+  }
+
+  protected void setRoleHostMapping(String role, String host) {
+    List<String> hosts = roleHostMapping.get(role);
+    if (hosts == null) {
+      hosts = new ArrayList<String>();
+    }
+    hosts.add(host);
+    roleHostMapping.put(role, hosts);
+  }
+
+  private List<String> getHostsForRole(String role) {
+    return roleHostMapping.get(role);
   }
 
   private String getContainerLabel(Container container, String role) {
@@ -225,8 +244,8 @@ public class AgentProviderService extends AbstractProviderService implements
    * @param env                environment variables above those generated by
    * @param execInProgress     callback for the event notification
    *
-   * @throws IOException   IO problems
-   * @throws HoyaException anything internal
+   * @throws IOException     IO problems
+   * @throws SliderException anything internal
    */
   @Override
   public boolean exec(AggregateConf instanceDefinition,
@@ -234,7 +253,7 @@ public class AgentProviderService extends AbstractProviderService implements
                       Map<String, String> env,
                       EventCallback execInProgress) throws
       IOException,
-      HoyaException {
+      SliderException {
 
     return false;
   }
@@ -304,9 +323,9 @@ public class AgentProviderService extends AbstractProviderService implements
     String roleName = getRoleName(label);
     StateAccessForProviders accessor = getStateAccessor();
     String scriptPath;
-    try {
-      scriptPath = accessor.getClusterStatus().getMandatoryRoleOpt(roleName, AgentKeys.COMPONENT_SCRIPT);
-    } catch (BadConfigException bce) {
+      scriptPath = accessor.getInstanceDefinitionSnapshot().
+          getAppConfOperations().getComponentOpt(roleName, AgentKeys.COMPONENT_SCRIPT, null);
+    if (scriptPath == null) {
       log.error("role.script is unavailable for " + roleName + ". Commands will not be sent.");
       return response;
     }
@@ -317,19 +336,19 @@ public class AgentProviderService extends AbstractProviderService implements
     ComponentInstanceState componentStatus = componentStatuses.get(label);
 
     List<CommandReport> reports = heartBeat.getReports();
-    if (reports != null && reports.size() > 0) {
+    if (reports != null && !reports.isEmpty()) {
       CommandReport report = reports.get(0);
       CommandResult result = getCommandResult(report.getStatus());
       Command command = getCommand(report.getRoleCommand());
       componentStatus.applyCommandResult(result, command);
-      log.info("Component operation. Status: " + result);
+      log.info("Component operation. Status: {}", result);
     }
 
     int waitForCount = accessor.getInstanceDefinitionSnapshot().
         getAppConfOperations().getComponentOptInt(roleName, AgentKeys.WAIT_HEARTBEAT, 0);
 
     if (id < waitForCount) {
-      log.info("Waiting until heartbeat count " + waitForCount + ". Current val: " + id);
+      log.info("Waiting until heartbeat count {}. Current val: {}", waitForCount, id);
       componentStatuses.put(roleName, componentStatus);
       return response;
     }
@@ -345,7 +364,7 @@ public class AgentProviderService extends AbstractProviderService implements
           log.info("Starting component ...");
           addStartCommand(roleName, response, scriptPath);
         }
-      } catch (HoyaException e) {
+      } catch (SliderException e) {
         componentStatus.applyCommandResult(CommandResult.FAILED, command);
         log.warn("Component instance failed operation.", e);
       }
@@ -359,7 +378,7 @@ public class AgentProviderService extends AbstractProviderService implements
   }
 
   protected void addInstallCommand(String roleName, HeartBeatResponse response, String scriptPath)
-      throws HoyaException {
+      throws SliderException {
     assert getStateAccessor().isApplicationLive();
     ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
     ConfTreeOperations resourcesConf = getStateAccessor().getResourcesSnapshot();
@@ -382,7 +401,7 @@ public class AgentProviderService extends AbstractProviderService implements
 
     setInstallCommandConfigurations(cmd);
 
-    setCommandParameters(scriptPath, cmd);
+    cmd.setCommandParams(setCommandParameters(scriptPath, false));
 
     cmd.setHostname(getClusterInfoPropertyValue(StatusKeys.INFO_AM_HOSTNAME));
     response.addExecutionCommand(cmd);
@@ -393,29 +412,73 @@ public class AgentProviderService extends AbstractProviderService implements
     cmd.setCommandId(cmd.getTaskId() + "-1");
   }
 
-  private void setCommandParameters(String scriptPath, ExecutionCommand cmd) {
+  private Map<String, String> setCommandParameters(String scriptPath, boolean recordConfig) {
     Map<String, String> cmdParams = new TreeMap<String, String>();
-    cmdParams.put("service_package_folder", "${AGENT_WORK_ROOT}/work/app/definition/package");
+    cmdParams.put("service_package_folder",
+                  "${AGENT_WORK_ROOT}/work/app/definition/package");
     cmdParams.put("script", scriptPath);
     cmdParams.put("schema_version", "2.0");
     cmdParams.put("command_timeout", "300");
     cmdParams.put("script_type", "PYTHON");
-    cmd.setCommandParams(cmdParams);
+    cmdParams.put("record_config", Boolean.toString(recordConfig));
+    return cmdParams;
   }
 
   private void setInstallCommandConfigurations(ExecutionCommand cmd) {
-    Map<String, Map<String, String>> configurations = new TreeMap<String, Map<String, String>>();
-    Map<String, String> config = new HashMap<String, String>();
-    addDefaultGlobalConfig(config);
-    config.put("app_install_dir", "${AGENT_WORK_ROOT}/app/install");
-    configurations.put("global", config);
+    ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
+    Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
     cmd.setConfigurations(configurations);
   }
 
-  protected void addStartCommand(String roleName, HeartBeatResponse response, String scriptPath) throws HoyaException {
+  protected void addStatusCommand(String roleName, HeartBeatResponse response, String scriptPath)
+      throws SliderException {
     assert getStateAccessor().isApplicationLive();
     ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
-    ConfTreeOperations resourcesConf = getStateAccessor().getResourcesSnapshot();
+    ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();
+
+    StatusCommand cmd = new StatusCommand();
+    String clusterName = internalsConf.get(OptionKeys.APPLICATION_NAME);
+
+    cmd.setCommandType(AgentCommandType.STATUS_COMMAND);
+    cmd.setComponentName(roleName);
+    cmd.setServiceName(clusterName);
+    cmd.setClusterName(clusterName);
+    cmd.setRoleCommand(StatusCommand.STATUS_COMMAND);
+
+    Map<String, String> hostLevelParams = new TreeMap<String, String>();
+    hostLevelParams.put(JAVA_HOME, appConf.getGlobalOptions().getMandatoryOption(JAVA_HOME));
+    cmd.setHostLevelParams(hostLevelParams);
+
+    cmd.setCommandParams(setCommandParameters(scriptPath, false));
+
+    Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
+
+    cmd.setConfigurations(configurations);
+
+    response.addStatusCommand(cmd);
+  }
+
+  protected void addGetConfigCommand(String roleName, HeartBeatResponse response)
+      throws SliderException {
+    assert getStateAccessor().isApplicationLive();
+    ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();
+
+    StatusCommand cmd = new StatusCommand();
+    String clusterName = internalsConf.get(OptionKeys.APPLICATION_NAME);
+
+    cmd.setCommandType(AgentCommandType.STATUS_COMMAND);
+    cmd.setComponentName(roleName);
+    cmd.setServiceName(clusterName);
+    cmd.setClusterName(clusterName);
+    cmd.setRoleCommand(StatusCommand.GET_CONFIG_COMMAND);
+
+    response.addStatusCommand(cmd);
+  }
+
+  protected void addStartCommand(String roleName, HeartBeatResponse response, String scriptPath) throws
+      SliderException {
+    assert getStateAccessor().isApplicationLive();
+    ConfTreeOperations appConf = getStateAccessor().getAppConfSnapshot();
     ConfTreeOperations internalsConf = getStateAccessor().getInternalsSnapshot();
 
     ExecutionCommand cmd = new ExecutionCommand(AgentCommandType.EXECUTION_COMMAND);
@@ -432,15 +495,18 @@ public class AgentProviderService extends AbstractProviderService implements
     hostLevelParams.put(JAVA_HOME, appConf.getGlobalOptions().getMandatoryOption(JAVA_HOME));
     cmd.setHostLevelParams(hostLevelParams);
 
-    setCommandParameters(scriptPath, cmd);
+    cmd.setCommandParams(setCommandParameters(scriptPath, true));
+
+    Map<String, Map<String, String>> configurations = buildCommandConfigurations(appConf);
+
+    cmd.setConfigurations(configurations);
+    response.addExecutionCommand(cmd);
+  }
+
+  private Map<String, Map<String, String>> buildCommandConfigurations(ConfTreeOperations appConf) {
 
     Map<String, Map<String, String>> configurations = new TreeMap<String, Map<String, String>>();
-
-    Map<String, String> tokens = new HashMap<String, String>();
-    String nnuri = appConf.get("site.fs.defaultFS");
-    tokens.put("${NN_URI}", nnuri);
-    tokens.put("${NN_HOST}", URI.create(nnuri).getHost());
-    tokens.put("${ZK_HOST}", appConf.get("zookeeper.hosts"));
+    Map<String, String> tokens = getStandardTokenMap(appConf);
 
     List<String> configs = getApplicationConfigurationTypes(appConf);
 
@@ -450,8 +516,16 @@ public class AgentProviderService extends AbstractProviderService implements
                             configurations, tokens);
     }
 
-    cmd.setConfigurations(configurations);
-    response.addExecutionCommand(cmd);
+    return configurations;
+  }
+
+  private Map<String, String> getStandardTokenMap(ConfTreeOperations appConf) {
+    Map<String, String> tokens = new HashMap<String, String>();
+    String nnuri = appConf.get("site.fs.defaultFS");
+    tokens.put("${NN_URI}", nnuri);
+    tokens.put("${NN_HOST}", URI.create(nnuri).getHost());
+    tokens.put("${ZK_HOST}", appConf.get(OptionKeys.ZOOKEEPER_HOSTS));
+    return tokens;
   }
 
   private List<String> getApplicationConfigurationTypes(ConfTreeOperations appConf) {
@@ -476,13 +550,59 @@ public class AgentProviderService extends AbstractProviderService implements
     if (configName.equals("global")) {
       addDefaultGlobalConfig(config);
     }
+    // add role hosts to tokens
+    addRoleRelatedTokens(tokens);
     providerUtils.propagateSiteOptions(sourceConfig, config, configName, tokens);
     configurations.put(configName, config);
+  }
+
+  protected void addRoleRelatedTokens(Map<String, String> tokens) {
+    for (Map.Entry<String, List<String>> entry : roleHostMapping.entrySet()) {
+      String tokenName = entry.getKey().toUpperCase(Locale.ENGLISH) + "_HOST";
+      String hosts = StringUtils.join(",", entry.getValue());
+      tokens.put("${" + tokenName + "}", hosts);
+    }
   }
 
   private void addDefaultGlobalConfig(Map<String, String> config) {
     config.put("app_log_dir", "${AGENT_LOG_ROOT}/app/log");
     config.put("app_pid_dir", "${AGENT_WORK_ROOT}/app/run");
     config.put("app_install_dir", "${AGENT_WORK_ROOT}/app/install");
+  }
+
+  @Override
+  public Map<String, URL> buildMonitorDetails(ClusterDescription clusterDesc) {
+    Map<String, URL> details = new LinkedHashMap<String, URL>();
+    buildEndpointDetails(details);
+    buildRoleHostDetails(details);
+    return details;
+  }
+
+  private void buildRoleHostDetails(Map<String, URL> details) {
+    for (Map.Entry<String, List<String>> entry : roleHostMapping.entrySet()) {
+      details.put(entry.getKey() + " Host(s): " + entry.getValue(),
+                  null);
+    }
+  }
+
+  private void buildEndpointDetails(Map<String, URL> details) {
+    try {
+      List<CuratorServiceInstance<ServiceInstanceData>> services =
+          registry.listInstances(HoyaKeys.APP_TYPE);
+      assert services.size() == 1;
+      CuratorServiceInstance<ServiceInstanceData> service = services.get(0);
+      Map payload = (Map) service.getPayload();
+      Map<String, Map<String, String>> endpoints =
+          (Map) ((Map) payload.get(EXTERNAL_VIEW)).get(ENDPOINTS);
+      for (Map.Entry<String, Map<String, String>> endpoint : endpoints.entrySet()) {
+        if ("http".equals(endpoint.getValue().get(PROTOCOL))) {
+          URL url = new URL(endpoint.getValue().get(VALUE));
+          details.put(endpoint.getValue().get(DESCRIPTION),
+                      url);
+        }
+      }
+    } catch (IOException e) {
+      log.error("Error creating list of slider URIs", e);
+    }
   }
 }

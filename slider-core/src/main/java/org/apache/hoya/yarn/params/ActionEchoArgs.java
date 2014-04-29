@@ -33,7 +33,7 @@ public class ActionEchoArgs extends AbstractActionArgs {
   }
 
   @Parameter(names = {ARG_MESSAGE},
-             description = "reason for the operation")
+             description = "message to echo")
   public String message;
 
 }

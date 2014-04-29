@@ -51,7 +51,7 @@ public abstract class AbstractActionArgs extends ArgOps implements Arguments {
   public URI filesystemURL;
 
   @Parameter(names = {ARG_BASE_PATH},
-             description = "Hoya Base path on the filesystem",
+             description = "Slider Base path on the filesystem",
              converter =  PathArgumentConverter.class)
   public Path basePath;
 

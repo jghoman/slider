@@ -22,7 +22,7 @@ package org.apache.hoya.exceptions;
 /**
  * YARN cluster itself is in a bad state
  */
-public class BadClusterStateException extends HoyaException {
+public class BadClusterStateException extends SliderException {
   public BadClusterStateException(String message,
                                   Object... args) {
     super(EXIT_BAD_STATE, message, args);

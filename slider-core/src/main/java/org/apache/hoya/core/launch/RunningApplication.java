@@ -22,7 +22,7 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hoya.HoyaExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.exceptions.HoyaException;
+import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
 
@@ -66,9 +66,9 @@ public class RunningApplication extends LaunchedApplication {
                                 CONNECT_TIMEOUT,
                                 RPC_TIMEOUT);
     } catch (InterruptedException e) {
-      throw new HoyaException(HoyaExitCodes.EXIT_TIMED_OUT,
-                              e,
-                              "Interrupted waiting for communications with the HoyaAM");
+      throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
+          e,
+          "Interrupted waiting for communications with the Application Master");
     }
   }
 
