@@ -135,6 +135,7 @@
     <avro.version>1.7.4</avro.version>
     <bigtop.version>0.7.0</bigtop.version>
     <commons-codec.version>1.4</commons-codec.version>
+    <commons-digester.version>1.8</commons-digester.version>
     <commons-configuration.version>1.6</commons-configuration.version>
     <commons-lang.version>2.6</commons-lang.version>
     <curator.version>2.4.1</curator.version>
@@ -986,6 +987,12 @@
         <groupId>commons-codec</groupId>
         <artifactId>commons-codec</artifactId>
         <version>${commons-codec.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-digester</groupId>
+        <artifactId>commons-digester</artifactId>
+        <version>${commons-digester.version}</version>
       </dependency>
 
       <dependency>

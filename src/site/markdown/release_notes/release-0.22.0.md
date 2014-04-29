@@ -35,3 +35,11 @@ Slider agent is a generic provider that can process Slider App Packages.
 
 ### Added documentation on developing and using Slider App Packages
 
+### Added Service Registry and associated REST resources
+
+### Enhanced Agent Provider AM Web UI with additional application info
+
+Added links to WADL listing expose AM REST management resources as well as the exposed Registry REST resources
+
+
+
