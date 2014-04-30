@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
 import org.apache.slider.providers.hbase.HBaseKeys
@@ -56,7 +56,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
 
     def conf = configuration
     // patch the configuration for AM restart
-    conf.setInt(HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT, 3)
+    conf.setInt(SliderXmlConfKeys.KEY_AM_RESTART_LIMIT, 3)
 
     conf.setClass(YarnConfiguration.RM_SCHEDULER,
         FifoScheduler, ResourceScheduler);

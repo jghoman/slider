@@ -21,7 +21,7 @@ package org.apache.hoya.providers;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.agent.AgentKeys;
@@ -64,7 +64,7 @@ public abstract class HoyaProviderFactory extends Configured {
       application = DEFAULT_CLUSTER_TYPE;
     }
     String providerKey =
-      String.format(HoyaXmlConfKeys.KEY_PROVIDER, application);
+      String.format(SliderXmlConfKeys.KEY_PROVIDER, application);
     if (application.contains(".")) {
       log.debug("Treating {} as a classname", application);
       String name = "classname.key";

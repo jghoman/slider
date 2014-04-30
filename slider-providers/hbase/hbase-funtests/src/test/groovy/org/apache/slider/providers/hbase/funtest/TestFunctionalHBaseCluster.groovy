@@ -21,8 +21,8 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.SliderExitCodes
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -58,7 +58,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
   @Before
   public void prepareCluster() {
 
-    String quorumServers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS)
+    String quorumServers = SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS)
   
     ZooKeeper monitor = new ZooKeeper(quorumServers,
       1000, new Watcher(){

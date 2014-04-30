@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.params;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
@@ -104,7 +104,7 @@ public class ClientArgs extends CommonArgs {
     }
     if ( getBasePath() != null ) {
       log.debug("Setting basePath to {}", getBasePath());
-      conf.set(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH, getBasePath().toString());
+      conf.set(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH, getBasePath().toString());
     }
   }
 

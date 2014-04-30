@@ -36,8 +36,8 @@ import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
-import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.SliderExitCodes
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
@@ -83,7 +83,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
   public static final YarnConfiguration SLIDER_CONFIG = HoyaUtils.createConfiguration();
   static {
-    SLIDER_CONFIG.setInt(HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT, 1)
+    SLIDER_CONFIG.setInt(SliderXmlConfKeys.KEY_AM_RESTART_LIMIT, 1)
     SLIDER_CONFIG.setInt(YarnConfiguration.RM_AM_MAX_ATTEMPTS, 100)
     SLIDER_CONFIG.setBoolean(YarnConfiguration.NM_PMEM_CHECK_ENABLED, false)
     SLIDER_CONFIG.setBoolean(YarnConfiguration.NM_VMEM_CHECK_ENABLED, false)

@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.HoyaKeys
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
@@ -92,7 +92,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
            ],
            [
                Arguments.ARG_DEFINE,
-               HoyaXmlConfKeys.KEY_YARN_QUEUE + "=noqueue",
+               SliderXmlConfKeys.KEY_YARN_QUEUE + "=noqueue",
                ARG_PROVIDER, PROVIDER_HBASE
            ],
            true,

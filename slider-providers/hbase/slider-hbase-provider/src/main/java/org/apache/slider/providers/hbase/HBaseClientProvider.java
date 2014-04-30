@@ -22,7 +22,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
@@ -287,7 +287,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     if (log.isDebugEnabled()) {
       log.debug("Configuration came from {}",
-                siteConf.get(HoyaXmlConfKeys.KEY_TEMPLATE_ORIGIN));
+                siteConf.get(SliderXmlConfKeys.KEY_TEMPLATE_ORIGIN));
       ConfigHelper.dumpConf(siteConf);
     }
     //construct the cluster configuration values

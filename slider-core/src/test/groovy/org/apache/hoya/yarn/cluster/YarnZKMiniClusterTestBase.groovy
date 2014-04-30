@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.zk.BlockingZKWatcher
 import org.apache.slider.core.registry.zk.ZKIntegration
@@ -153,7 +153,7 @@ public abstract class YarnZKMiniClusterTestBase extends YarnMiniClusterTestBase 
    */
   protected List<String> getExtraCLIArgs() {
     [
-      "-D", define(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, ZKBinding)
+      "-D", define(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, ZKBinding)
     ]
   }
 }

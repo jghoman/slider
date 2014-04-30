@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 /**
  * These are the keys that can be added to <code>conf/hoya-client.xml</code>.
  */
-public interface HoyaXmlConfKeys {
+public interface SliderXmlConfKeys {
   String PREFIX_PROVIDER = "slider.provider";
   /**
    * pattern to identify a hoya provider

@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.HoyaKeys
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
@@ -72,7 +72,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
             SliderActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
-            SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
+            SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
             ARG_IMAGE,
             SLIDER_CONFIG.get(KEY_TEST_HBASE_TAR),
             ARG_CONFDIR,

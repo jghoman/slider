@@ -34,7 +34,7 @@ import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.core.persist.Filenames;
 import org.apache.hoya.core.persist.InstancePaths;
 import org.apache.hoya.exceptions.BadClusterStateException;
@@ -51,8 +51,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.hoya.HoyaXmlConfKeys.DEFAULT_CLUSTER_DIRECTORY_PERMISSIONS;
-import static org.apache.hoya.HoyaXmlConfKeys.CLUSTER_DIRECTORY_PERMISSIONS;
+import static org.apache.hoya.SliderXmlConfKeys.DEFAULT_CLUSTER_DIRECTORY_PERMISSIONS;
+import static org.apache.hoya.SliderXmlConfKeys.CLUSTER_DIRECTORY_PERMISSIONS;
 
 public class CoreFileSystem {
   private static final Logger
@@ -166,8 +166,8 @@ public class CoreFileSystem {
 
     // Data Directory
     String dataOpts =
-      configuration.get(HoyaXmlConfKeys.DATA_DIRECTORY_PERMISSIONS,
-               HoyaXmlConfKeys.DEFAULT_DATA_DIRECTORY_PERMISSIONS);
+      configuration.get(SliderXmlConfKeys.DATA_DIRECTORY_PERMISSIONS,
+               SliderXmlConfKeys.DEFAULT_DATA_DIRECTORY_PERMISSIONS);
     log.debug("Setting data directory permissions to {}", dataOpts);
     createWithPermissions(instancePaths.dataPath, new FsPermission(dataOpts));
 
@@ -341,10 +341,10 @@ public class CoreFileSystem {
   /**
    * Get the base path for hoya
    *
-   * @return the base path optionally configured by {@value HoyaXmlConfKeys#KEY_SLIDER_BASE_PATH}
+   * @return the base path optionally configured by {@value SliderXmlConfKeys#KEY_SLIDER_BASE_PATH}
    */
   public Path getBaseApplicationPath() {
-    String configuredBasePath = configuration.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH);
+    String configuredBasePath = configuration.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH);
     return configuredBasePath != null ? new Path(configuredBasePath) :
            new Path(getHomeDirectory(), HoyaKeys.SLIDER_BASE_DIRECTORY);
   }

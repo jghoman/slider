@@ -26,7 +26,7 @@ import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
@@ -414,7 +414,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     List<String> argsList = [action, clustername]
 
     argsList << ARG_ZKHOSTS <<
-      SLIDER_CONFIG.getTrimmed(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM)
+      SLIDER_CONFIG.getTrimmed(SliderXmlConfKeys.REGISTRY_ZK_QUORUM)
     
 
     if (blockUntilRunning) {

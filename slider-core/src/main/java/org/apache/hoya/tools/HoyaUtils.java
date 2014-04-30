@@ -37,7 +37,7 @@ import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
 import org.apache.hoya.core.conf.MapOperations;
@@ -72,7 +72,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeSet;
@@ -403,8 +402,8 @@ public final class HoyaUtils {
 
     //if the fallback option is NOT set, enable it.
     //if it is explicitly set to anything -leave alone
-    if (conf.get(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
-      conf.set(HoyaXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
+    if (conf.get(SliderXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH) == null) {
+      conf.set(SliderXmlConfKeys.IPC_CLIENT_FALLBACK_TO_SIMPLE_AUTH, "true");
     }
     return conf;
   }
@@ -876,7 +875,7 @@ public final class HoyaUtils {
    * @return true if the hoya client/service should be in secure mode
    */
   public static boolean isClusterSecure(Configuration conf) {
-    return conf.getBoolean(HoyaXmlConfKeys.KEY_SECURITY_ENABLED, false);
+    return conf.getBoolean(SliderXmlConfKeys.KEY_SECURITY_ENABLED, false);
   }
 
   /**

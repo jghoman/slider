@@ -19,7 +19,7 @@ package org.apache.hoya.yarn.appmaster.rpc;
 
 import org.apache.hadoop.security.authorize.PolicyProvider;
 import org.apache.hadoop.security.authorize.Service;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 
 /**
  * {@link PolicyProvider} for Hoya protocols.
@@ -29,7 +29,7 @@ public class HoyaAMPolicyProvider extends PolicyProvider {
   
   private static final Service[] services = 
       new Service[] {
-    new Service(HoyaXmlConfKeys.KEY_PROTOCOL_ACL, HoyaClusterProtocolPB.class)
+    new Service(SliderXmlConfKeys.KEY_PROTOCOL_ACL, HoyaClusterProtocolPB.class)
   };
 
   @SuppressWarnings("ReturnOfCollectionOrArrayField")

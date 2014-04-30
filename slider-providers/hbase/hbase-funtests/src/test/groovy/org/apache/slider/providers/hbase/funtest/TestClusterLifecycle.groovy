@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -158,7 +158,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
            [
                SliderActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
-               ARG_DEFINE, HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT + "=3"
+               ARG_DEFINE, SliderXmlConfKeys.KEY_AM_RESTART_LIMIT + "=3"
            ])
 
 

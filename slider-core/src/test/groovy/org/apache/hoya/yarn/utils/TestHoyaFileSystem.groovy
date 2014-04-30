@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.utils
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.HoyaTestBase
 import org.junit.Test
@@ -47,7 +47,7 @@ class TestHoyaFileSystem extends HoyaTestBase {
 
   @Test
   public void testHoyaBasePathCustomValue() throws Throwable {
-    Configuration configuration = createConfigurationWithKV(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH, "/slider/cluster")
+    Configuration configuration = createConfigurationWithKV(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH, "/slider/cluster")
     FileSystem fileSystem = FileSystem.get(configuration)
     def fs2 = new HoyaFileSystem(fileSystem, configuration)
 

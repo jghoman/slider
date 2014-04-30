@@ -25,7 +25,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hdfs.DFSConfigKeys
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.exceptions.BadCommandArgumentsException
@@ -129,7 +129,7 @@ class TestCommonArgParsing implements SliderActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == null
+    assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == null
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(
         conf,
@@ -149,7 +149,7 @@ class TestCommonArgParsing implements SliderActions, Arguments {
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(HoyaXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
+    assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
     HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     HoyaUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 

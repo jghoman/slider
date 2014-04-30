@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
@@ -53,7 +53,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
       [
           Arguments.ARG_COMP_OPT, HBaseKeys.ROLE_MASTER, RoleKeys.JVM_HEAP, "256M",
-          Arguments.ARG_DEFINE, HoyaXmlConfKeys.KEY_YARN_QUEUE + "=default"
+          Arguments.ARG_DEFINE, SliderXmlConfKeys.KEY_YARN_QUEUE + "=default"
       ],
       true,
       true) 

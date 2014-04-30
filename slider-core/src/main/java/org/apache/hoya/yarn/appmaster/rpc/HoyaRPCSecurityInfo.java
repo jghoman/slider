@@ -25,7 +25,7 @@ import org.apache.hadoop.security.token.TokenIdentifier;
 import org.apache.hadoop.security.token.TokenInfo;
 import org.apache.hadoop.security.token.TokenSelector;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenSelector;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 
 import java.lang.annotation.Annotation;
 
@@ -49,7 +49,7 @@ public class HoyaRPCSecurityInfo extends SecurityInfo {
 
       @Override
       public String serverPrincipal() {
-        return HoyaXmlConfKeys.KEY_KERBEROS_PRINCIPAL;
+        return SliderXmlConfKeys.KEY_KERBEROS_PRINCIPAL;
       }
 
       @Override

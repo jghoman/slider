@@ -24,7 +24,7 @@ import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
@@ -156,7 +156,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                    CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY);
     }
     sitexml.put(CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY, fsDefaultName);
-    sitexml.put(HoyaXmlConfKeys.FS_DEFAULT_NAME_CLASSIC, fsDefaultName);
+    sitexml.put(SliderXmlConfKeys.FS_DEFAULT_NAME_CLASSIC, fsDefaultName);
   }
 
   @Override 

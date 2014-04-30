@@ -22,7 +22,7 @@ package org.apache.hoya;
 /**
  * Keys and various constants for Hoya
  */
-public interface HoyaKeys extends HoyaXmlConfKeys {
+public interface HoyaKeys extends SliderXmlConfKeys {
 
   
   String COMPONENT_AM = "slider-appmaster";

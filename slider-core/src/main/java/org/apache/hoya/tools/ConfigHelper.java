@@ -25,7 +25,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -374,8 +373,8 @@ public class ConfigHelper {
       origin = "Resource " + fallbackResource;
     }
     //force a get
-    conf.get(HoyaXmlConfKeys.KEY_TEMPLATE_ORIGIN);
-    conf.set(HoyaXmlConfKeys.KEY_TEMPLATE_ORIGIN, origin);
+    conf.get(SliderXmlConfKeys.KEY_TEMPLATE_ORIGIN);
+    conf.set(SliderXmlConfKeys.KEY_TEMPLATE_ORIGIN, origin);
     //now set the origin
     return conf;
   }

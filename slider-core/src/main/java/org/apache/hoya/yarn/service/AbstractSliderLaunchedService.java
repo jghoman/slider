@@ -20,10 +20,9 @@ package org.apache.hoya.yarn.service;
 
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import static org.apache.hoya.HoyaXmlConfKeys.*;
+import static org.apache.hoya.SliderXmlConfKeys.*;
 
-import org.apache.hoya.HoyaXmlConfKeys;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
+import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
@@ -66,11 +65,11 @@ public abstract class AbstractSliderLaunchedService extends
    * @throws BadConfigException if it is not there or invalid
    */
   public String lookupZKQuorum() throws BadConfigException {
-    String registryQuorum = getConfig().get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM);
+    String registryQuorum = getConfig().get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM);
     if (HoyaUtils.isUnset(registryQuorum)) {
       throw new BadConfigException(
           "No Zookeeper quorum provided in the"
-          + " configuration property " + HoyaXmlConfKeys.REGISTRY_ZK_QUORUM
+          + " configuration property " + SliderXmlConfKeys.REGISTRY_ZK_QUORUM
       );
     }
     ZookeeperUtils.splitToHostsAndPortsStrictly(registryQuorum);
