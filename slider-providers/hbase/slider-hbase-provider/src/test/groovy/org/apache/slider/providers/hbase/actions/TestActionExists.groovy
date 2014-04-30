@@ -71,7 +71,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     //launch the cluster
     String clustername = "testExistsLiveCluster"
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, false)
-    SliderClient hoyaClient = launcher.service
+    SliderClient sliderClient = launcher.service
     addToTeardown(launcher)
     ApplicationReport report = waitForClusterLive((SliderClient) launcher.service)
 
@@ -105,16 +105,16 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     
     // assert that the cluster exists
 
-    assert 0 == hoyaClient.actionExists(clustername, true)
+    assert 0 == sliderClient.actionExists(clustername, true)
     
     // freeze the cluster
-    clusterActionFreeze(hoyaClient, clustername)
+    clusterActionFreeze(sliderClient, clustername)
 
     //verify that exists(live) is now false
-    assert LauncherExitCodes.EXIT_FALSE == hoyaClient.actionExists(clustername, true)
+    assert LauncherExitCodes.EXIT_FALSE == sliderClient.actionExists(clustername, true)
 
     //but the cluster is still there for the default
-    assert 0 == hoyaClient.actionExists(clustername, false)
+    assert 0 == sliderClient.actionExists(clustername, false)
   }
   
 }

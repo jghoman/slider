@@ -40,19 +40,19 @@ class TestHBaseMasterOnHDFS extends HBaseMiniClusterTestBase {
     log.info("HDFS is at $fsDefaultName")
     assert fsDefaultName.startsWith("hdfs://")
     ServiceLauncher launcher = createHBaseCluster(clustername, 1, [], true, true) 
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("Status $status")
     
-    basicHBaseClusterStartupSequence(hoyaClient)
-    dumpClusterStatus(hoyaClient, "post-hbase-boot status")
+    basicHBaseClusterStartupSequence(sliderClient)
+    dumpClusterStatus(sliderClient, "post-hbase-boot status")
 
     //get the hbase status
-    status = waitForWorkerInstanceCount(hoyaClient, 1, hbaseClusterStartupToLiveTime)
-    waitForHBaseRegionServerCount(hoyaClient, clustername, 1, hbaseClusterStartupToLiveTime)
+    status = waitForWorkerInstanceCount(sliderClient, 1, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername, 1, hbaseClusterStartupToLiveTime)
 
-    clusterActionFreeze(hoyaClient, clustername)
+    clusterActionFreeze(sliderClient, clustername)
 
   }
 

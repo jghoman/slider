@@ -29,17 +29,17 @@ import org.apache.slider.common.SliderKeys
 public interface FuntestProperties extends SliderXMLConfKeysForTesting {
 
   /**
-   * Maven Property of location of hoya conf dir: {@value}
+   * Maven Property of location of slider conf dir: {@value}
    */
   String SLIDER_CONF_DIR_PROP = "slider.conf.dir"
 
   /**
-   * Maven Property of location of hoya binary image dir: {@value}
+   * Maven Property of location of slider binary image dir: {@value}
    */
   String SLIDER_BIN_DIR_PROP = "slider.bin.dir"
 
-  String KEY_HOYA_TEST_NUM_WORKERS = "slider.test.cluster.size"
-  int DEFAULT_HOYA_NUM_WORKERS = 1
+  String KEY_SLIDER_TEST_NUM_WORKERS = "slider.test.cluster.size"
+  int DEFAULT_SLIDER_NUM_WORKERS = 1
 
   String KEY_SLIDER_TEST_ZK_HOSTS = "slider.test.zkhosts";
   String DEFAULT_SLIDER_ZK_HOSTS = "localhost:2181";
@@ -50,7 +50,7 @@ public interface FuntestProperties extends SliderXMLConfKeysForTesting {
   String KEY_AM_RESTART_SLEEP_TIME = "slider.test.am.restart.time"
   int DEFAULT_AM_RESTART_SLEEP_TIME = 30000
 
-  String KEY_HOYA_FUNTESTS_ENABLED = "slider.funtest.enabled"
+  String KEY_SLIDER_FUNTESTS_ENABLED = "slider.funtest.enabled"
 
   String CLIENT_CONFIG_FILENAME = SliderKeys.CLIENT_RESOURCE
   

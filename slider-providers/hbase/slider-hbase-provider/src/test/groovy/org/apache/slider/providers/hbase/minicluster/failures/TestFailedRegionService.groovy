@@ -56,15 +56,15 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
 
     //now launch the cluster
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    status = waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
     //get the hbase status
-    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
     
     log.info("Initial cluster status : ${hbaseStatusToString(hbaseStat)}");
     describe("running processes")
@@ -83,14 +83,14 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
     describe("waiting for recovery")
 
     //and expect a recovery
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    status = waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
   
     //now we expect the failure count to be two
 
     
-    hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    hbaseStat = waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
 
-    status = hoyaClient.getClusterDescription()
+    status = sliderClient.getClusterDescription()
     assert status.roles[HBaseKeys.ROLE_WORKER][RoleKeys.ROLE_FAILED_INSTANCES] == "2"
 
     log.info("Updated cluster status : ${hbaseStatusToString(hbaseStat)}");
@@ -101,13 +101,13 @@ class TestFailedRegionService extends HBaseMiniClusterTestBase {
     def worker1 = workers[0]
     ActionKillContainerArgs args = new ActionKillContainerArgs();
     args.id = worker1
-    assert 0 == hoyaClient.actionKillContainer(clustername, args)
+    assert 0 == sliderClient.actionKillContainer(clustername, args)
     sleep(15000)
     waitForWorkerInstanceCount(
-        hoyaClient,
+        sliderClient,
         regionServerCount,
         hbaseClusterStartupToLiveTime)
-    status = hoyaClient.getClusterDescription()
+    status = sliderClient.getClusterDescription()
     assert status.roles[HBaseKeys.ROLE_WORKER][RoleKeys.ROLE_FAILED_INSTANCES] == "3"
   }
 

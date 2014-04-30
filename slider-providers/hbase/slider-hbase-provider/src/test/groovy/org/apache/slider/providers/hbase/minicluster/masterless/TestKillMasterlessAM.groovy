@@ -64,23 +64,23 @@ class TestKillMasterlessAM extends HBaseMiniClusterTestBase {
         true,
         true,
         [:])
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
     describe("listing services")
     lsJavaProcesses();
     describe("killing services")
     killServiceLaunchers(SIGTERM);
-    waitWhileClusterLive(hoyaClient);
+    waitWhileClusterLive(sliderClient);
     //give yarn some time to notice
     sleep(2000)
     describe("final listing")
     lsJavaProcesses();
-    ApplicationReport report = hoyaClient.applicationReport
+    ApplicationReport report = sliderClient.applicationReport
     assert report.yarnApplicationState == YarnApplicationState.FAILED;
 
 
 
-    clusterActionFreeze(hoyaClient, clustername)
+    clusterActionFreeze(sliderClient, clustername)
   }
 
 

@@ -46,8 +46,8 @@ class TestCreateDuplicateLiveCluster extends HBaseMiniClusterTestBase {
       //launch fake master
       ServiceLauncher launcher
       launcher = createMasterlessAM(clustername, 0, true, true)
-      SliderClient hoyaClient = (SliderClient) launcher.service
-      addToTeardown(hoyaClient);
+      SliderClient sliderClient = (SliderClient) launcher.service
+      addToTeardown(sliderClient);
 
       //now try to create instance #2, and expect an in-use failure
     try {

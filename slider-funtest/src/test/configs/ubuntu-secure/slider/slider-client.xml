@@ -24,7 +24,7 @@
 <configuration>
   <property>
     <name>slider.client.resource.origin</name>
-    <value>ubuntu-secure/conf/hoya-client.xml</value>
+    <value>ubuntu-secure/conf/slider-client.xml</value>
     <description>This is just for diagnostics</description>
   </property>
 

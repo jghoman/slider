@@ -44,9 +44,9 @@ public class IndexBlock extends HtmlBlock {
   private ProviderService providerService;
 
   @Inject
-  public IndexBlock(WebAppApi hoya) {
-    this.appState = hoya.getAppState();
-    this.providerService = hoya.getProviderService();
+  public IndexBlock(WebAppApi slider) {
+    this.appState = slider.getAppState();
+    this.providerService = slider.getProviderService();
   }
 
   @Override

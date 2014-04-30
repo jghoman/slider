@@ -61,21 +61,21 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
 
-    SliderFileSystem hoyaFileSystem = createHoyaFileSystem()
-    def hdfs = hoyaFileSystem.fileSystem
-    def instanceDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername)
+    SliderFileSystem sliderFileSystem = createSliderFileSystem()
+    def hdfs = sliderFileSystem.fileSystem
+    def instanceDir = sliderFileSystem.buildClusterDirPath(clustername)
 
     assertPathExists(
         hdfs,
         "cluster path not found",
         instanceDir)
 
-    hoyaFileSystem.locateInstanceDefinition(clustername)
-    clusterActionFreeze(hoyaClient, clustername,"stopping first cluster")
-    waitForAppToFinish(hoyaClient)
+    sliderFileSystem.locateInstanceDefinition(clustername)
+    clusterActionFreeze(sliderClient, clustername,"stopping first cluster")
+    waitForAppToFinish(sliderClient)
 
     
     describe "Warnings below are expected"
@@ -96,11 +96,11 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     describe "destroying $clustername"
     //now: destroy it
     
-    int exitCode = hoyaClient.actionDestroy(clustername);
+    int exitCode = sliderClient.actionDestroy(clustername);
     assert 0 == exitCode
 
     describe "post destroy checks"
-    hoyaFileSystem.verifyDirectoryNonexistent(instanceDir)
+    sliderFileSystem.verifyDirectoryNonexistent(instanceDir)
 
     describe "thaw expected to fail"
     //expect thaw to now fail
@@ -119,7 +119,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     }
 
     describe "thaw completed, checking dir is still absent"
-    hoyaFileSystem.verifyDirectoryNonexistent(instanceDir)
+    sliderFileSystem.verifyDirectoryNonexistent(instanceDir)
 
 
     describe "recreating $clustername"
@@ -150,7 +150,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     }
     
     //and try to destroy a completely different cluster just for the fun of it
-    assert 0 == hoyaClient.actionDestroy("no-cluster-of-this-name")
+    assert 0 == sliderClient.actionDestroy("no-cluster-of-this-name")
   }
 
 

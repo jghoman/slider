@@ -33,8 +33,8 @@ public class ClusterSpecificationBlock extends HtmlBlock {
   private StateAccessForProviders appState;
 
   @Inject
-  public ClusterSpecificationBlock(WebAppApi hoya) {
-    this.appState = hoya.getAppState();
+  public ClusterSpecificationBlock(WebAppApi slider) {
+    this.appState = slider.getAppState();
   }
 
   @Override

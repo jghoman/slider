@@ -52,7 +52,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
   }
 
   public String getClusterZNode() {
-    return "/yarnapps_hoya_yarn_" + getClusterName();
+    return "/yarnapps_slider_yarn_" + getClusterName();
   }
 
   @Before
@@ -84,8 +84,8 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
 
     describe description
 
-    int numWorkers = SLIDER_CONFIG.getInt(KEY_HOYA_TEST_NUM_WORKERS, 
-        DEFAULT_HOYA_NUM_WORKERS);
+    int numWorkers = SLIDER_CONFIG.getInt(KEY_SLIDER_TEST_NUM_WORKERS,
+        DEFAULT_SLIDER_NUM_WORKERS);
 
     def clusterpath = buildClusterPath(clusterName)
     assert !clusterFS.exists(clusterpath)
@@ -105,20 +105,20 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
         [:]
     )
 
-    //get a hoya client against the cluster
-    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
-    ClusterDescription cd2 = hoyaClient.getClusterDescription()
+    //get a slider client against the cluster
+    SliderClient sliderClient = bondToCluster(SLIDER_CONFIG, clusterName)
+    ClusterDescription cd2 = sliderClient.getClusterDescription()
     assert clusterName == cd2.name
 
-    log.info("Connected via Client {} with {} workers", hoyaClient.toString(),
+    log.info("Connected via Client {} with {} workers", sliderClient.toString(),
         numWorkers)
 
     //wait for the role counts to be reached
-    waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
+    waitForRoleCount(sliderClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
 
-    Configuration clientConf = HBaseTestUtils.createHBaseConfiguration(hoyaClient)
+    Configuration clientConf = HBaseTestUtils.createHBaseConfiguration(sliderClient)
     HBaseTestUtils.assertHBaseMasterFound(clientConf)
-    HBaseTestUtils.waitForHBaseRegionServerCount(hoyaClient, clusterName,
+    HBaseTestUtils.waitForHBaseRegionServerCount(sliderClient, clusterName,
                                   numWorkers, HBASE_LAUNCH_WAIT_TIME)
 
     clusterLoadOperations(clusterName, clientConf, numWorkers, roleMap, cd2)

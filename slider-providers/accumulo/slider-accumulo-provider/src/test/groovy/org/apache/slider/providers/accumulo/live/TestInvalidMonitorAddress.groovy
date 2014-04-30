@@ -55,9 +55,9 @@ class TestInvalidMonitorAddress extends AccumuloTestBase {
            ],
            true,
            true)
-      SliderClient hoyaClient = launcher.service
-      addToTeardown(hoyaClient);
-      ClusterDescription status = hoyaClient.clusterDescription
+      SliderClient sliderClient = launcher.service
+      addToTeardown(sliderClient);
+      ClusterDescription status = sliderClient.clusterDescription
       dumpClusterDescription("Remote CD", status)
     } catch (ServiceLaunchException e) {
       assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)

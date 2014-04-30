@@ -57,14 +57,14 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
         true,
         true)
     
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
     status = waitForWorkerInstanceCount(
-        hoyaClient,
+        sliderClient,
         regionServerCount,
         hbaseClusterStartupToLiveTime)
     //get the hbase status
@@ -73,7 +73,7 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
     duration.start()
 
     Configuration clientConf = HBaseTestUtils.createHBaseConfiguration(
-        hoyaClient)
+        sliderClient)
 
 
     while (!duration.limitExceeded && clustat.backupMastersSize != 1) {

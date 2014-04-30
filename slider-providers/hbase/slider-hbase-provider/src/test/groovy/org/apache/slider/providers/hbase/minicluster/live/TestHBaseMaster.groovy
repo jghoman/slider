@@ -57,21 +57,21 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
       ],
       true,
       true) 
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     
-    //dumpFullHBaseConf(hoyaClient, clustername)
+    //dumpFullHBaseConf(sliderClient, clustername)
 
-    basicHBaseClusterStartupSequence(hoyaClient)
+    basicHBaseClusterStartupSequence(sliderClient)
     
     //verify the #of region servers is as expected
-    dumpClusterStatus(hoyaClient, "post-hbase-boot status")
+    dumpClusterStatus(sliderClient, "post-hbase-boot status")
 
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, 1, hbaseClusterStartupToLiveTime)
-    waitForWorkerInstanceCount(hoyaClient, 1, hbaseClusterStartupToLiveTime)
-    waitForRoleCount(hoyaClient, HBaseKeys.ROLE_MASTER, 1,
+    waitForHBaseRegionServerCount(sliderClient, clustername, 1, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(sliderClient, 1, hbaseClusterStartupToLiveTime)
+    waitForRoleCount(sliderClient, HBaseKeys.ROLE_MASTER, 1,
                      hbaseClusterStartupToLiveTime)
   }
 
@@ -86,23 +86,23 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     try {
       ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
         [Arguments.ARG_COMP_OPT, HBaseKeys.ROLE_WORKER, RoleKeys.JVM_HEAP, "invalid"], true, true) 
-      SliderClient hoyaClient = (SliderClient) launcher.service
-      addToTeardown(hoyaClient);
+      SliderClient sliderClient = (SliderClient) launcher.service
+      addToTeardown(sliderClient);
 
-      AggregateConf launchedInstance = hoyaClient.launchedInstanceDefinition
-      AggregateConf liveInstance = hoyaClient.launchedInstanceDefinition
+      AggregateConf launchedInstance = sliderClient.launchedInstanceDefinition
+      AggregateConf liveInstance = sliderClient.launchedInstanceDefinition
       
       
 
-      basicHBaseClusterStartupSequence(hoyaClient)
-      def report = waitForClusterLive(hoyaClient)
+      basicHBaseClusterStartupSequence(sliderClient)
+      def report = waitForClusterLive(sliderClient)
 
-      ClusterStatus clustat = getHBaseClusterStatus(hoyaClient);
+      ClusterStatus clustat = getHBaseClusterStatus(sliderClient);
       // verify that region server cannot start
       if (clustat.servers.size()) {
         dumpClusterDescription("original",launchedInstance )
-        dumpClusterDescription("live", hoyaClient.liveInstanceDefinition)
-        dumpClusterStatus(hoyaClient,"JVM heap option not picked up")
+        dumpClusterDescription("live", sliderClient.liveInstanceDefinition)
+        dumpClusterStatus(sliderClient,"JVM heap option not picked up")
       }
       assert 0 == clustat.servers.size()
     } catch (ServiceLaunchException e) {

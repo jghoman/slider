@@ -54,15 +54,15 @@ class TestAgentEcho extends AgentTestBase {
         true,
         false)
 
-    File hoya_core = new File(new File(".").absoluteFile, "src/test/python");
+    File slider_core = new File(new File(".").absoluteFile, "src/test/python");
     String echo_py = "echo.py"
-    File echo_py_path = new File(hoya_core, echo_py)
+    File echo_py_path = new File(slider_core, echo_py)
     String app_def = "appdef_1.tar"
-    File app_def_path = new File(hoya_core, app_def)
+    File app_def_path = new File(slider_core, app_def)
     String agt_ver = "version"
-    File agt_ver_path = new File(hoya_core, agt_ver)
+    File agt_ver_path = new File(slider_core, agt_ver)
     String agt_conf = "agent.ini"
-    File agt_conf_path = new File(hoya_core, agt_conf)
+    File agt_conf_path = new File(slider_core, agt_conf)
     assert echo_py_path.exists()
     assert app_def_path.exists()
     assert agt_ver_path.exists()
@@ -75,7 +75,7 @@ class TestAgentEcho extends AgentTestBase {
     ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         roles,
         [
-            ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
+            ARG_OPTION, PACKAGE_PATH, slider_core.absolutePath,
             ARG_OPTION, APP_DEF, "file://" + app_def_path.absolutePath,
             ARG_OPTION, AGENT_CONF, "file://" + agt_conf_path.absolutePath,
             ARG_OPTION, AGENT_VERSION, "file://" + agt_ver_path.absolutePath,
@@ -85,13 +85,13 @@ class TestAgentEcho extends AgentTestBase {
         ],
         true, true,
         true)
-    SliderClient hoyaClient = launcher.service
+    SliderClient sliderClient = launcher.service
 
-    waitForRoleCount(hoyaClient, roles, AGENT_CLUSTER_STARTUP_TIME)
+    waitForRoleCount(sliderClient, roles, AGENT_CLUSTER_STARTUP_TIME)
     //sleep a bit
     sleep(20000)
     //expect the role count to be the same
-    waitForRoleCount(hoyaClient, roles, 1000)
+    waitForRoleCount(sliderClient, roles, 1000)
 
   }
 }

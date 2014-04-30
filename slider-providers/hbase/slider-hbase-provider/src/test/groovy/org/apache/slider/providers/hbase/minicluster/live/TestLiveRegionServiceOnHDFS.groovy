@@ -46,22 +46,22 @@ class TestLiveRegionServiceOnHDFS extends HBaseMiniClusterTestBase {
     ZKIntegration zki = createZKIntegrationInstance(ZKBinding, clustername, false, false, 5000)
     //now launch the cluster
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
-//    dumpFullHBaseConf(hoyaClient)
+//    dumpFullHBaseConf(sliderClient)
 
     log.info("Running basic HBase cluster startup sequence")
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
 
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    status = waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
     describe("Cluster status")
     log.info(prettyPrint(status.toJsonString()))
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
 
   }
 

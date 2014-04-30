@@ -44,7 +44,7 @@ public interface AgentKeys {
    */
   String ARG_CONFIG = "--config";
   /**
-   * Template stored in the hoya classpath -to use if there is
+   * Template stored in the slider classpath -to use if there is
    * no site-specific template
    * {@value}
    */

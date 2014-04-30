@@ -56,10 +56,10 @@ public class TestClusterBuildDestroy extends CommandTestBase
   @Test
   public void testBuildAndDestroyCluster() throws Throwable {
     '''
-  bin/hoya build cl1 \\
+  bin/slider build cl1 \\
     --zkhosts sandbox \\
      \\
-    --image hdfs://sandbox.hortonworks.com:8020/user/hoya/hbase.tar.gz \\
+    --image hdfs://sandbox.hortonworks.com:8020/user/slider/hbase.tar.gz \\
     --appconf file://./src/test/configs/sandbox/hbase \\
     --roleopt master app.infoport 8180  \\
     --role master 1 

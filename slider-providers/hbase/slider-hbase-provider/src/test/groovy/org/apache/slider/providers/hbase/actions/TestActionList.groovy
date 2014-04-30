@@ -56,7 +56,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         ]
     )
     assert launcher.serviceExitCode == 0
-    SliderClient hoyaClient = (SliderClient) launcher.service
+    SliderClient sliderClient = (SliderClient) launcher.service
   }
   
   @Test
@@ -94,8 +94,8 @@ class TestActionList extends HBaseMiniClusterTestBase {
     //now look for the explicit sevice
     
     //do the low level operations to get a better view of what is going on 
-    SliderClient hoyaClient = launcher.service
-    def serviceRegistryClient = hoyaClient.YARNRegistryClient
+    SliderClient sliderClient = launcher.service
+    def serviceRegistryClient = sliderClient.YARNRegistryClient
     ApplicationReport instance = serviceRegistryClient.findInstance(clustername)
     assert instance != null
     log.info(instance.toString())

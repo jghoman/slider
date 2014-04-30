@@ -45,11 +45,11 @@ class TestBuildBasicAgent extends AgentTestBase {
   }
 
   private static class TestResources {
-    static File hoya_core = new File(new File(".").absoluteFile, "src/test/python");
+    static File slider_core = new File(new File(".").absoluteFile, "src/test/python");
     static String app_def = "appdef_1.tar"
-    static File app_def_path = new File(hoya_core, app_def)
+    static File app_def_path = new File(slider_core, app_def)
     static String agt_conf = "agent.ini"
-    static File agt_conf_path = new File(hoya_core, agt_conf)
+    static File agt_conf_path = new File(slider_core, agt_conf)
 
     static public File getAppDef() {
       return app_def_path;
@@ -224,9 +224,9 @@ class TestBuildBasicAgent extends AgentTestBase {
 
   public AggregateConf loadInstanceDefinition(String name) {
     def cluster4
-    def hoyaFS = createHoyaFileSystem()
-    def dirPath = hoyaFS.buildHoyaClusterDirPath(name)
-    ConfPersister persister = new ConfPersister(hoyaFS, dirPath)
+    def sliderFS = createSliderFileSystem()
+    def dirPath = sliderFS.buildClusterDirPath(name)
+    ConfPersister persister = new ConfPersister(sliderFS, dirPath)
     AggregateConf instanceDefinition = new AggregateConf();
     persister.load(instanceDefinition)
     return instanceDefinition

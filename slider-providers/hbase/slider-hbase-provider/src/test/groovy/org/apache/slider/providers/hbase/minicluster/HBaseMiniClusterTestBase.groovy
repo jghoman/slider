@@ -110,12 +110,12 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   }
 
 
-  public static void assertHBaseMasterNotStopped(SliderClient hoyaClient,
+  public static void assertHBaseMasterNotStopped(SliderClient sliderClient,
                                           String clustername) {
-    String[] nodes = hoyaClient.listNodeUUIDsByRole(ROLE_MASTER);
+    String[] nodes = sliderClient.listNodeUUIDsByRole(ROLE_MASTER);
     int masterNodeCount = nodes.length;
     assert masterNodeCount > 0;
-    ClusterNode node = hoyaClient.getNode(nodes[0]);
+    ClusterNode node = sliderClient.getNode(nodes[0]);
     if (node.state >= ClusterDescription.STATE_STOPPED) {
       //stopped, not what is wanted
       log.error("HBase master has stopped");
@@ -127,7 +127,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   /**
    * Create an (unshared) HConnection talking to the hbase service that
    * Slider should be running
-   * @param hoyaClient hoya client
+   * @param sliderClient slider client
    * @param clustername the name of the Slider cluster
    * @return the connection
    */
@@ -144,8 +144,8 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
     return HBaseTestUtils.hbaseStatusToString(status)
   }
 
-  public static ClusterStatus getHBaseClusterStatus(SliderClient hoyaClient) {
-    return HBaseTestUtils.getHBaseClusterStatus(hoyaClient)
+  public static ClusterStatus getHBaseClusterStatus(SliderClient sliderClient) {
+    return HBaseTestUtils.getHBaseClusterStatus(sliderClient)
   }
 
   public String getApplicationHomeKey() {
@@ -158,13 +158,13 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
 
   /**
    * Create an HBase config to work with
-   * @param hoyaClient hoya client
+   * @param sliderClient slider client
    * @param clustername cluster
    * @return an hbase config extended with the custom properties from the
    * cluster, including the binding to the HBase cluster
    */
-  public static Configuration createHBaseConfiguration(SliderClient hoyaClient) {
-    return HBaseTestUtils.createHBaseConfiguration(hoyaClient)
+  public static Configuration createHBaseConfiguration(SliderClient sliderClient) {
+    return HBaseTestUtils.createHBaseConfiguration(sliderClient)
   }
 
   /**
@@ -249,25 +249,25 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
         [:])
   }
 
-  public ClusterStatus basicHBaseClusterStartupSequence(SliderClient hoyaClient) {
-    return HBaseTestUtils.basicHBaseClusterStartupSequence(hoyaClient,
+  public ClusterStatus basicHBaseClusterStartupSequence(SliderClient sliderClient) {
+    return HBaseTestUtils.basicHBaseClusterStartupSequence(sliderClient,
                                    hbaseClusterStartupTime,
                                    hbaseClusterStartupToLiveTime)
   }
 
   /**
    * Spin waiting for the RS count to match expected
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param clustername cluster name
    * @param regionServerCount RS count
    * @param timeout timeout
    */
-  public static ClusterStatus waitForHBaseRegionServerCount(SliderClient hoyaClient,
+  public static ClusterStatus waitForHBaseRegionServerCount(SliderClient sliderClient,
                                                      String clustername,
                                                      int regionServerCount,
                                                      int timeout) {
 
-    return HBaseTestUtils.waitForHBaseRegionServerCount(hoyaClient,
+    return HBaseTestUtils.waitForHBaseRegionServerCount(sliderClient,
                                                         clustername,
                                                         regionServerCount,
                                                         timeout)
@@ -284,7 +284,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
                       1,
                       true);
     //now launch the cluster
-    SliderClient hoyaClient;
+    SliderClient sliderClient;
     ServiceLauncher<SliderClient> launcher = createCluster(clustername,
            [
                (ROLE_MASTER): masters,
@@ -298,60 +298,60 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
            true,
            true,
            [:]);
-    hoyaClient = launcher.service;
+    sliderClient = launcher.service;
     try {
-      basicHBaseClusterStartupSequence(hoyaClient);
+      basicHBaseClusterStartupSequence(sliderClient);
 
       describe("Waiting for initial worker count of $workers");
 
       //verify the #of roles is as expected
       //get the hbase status
-      waitForWorkerInstanceCount(hoyaClient, workers, hbaseClusterStartupToLiveTime);
-      waitForHoyaMasterCount(hoyaClient, masters, hbaseClusterStartupToLiveTime);
+      waitForWorkerInstanceCount(sliderClient, workers, hbaseClusterStartupToLiveTime);
+      waitForSliderMasterCount(sliderClient, masters, hbaseClusterStartupToLiveTime);
 
       log.info("Slider worker count at $workers, waiting for region servers to match");
-      waitForHBaseRegionServerCount(hoyaClient, clustername, workers, hbaseClusterStartupToLiveTime);
+      waitForHBaseRegionServerCount(sliderClient, clustername, workers, hbaseClusterStartupToLiveTime);
 
       //now flex
       describe("Flexing  masters:$masters -> $masterFlexTarget ; workers $workers -> $flexTarget");
       boolean flexed;
-      flexed = 0 == hoyaClient.flex(clustername,
+      flexed = 0 == sliderClient.flex(clustername,
           [
               (ROLE_WORKER): flexTarget,
               (ROLE_MASTER): masterFlexTarget
           ]
       );
-      waitForWorkerInstanceCount(hoyaClient, flexTarget, hbaseClusterStartupToLiveTime);
-      waitForHoyaMasterCount(hoyaClient, masterFlexTarget,
+      waitForWorkerInstanceCount(sliderClient, flexTarget, hbaseClusterStartupToLiveTime);
+      waitForSliderMasterCount(sliderClient, masterFlexTarget,
                              hbaseClusterStartupToLiveTime);
 
       if (testHBaseAfter) {
-        waitForHBaseRegionServerCount(hoyaClient, clustername, flexTarget,
+        waitForHBaseRegionServerCount(sliderClient, clustername, flexTarget,
                                       hbaseClusterStartupToLiveTime);
       }
       return flexed;
     } finally {
-      maybeStopCluster(hoyaClient, null, "end of flex test run");
+      maybeStopCluster(sliderClient, null, "end of flex test run");
     }
 
   }
 
   /**
    * Spin waiting for the Slider worker count to match expected
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param desiredCount RS count
    * @param timeout timeout
    */
-  public static ClusterDescription waitForWorkerInstanceCount(SliderClient hoyaClient,
+  public static ClusterDescription waitForWorkerInstanceCount(SliderClient sliderClient,
                                                    int desiredCount,
                                                    int timeout) {
-    return waitForRoleCount(hoyaClient, ROLE_WORKER, desiredCount, timeout)
+    return waitForRoleCount(sliderClient, ROLE_WORKER, desiredCount, timeout)
   }
   
-  public static ClusterDescription waitForHoyaMasterCount(SliderClient hoyaClient,
+  public static ClusterDescription waitForSliderMasterCount(SliderClient sliderClient,
                                                    int desiredCount,
                                                    int timeout) {
-    return waitForRoleCount(hoyaClient, ROLE_MASTER, desiredCount, timeout)
+    return waitForRoleCount(sliderClient, ROLE_MASTER, desiredCount, timeout)
   }
 
 
@@ -360,8 +360,8 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param clientConf client config
    */
   public void assertNoHBaseMaster(
-      SliderClient hoyaClient, Configuration clientConf) {
-    HBaseTestUtils.assertNoHBaseMaster(hoyaClient, clientConf)
+      SliderClient sliderClient, Configuration clientConf) {
+    HBaseTestUtils.assertNoHBaseMaster(sliderClient, clientConf)
   }
   
   /**

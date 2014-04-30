@@ -112,15 +112,15 @@ class TestFunctionalAccumuloCluster extends AccumuloCommandTestBase
         getPassword()
         )
 
-    //get a hoya client against the cluster
-    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, getClusterName())
-    ClusterDescription cd = hoyaClient.clusterDescription
+    //get a slider client against the cluster
+    SliderClient sliderClient = bondToCluster(SLIDER_CONFIG, getClusterName())
+    ClusterDescription cd = sliderClient.clusterDescription
     assert getClusterName() == cd.name
 
-    log.info("Connected via Client {}", hoyaClient.toString())
+    log.info("Connected via Client {}", sliderClient.toString())
 
     //wait for the role counts to be reached
-    waitForRoleCount(hoyaClient, roleMap, ACCUMULO_LAUNCH_WAIT_TIME)
+    waitForRoleCount(sliderClient, roleMap, ACCUMULO_LAUNCH_WAIT_TIME)
     
     clusterLoadOperations(clusterName, roleMap, cd)
   }

@@ -62,10 +62,10 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
            true,
            false,
            [:])
-      SliderClient hoyaClient = (SliderClient) launcher.service
-      addToTeardown(hoyaClient);
+      SliderClient sliderClient = (SliderClient) launcher.service
+      addToTeardown(sliderClient);
 
-      ApplicationReport report = waitForClusterLive(hoyaClient)
+      ApplicationReport report = waitForClusterLive(sliderClient)
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {
@@ -98,10 +98,10 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
            true,
            false,
            [:])
-      SliderClient hoyaClient = (SliderClient) launcher.service
-      addToTeardown(hoyaClient);
+      SliderClient sliderClient = (SliderClient) launcher.service
+      addToTeardown(sliderClient);
 
-      ApplicationReport report = waitForClusterLive(hoyaClient)
+      ApplicationReport report = waitForClusterLive(sliderClient)
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {

@@ -70,20 +70,20 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
         [],
         true,
         true)
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
 
     status = waitForWorkerInstanceCount(
-        hoyaClient,
+        sliderClient,
         regionServerCount,
         hbaseClusterStartupToLiveTime)
     //get the hbase status
     ClusterStatus hbaseStat = waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clustername,
         regionServerCount,
         hbaseClusterStartupToLiveTime)
@@ -92,7 +92,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
 
     String hbaseMasterContainer = status.instances[HBaseKeys.ROLE_MASTER][0]
 
-    Configuration clientConf = createHBaseConfiguration(hoyaClient)
+    Configuration clientConf = createHBaseConfiguration(sliderClient)
     clientConf.setInt(HConstants.HBASE_CLIENT_RETRIES_NUMBER, 1);
     HConnection hbaseConnection
     hbaseConnection = createHConnection(clientConf)
@@ -107,21 +107,21 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     args.message = "test AM"
     args.waittime = 1000
     args.exitcode = 1
-    hoyaClient.actionAmSuicide(clustername, args)
+    sliderClient.actionAmSuicide(clustername, args)
 
     killAllRegionServers();
-    waitWhileClusterLive(hoyaClient);
+    waitWhileClusterLive(sliderClient);
     // give yarn some time to notice
     sleep(10000)
 
     // await cluster startup
-    ApplicationReport report = hoyaClient.applicationReport
+    ApplicationReport report = sliderClient.applicationReport
     assert report.yarnApplicationState != YarnApplicationState.FAILED;
 
 
     def restartTime = 60000
     status = waitForWorkerInstanceCount(
-        hoyaClient,
+        sliderClient,
         regionServerCount,
         restartTime)
 
@@ -135,7 +135,7 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     assert hbaseMasterContainer == status.instances[HBaseKeys.ROLE_MASTER][0]
 
     waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clustername,
         regionServerCount,
         restartTime)

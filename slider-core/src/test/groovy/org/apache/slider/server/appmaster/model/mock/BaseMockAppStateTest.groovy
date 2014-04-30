@@ -44,7 +44,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
   AppState appState
   MockYarnEngine engine
   protected HadoopFS fs
-  protected SliderFileSystem hoyaFileSystem
+  protected SliderFileSystem sliderFileSystem
   protected File historyWorkDir
   protected Path historyPath;
 
@@ -53,7 +53,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
     super.setup()
     YarnConfiguration conf = SliderUtils.createConfiguration()
     fs = HadoopFS.get(new URI("file:///"), conf)
-    hoyaFileSystem = new SliderFileSystem(fs, conf)
+    sliderFileSystem = new SliderFileSystem(fs, conf)
     engine = createYarnEngine()
   }
 

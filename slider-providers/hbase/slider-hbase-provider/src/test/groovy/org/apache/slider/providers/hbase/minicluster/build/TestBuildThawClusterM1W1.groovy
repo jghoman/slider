@@ -56,9 +56,9 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    def serviceRegistryClient = hoyaClient.YARNRegistryClient
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    def serviceRegistryClient = sliderClient.YARNRegistryClient
     ApplicationReport report = serviceRegistryClient.findInstance(clustername)
     assert report == null;
 

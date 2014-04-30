@@ -73,13 +73,13 @@ class TestCommonArgParsing implements SliderActions, Arguments {
   }
 
   @Test
-  public void testHoyaBasePath() throws Throwable {
-    ClientArgs clientArgs = createClientArgs([ACTION_LIST, "--basepath", "/projects/hoya/clusters"])
-    assert clientArgs.basePath == new Path("/projects/hoya/clusters")
+  public void testSliderBasePath() throws Throwable {
+    ClientArgs clientArgs = createClientArgs([ACTION_LIST, "--basepath", "/projects/slider/clusters"])
+    assert clientArgs.basePath == new Path("/projects/slider/clusters")
   }
 
   @Test
-  public void testNoHoyaBasePath() throws Throwable {
+  public void testNoSliderBasePath() throws Throwable {
     ClientArgs clientArgs = createClientArgs([ACTION_LIST])
     assert clientArgs.basePath == null
   }
@@ -136,18 +136,18 @@ class TestCommonArgParsing implements SliderActions, Arguments {
   }
 
   @Test
-  public void testDefinitionsSettingBaseHoyaDir() throws Throwable {
+  public void testDefinitionsSettingBaseSliderDir() throws Throwable {
     ClientArgs ca = createClientArgs([
         ACTION_CREATE,
         CLUSTERNAME,
-        "--basepath", "/projects/hoya/clusters",
+        "--basepath", "/projects/slider/clusters",
         "-D","yarn.resourcemanager.principal=yarn/server@LOCAL",
         "-D","dfs.datanode.kerberos.principal=hdfs/server@LOCAL",
     ])
     Configuration conf = new Configuration(false)
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
-    assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
+    assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/slider/clusters"
     SliderUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
     SliderUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 

@@ -59,17 +59,17 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
 
     //verify that exists(live) is now false
     assert LauncherExitCodes.EXIT_FALSE ==
-           hoyaClient.actionExists(clustername, true)
+           sliderClient.actionExists(clustername, true)
 
     //but the cluster is still there for the default
-    assert 0 == hoyaClient.actionExists(clustername, false)
+    assert 0 == sliderClient.actionExists(clustername, false)
 
-    def serviceRegistryClient = hoyaClient.YARNRegistryClient
+    def serviceRegistryClient = sliderClient.YARNRegistryClient
     ApplicationReport report = serviceRegistryClient.findInstance(clustername)
     assert report == null;
 

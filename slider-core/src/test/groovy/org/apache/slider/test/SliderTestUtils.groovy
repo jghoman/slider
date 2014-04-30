@@ -165,11 +165,11 @@ class SliderTestUtils extends Assert {
 
   /**
    * Wait for the cluster live; fail if it isn't within the (standard) timeout
-   * @param hoyaClient client
+   * @param sliderClient client
    * @return the app report of the live cluster
    */
-  public static ApplicationReport waitForClusterLive(SliderClient hoyaClient,int goLiveTime) {
-    ApplicationReport report = hoyaClient.monitorAppToRunning(
+  public static ApplicationReport waitForClusterLive(SliderClient sliderClient,int goLiveTime) {
+    ApplicationReport report = sliderClient.monitorAppToRunning(
         new Duration(goLiveTime));
     assertNotNull(
         "Cluster did not go live in the time $goLiveTime",
@@ -333,7 +333,7 @@ class SliderTestUtils extends Assert {
     ClusterDescription status = client.clusterDescription;
     Configuration siteConf = new Configuration(false)
     status.clientProperties.each { String key, String val ->
-      siteConf.set(key, val, "hoya cluster");
+      siteConf.set(key, val, "slider cluster");
     }
     return siteConf;
   }
@@ -464,7 +464,7 @@ class SliderTestUtils extends Assert {
   }
 
   /**
-   * Launch the hoya client with the specific args; no validation
+   * Launch the slider client with the specific args; no validation
    * of return code takes place
    * @param conf configuration
    * @param args arg list
@@ -669,8 +669,8 @@ class SliderTestUtils extends Assert {
     return buf.toString();
   }
 
-  public static void waitWhileClusterLive(SliderClient hoyaClient) {
-    waitWhileClusterLive(hoyaClient, 30000)
+  public static void waitWhileClusterLive(SliderClient sliderClient) {
+    waitWhileClusterLive(sliderClient, 30000)
   }
 
   public static void dumpRegistryInstances(

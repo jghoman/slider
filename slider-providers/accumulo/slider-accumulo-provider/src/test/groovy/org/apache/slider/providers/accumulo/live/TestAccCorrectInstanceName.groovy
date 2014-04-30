@@ -59,16 +59,16 @@ class TestAccCorrectInstanceName extends AccumuloTestBase {
     String password = "password"
     List<String> extraArgs = [Arguments.ARG_OPTION, AccumuloKeys.OPTION_ACCUMULO_PASSWORD, password]
     ServiceLauncher launcher = createAccCluster(clustername, roles, extraArgs, true, true)
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
 
 
-    waitWhileClusterLive(hoyaClient);
-    assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
-    waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitWhileClusterLive(sliderClient);
+    assert sliderClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
+    waitForRoleCount(sliderClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")
     ClusterDescription status
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
 
     //now give the cluster a bit of time to actually start work
@@ -77,7 +77,7 @@ class TestAccCorrectInstanceName extends AccumuloTestBase {
     sleep(ACCUMULO_GO_LIVE_TIME);
 
     //verify that all is still there
-    waitForRoleCount(hoyaClient, roles, 0)
+    waitForRoleCount(sliderClient, roles, 0)
 
     // Making the connector validates that the instance name is correct, we have the right zk,
     // and the proper username and password were created in accumulo
@@ -85,9 +85,9 @@ class TestAccCorrectInstanceName extends AccumuloTestBase {
     Connector c = instance.getConnector("root", new PasswordToken(password));
 
     log.info("Finishing")
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
-    maybeStopCluster(hoyaClient, clustername, "shut down $clustername")
+    maybeStopCluster(sliderClient, clustername, "shut down $clustername")
 
   }
 

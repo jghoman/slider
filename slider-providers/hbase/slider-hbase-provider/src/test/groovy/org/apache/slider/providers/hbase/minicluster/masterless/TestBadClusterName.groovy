@@ -55,8 +55,8 @@ class TestBadClusterName extends HBaseMiniClusterTestBase {
            true,
            false,
            [:])
-      SliderClient hoyaClient = (SliderClient) launcher.service
-      addToTeardown(hoyaClient);
+      SliderClient sliderClient = (SliderClient) launcher.service
+      addToTeardown(sliderClient);
       fail("expected a failure")
     } catch (ServiceLaunchException e) {
       assertExceptionDetails(e, LauncherExitCodes.EXIT_COMMAND_ARGUMENT_ERROR)

@@ -58,7 +58,7 @@ public class WebAppApiImpl implements WebAppApi {
   }
 
   /* (non-Javadoc)
-   * @see org.apache.hoya.yarn.appmaster.web.WebAppApi#getAppState()
+   * @see org.apache.slider.server.appmaster.web.WebAppApi#getAppState()
    */
   @Override
   public StateAccessForProviders getAppState() {
@@ -66,7 +66,7 @@ public class WebAppApiImpl implements WebAppApi {
   }
 
   /* (non-Javadoc)
-   * @see org.apache.hoya.yarn.appmaster.web.WebAppApi#getProviderService()
+   * @see org.apache.slider.server.appmaster.web.WebAppApi#getProviderService()
    */
   @Override
   public ProviderService getProviderService() {
@@ -74,7 +74,7 @@ public class WebAppApiImpl implements WebAppApi {
   }
 
   /* (non-Javadoc)
-   * @see org.apache.hoya.yarn.appmaster.web.WebAppApi#getClusterProtocol()
+   * @see org.apache.slider.server.appmaster.web.WebAppApi#getClusterProtocol()
    */
   @Override
   public SliderClusterProtocol getClusterProtocol() {
@@ -82,7 +82,7 @@ public class WebAppApiImpl implements WebAppApi {
   }
   
   /* (non-Javadoc)
-   * @see org.apache.hoya.yarn.appmaster.web.WebAppApi#getRoleStatusByName()
+   * @see org.apache.slider.server.appmaster.web.WebAppApi#getRoleStatusByName()
    */
   @Override
   public TreeMap<String,RoleStatus> getRoleStatusByName() {

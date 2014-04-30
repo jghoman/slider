@@ -21,26 +21,26 @@ package org.apache.slider.common;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 
 /**
- * These are the keys that can be added to <code>conf/hoya-client.xml</code>.
+ * These are the keys that can be added to <code>conf/slider-client.xml</code>.
  */
 public interface SliderXmlConfKeys {
   String PREFIX_PROVIDER = "slider.provider";
   /**
-   * pattern to identify a hoya provider
+   * pattern to identify a provider
    * {@value}
    */
   String KEY_PROVIDER = PREFIX_PROVIDER + ".%s";
 
   /**
    * HBase provider key (derived from {@link #KEY_PROVIDER}
-   * and so not found in the hoya code itself
+   * and so not found in the code itself
    * {@value}
    */
   String KEY_PROVIDER_HBASE = PREFIX_PROVIDER + ".hbase";
 
   /**
    * Accumulo provider key (derived from {@link #KEY_PROVIDER}
-   * and so not found in the hoya code itself
+   * and so not found in the code itself
    * {@value}
    */
   String KEY_PROVIDER_ACCUMULO =
@@ -48,7 +48,7 @@ public interface SliderXmlConfKeys {
 
   /**
    * Accumulo agent key (derived from {@link #KEY_PROVIDER}
-   * and so not found in the hoya code itself
+   * and so not found in the code itself
    * {@value}
    */
   String KEY_PROVIDER_AGENT = PREFIX_PROVIDER + ".agent";
@@ -108,8 +108,8 @@ public interface SliderXmlConfKeys {
 
 
   /**
-   * The hoya base path: {@value}
-   * Defaults to HomeDir/.hoya
+   * The slider base path: {@value}
+   * Defaults to HomeDir/.slider
    */
   String KEY_SLIDER_BASE_PATH = "slider.base.path";
 

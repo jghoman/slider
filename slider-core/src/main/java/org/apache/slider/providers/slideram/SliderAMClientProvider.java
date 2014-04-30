@@ -60,7 +60,7 @@ import java.util.Map;
 /**
  * handles the setup of the Slider AM.
  * This keeps aspects of role, cluster validation and Clusterspec setup
- * out of the core hoya client
+ * out of the core slider client
  */
 public class SliderAMClientProvider extends AbstractClientProvider implements
     SliderKeys {
@@ -135,7 +135,7 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
   }
 
   /**
-   * The Slider AM sets up all the dependency JARs above hoya.jar itself
+   * The Slider AM sets up all the dependency JARs above slider.jar itself
    * {@inheritDoc}
    */
   public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
@@ -207,32 +207,31 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
    * Update the AM resource with any local needs
    * @param capability capability to update
    */
-  public void prepareAMResourceRequirements(MapOperations hoyaAM,
+  public void prepareAMResourceRequirements(MapOperations sliderAM,
                                             Resource capability) {
-    capability.setMemory(hoyaAM.getOptionInt(
+    capability.setMemory(sliderAM.getOptionInt(
       ResourceKeys.YARN_MEMORY,
       capability.getMemory()));
     capability.setVirtualCores(
-      hoyaAM.getOptionInt(ResourceKeys.YARN_CORES, capability.getVirtualCores()));
+        sliderAM.getOptionInt(ResourceKeys.YARN_CORES, capability.getVirtualCores()));
   }
   
   /**
    * Extract any JVM options from the cluster specification and
    * add them to the command line
-   * @param clusterSpec spec
    */
   public void addJVMOptions(AggregateConf aggregateConf,
                             CommandLineBuilder cmdLine) throws
                                                         BadConfigException {
-    MapOperations hoyaAM =
+    MapOperations sliderAM =
       aggregateConf.getAppConfOperations().getMandatoryComponent(
         SliderKeys.COMPONENT_AM);
     cmdLine.sysprop("java.net.preferIPv4Stack", "true");
     cmdLine.sysprop("java.awt.headless", "true");
-    String heap = hoyaAM.getOption(RoleKeys.JVM_HEAP,
+    String heap = sliderAM.getOption(RoleKeys.JVM_HEAP,
                                    DEFAULT_JVM_HEAP);
     cmdLine.setJVMHeap(heap);
-    String jvmopts = hoyaAM.getOption(RoleKeys.JVM_OPTS, "");
+    String jvmopts = sliderAM.getOption(RoleKeys.JVM_OPTS, "");
     if (SliderUtils.isSet(jvmopts)) {
       cmdLine.add(jvmopts);
     }

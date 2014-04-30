@@ -45,7 +45,7 @@ class TestZKIntegration extends YarnZKMiniClusterTestBase implements KeysForTest
   public void testIntegrationCreate() throws Throwable {
     assertHasZKCluster()
     ZKIntegration zki = createZKIntegrationInstance(ZKBinding, "cluster1", true, false, 5000)
-    String userPath = ZKIntegration.mkHoyaUserPath(USERNAME)
+    String userPath = ZKIntegration.mkSliderUserPath(USERNAME)
     Stat stat = zki.stat(userPath)
     assert stat != null
     log.info("User path $userPath has stat $stat")
@@ -56,7 +56,7 @@ class TestZKIntegration extends YarnZKMiniClusterTestBase implements KeysForTest
     assertHasZKCluster()
 
     ZKIntegration zki = createZKIntegrationInstance(ZKBinding, "", true, false, 5000)
-    String userPath = ZKIntegration.mkHoyaUserPath(USERNAME)
+    String userPath = ZKIntegration.mkSliderUserPath(USERNAME)
     List<String> clusters = zki.clusters
     assert clusters.empty
   }
@@ -66,7 +66,7 @@ class TestZKIntegration extends YarnZKMiniClusterTestBase implements KeysForTest
     assertHasZKCluster()
 
     ZKIntegration zki = createZKIntegrationInstance(ZKBinding, "", true, false, 5000)
-    String userPath = ZKIntegration.mkHoyaUserPath(USERNAME)
+    String userPath = ZKIntegration.mkSliderUserPath(USERNAME)
     String fullPath = zki.createPath(userPath, "/cluster-",
                                      ZooDefs.Ids.OPEN_ACL_UNSAFE,
                                      CreateMode.EPHEMERAL_SEQUENTIAL)
@@ -79,7 +79,7 @@ class TestZKIntegration extends YarnZKMiniClusterTestBase implements KeysForTest
   @Test
   public void testListUserClustersWithTwoCluster() throws Throwable {
     ZKIntegration zki = createZKIntegrationInstance(ZKBinding, "", true, false, 5000)
-    String userPath = ZKIntegration.mkHoyaUserPath(USERNAME)
+    String userPath = ZKIntegration.mkSliderUserPath(USERNAME)
     String c1 = createEphemeralChild(zki, userPath)
     log.info("Ephemeral path $c1")
     String c2 = createEphemeralChild(zki, userPath)

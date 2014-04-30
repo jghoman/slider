@@ -266,7 +266,7 @@ public abstract class AbstractProviderService
   }
 
   /* non-javadoc
-   * @see org.apache.hoya.providers.ProviderService#buildMonitorDetails()
+   * @see org.apache.slider.providers.ProviderService#buildMonitorDetails(org.apache.slider.api.ClusterDescription)
    */
   @Override
   public Map<String,URL> buildMonitorDetails(ClusterDescription clusterDesc) {

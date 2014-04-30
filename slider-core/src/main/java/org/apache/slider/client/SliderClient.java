@@ -259,7 +259,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     verifyNoLiveClusters(clustername);
 
     // create the directory path
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(clustername);
     // delete the directory;
     boolean exists = sliderFileSystem.getFileSystem().exists(clusterDirectory);
     if (exists) {
@@ -373,7 +373,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     String providerName = buildInfo.getProvider();
     requireArgumentSet(Arguments.ARG_PROVIDER, providerName);
     log.debug("Provider is {}", providerName);
-    SliderAMClientProvider hoyaAM = new SliderAMClientProvider(conf);
+    SliderAMClientProvider sliderAM = new SliderAMClientProvider(conf);
     AbstractClientProvider provider =
       createClientProvider(providerName);
     InstanceBuilder builder =
@@ -389,7 +389,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     ConfTreeOperations resources = instanceDefinition.getResourceOperations();
     ConfTreeOperations internal = instanceDefinition.getInternalOperations();
     //initial definition is set by the providers 
-    hoyaAM.prepareInstanceConfiguration(instanceDefinition);
+    sliderAM.prepareInstanceConfiguration(instanceDefinition);
     provider.prepareInstanceConfiguration(instanceDefinition);
 
     //load in any specified on the command line
@@ -439,7 +439,6 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     appConf.mergeComponents(appOptionMap);
 
     //internal picks up core. values only
-    internal.propagateGlobalKeys(appConf, "hoya.");
     internal.propagateGlobalKeys(appConf, "slider.");
     internal.propagateGlobalKeys(appConf, "internal.");
 
@@ -490,7 +489,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     // provider to validate what there is
     try {
-      hoyaAM.validateInstanceDefinition(builder.getInstanceDescription());
+      sliderAM.validateInstanceDefinition(builder.getInstanceDescription());
       provider.validateInstanceDefinition(builder.getInstanceDescription());
     } catch (SliderException e) {
       //problem, reject it
@@ -549,7 +548,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                            LaunchArgsAccessor launchArgs) throws
                                                           YarnException,
                                                           IOException {
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       clustername,
       clusterDirectory);
@@ -598,7 +597,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                                       IOException,
       SliderException {
 
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(name);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(name);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       name,
       clusterDirectory);
@@ -636,7 +635,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     lookupZKQuorum();
     boolean clusterSecure = SliderUtils.isClusterSecure(config);
     //create the Slider AM provider -this helps set up the AM
-    SliderAMClientProvider hoyaAM = new SliderAMClientProvider(config);
+    SliderAMClientProvider sliderAM = new SliderAMClientProvider(config);
 
     instanceDefinition.resolve();
     launchedInstanceDefinition = instanceDefinition;
@@ -669,7 +668,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     if (log.isDebugEnabled()) {
       log.debug(instanceDefinition.toString());
     }
-    MapOperations hoyaAMResourceComponent =
+    MapOperations sliderAMResourceComponent =
       resourceOperations.getOrAddComponent(SliderKeys.COMPONENT_AM);
     AppMasterLauncher amLauncher = new AppMasterLauncher(clustername,
                                                          SliderKeys.APP_TYPE,
@@ -677,7 +676,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
         sliderFileSystem,
                                                          yarnClient,
                                                          clusterSecure,
-                                                         hoyaAMResourceComponent);
+                                                         sliderAMResourceComponent);
 
     ApplicationId appId = amLauncher.getApplicationId();
     // set the application name;
@@ -686,10 +685,10 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     amLauncher.setMaxAppAttempts(config.getInt(KEY_AM_RESTART_LIMIT,
                                                DEFAULT_AM_RESTART_LIMIT));
 
-    sliderFileSystem.purgeHoyaAppInstanceTempFiles(clustername);
-    Path tempPath = sliderFileSystem.createHoyaAppInstanceTempPath(
-      clustername,
-      appId.toString() + "/am");
+    sliderFileSystem.purgeAppInstanceTempFiles(clustername);
+    Path tempPath = sliderFileSystem.createAppInstanceTempPath(
+        clustername,
+        appId.toString() + "/am");
     String libdir = "lib";
     Path libPath = new Path(tempPath, libdir);
     sliderFileSystem.getFileSystem().mkdirs(libPath);
@@ -751,7 +750,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // add AM and provider specific artifacts to the resource map
     Map<String, LocalResource> providerResources;
     // standard AM resources
-    hoyaAM.prepareAMAndConfigForLaunch(sliderFileSystem,
+    sliderAM.prepareAMAndConfigForLaunch(sliderFileSystem,
                                        config,
                                        amLauncher,
                                        instanceDefinition,
@@ -777,8 +776,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // to do a quick review of them.
     log.debug("Preflight validation of cluster configuration");
 
-    
-    hoyaAM.preflightValidateClusterConfiguration(sliderFileSystem,
+
+    sliderAM.preflightValidateClusterConfiguration(sliderFileSystem,
                                                  clustername,
                                                  config,
                                                  instanceDefinition,
@@ -805,7 +804,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     // build the environment
     amLauncher.putEnv(
-      SliderUtils.buildEnvMap(hoyaAMResourceComponent));
+      SliderUtils.buildEnvMap(sliderAMResourceComponent));
     ClasspathConstructor classpath = SliderUtils.buildClasspath(relativeConfDir,
         libdir,
         getConfig(),
@@ -837,7 +836,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     CommandLineBuilder commandLine = new CommandLineBuilder();
     commandLine.addJavaBinary();
     // insert any JVM options);
-    hoyaAM.addJVMOptions(instanceDefinition, commandLine);
+    sliderAM.addJVMOptions(instanceDefinition, commandLine);
     // enable asserts if the text option is set
     commandLine.enableJavaAssertions();
     // add the AM sevice entry point
@@ -883,7 +882,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     amLauncher.addCommandLine(commandLine);
 
     // the Slider AM gets to configure the AM requirements, not the custom provider
-    hoyaAM.prepareAMResourceRequirements(hoyaAMResourceComponent, amLauncher.getResource());
+    sliderAM.prepareAMResourceRequirements(sliderAMResourceComponent,
+        amLauncher.getResource());
 
 
     // Set the priority for the application master
@@ -1193,7 +1193,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @return a possibly empty list of Slider AMs
    */
   @VisibleForTesting
-  public List<ApplicationReport> listHoyaInstances(String user)
+  public List<ApplicationReport> listSliderInstances(String user)
     throws YarnException, IOException {
     return YARNRegistryClient.listInstances();
   }
@@ -1207,7 +1207,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     verifyBindingsDefined();
 
     String user = UserGroupInformation.getCurrentUser().getUserName();
-    List<ApplicationReport> instances = listHoyaInstances(user);
+    List<ApplicationReport> instances = listSliderInstances(user);
 
     if (isUnset(clustername)) {
       log.info("Instances for {}: {}",
@@ -1276,7 +1276,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     log.debug("actionExists({}, {})", name, live);
 
     //initial probe for a cluster in the filesystem
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(name);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(name);
     if (!sliderFileSystem.getFileSystem().exists(clusterDirectory)) {
       throw unknownClusterException(name);
     }
@@ -1367,7 +1367,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   }
 
   /**
-   * Find an instance of a hoya application belong to the current user
+   * Find an instance of an application belonging to the current user
    * @param appname application name
    * @return the app report or null if none is found
    * @throws YarnException YARN issues
@@ -1661,7 +1661,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                    IOException {
     verifyBindingsDefined();
     SliderUtils.validateClusterName(clustername);
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       clustername,
       clusterDirectory);
@@ -1727,7 +1727,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                                            IOException,
       SliderException,
                                                                            LockAcquireFailedException {
-    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildClusterDirPath(clustername);
     ConfPersister persister = new ConfPersister(sliderFileSystem, clusterDirectory);
     AggregateConf instanceDescription = new AggregateConf();
     persister.load(instanceDescription);
@@ -1858,8 +1858,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   private SliderClusterOperations createClusterOperations(String clustername) throws
                                                                             YarnException,
                                                                             IOException {
-    SliderClusterProtocol hoyaAM = bondToCluster(clustername);
-    return new SliderClusterOperations(hoyaAM);
+    SliderClusterProtocol sliderAM = bondToCluster(clustername);
+    return new SliderClusterOperations(sliderAM);
   }
 
   /**

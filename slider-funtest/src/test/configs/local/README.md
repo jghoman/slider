@@ -37,7 +37,7 @@
      </property>
  
  
- For the hoya command line
+ For the slider command line
  
     --manager localhost:9080 --filesystem hdfs://localhost:9000 --zkhosts localhost
  

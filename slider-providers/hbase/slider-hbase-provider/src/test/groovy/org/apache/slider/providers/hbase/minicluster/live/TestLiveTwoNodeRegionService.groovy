@@ -55,23 +55,23 @@ class TestLiveTwoNodeRegionService extends HBaseMiniClusterTestBase {
         ],
         true,
         true)
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     dumpClusterDescription("initial status", status)
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
-    waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
 
     //now log the final status
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
 
     dumpClusterDescription("final status", status)
 
-    String rootPage = hoyaClient.applicationReport.originalTrackingUrl
+    String rootPage = sliderClient.applicationReport.originalTrackingUrl
     assert rootPage
     log.info("Slider root = ${rootPage}")
     def page = fetchWebPage(rootPage)

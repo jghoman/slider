@@ -36,20 +36,20 @@ public class InstanceIO {
 
   /**
    * Load in an instance definition -but do not resolve it
-   * @param hoyaFileSystem filesystem
+   * @param sliderFileSystem filesystem
    * @param clusterDirectory CD
    * @return
    * @throws IOException
    * @throws SliderException
    */
   public static AggregateConf loadInstanceDefinitionUnresolved(
-    CoreFileSystem hoyaFileSystem,
+    CoreFileSystem sliderFileSystem,
     Path clusterDirectory) throws
                            IOException,
       SliderException {
     AggregateConf instanceDefinition = new AggregateConf();
     ConfPersister persister =
-      new ConfPersister(hoyaFileSystem, clusterDirectory);
+      new ConfPersister(sliderFileSystem, clusterDirectory);
     try {
       persister.load(instanceDefinition);
     } catch (LockAcquireFailedException e) {

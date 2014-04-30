@@ -42,17 +42,17 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
     createMiniCluster(clustername, configuration, 1, true)
     switchToImageDeploy = true
     ServiceLauncher<SliderClient> launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    SliderClient hoyaClient = launcher.service
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = launcher.service
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount,
+    waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount,
                             hbaseClusterStartupToLiveTime)
 
 
-    clusterActionFreeze(hoyaClient, clustername, "test freeze")
+    clusterActionFreeze(sliderClient, clustername, "test freeze")
     describe("Restarting cluster")
     killAllRegionServers();
 

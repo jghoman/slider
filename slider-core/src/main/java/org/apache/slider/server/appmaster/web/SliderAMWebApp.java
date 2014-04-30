@@ -44,7 +44,7 @@ import java.util.logging.Logger;
  * 
  */
 public class SliderAMWebApp extends WebApp {
-  public static final String BASE_PATH = "hoyaam";
+  public static final String BASE_PATH = "slideram";
   public static final String CONTAINER_STATS = "/stats";
   public static final String CLUSTER_SPEC = "/spec";
 

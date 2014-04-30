@@ -41,7 +41,7 @@ the single-node cluster even though neither is installed on the VM.
      </property>
  
  
- For the hoya command line
+ For the slider command line
  
     --manager ubuntu:8032 --filesystem hdfs://ubuntu:9090 --zkhosts localhost
  

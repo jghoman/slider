@@ -49,52 +49,52 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
       int numWorkers,
       Map<String, Integer> roleMap,
       ClusterDescription cd) {
-    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
+    SliderClient sliderClient = bondToCluster(SLIDER_CONFIG, clusterName)
 
 
-    killInstanceOfRole(hoyaClient, HBaseKeys.ROLE_WORKER)
+    killInstanceOfRole(sliderClient, HBaseKeys.ROLE_WORKER)
     // let it take
     sleep(RESTART_SLEEP_TIME)
 
     //wait for the role counts to be reached
-    cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
+    cd = waitForRoleCount(sliderClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
     // then expect a restart
     HBaseTestUtils.waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clusterName,
         numWorkers,
         HBASE_LAUNCH_WAIT_TIME)
     assert cd.roles[HBaseKeys.ROLE_WORKER][RoleKeys.ROLE_FAILED_INSTANCES] == "1"
-    killInstanceOfRole(hoyaClient, HBaseKeys.ROLE_WORKER)
+    killInstanceOfRole(sliderClient, HBaseKeys.ROLE_WORKER)
     // let it take
     sleep(RESTART_SLEEP_TIME)
     // then expect a restart
 
     //wait for the role counts to be reached
-    cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
+    cd = waitForRoleCount(sliderClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
 
     HBaseTestUtils.waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clusterName,
         numWorkers,
         HBASE_LAUNCH_WAIT_TIME)
     assert cd.roles[HBaseKeys.ROLE_WORKER][RoleKeys.ROLE_FAILED_INSTANCES] == "2"
 
-    killInstanceOfRole(hoyaClient, HBaseKeys.ROLE_MASTER)
+    killInstanceOfRole(sliderClient, HBaseKeys.ROLE_MASTER)
     // let it take
     sleep(RESTART_SLEEP_TIME)
     
     // wait for the role counts to be reached
-    cd = waitForRoleCount(hoyaClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
+    cd = waitForRoleCount(sliderClient, roleMap, HBASE_LAUNCH_WAIT_TIME)
     HBaseTestUtils.waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clusterName,
         numWorkers,
         HBASE_LAUNCH_WAIT_TIME)
     assert cd.roles[HBaseKeys.ROLE_MASTER][RoleKeys.ROLE_FAILED_INSTANCES] == "1"
 
     // now trigger AM failure
-    ClusterDescription status = killAmAndWaitForRestart(hoyaClient, clusterName)
+    ClusterDescription status = killAmAndWaitForRestart(sliderClient, clusterName)
 
     def restarted = status.getInfo(
         StatusKeys.INFO_CONTAINERS_AM_RESTART)
@@ -105,13 +105,13 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
 
   /**
    * Kill a random in instance of a role in the cluster
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param role
    * @return ID of container killed
    */
   public String killInstanceOfRole(
-      SliderClient hoyaClient, String role) {
-    ClusterDescription cd = hoyaClient.getClusterDescription()
+      SliderClient sliderClient, String role) {
+    ClusterDescription cd = sliderClient.getClusterDescription()
     def instances = cd.instances[role]
     if (instances == null || instances.size() == 0) {
       log.info("No instances of role $role to kill")
@@ -120,7 +120,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
     String id = instances[new Random().nextInt(instances.size())]
     ActionKillContainerArgs args = new ActionKillContainerArgs()
     args.id = id
-    hoyaClient.actionKillContainer(clusterName, args)
+    sliderClient.actionKillContainer(clusterName, args)
     return id;
   }
 

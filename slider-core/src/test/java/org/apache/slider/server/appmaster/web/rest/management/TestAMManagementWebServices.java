@@ -197,7 +197,7 @@ public class TestAMManagementWebServices extends JerseyTest {
         "org.apache.hadoop.yarn.appmaster.web")
               .contextListenerClass(GuiceServletConfig.class)
               .filterClass(com.google.inject.servlet.GuiceFilter.class)
-              .contextPath("hoyaam").servletPath("/").build());
+              .contextPath("slideram").servletPath("/").build());
   }
 
   @Test
@@ -210,7 +210,7 @@ public class TestAMManagementWebServices extends JerseyTest {
     JSONObject json = response.getEntity(JSONObject.class);
     assertEquals("incorrect number of elements", 4, json.length());
     assertEquals("wrong href",
-                 "http://localhost:9998/hoyaam/ws/v1/slider/mgmt/app",
+                 "http://localhost:9998/slideram/ws/v1/slider/mgmt/app",
                  json.getString("href"));
     assertNotNull("no resources", json.getJSONObject("resources"));
     assertNotNull("no internal", json.getJSONObject("internal"));
@@ -230,7 +230,7 @@ public class TestAMManagementWebServices extends JerseyTest {
     JSONObject json = response.getEntity(JSONObject.class);
     assertEquals("incorrect number of elements", 4, json.length());
     assertEquals("wrong href",
-                 "http://localhost:9998/hoyaam/ws/v1/slider/mgmt/app/configurations/internal",
+                 "http://localhost:9998/slideram/ws/v1/slider/mgmt/app/configurations/internal",
                  json.getString("href"));
     assertEquals("wrong description",
                  "Internal configuration DO NOT EDIT",
@@ -251,7 +251,7 @@ public class TestAMManagementWebServices extends JerseyTest {
     JSONObject json = response.getEntity(JSONObject.class);
     assertEquals("incorrect number of elements", 4, json.length());
     assertEquals("wrong href",
-                 "http://localhost:9998/hoyaam/ws/v1/slider/mgmt/app/configurations/resources",
+                 "http://localhost:9998/slideram/ws/v1/slider/mgmt/app/configurations/resources",
                  json.getString("href"));
     json = json.getJSONObject("components");
     assertNotNull("no components", json);
@@ -272,7 +272,7 @@ public class TestAMManagementWebServices extends JerseyTest {
     JSONObject json = response.getEntity(JSONObject.class);
     assertEquals("incorrect number of elements", 4, json.length());
     assertEquals("wrong href",
-                 "http://localhost:9998/hoyaam/ws/v1/slider/mgmt/app/configurations/appConf",
+                 "http://localhost:9998/slideram/ws/v1/slider/mgmt/app/configurations/appConf",
                  json.getString("href"));
     json = json.getJSONObject("components");
     assertNotNull("no components", json);

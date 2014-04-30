@@ -417,9 +417,9 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   private int createAndRunCluster(String clustername) throws Throwable {
 
     //load the cluster description from the cd argument
-    String hoyaClusterDir = serviceArgs.getSliderClusterURI();
-    URI hoyaClusterURI = new URI(hoyaClusterDir);
-    Path clusterDirPath = new Path(hoyaClusterURI);
+    String sliderClusterDir = serviceArgs.getSliderClusterURI();
+    URI sliderClusterURI = new URI(sliderClusterDir);
+    Path clusterDirPath = new Path(sliderClusterURI);
     SliderFileSystem fs = getClusterFS();
 
     // build up information about the running application -this
@@ -538,7 +538,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       deployChildService(nmClientAsync);
 
       //bring up the Slider RPC service
-      startHoyaRPCServer();
+      startSliderRPCServer();
 
       rpcServiceAddress = rpcService.getConnectAddress();
       appMasterHostname = rpcServiceAddress.getHostName();
@@ -568,7 +568,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
                       .start(webApp);
       appMasterTrackingUrl = "http://" + appMasterHostname + ":" + webApp.port();
       WebAppService<SliderAMWebApp> webAppService =
-        new WebAppService<SliderAMWebApp>("hoya", webApp);
+        new WebAppService<SliderAMWebApp>("slider", webApp);
 
       webAppService.init(conf);
       webAppService.start();
@@ -930,9 +930,9 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   }
 
   /**
-   * Start the hoya RPC server
+   * Start the slider RPC server
    */
-  private void startHoyaRPCServer() throws IOException {
+  private void startSliderRPCServer() throws IOException {
     SliderClusterProtocolPBImpl protobufRelay = new SliderClusterProtocolPBImpl(this);
     BlockingService blockingService = SliderClusterAPI.SliderClusterProtocolPB
                                                     .newReflectiveBlockingService(
@@ -1141,7 +1141,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
                                                                                                  YarnException {
     SliderUtils.getCurrentUser();
     String message = request.getMessage();
-    log.info("HoyaAppMasterApi.stopCluster: {}",message);
+    log.info("SliderAppMasterApi.stopCluster: {}",message);
     signalAMComplete(EXIT_CLIENT_INITIATED_SHUTDOWN, message);
     return Messages.StopClusterResponseProto.getDefaultInstance();
   }
@@ -1520,7 +1520,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   }
 
   /**
-   * Get the username for the hoya cluster as set in the environment
+   * Get the username for the slider cluster as set in the environment
    * @return the username or null if none was set/it is a secure cluster
    */
   public String getHadoop_user_name() {

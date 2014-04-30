@@ -1,18 +1,4 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *   
- *    http://www.apache.org/licenses/LICENSE-2.0
- *   
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License. See accompanying LICENSE file.
- */
-
-/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -76,9 +62,9 @@ public class RpcBinder {
                                             BlockingService blockingService,
                                             String portRangeConfig) throws
                                                       IOException {
-    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerSliderAPI(
+    Class<SliderClusterProtocolPB> sliderClusterAPIClass = registerSliderAPI(
         conf);
-    RPC.Server server = new RPC.Builder(conf).setProtocol(hoyaClusterAPIClass)
+    RPC.Server server = new RPC.Builder(conf).setProtocol(sliderClusterAPIClass)
                                              .setInstance(blockingService)
                                              .setBindAddress(addr.getHostName())
                                              .setPort(addr.getPort())
@@ -89,8 +75,8 @@ public class RpcBinder {
                                                portRangeConfig)
                                              .build();
     log.debug(
-      "Adding protocol " + hoyaClusterAPIClass.getCanonicalName() + " to the server");
-    server.addProtocol(RPC.RpcKind.RPC_PROTOCOL_BUFFER, hoyaClusterAPIClass,
+      "Adding protocol " + sliderClusterAPIClass.getCanonicalName() + " to the server");
+    server.addProtocol(RPC.RpcKind.RPC_PROTOCOL_BUFFER, sliderClusterAPIClass,
                        blockingService);
     return server;
   }
@@ -103,25 +89,25 @@ public class RpcBinder {
    */
   public static Class<SliderClusterProtocolPB> registerSliderAPI(
       Configuration conf) {
-    Class<SliderClusterProtocolPB> hoyaClusterAPIClass =
+    Class<SliderClusterProtocolPB> sliderClusterAPIClass =
       SliderClusterProtocolPB.class;
-    RPC.setProtocolEngine(conf, hoyaClusterAPIClass, ProtobufRpcEngine.class);
+    RPC.setProtocolEngine(conf, sliderClusterAPIClass, ProtobufRpcEngine.class);
     
     //quick sanity check here
-    assert verifyBondedToProtobuf(conf, hoyaClusterAPIClass); 
+    assert verifyBondedToProtobuf(conf, sliderClusterAPIClass);
     
-    return hoyaClusterAPIClass;
+    return sliderClusterAPIClass;
   }
 
   /**
    * Verify that the conf is set up for protobuf transport of Slider RPC
    * @param conf configuration
-   * @param hoyaClusterAPIClass class for the API
+   * @param sliderClusterAPIClass class for the API
    * @return
    */
   public static boolean verifyBondedToProtobuf(Configuration conf,
-                                                Class<SliderClusterProtocolPB> hoyaClusterAPIClass) {
-    return conf.getClass("rpc.engine." + hoyaClusterAPIClass.getName(),
+                                                Class<SliderClusterProtocolPB> sliderClusterAPIClass) {
+    return conf.getClass("rpc.engine." + sliderClusterAPIClass.getName(),
                          RpcEngine.class) .equals(ProtobufRpcEngine.class);
   }
 
@@ -130,12 +116,12 @@ public class RpcBinder {
                                                     UserGroupInformation currentUser,
                                                     Configuration conf,
                                                     int rpcTimeout) throws IOException {
-    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerSliderAPI(
+    Class<SliderClusterProtocolPB> sliderClusterAPIClass = registerSliderAPI(
         conf);
 
     log.debug("Connecting to Slider AM at {}", addr);
     ProtocolProxy<SliderClusterProtocolPB> protoProxy =
-      RPC.getProtocolProxy(hoyaClusterAPIClass,
+      RPC.getProtocolProxy(sliderClusterAPIClass,
                            1,
                            addr,
                            currentUser,

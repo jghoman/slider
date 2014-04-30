@@ -107,7 +107,7 @@ public interface OptionKeys {
   String SITE_XML_PREFIX = "site.";
 
   /**
-   * hoya temp directory: {@value}
+   * internal temp directory: {@value}
    */
   String INTERNAL_AM_TMP_DIR = "internal.tmp.dir";
 

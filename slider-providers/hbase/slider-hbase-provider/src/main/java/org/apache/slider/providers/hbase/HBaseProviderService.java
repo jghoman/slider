@@ -266,7 +266,7 @@ public class HBaseProviderService extends AbstractProviderService implements
   }
   
   /* non-javadoc
-   * @see org.apache.hoya.providers.ProviderService#buildMonitorDetails()
+   * @see org.apache.slider.providers.ProviderService#buildMonitorDetails()
    */
   @Override
   public TreeMap<String,URL> buildMonitorDetails(ClusterDescription clusterDesc) {

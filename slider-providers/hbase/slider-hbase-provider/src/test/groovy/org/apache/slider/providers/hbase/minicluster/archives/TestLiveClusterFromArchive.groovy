@@ -46,14 +46,14 @@ class TestLiveClusterFromArchive extends HBaseMiniClusterTestBase {
     setupImageToDeploy()
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
 
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
     //get the hbase status
-    waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
-    waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
 
-    clusterActionFreeze(hoyaClient, clustername,"end of run")
+    clusterActionFreeze(sliderClient, clustername,"end of run")
   }
 
   public void setupImageToDeploy() {

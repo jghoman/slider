@@ -31,7 +31,7 @@ import java.util.List;
 public class Slider extends SliderClient {
 
 
-  public static final String SERVICE_CLASSNAME = "org.apache.hoya.Slider";
+  public static final String SERVICE_CLASSNAME = "org.apache.slider.Slider";
 
   /**
    * This is the main entry point for the service launcher.

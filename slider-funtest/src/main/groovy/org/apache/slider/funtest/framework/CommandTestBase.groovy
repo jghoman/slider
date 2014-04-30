@@ -90,7 +90,7 @@ abstract class CommandTestBase extends SliderTestUtils {
         KEY_ACCUMULO_LAUNCH_TIME,
         1000 * DEFAULT_ACCUMULO_LAUNCH_TIME_SECONDS)
     FUNTESTS_ENABLED =
-        SLIDER_CONFIG.getBoolean(KEY_HOYA_FUNTESTS_ENABLED, true)
+        SLIDER_CONFIG.getBoolean(KEY_SLIDER_FUNTESTS_ENABLED, true)
     ACCUMULO_TESTS_ENABLED =
         SLIDER_CONFIG.getBoolean(KEY_TEST_ACCUMULO_ENABLED, false)
 
@@ -147,7 +147,7 @@ abstract class CommandTestBase extends SliderTestUtils {
   }
   
   /**
-   * Exec any hoya command 
+   * Exec any slider command
    * @param conf
    * @param commands
    * @return the shell
@@ -376,13 +376,13 @@ abstract class CommandTestBase extends SliderTestUtils {
     if (exitCode) {
       throw new ExitUtil.ExitException(exitCode, "exit code = $exitCode")
     }
-    SliderClient hoyaClient = launcher.service
-    hoyaClient.deployedClusterName = clustername
-    return hoyaClient;
+    SliderClient sliderClient = launcher.service
+    sliderClient.deployedClusterName = clustername
+    return sliderClient;
   }
 
   /**
-   * Create or build a hoya cluster (the action is set by the first verb)
+   * Create or build a slider cluster (the action is set by the first verb)
    * @param action operation to invoke: ACTION_CREATE or ACTION_BUILD
    * @param clustername cluster name
    * @param roles map of rolename to count
@@ -393,7 +393,7 @@ abstract class CommandTestBase extends SliderTestUtils {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return shell which will have executed the command.
    */
-  public SliderShell createOrBuildHoyaCluster(
+  public SliderShell createOrBuildSliderCluster(
       String action,
       String clustername,
       Map<String, Integer> roles,
@@ -435,7 +435,7 @@ abstract class CommandTestBase extends SliderTestUtils {
   }
 
   /**
-   * Create a hoya cluster
+   * Create a slider cluster
    * @param clustername cluster name
    * @param roles map of rolename to count
    * @param extraArgs list of extra args to add to the creation command
@@ -449,7 +449,7 @@ abstract class CommandTestBase extends SliderTestUtils {
       List<String> extraArgs,
       boolean blockUntilRunning,
       Map<String, String> clusterOps) {
-    return createOrBuildHoyaCluster(
+    return createOrBuildSliderCluster(
         ACTION_CREATE,
         clustername,
         roles,
@@ -464,7 +464,7 @@ abstract class CommandTestBase extends SliderTestUtils {
 
 
   public ClusterDescription killAmAndWaitForRestart(
-      SliderClient hoyaClient, String cluster) {
+      SliderClient sliderClient, String cluster) {
     
     assert cluster
     slider(0, [
@@ -486,7 +486,7 @@ abstract class CommandTestBase extends SliderTestUtils {
       // cluster is live
       exists(0, cluster, true)
 
-      status = hoyaClient.clusterDescription
+      status = sliderClient.clusterDescription
     } catch (SliderException e) {
       if (e.exitCode == EXIT_BAD_STATE) {
         log.error(

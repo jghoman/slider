@@ -83,7 +83,7 @@ public class CoreFileSystem {
    * @return path for temp files (is not purged)
    */
   public Path getTempPathForCluster(String clustername) {
-    Path clusterDir = buildHoyaClusterDirPath(clustername);
+    Path clusterDir = buildClusterDirPath(clustername);
     return new Path(clusterDir, SliderKeys.TMP_DIR_PREFIX);
   }
 
@@ -112,12 +112,12 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path for persistent data
    */
-  public Path buildHoyaClusterDirPath(String clustername) {
+  public Path buildClusterDirPath(String clustername) {
     if (clustername == null) {
       throw new NullPointerException();
     }
-    Path hoyaPath = getBaseApplicationPath();
-    return new Path(hoyaPath, SliderKeys.CLUSTER_DIRECTORY + "/" + clustername);
+    Path path = getBaseApplicationPath();
+    return new Path(path, SliderKeys.CLUSTER_DIRECTORY + "/" + clustername);
   }
 
   /**
@@ -128,14 +128,14 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path to the cluster directory
    * @throws java.io.IOException                      trouble
-   * @throws SliderException hoya-specific exceptions
+   * @throws SliderException slider-specific exceptions
    */
   public Path createClusterDirectories(String clustername, Configuration conf) throws
                                                                                IOException,
       SliderException {
     
     
-    Path clusterDirectory = buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = buildClusterDirPath(clustername);
     InstancePaths instancePaths = new InstancePaths(clusterDirectory);
     createClusterDirectories(instancePaths);
     return clusterDirectory;
@@ -146,14 +146,13 @@ public class CoreFileSystem {
    * This is a directory; a mkdirs() operation is executed
    * to ensure that it is there.
    *
-   * @param clustername name of the cluster
+   * @param instancePaths instance paths
    * @return the path to the cluster directory
    * @throws java.io.IOException                      trouble
-   * @throws SliderException hoya-specific exceptions
+   * @throws SliderException slider-specific exceptions
    */
   public void createClusterDirectories(InstancePaths instancePaths) throws
-                                                                               IOException,
-      SliderException {
+      IOException, SliderException {
     Path clusterDirectory = instancePaths.instanceDir;
 
     verifyDirectoryNonexistent(clusterDirectory);
@@ -315,9 +314,8 @@ public class CoreFileSystem {
    * @param subdir       application ID
    * @return the path; this directory will already have been created
    */
-  public Path createHoyaAppInstanceTempPath(String clustername,
-                                            String subdir) throws
-          IOException {
+  public Path createAppInstanceTempPath(String clustername, String subdir)
+      throws IOException {
     Path tmp = getTempPathForCluster(clustername);
     Path instancePath = new Path(tmp, subdir);
     fileSystem.mkdirs(instancePath);
@@ -331,7 +329,7 @@ public class CoreFileSystem {
    * @param clustername name of the cluster
    * @return the path; this directory will already have been deleted
    */
-  public Path purgeHoyaAppInstanceTempFiles(String clustername) throws
+  public Path purgeAppInstanceTempFiles(String clustername) throws
           IOException {
     Path tmp = getTempPathForCluster(clustername);
     fileSystem.delete(tmp, true);
@@ -339,7 +337,7 @@ public class CoreFileSystem {
   }
 
   /**
-   * Get the base path for hoya
+   * Get the base path
    *
    * @return the base path optionally configured by {@value SliderXmlConfKeys#KEY_SLIDER_BASE_PATH}
    */
@@ -521,7 +519,7 @@ public class CoreFileSystem {
    */
   public Path locateInstanceDefinition(String clustername) throws IOException,
       SliderException {
-    Path clusterDirectory = buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = buildClusterDirPath(clustername);
     Path appConfPath =
             new Path(clusterDirectory, Filenames.APPCONF);
     verifyClusterSpecExists(clustername, appConfPath);
@@ -531,7 +529,6 @@ public class CoreFileSystem {
   /**
    * Verify that a cluster specification exists
    * @param clustername name of the cluster (For errors only)
-   * @param fs filesystem
    * @param clusterSpecPath cluster specification path
    * @throws IOException IO problems
    * @throws SliderException if the cluster specification is not present

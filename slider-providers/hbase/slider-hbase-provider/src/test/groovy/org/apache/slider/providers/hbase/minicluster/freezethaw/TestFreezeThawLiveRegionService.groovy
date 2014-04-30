@@ -51,14 +51,14 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
               Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "96M",
           ],
                                                   true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
-    clustat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount,
+    clustat = waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount,
                             hbaseClusterStartupToLiveTime)
     describe("Cluster status")
     log.info(hbaseStatusToString(clustat));
@@ -74,7 +74,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     }
     
     
-    clusterActionFreeze(hoyaClient, clustername)
+    clusterActionFreeze(sliderClient, clustername)
     killAllRegionServers();
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);

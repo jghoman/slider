@@ -110,12 +110,12 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       getConf(0, CLUSTER)
 
-      //get a hoya client against the cluster
-      SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
-      ClusterDescription cd2 = hoyaClient.getClusterDescription()
+      //get a slider client against the cluster
+      SliderClient sliderClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
+      ClusterDescription cd2 = sliderClient.getClusterDescription()
       assert CLUSTER == cd2.name
 
-      log.info("Connected via Client {}", hoyaClient.toString())
+      log.info("Connected via Client {}", sliderClient.toString())
 
       //freeze
       slider(0, [
@@ -163,7 +163,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
 
 
-      ClusterDescription status = killAmAndWaitForRestart(hoyaClient, CLUSTER)
+      ClusterDescription status = killAmAndWaitForRestart(sliderClient, CLUSTER)
 
       def restarted = status.getInfo(
           StatusKeys.INFO_CONTAINERS_AM_RESTART)

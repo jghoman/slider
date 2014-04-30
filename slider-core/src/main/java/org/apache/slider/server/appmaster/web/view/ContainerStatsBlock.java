@@ -54,13 +54,13 @@ public class ContainerStatsBlock extends HtmlBlock {
   protected static final Function<Entry<String,Integer>,Entry<TableContent,Integer>> stringIntPairFunc = toTableContentFunction();
   protected static final Function<Entry<String,String>,Entry<TableContent,String>> stringStringPairFunc = toTableContentFunction();
 
-  private WebAppApi hoya;
+  private WebAppApi slider;
   private SliderClusterOperations clusterOps;
 
   @Inject
-  public ContainerStatsBlock(WebAppApi hoya) {
-    this.hoya = hoya;
-    clusterOps = new SliderClusterOperations(hoya.getClusterProtocol());
+  public ContainerStatsBlock(WebAppApi slider) {
+    this.slider = slider;
+    clusterOps = new SliderClusterOperations(slider.getClusterProtocol());
   }
 
   /**
@@ -95,10 +95,10 @@ public class ContainerStatsBlock extends HtmlBlock {
   @Override
   protected void render(Block html) {
     // TODO Probably better to just get a copy of this list for us to avoid the repeated synchronization?
-    // does this change if we have 50 node, 100node, 500 node hoya clusters?
-    final Map<String,RoleInstance> containerInstances = getContainerInstances(hoya.getAppState().cloneActiveContainerList());
+    // does this change if we have 50 node, 100node, 500 node clusters?
+    final Map<String,RoleInstance> containerInstances = getContainerInstances(slider.getAppState().cloneActiveContainerList());
 
-    for (Entry<String,RoleStatus> entry : hoya.getRoleStatusByName().entrySet()) {
+    for (Entry<String,RoleStatus> entry : slider.getRoleStatusByName().entrySet()) {
       final String name = entry.getKey();
       final RoleStatus roleStatus = entry.getValue();
 
@@ -141,7 +141,7 @@ public class ContainerStatsBlock extends HtmlBlock {
 
           }));
 
-      ClusterDescription desc = hoya.getAppState().getClusterStatus();
+      ClusterDescription desc = slider.getAppState().getClusterStatus();
       Map<String,String> options = desc.getRole(name);
       Iterable<Entry<TableContent,String>> tableContent;
       
@@ -276,7 +276,7 @@ public class ContainerStatsBlock extends HtmlBlock {
     }
 
     /* (non-javadoc)
-     * @see org.apache.hoya.yarn.appmaster.web.view.ContainerStatsBlock.TableContent#printCell(TR<?>)
+     * @see org.apache.slider.server.appmaster.web.view.ContainerStatsBlock$TableContent#printCell()
      */
     @Override
     public void printCell(TR<?> tableRow) {

@@ -45,7 +45,7 @@ public interface AccumuloKeys {
   String DEFAULT_ROLE_HEAP = DEFAULT_MASTER_HEAP;
   String DEFAULT_ROLE_YARN_RAM = DEFAULT_MASTER_YARN_RAM;
 
-// org.apache.hoya.providers.accumulo.conf
+// org.apache.slider.providers.accumulo.conf
 
   String VERSION = "version";
 
@@ -74,7 +74,7 @@ public interface AccumuloKeys {
   String SITE_XML = "accumulo-site.xml";
 
   /**
-   * Template stored in the hoya classpath -to use if there is
+   * Template stored in the slider classpath -to use if there is
    * no site-specific template
    *  {@value}
    */

@@ -32,7 +32,7 @@ import org.junit.Test
  * Simple tests to verify that the build has been set up: if these
  * fail then the arguments to the test run are incomplete.
  *
- * This deliberately doesn't depend on HoyaCommandTestBase,
+ * This deliberately doesn't depend on SliderCommandTestBase,
  * so that individual tests fail with more diagnostics
  * than the @BeforeClass failing
  */
@@ -50,12 +50,12 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
     return val;
   }
 
-  public String getHoyaConfDirProp() {
+  public String getSliderConfDirProp() {
     return getRequiredSysprop(SLIDER_CONF_DIR_PROP)
   }
 
-  public File getHoyaConfDirectory() {
-    return getCanonicalFile(hoyaConfDirProp)
+  public File getSliderConfDirectory() {
+    return getCanonicalFile(sliderConfDirProp)
   }
 
   File getCanonicalFile(String dir) {
@@ -72,7 +72,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   }
 
   public File getConfXML() {
-    new File(hoyaConfDirectory, CLIENT_CONFIG_FILENAME).canonicalFile
+    new File(sliderConfDirectory, CLIENT_CONFIG_FILENAME).canonicalFile
   }
 
   public File getSliderScript() {
@@ -83,7 +83,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
    * Load the client XML file
    * @return
    */
-  public Configuration loadHoyaConf() {
+  public Configuration loadSliderConf() {
     Configuration conf = new Configuration(true)
     conf.addResource(confXML.toURI().toURL())
     return conf
@@ -91,13 +91,13 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
 
   @Test
   public void testConfDirSet() throws Throwable {
-    assert getHoyaConfDirProp()
-    log.info("Slider Configuration directory $hoyaConfDirProp")
+    assert getSliderConfDirProp()
+    log.info("Slider Configuration directory $sliderConfDirProp")
   }
 
   @Test
   public void testConfDirExists() throws Throwable {
-    assert hoyaConfDirectory.exists()
+    assert sliderConfDirectory.exists()
   }
 
 
@@ -121,13 +121,13 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
 
   @Test
   public void testConfLoad() throws Throwable {
-    Configuration conf = loadHoyaConf()
+    Configuration conf = loadSliderConf()
   }
 
   @Test
   public void testConfHasDefaultFS() throws Throwable {
-    Configuration conf = loadHoyaConf()
-    assumeBoolOption(conf, KEY_HOYA_FUNTESTS_ENABLED, true)
+    Configuration conf = loadSliderConf()
+    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
     String fs = conf.get("fs.defaultFS")
     log.info("Test Filesystem $fs")
     assert fs != null
@@ -137,8 +137,8 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   @Test
   public void testConfHasRM() throws Throwable {
 
-    Configuration conf = loadHoyaConf()
-    assumeBoolOption(conf, KEY_HOYA_FUNTESTS_ENABLED, true)
+    Configuration conf = loadSliderConf()
+    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
     String val = conf.get(YarnConfiguration.RM_ADDRESS)
     log.info("$YarnConfiguration.RM_ADDRESS = $val")
     assert val != YarnConfiguration.DEFAULT_RM_ADDRESS
@@ -146,7 +146,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
 
   @Test
   public void testSecuritySettingsValid() throws Throwable {
-    Configuration conf = loadHoyaConf();
+    Configuration conf = loadSliderConf();
     if (SliderUtils.maybeInitSecurity(conf)) {
       log.info("Security enabled")
       SliderUtils.forceLogin()
@@ -156,8 +156,8 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
 
   @Test
   public void testHBaseBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadHoyaConf();
-    assumeBoolOption(conf, KEY_HOYA_FUNTESTS_ENABLED, true)
+    Configuration conf = loadSliderConf();
+    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
 
     assumeBoolOption(conf, KEY_TEST_HBASE_ENABLED, true)
 
@@ -167,8 +167,8 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   
   @Test
   public void testAccumuloBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadHoyaConf();
-    assumeBoolOption(conf, KEY_HOYA_FUNTESTS_ENABLED, true)
+    Configuration conf = loadSliderConf();
+    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
 
     assumeBoolOption(conf, KEY_TEST_ACCUMULO_ENABLED, true)
 

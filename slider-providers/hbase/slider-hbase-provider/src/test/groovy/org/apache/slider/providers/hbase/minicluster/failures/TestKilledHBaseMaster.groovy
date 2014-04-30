@@ -47,27 +47,27 @@ class TestKilledHBaseMaster extends HBaseMiniClusterTestBase {
 
     //now launch the cluster
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
 
-    status = waitForWorkerInstanceCount(hoyaClient, regionServerCount, hbaseClusterStartupToLiveTime)
+    status = waitForWorkerInstanceCount(sliderClient, regionServerCount, hbaseClusterStartupToLiveTime)
     //get the hbase status
-    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(hoyaClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
+    ClusterStatus hbaseStat = waitForHBaseRegionServerCount(sliderClient, clustername, regionServerCount, hbaseClusterStartupToLiveTime)
     ServerName master = hbaseStat.master
     log.info("HBase master providing status information at {}",
              hbaseStat.master)
     
-    Configuration clientConf = createHBaseConfiguration(hoyaClient)
+    Configuration clientConf = createHBaseConfiguration(sliderClient)
     clientConf.setInt(HConstants.HBASE_CLIENT_RETRIES_NUMBER, 10);
     killAllMasterServers();
     status = waitForRoleCount(
-        hoyaClient, HBaseKeys.ROLE_MASTER, 1, hbaseClusterStartupToLiveTime)
+        sliderClient, HBaseKeys.ROLE_MASTER, 1, hbaseClusterStartupToLiveTime)
     hbaseStat = waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clustername,
         regionServerCount,
         hbaseClusterStartupToLiveTime)

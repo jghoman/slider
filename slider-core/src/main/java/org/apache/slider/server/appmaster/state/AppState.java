@@ -1058,7 +1058,7 @@ public class AppState implements StateAccessForProviders {
    * container start event handler -throwing an exception on problems
    * @param containerId container that is to be started
    * @return the role instance
-   * @throws HoyaRuntimeException null if there was a problem
+   * @throws RuntimeException on problems
    */
   @VisibleForTesting
   public RoleInstance innerOnNodeManagerContainerStarted(ContainerId containerId) {
@@ -1363,16 +1363,21 @@ public class AppState implements StateAccessForProviders {
       cd.statistics.put(rolename, stats);
     }
 
-    Map<String, Integer> hoyastats = new HashMap<String, Integer>();
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_COMPLETED, completedContainerCount.get());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_FAILED, failedContainerCount.get());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_LIVE, liveNodes.size());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_STARTED,startedContainers.get());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_START_FAILED, startFailedContainers.get());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_SURPLUS, surplusContainers.get());
-    hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_UNKNOWN_COMPLETED,
-                  completionOfUnknownContainerEvent.get());
-    cd.statistics.put(SliderKeys.COMPONENT_AM, hoyastats);
+    Map<String, Integer> sliderstats = new HashMap<String, Integer>();
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_COMPLETED,
+        completedContainerCount.get());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_FAILED,
+        failedContainerCount.get());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_LIVE, liveNodes.size());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_STARTED,
+        startedContainers.get());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_START_FAILED,
+        startFailedContainers.get());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_SURPLUS,
+        surplusContainers.get());
+    sliderstats.put(StatusKeys.STATISTICS_CONTAINERS_UNKNOWN_COMPLETED,
+        completionOfUnknownContainerEvent.get());
+    cd.statistics.put(SliderKeys.COMPONENT_AM, sliderstats);
     
   }
 
@@ -1612,7 +1617,7 @@ public class AppState implements StateAccessForProviders {
    * to the size of the list passed down (and does not set it if none were)
    * @param liveContainers the containers allocated
    * @return true if a rebuild took place (even if size 0)
-   * @throws HoyaRuntimeException on problems
+   * @throws RuntimeException on problems
    */
   private boolean rebuildModelFromRestart(List<Container> liveContainers) throws
                                                                           BadClusterStateException {
@@ -1631,7 +1636,7 @@ public class AppState implements StateAccessForProviders {
    * Add a restarted container by walking it through the create/submit/start
    * lifecycle, so building up the internal structures
    * @param container container that was running before the AM restarted
-   * @throws HoyaRuntimeException on problems
+   * @throws RuntimeException on problems
    */
   private void addRestartedContainer(Container container) throws
                                                           BadClusterStateException {

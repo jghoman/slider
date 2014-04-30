@@ -181,18 +181,18 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
                       1,
                       true);
     //now launch the cluster
-    SliderClient hoyaClient = null;
+    SliderClient sliderClient = null;
     ServiceLauncher launcher = createAccCluster(clustername,
                                                  plan[0],
                                                  [],
                                                  true,
                                                  true);
-    hoyaClient = (SliderClient) launcher.service;
+    sliderClient = (SliderClient) launcher.service;
     try {
 
       //verify the #of roles is as expected
       //get the hbase status
-      waitForRoleCount(hoyaClient, plan[0],
+      waitForRoleCount(sliderClient, plan[0],
                        ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME);
       sleep(ACCUMULO_GO_LIVE_TIME);
 
@@ -205,10 +205,10 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
         //now flex
         describe(
             "Flexing " + roleMapToString(flexTarget));
-        boolean flexed = 0 == hoyaClient.flex(clustername,
+        boolean flexed = 0 == sliderClient.flex(clustername,
             flexTarget
         );
-        cd = waitForRoleCount(hoyaClient, flexTarget,
+        cd = waitForRoleCount(sliderClient, flexTarget,
                               ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME);
 
         sleep(ACCUMULO_GO_LIVE_TIME);
@@ -218,7 +218,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
       return cd;
 
     } finally {
-      maybeStopCluster(hoyaClient, null, "end of flex test run");
+      maybeStopCluster(sliderClient, null, "end of flex test run");
     }
 
   }

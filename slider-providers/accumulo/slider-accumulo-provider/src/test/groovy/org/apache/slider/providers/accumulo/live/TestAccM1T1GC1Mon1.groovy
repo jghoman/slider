@@ -53,16 +53,16 @@ class TestAccM1T1GC1Mon1 extends AccumuloTestBase {
         (AccumuloKeys.ROLE_GARBAGE_COLLECTOR): gc
     ];
     ServiceLauncher launcher = createAccCluster(clustername, roles, [], true, true)
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
 
 
-    waitWhileClusterLive(hoyaClient);
-    assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
-    waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitWhileClusterLive(sliderClient);
+    assert sliderClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
+    waitForRoleCount(sliderClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")
     ClusterDescription status
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
 
     //now give the cluster a bit of time to actually start work
@@ -71,13 +71,13 @@ class TestAccM1T1GC1Mon1 extends AccumuloTestBase {
     sleep(ACCUMULO_GO_LIVE_TIME);
 
     //verify that all is still there
-    waitForRoleCount(hoyaClient, roles, 0)
+    waitForRoleCount(sliderClient, roles, 0)
 
 
     log.info("Finishing")
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
-    maybeStopCluster(hoyaClient, clustername, "shut down $clustername")
+    maybeStopCluster(sliderClient, clustername, "shut down $clustername")
 
   }
 

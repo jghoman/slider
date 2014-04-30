@@ -56,16 +56,16 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
         (AccumuloKeys.ROLE_GARBAGE_COLLECTOR): gc
     ];
     ServiceLauncher launcher = createAccCluster(clustername, roles, [], true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
 
 
-    waitWhileClusterLive(hoyaClient);
-    assert hoyaClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
-    waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitWhileClusterLive(sliderClient);
+    assert sliderClient.applicationReport.yarnApplicationState == YarnApplicationState.RUNNING
+    waitForRoleCount(sliderClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     describe("Cluster status")
     ClusterDescription status
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
 
     //now give the cluster a bit of time to actually start work
@@ -74,7 +74,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
     sleep(ACCUMULO_GO_LIVE_TIME);
 
     //verify that all is still there
-    waitForRoleCount(hoyaClient, roles, 0)
+    waitForRoleCount(sliderClient, roles, 0)
 
     String page = fetchLocalPage(AccumuloConfigFileOptions.MONITOR_PORT_CLIENT_INT,
                                  AccumuloKeys.MONITOR_PAGE_JSON)
@@ -82,7 +82,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
 
     log.info("Finishing")
     
-    ApplicationReport appReport = hoyaClient.getApplicationReport();
+    ApplicationReport appReport = sliderClient.getApplicationReport();
     
     String url = appReport.getTrackingUrl();
     
@@ -105,9 +105,9 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
     fetchWebPageWithoutError(url);
     
     
-    status = hoyaClient.getClusterDescription(clustername)
+    status = sliderClient.getClusterDescription(clustername)
     log.info(prettyPrint(status.toJsonString()))
-    maybeStopCluster(hoyaClient, clustername, "shut down $clustername")
+    maybeStopCluster(sliderClient, clustername, "shut down $clustername")
 
   }
 

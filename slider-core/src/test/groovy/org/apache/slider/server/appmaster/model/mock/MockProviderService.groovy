@@ -136,7 +136,7 @@ class MockProviderService implements ProviderService {
   }
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx, SliderFileSystem hoyaFileSystem, Path generatedConfPath, String role,
+  public void buildContainerLaunchContext(ContainerLaunchContext ctx, SliderFileSystem sliderFileSystem, Path generatedConfPath, String role,
       ClusterDescription clusterSpec, Map<String,String> roleOptions) throws IOException, SliderException {
   }
 
@@ -179,7 +179,7 @@ class MockProviderService implements ProviderService {
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      SliderFileSystem hoyaFileSystem,
+      SliderFileSystem sliderFileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,

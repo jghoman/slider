@@ -147,7 +147,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     log.info("freeze4");
     
     //kill -19 the process to hang it, then force kill
-    killHoyaAM(SIGSTOP)
+    killAM(SIGSTOP)
 
     ServiceLauncher freeze4 = execSliderCommand(conf,
                                               [

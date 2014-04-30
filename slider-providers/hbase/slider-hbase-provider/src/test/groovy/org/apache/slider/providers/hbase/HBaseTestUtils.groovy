@@ -48,7 +48,7 @@ class HBaseTestUtils extends SliderTestUtils {
   /**
    * Create an (unshared) HConnection talking to the hbase service that
    * Slider should be running
-   * @param hoyaClient hoya client
+   * @param sliderClient slider client
    * @param clustername the name of the Slider cluster
    * @return the connection
    */
@@ -81,8 +81,8 @@ class HBaseTestUtils extends SliderTestUtils {
     return builder.toString()
   }
 
-  public static ClusterStatus getHBaseClusterStatus(SliderClient hoyaClient) {
-    Configuration clientConf = createHBaseConfiguration(hoyaClient)
+  public static ClusterStatus getHBaseClusterStatus(SliderClient sliderClient) {
+    Configuration clientConf = createHBaseConfiguration(sliderClient)
     return getHBaseClusterStatus(clientConf)
   }
 
@@ -100,13 +100,13 @@ class HBaseTestUtils extends SliderTestUtils {
 
   /**
    * Create an HBase config to work with
-   * @param hoyaClient hoya client
+   * @param sliderClient slider client
    * @param clustername cluster
    * @return an hbase config extended with the custom properties from the
    * cluster, including the binding to the HBase cluster
    */
-  public static Configuration createHBaseConfiguration(SliderClient hoyaClient) {
-    Configuration siteConf = fetchClientSiteConfig(hoyaClient);
+  public static Configuration createHBaseConfiguration(SliderClient sliderClient) {
+    Configuration siteConf = fetchClientSiteConfig(sliderClient);
     Configuration conf = HBaseConfiguration.create(siteConf);
     // patch in some timeouts
     conf.setInt(HConstants.HBASE_CLIENT_RETRIES_NUMBER, 10)
@@ -120,11 +120,11 @@ class HBaseTestUtils extends SliderTestUtils {
 
   /**
    * Ask the AM for the site configuration -then dump it
-   * @param hoyaClient
+   * @param sliderClient
    * @param clustername
    */
-  public static void dumpHBaseClientConf(SliderClient hoyaClient) {
-    Configuration conf = fetchClientSiteConfig(hoyaClient);
+  public static void dumpHBaseClientConf(SliderClient sliderClient) {
+    Configuration conf = fetchClientSiteConfig(sliderClient);
     describe("AM-generated site configuration");
     ConfigHelper.dumpConf(conf);
   }
@@ -133,11 +133,11 @@ class HBaseTestUtils extends SliderTestUtils {
    * Create a full HBase configuration by merging the AM data with
    * the rest of the local settings. This is the config that would
    * be used by any clients
-   * @param hoyaClient hoya client
+   * @param sliderClient slider client
    * @param clustername name of the cluster
    */
-  public static void dumpFullHBaseConf(SliderClient hoyaClient) {
-    Configuration conf = createHBaseConfiguration(hoyaClient);
+  public static void dumpFullHBaseConf(SliderClient sliderClient) {
+    Configuration conf = createHBaseConfiguration(sliderClient);
     describe("HBase site configuration from AM");
     ConfigHelper.dumpConf(conf);
   }
@@ -151,51 +151,51 @@ class HBaseTestUtils extends SliderTestUtils {
    * @throws org.apache.slider.core.exceptions.SliderException
    */
   public static boolean spinForClusterStartup(
-      SliderClient hoyaClient,
+      SliderClient sliderClient,
       long spintime,
       String role = "master")
   throws WaitTimeoutException, IOException, SliderException {
-    int state = hoyaClient.waitForRoleInstanceLive(role, spintime);
+    int state = sliderClient.waitForRoleInstanceLive(role, spintime);
     return state == ClusterDescription.STATE_LIVE;
   }
 
   public static ClusterStatus basicHBaseClusterStartupSequence(
-      SliderClient hoyaClient, int startupTime, int startupToLiveTime ) {
-    int state = hoyaClient.waitForRoleInstanceLive(SliderKeys.COMPONENT_AM,
+      SliderClient sliderClient, int startupTime, int startupToLiveTime ) {
+    int state = sliderClient.waitForRoleInstanceLive(SliderKeys.COMPONENT_AM,
                                                    startupTime);
     assert state == ClusterDescription.STATE_LIVE;
-    state = hoyaClient.waitForRoleInstanceLive(HBaseKeys.ROLE_MASTER,
+    state = sliderClient.waitForRoleInstanceLive(HBaseKeys.ROLE_MASTER,
                                                startupTime);
     assert state == ClusterDescription.STATE_LIVE;
     //sleep for a bit to give things a chance to go live
     assert spinForClusterStartup(
-        hoyaClient,
+        sliderClient,
         startupToLiveTime,
         HBaseKeys.MASTER);
 
     //grab the conf from the status and verify the ZK binding matches
 
-    ClusterStatus clustat = getHBaseClusterStatus(hoyaClient);
+    ClusterStatus clustat = getHBaseClusterStatus(sliderClient);
     describe("HBASE CLUSTER STATUS \n " + hbaseStatusToString(clustat));
     return clustat;
   }
 
   /**
    * Spin waiting for the RS count to match expected
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param clustername cluster name
    * @param regionServerCount RS count
    * @param timeout timeout
    */
   public static ClusterStatus waitForHBaseRegionServerCount(
-      SliderClient hoyaClient,
+      SliderClient sliderClient,
       String clustername,
       int regionServerCount,
       int timeout) {
     Duration duration = new Duration(timeout);
     duration.start();
     ClusterStatus clustat = null;
-    Configuration clientConf = createHBaseConfiguration(hoyaClient)
+    Configuration clientConf = createHBaseConfiguration(sliderClient)
     while (true) {
       clustat = getHBaseClusterStatus(clientConf);
       int workerCount = clustat.servers.size();
@@ -205,7 +205,7 @@ class HBaseTestUtils extends SliderTestUtils {
       if (duration.limitExceeded) {
         describe("Cluster region server count of $regionServerCount not met:");
         log.info(hbaseStatusToString(clustat));
-        ClusterDescription status = hoyaClient.getClusterDescription(
+        ClusterDescription status = sliderClient.getClusterDescription(
             clustername);
         fail("Expected $regionServerCount YARN region servers," +
              " but  after $timeout millis saw $workerCount in ${hbaseStatusToString(clustat)}" +
@@ -242,12 +242,12 @@ class HBaseTestUtils extends SliderTestUtils {
    * @param clientConf client config
    */
   public static void assertNoHBaseMaster(
-      SliderClient hoyaClient,
+      SliderClient sliderClient,
       Configuration clientConf) {
     boolean masterFound = isHBaseMasterFound(clientConf)
     if (masterFound) {
       def text = "HBase master is unexpectedly running"
-      dumpClusterStatus(hoyaClient, text);
+      dumpClusterStatus(sliderClient, text);
       fail(text)
     }
   }

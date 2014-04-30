@@ -87,7 +87,7 @@ public class ZKIntegration implements Watcher {
     this.zkConnection = zkConnection;
     this.canBeReadOnly = canBeReadOnly;
     this.createClusterPath = createClusterPath;
-    this.userPath = mkHoyaUserPath(username);
+    this.userPath = mkSliderUserPath(username);
   }
 
   public void init() throws IOException {
@@ -264,16 +264,15 @@ public class ZKIntegration implements Watcher {
  * @return a strin
  */
   public static String mkClusterPath(String username, String clustername) {
-    return mkHoyaUserPath(username) + "/" + clustername;
+    return mkSliderUserPath(username) + "/" + clustername;
   }
 /**
  * Build the path to a cluster; exists once the cluster has come up.
  * Even before that, a ZK watcher could wait for it.
  * @param username user
- * @param clustername name of the cluster
- * @return a strin
+ * @return a string
  */
-  public static String mkHoyaUserPath(String username) {
+  public static String mkSliderUserPath(String username) {
     return SVC_SLIDER_USERS + "/" + username;
   }
 

@@ -78,7 +78,7 @@ public class InstanceBuilder {
     this.clustername = clustername;
     this.conf = conf;
     this.coreFS = coreFileSystem;
-    Path instanceDir = coreFileSystem.buildHoyaClusterDirPath(clustername);
+    Path instanceDir = coreFileSystem.buildClusterDirPath(clustername);
     instancePaths = new InstancePaths(instanceDir);
 
   }

@@ -30,12 +30,12 @@ import org.slf4j.LoggerFactory;
 public class SliderAMController extends Controller {
   private static final Logger log = LoggerFactory.getLogger(SliderAMController.class);
 
-  private final WebAppApi hoya;
+  private final WebAppApi slider;
   
   @Inject
-  public SliderAMController(WebAppApi hoya, RequestContext ctx) {
+  public SliderAMController(WebAppApi slider, RequestContext ctx) {
     super(ctx);
-    this.hoya = hoya;
+    this.slider = slider;
   }
   
   @Override
@@ -63,7 +63,7 @@ public class SliderAMController extends Controller {
 
   private void updateAppState() {
     //TODO don't do this on every request?
-    hoya.getAppState().refreshClusterStatus();
+    slider.getAppState().refreshClusterStatus();
   }
   
 }

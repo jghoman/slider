@@ -61,10 +61,10 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
 
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
+    assert 0 == clusterActionFreeze(sliderClient, clustername)
     
 
     // here we do something devious: delete our copy of the configuration
@@ -78,10 +78,10 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
     newCluster.getClusterDescription(clustername);
     
     //freeze
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
+    assert 0 == clusterActionFreeze(sliderClient, clustername)
 
     //freeze again
-    assert 0 == clusterActionFreeze(hoyaClient, clustername)
+    assert 0 == clusterActionFreeze(sliderClient, clustername)
 
   }
 

@@ -84,12 +84,12 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive(launcher.service)
 
     //do the low level operations to get a better view of what is going on 
-    SliderClient hoyaClient = (SliderClient) launcher.service
+    SliderClient sliderClient = (SliderClient) launcher.service
 
     //now look for the explicit sevice
 
     ActionStatusArgs statusArgs = new ActionStatusArgs()
-    int status = hoyaClient.actionStatus(clustername, statusArgs)
+    int status = sliderClient.actionStatus(clustername, statusArgs)
     assert status == SliderExitCodes.EXIT_SUCCESS
 
     //now exec the status command
@@ -109,12 +109,12 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     //status to a file
     File tfile = new File("target/" + clustername + "/status.json")
     statusArgs.output = tfile.absolutePath
-    hoyaClient.actionStatus(clustername, statusArgs)
+    sliderClient.actionStatus(clustername, statusArgs)
     def text = tfile.text
     ClusterDescription cd = new ClusterDescription();
     cd.fromJson(text)
     
-    //status to a file via the command line :  bin/hoya status cl1 --out file.json
+    //status to a file via the command line :  bin/slider status cl1 --out file.json
     String path = "target/cluster.json"
     statusLauncher = launchClientAgainstMiniMR(
         //config includes RM binding info
@@ -132,12 +132,12 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     ClusterDescription cd2 = new ClusterDescription();
     cd2.fromJson(text)
     
-    clusterActionFreeze(hoyaClient, clustername, "stopping first cluster")
-    waitForAppToFinish(hoyaClient)
+    clusterActionFreeze(sliderClient, clustername, "stopping first cluster")
+    waitForAppToFinish(sliderClient)
 
     //now expect the status to fail
     try {
-      status = hoyaClient.actionStatus(clustername, new ActionStatusArgs())
+      status = sliderClient.actionStatus(clustername, new ActionStatusArgs())
       fail("expected an exception, but got the status $status")
     } catch (BadClusterStateException e) {
       assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)

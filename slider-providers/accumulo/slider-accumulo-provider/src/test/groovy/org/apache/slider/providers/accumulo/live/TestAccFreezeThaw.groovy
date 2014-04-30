@@ -52,25 +52,25 @@ class TestAccFreezeThaw extends AccumuloTestBase {
         (AccumuloKeys.ROLE_GARBAGE_COLLECTOR): gc
     ];
     ServiceLauncher launcher = createAccCluster(clustername, roles, [], true, true)
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
 
     
-    waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
+    waitForRoleCount(sliderClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME)
     //now give the cluster a bit of time to actually start work
 
     log.info("Sleeping for a while")
     sleepForAccumuloClusterLive();
     //verify that all is still there
-    waitForRoleCount(hoyaClient, roles, 0, "extended cluster operation")
+    waitForRoleCount(sliderClient, roles, 0, "extended cluster operation")
 
     String page = fetchLocalPage(AccumuloConfigFileOptions.MONITOR_PORT_CLIENT_INT,
                                  AccumuloKeys.MONITOR_PAGE_JSON)
     log.info(page);
 
     log.info("Freezing")
-    clusterActionFreeze(hoyaClient, clustername, "freeze");
-    waitForAppToFinish(hoyaClient)
+    clusterActionFreeze(sliderClient, clustername, "freeze");
+    waitForAppToFinish(sliderClient)
     
     //make sure the fetch fails
     try {
@@ -91,14 +91,14 @@ class TestAccFreezeThaw extends AccumuloTestBase {
     log.info("Thawing")
     
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    SliderClient hoyaClient2 = (SliderClient) launcher2.service
-    addToTeardown(hoyaClient2)
-    waitForRoleCount(hoyaClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME, "thawing")
+    SliderClient sliderClient2 = (SliderClient) launcher2.service
+    addToTeardown(sliderClient2)
+    waitForRoleCount(sliderClient, roles, ACCUMULO_CLUSTER_STARTUP_TO_LIVE_TIME, "thawing")
 
 
     sleepForAccumuloClusterLive();
     //verify that all is still there
-    waitForRoleCount(hoyaClient, roles, 0, "extended cluster operation after thawing")
+    waitForRoleCount(sliderClient, roles, 0, "extended cluster operation after thawing")
     page = fetchLocalPage(
         AccumuloConfigFileOptions.MONITOR_PORT_CLIENT_INT,
         AccumuloKeys.MONITOR_PAGE_JSON)

@@ -46,9 +46,9 @@ class TestRecreateMasterlessAM extends HBaseMiniClusterTestBase {
              "a second cluster with the same name"
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    clusterActionFreeze(hoyaClient, clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    clusterActionFreeze(sliderClient, clustername)
 
     //now try to create instance #2, and expect an in-use failure
     try {

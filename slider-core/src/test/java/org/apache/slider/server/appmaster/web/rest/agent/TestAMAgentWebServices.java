@@ -70,7 +70,7 @@ public class TestAMAgentWebServices extends JerseyTest {
   public static final int RM_MAX_RAM = 4096;
   public static final int RM_MAX_CORES = 64;
   public static final String AGENT_URL =
-    "http://localhost:9998/hoyaam/ws/v1/slider/agents/";
+    "http://localhost:9998/slideram/ws/v1/slider/agents/";
   
   static MockFactory factory = new MockFactory();
   private static Configuration conf = new Configuration();
@@ -165,7 +165,7 @@ public class TestAMAgentWebServices extends JerseyTest {
             .contextListenerClass(GuiceServletConfig.class)
             .filterClass(com.google.inject.servlet.GuiceFilter.class)
             .initParam("com.sun.jersey.api.json.POJOMappingFeature", "true")
-            .contextPath("hoyaam").servletPath("/").build());
+            .contextPath("slideram").servletPath("/").build());
   }
 
   @Test

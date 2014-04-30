@@ -154,7 +154,7 @@ class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
     //now stop that cluster
     assert 0 == clusterActionFreeze(client, clustername)
 
-    logApplications(client.listHoyaInstances(username))
+    logApplications(client.listSliderInstances(username))
 
     //verify it is down
     ApplicationReport reportFor = client.getApplicationReport(i2AppID)

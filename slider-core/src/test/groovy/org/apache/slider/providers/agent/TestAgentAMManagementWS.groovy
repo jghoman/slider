@@ -57,34 +57,34 @@ class TestAgentAMManagementWS extends AgentTestBase {
         true,
         false)
     Map<String, Integer> roles = [:]
-    File hoya_core = new File(new File(".").absoluteFile, "src/test/python");
+    File slider_core = new File(new File(".").absoluteFile, "src/test/python");
     String app_def = "appdef_1.tar"
-    File app_def_path = new File(hoya_core, app_def)
+    File app_def_path = new File(slider_core, app_def)
     String agt_ver = "version"
-    File agt_ver_path = new File(hoya_core, agt_ver)
+    File agt_ver_path = new File(slider_core, agt_ver)
     String agt_conf = "agent.ini"
-    File agt_conf_path = new File(hoya_core, agt_conf)
+    File agt_conf_path = new File(slider_core, agt_conf)
     assert app_def_path.exists()
     assert agt_ver_path.exists()
     assert agt_conf_path.exists()
     ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         roles,
         [
-            ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
+            ARG_OPTION, PACKAGE_PATH, slider_core.absolutePath,
             ARG_OPTION, APP_DEF, "file://" + app_def_path.absolutePath,
             ARG_OPTION, AGENT_CONF, "file://" + agt_conf_path.absolutePath,
             ARG_OPTION, AGENT_VERSION, "file://" + agt_ver_path.absolutePath,
         ],
         true, true,
         true)
-    SliderClient hoyaClient = launcher.service
-    def report = waitForClusterLive(hoyaClient)
+    SliderClient sliderClient = launcher.service
+    def report = waitForClusterLive(sliderClient)
     def trackingUrl = report.trackingUrl
     log.info("tracking URL is $trackingUrl")
     def agent_url = trackingUrl + AGENT_URI
 
     
-    def status = dumpClusterStatus(hoyaClient, "agent AM")
+    def status = dumpClusterStatus(sliderClient, "agent AM")
     def liveURL = status.getInfo(StatusKeys.INFO_AM_WEB_URL) 
     if (liveURL) {
       agent_url = liveURL + AGENT_URI

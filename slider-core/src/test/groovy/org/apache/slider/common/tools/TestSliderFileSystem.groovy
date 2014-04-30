@@ -36,7 +36,7 @@ class TestSliderFileSystem extends SliderTestBase {
   }
 
   @Test
-  public void testHoyaBasePathDefaultValue() throws Throwable {
+  public void testSliderBasePathDefaultValue() throws Throwable {
     Configuration configuration = defaultConfiguration()
     FileSystem fileSystem = FileSystem.get(configuration)
 
@@ -45,7 +45,7 @@ class TestSliderFileSystem extends SliderTestBase {
   }
 
   @Test
-  public void testHoyaBasePathCustomValue() throws Throwable {
+  public void testSliderBasePathCustomValue() throws Throwable {
     Configuration configuration = createConfigurationWithKV(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH, "/slider/cluster")
     FileSystem fileSystem = FileSystem.get(configuration)
     def fs2 = new SliderFileSystem(fileSystem, configuration)

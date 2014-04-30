@@ -35,11 +35,11 @@ class TestMiscSliderUtils extends SliderTestBase {
 
     Configuration configuration = new Configuration()
     HadoopFS fs = HadoopFS.get(new URI("file:///"), configuration)
-    SliderFileSystem hoyaFileSystem = new SliderFileSystem(fs, configuration)
-    Path inst = hoyaFileSystem.createHoyaAppInstanceTempPath(CLUSTER1, "001")
+    SliderFileSystem sliderFileSystem = new SliderFileSystem(fs, configuration)
+    Path inst = sliderFileSystem.createAppInstanceTempPath(CLUSTER1, "001")
 
     assert fs.exists(inst)
-    hoyaFileSystem.purgeHoyaAppInstanceTempFiles(CLUSTER1)
+    sliderFileSystem.purgeAppInstanceTempFiles(CLUSTER1)
     assert !fs.exists(inst)
   }
 }

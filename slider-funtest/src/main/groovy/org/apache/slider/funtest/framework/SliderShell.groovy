@@ -93,7 +93,7 @@ class SliderShell extends Shell {
   }
   
   /**
-   * Exec any hoya command 
+   * Exec any slider command
    * @param conf
    * @param commands
    * @return the shell

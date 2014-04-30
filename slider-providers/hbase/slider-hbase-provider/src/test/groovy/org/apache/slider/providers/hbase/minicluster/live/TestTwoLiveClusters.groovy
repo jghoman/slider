@@ -46,17 +46,17 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     //now launch the cluster
     int regionServerCount = 1
     ServiceLauncher<SliderClient> launcher = createHBaseCluster(clustername1, regionServerCount, [], true, true) 
-    SliderClient hoyaClient = launcher.service
-    addToTeardown(hoyaClient);
+    SliderClient sliderClient = launcher.service
+    addToTeardown(sliderClient);
 
-    basicHBaseClusterStartupSequence(hoyaClient)
+    basicHBaseClusterStartupSequence(sliderClient)
     
     //verify the #of region servers is as expected
-    dumpClusterStatus(hoyaClient, "post-hbase-boot status")
+    dumpClusterStatus(sliderClient, "post-hbase-boot status")
 
     //get the hbase status
-    waitForWorkerInstanceCount(hoyaClient, 1, hbaseClusterStartupToLiveTime)
-    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, hbaseClusterStartupToLiveTime)
+    waitForWorkerInstanceCount(sliderClient, 1, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername1, 1, hbaseClusterStartupToLiveTime)
 
     //now here comes cluster #2
     String clustername2 = "testtwoliveclusters-b"
@@ -77,7 +77,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     waitForHBaseRegionServerCount(cluster2Client, clustername2, 1, hbaseClusterStartupToLiveTime)
 
     //and now verify that cluster 1 is still happy
-    waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, hbaseClusterStartupToLiveTime)
+    waitForHBaseRegionServerCount(sliderClient, clustername1, 1, hbaseClusterStartupToLiveTime)
 
     // registry instances    def names = client.listRegistryNames(clustername)
     describe "service registry names"
@@ -85,7 +85,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     def names = registry.queryForNames();
     dumpRegistryNames(names)
 
-    List<String> instanceIds = hoyaClient.listRegistryInstanceIDs()
+    List<String> instanceIds = sliderClient.listRegistryInstanceIDs()
 
 
     dumpRegistryInstanceIDs(instanceIds)
@@ -93,13 +93,13 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     assert instanceIds.size() == 2
 
 
-    List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(
+    List<CuratorServiceInstance<ServiceInstanceData>> instances = sliderClient.listRegistryInstances(
     )
     dumpRegistryInstances(instances)
     assert instances.size() == 2
 
     clusterActionFreeze(cluster2Client, clustername2,"freeze cluster 2")
-    clusterActionFreeze(hoyaClient, clustername1,"Freeze cluster 1")
+    clusterActionFreeze(sliderClient, clustername1,"Freeze cluster 1")
 
   }
 

@@ -226,7 +226,7 @@
       --zkhosts ubuntu \
       --zkport 2121 \
       --image hdfs://ubuntu:9090/hbase.tar \
-      --appconf file:///Users/stevel/Projects/Hortonworks/Projects/hoya/hoya-funtest/src/test/configs/ubuntu-secure/hbase \
+      --appconf file:///Users/stevel/Projects/Hortonworks/Projects/slider/slider-funtest/src/test/configs/ubuntu-secure/hbase \
       --roleopt master env.MALLOC_ARENA_MAX 4 \
       --roleopt worker app.infoport 0 \
   

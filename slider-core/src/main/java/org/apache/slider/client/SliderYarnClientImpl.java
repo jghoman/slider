@@ -47,7 +47,7 @@ import java.util.Set;
 /**
  * A class that extends visibility to some of the YarnClientImpl
  * members and data structures, and factors out pure-YARN operations
- * from the hoya entry point service
+ * from the slider entry point service
  */
 public class SliderYarnClientImpl extends YarnClientImpl {
   protected static final Logger

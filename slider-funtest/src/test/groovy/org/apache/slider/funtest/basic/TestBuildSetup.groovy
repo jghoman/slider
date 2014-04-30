@@ -26,7 +26,7 @@ import org.apache.slider.funtest.abstracttests.AbstractTestBuildSetup
  * Simple tests to verify that the build has been set up: if these
  * fail then the arguments to the test run are incomplete.
  *
- * This deliberately doesn't depend on HoyaCommandTestBase,
+ * This deliberately doesn't depend on CommandTestBase,
  * so that individual tests fail with more diagnostics
  * than the @BeforeClass failing
  */

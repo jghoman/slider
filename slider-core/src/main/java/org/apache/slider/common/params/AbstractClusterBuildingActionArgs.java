@@ -38,8 +38,10 @@ import java.util.Map;
 public abstract class AbstractClusterBuildingActionArgs extends AbstractActionArgs {
 
   /**
-   *    Declare the image configuration directory to use when creating or reconfiguring a hoya cluster. The path must be on a filesystem visible to all nodes in the YARN cluster.
-   Only one configuration directory can be specified.
+   * Declare the image configuration directory to use when creating or
+   * reconfiguring a slider cluster. The path must be on a filesystem visible
+   * to all nodes in the YARN cluster. Only one configuration directory can
+   * be specified.
    */
   @Parameter(names = ARG_CONFDIR,
              description = "Path to cluster configuration directory in HDFS",

@@ -78,7 +78,7 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * These are hoya-specific Util methods
+ * These are slider-specific Util methods
  */
 public final class SliderUtils {
 
@@ -872,7 +872,7 @@ public final class SliderUtils {
   /**
    * Flag to indicate whether the cluster is in secure mode
    * @param conf configuration to look at
-   * @return true if the hoya client/service should be in secure mode
+   * @return true if the slider client/service should be in secure mode
    */
   public static boolean isClusterSecure(Configuration conf) {
     return conf.getBoolean(SliderXmlConfKeys.KEY_SECURITY_ENABLED, false);
@@ -1068,7 +1068,7 @@ public final class SliderUtils {
 
 
   /**
-   * Attempt to load the hoya client resource. If the
+   * Attempt to load the slider client resource. If the
    * resource is not on the CP an empty config is returned.
    * @return a config
    */
@@ -1092,15 +1092,15 @@ public final class SliderUtils {
    * -behaves very differently on a mini test cluster vs a production
    * production one.
    *
-   * @param hoyaConfDir relative path to the dir containing hoya config options to put on the
-   *          classpath -or null
+   * @param sliderConfDir relative path to the dir containing slider config
+   *                      options to put on the classpath -or null
    * @param libdir directory containing the JAR files
    * @param config the configuration
    * @param usingMiniMRCluster flag to indicate the MiniMR cluster is in use
    * (and hence the current classpath should be used, not anything built up)
    * @return a classpath
    */
-  public static ClasspathConstructor buildClasspath(String hoyaConfDir,
+  public static ClasspathConstructor buildClasspath(String sliderConfDir,
                                                     String libdir,
                                                     Configuration config,
                                                     boolean usingMiniMRCluster) {
@@ -1114,8 +1114,8 @@ public final class SliderUtils {
       classpath.appendAll(classpath.javaVMClasspath());
     } else {
       classpath.addLibDir("./" + libdir);
-      if (hoyaConfDir != null) {
-        classpath.addClassDirectory(hoyaConfDir);
+      if (sliderConfDir != null) {
+        classpath.addClassDirectory(sliderConfDir);
       }
       classpath.addRemoteClasspathEnvVar();
       classpath.appendAll(classpath.yarnApplicationClasspath(config));

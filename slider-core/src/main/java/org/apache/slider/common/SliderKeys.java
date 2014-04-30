@@ -113,8 +113,8 @@ public interface SliderKeys extends SliderXmlConfKeys {
   String CLUSTER_DIRECTORY = "cluster";
 
   /**
-   * JVM property to define the hoya configuration directory;
-   * this is set by the hoya script: {@value}
+   * JVM property to define the slider configuration directory;
+   * this is set by the slider script: {@value}
    */
   String PROPERTY_CONF_DIR = "slider.confdir";
 

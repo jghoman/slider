@@ -64,15 +64,15 @@ class TestFreezeReconfigureThawLiveRegionService
         [],
         true,
         true)
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.getClusterDescription(clustername)
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
-    ClusterStatus clustat = basicHBaseClusterStartupSequence(hoyaClient)
+    ClusterStatus clustat = basicHBaseClusterStartupSequence(sliderClient)
 
     clustat = waitForHBaseRegionServerCount(
-        hoyaClient,
+        sliderClient,
         clustername,
         regionServerCount,
         hbaseClusterStartupToLiveTime)
@@ -80,17 +80,17 @@ class TestFreezeReconfigureThawLiveRegionService
     log.info(hbaseStatusToString(clustat));
 
 
-    clusterActionFreeze(hoyaClient, clustername)
+    clusterActionFreeze(sliderClient, clustername)
     killAllRegionServers();
 
     //reconfigure time
 
     //get the location of the cluster
     HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), miniCluster.config)
-    SliderFileSystem hoyaFileSystem = new SliderFileSystem(dfs, miniCluster.config)
-    Path clusterDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
+    SliderFileSystem sliderFileSystem = new SliderFileSystem(dfs, miniCluster.config)
+    Path clusterDir = sliderFileSystem.buildClusterDirPath(clustername);
     def instanceDefinition = InstanceIO.loadInstanceDefinitionUnresolved(
-        hoyaFileSystem,
+        sliderFileSystem,
         clusterDir)
 
     def snapshotPath = instanceDefinition.getInternalOperations().get(

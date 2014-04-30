@@ -60,9 +60,9 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
                    true,
                    true,
                    [:])
-    SliderClient hoyaClient = (SliderClient) launcher.service
-    addToTeardown(hoyaClient);
-    ClusterDescription status = hoyaClient.clusterDescription
+    SliderClient sliderClient = (SliderClient) launcher.service
+    addToTeardown(sliderClient);
+    ClusterDescription status = sliderClient.clusterDescription
     Map<String, String> masterRole = status.getRole(HBaseKeys.ROLE_MASTER);
     dumpClusterDescription("Remote CD", status)
     assert masterRole[ENV] == "4"

@@ -65,7 +65,7 @@ public class TestConfPersisterLocksHDFS extends YarnMiniClusterTestBase {
    * @return a conf persister
    */
   public ConfPersister createPersister(String name) {
-    def path = coreFileSystem.buildHoyaClusterDirPath(name);
+    def path = coreFileSystem.buildClusterDirPath(name);
     ConfPersister persister = new ConfPersister(
         coreFileSystem,
         path)

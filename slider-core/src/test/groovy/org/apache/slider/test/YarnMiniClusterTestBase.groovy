@@ -171,8 +171,8 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     clustersToTeardown << client;
   }
   protected void addToTeardown(ServiceLauncher<SliderClient> launcher) {
-    SliderClient hoyaClient = launcher.service
-    if (hoyaClient) addToTeardown(hoyaClient)
+    SliderClient sliderClient = launcher.service
+    if (sliderClient) addToTeardown(sliderClient)
   }
 
 
@@ -291,7 +291,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * Kill all Slider Services. That i
    * @param signal
    */
-  public void killHoyaAM(int signal) {
+  public void killAM(int signal) {
     killJavaProcesses(SliderAppMaster.SERVICE_CLASSNAME_SHORT, signal)
   }
 
@@ -332,7 +332,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
 
   public void killServiceLaunchers(int value) {
-    killHoyaAM(value)
+    killAM(value)
   }
 
   public YarnConfiguration getTestConfiguration() {
@@ -377,7 +377,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
   /**
-   * Create a hoya cluster
+   * Create a cluster
    * @param clustername cluster name
    * @param roles map of rolename to count
    * @param extraArgs list of extra args to add to the creation command
@@ -405,7 +405,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
   /**
-   * Create or build a hoya cluster (the action is set by the first verb)
+   * Create or build a cluster (the action is set by the first verb)
    * @param action operation to invoke: SliderActions.ACTION_CREATE or SliderActions.ACTION_BUILD
    * @param clustername cluster name
    * @param roles map of rolename to count
@@ -421,7 +421,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     assert miniCluster != null
     if (deleteExistingData) {
       HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), miniCluster.config)
-      Path clusterDir = new SliderFileSystem(dfs, miniCluster.config).buildHoyaClusterDirPath(clustername)
+      Path clusterDir = new SliderFileSystem(dfs, miniCluster.config).buildClusterDirPath(clustername)
       log.info("deleting customer data at $clusterDir")
       //this is a safety check to stop us doing something stupid like deleting /
       assert clusterDir.toString().contains("/.slider/")
@@ -694,16 +694,17 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   /**
    * stop the cluster via the stop action -and wait for {@link #CLUSTER_STOP_TIME}
    * for the cluster to stop. If it doesn't
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param clustername cluster
    * @return the exit code
    */
-  public int clusterActionFreeze(SliderClient hoyaClient, String clustername, String message = "action freeze") {
+  public int clusterActionFreeze(SliderClient sliderClient, String clustername,
+                                 String message = "action freeze") {
     log.info("Freezing cluster $clustername: $message")
     ActionFreezeArgs freezeArgs  = new ActionFreezeArgs();
     freezeArgs.waittime = CLUSTER_STOP_TIME
     freezeArgs.message = message
-    int exitCode = hoyaClient.actionFreeze(clustername,
+    int exitCode = sliderClient.actionFreeze(clustername,
         freezeArgs);
     if (exitCode != 0) {
       log.warn("Cluster freeze failed with error code $exitCode")
@@ -714,21 +715,21 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   /**
    * Teardown-time cluster termination; will stop the cluster iff the client
    * is not null
-   * @param hoyaClient client
+   * @param sliderClient client
    * @param clustername name of cluster to teardown
    * @return
    */
   public int maybeStopCluster(
-      SliderClient hoyaClient,
+      SliderClient sliderClient,
       String clustername,
       String message) {
-    if (hoyaClient != null) {
+    if (sliderClient != null) {
       if (!clustername) {
-        clustername = hoyaClient.deployedClusterName;
+        clustername = sliderClient.deployedClusterName;
       }
       //only stop a cluster that exists
       if (clustername) {
-        return clusterActionFreeze(hoyaClient, clustername, message);
+        return clusterActionFreeze(sliderClient, clustername, message);
       }
     }
     return 0;
@@ -801,7 +802,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * The YARN cluster must be up and running already
    * @return
    */
-  public SliderFileSystem createHoyaFileSystem() {
+  public SliderFileSystem createSliderFileSystem() {
     HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), configuration)
     SliderFileSystem hfs = new SliderFileSystem(dfs, configuration)
     return hfs
