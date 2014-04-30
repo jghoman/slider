@@ -309,7 +309,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   private AbstractClientProvider createClientProvider(String provider)
     throws SliderException {
     SliderProviderFactory factory =
-      SliderProviderFactory.createHoyaProviderFactory(provider);
+      SliderProviderFactory.createSliderProviderFactory(provider);
     return factory.createClientProvider();
   }
 

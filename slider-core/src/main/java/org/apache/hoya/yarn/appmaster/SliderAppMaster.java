@@ -446,7 +446,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       OptionKeys.INTERNAL_PROVIDER_NAME);
     log.info("Cluster provider type is {}", providerType);
     SliderProviderFactory factory =
-      SliderProviderFactory.createHoyaProviderFactory(
+      SliderProviderFactory.createSliderProviderFactory(
           providerType);
     providerService = factory.createServerProvider();
     // init the provider BUT DO NOT START IT YET

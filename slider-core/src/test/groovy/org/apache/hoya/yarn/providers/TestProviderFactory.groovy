@@ -32,27 +32,27 @@ class TestProviderFactory {
 
   @Test
   public void testLoadAgentProvider() throws Throwable {
-    SliderProviderFactory factory = SliderProviderFactory.createHoyaProviderFactory(AgentKeys.PROVIDER_AGENT);
+    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory(AgentKeys.PROVIDER_AGENT);
     assert factory instanceof AgentProviderFactory
   }
 
   @Test
   public void testCreateClientProvider() throws Throwable {
-    SliderProviderFactory factory = SliderProviderFactory.createHoyaProviderFactory(
+    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory(
         AgentKeys.PROVIDER_AGENT);
     assert null != factory.createClientProvider();
   }
 
   @Test
   public void testCreateHBaseProvider() throws Throwable {
-    SliderProviderFactory factory = SliderProviderFactory.createHoyaProviderFactory(
+    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory(
         AgentKeys.PROVIDER_AGENT);
     assert null != factory.createServerProvider();
   }
   
   @Test
   public void testCreateProviderByClassname() throws Throwable {
-    SliderProviderFactory factory = SliderProviderFactory.createHoyaProviderFactory("org.apache.hoya.providers.agent.AgentProviderFactory");
+    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory("org.apache.hoya.providers.agent.AgentProviderFactory");
     assert null != factory.createServerProvider();
     assert factory instanceof AgentProviderFactory
   }

@@ -57,9 +57,9 @@ public abstract class SliderProviderFactory extends Configured {
    * @return app instance
    * @throws SliderException on any instantiation problem
    */
-  public static SliderProviderFactory createHoyaProviderFactory(String application) throws
+  public static SliderProviderFactory createSliderProviderFactory(String application) throws
       SliderException {
-    Configuration conf = loadHoyaConfiguration();
+    Configuration conf = loadSliderConfiguration();
     if (application == null) {
       application = DEFAULT_CLUSTER_TYPE;
     }
@@ -101,7 +101,7 @@ public abstract class SliderProviderFactory extends Configured {
                               ex);
   }
 
-  public static Configuration loadHoyaConfiguration() {
+  public static Configuration loadSliderConfiguration() {
     Configuration conf = new Configuration();
     conf.addResource(SliderKeys.HOYA_XML);
     return conf;
