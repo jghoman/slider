@@ -30,7 +30,7 @@ import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.SliderClient
 import org.junit.Before
@@ -105,9 +105,9 @@ abstract class CommandTestBase extends HoyaTestUtils {
   @BeforeClass
   public static void setupTestBase() {
     Configuration conf = loadSliderConf();
-    if (HoyaUtils.maybeInitSecurity(conf)) {
+    if (SliderUtils.maybeInitSecurity(conf)) {
       log.debug("Security enabled")
-      HoyaUtils.forceLogin()
+      SliderUtils.forceLogin()
     } else {
       log.info "Security off, making cluster dirs broadly accessible"
     }
@@ -130,7 +130,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param clazz
    */
   public static void addExtraJar(Class clazz) {
-    def jar = HoyaUtils.findContainingJarOrFail(clazz)
+    def jar = SliderUtils.findContainingJarOrFail(clazz)
 
     def path = jar.absolutePath
     if (!SliderShell.slider_classpath_extra.contains(path)) {

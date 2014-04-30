@@ -37,7 +37,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.webapp.GenericExceptionHandler;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.AppState;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
@@ -107,7 +107,7 @@ public class TestAMAgentWebServices extends JerseyTest {
   public void setUp() throws Exception {
     super.setUp();
     injector = createInjector();
-    YarnConfiguration conf = HoyaUtils.createConfiguration();
+    YarnConfiguration conf = SliderUtils.createConfiguration();
     fs = FileSystem.get(new URI("file:///"), conf);
   }
 

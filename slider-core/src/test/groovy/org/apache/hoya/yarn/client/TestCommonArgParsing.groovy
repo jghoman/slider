@@ -30,7 +30,7 @@ import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.params.*
@@ -130,8 +130,8 @@ class TestCommonArgParsing implements SliderActions, Arguments {
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
     assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == null
-    HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
-    HoyaUtils.verifyPrincipalSet(
+    SliderUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
+    SliderUtils.verifyPrincipalSet(
         conf,
         DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 
@@ -150,8 +150,8 @@ class TestCommonArgParsing implements SliderActions, Arguments {
     ca.applyDefinitions(conf)
     assert ca.clusterName == CLUSTERNAME
     assert conf.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH) == "/projects/hoya/clusters"
-    HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
-    HoyaUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
+    SliderUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
+    SliderUtils.verifyPrincipalSet(conf, DFSConfigKeys.DFS_DATANODE_USER_NAME_KEY);
 
   }
 
@@ -489,7 +489,7 @@ class TestCommonArgParsing implements SliderActions, Arguments {
         "master":["cheese":"french"],
         "worker":["env.CHEESE":"french"]
     ])
-    HoyaUtils.applyCommandLineRoleOptsToRoleMap(clusterRoleMap, roleOpts);
+    SliderUtils.applyCommandLineRoleOptsToRoleMap(clusterRoleMap, roleOpts);
 
     def masterOpts = clusterRoleMap["master"];
     assert masterOpts["cheese"] == "swiss"
@@ -508,12 +508,12 @@ class TestCommonArgParsing implements SliderActions, Arguments {
         "master": ["cheese": "french"],
         "worker": ["env.CHEESE": "french"]
     ])
-    HoyaUtils.applyCommandLineRoleOptsToRoleMap(clusterRoleMap, roleOpts);
+    SliderUtils.applyCommandLineRoleOptsToRoleMap(clusterRoleMap, roleOpts);
 
     def workerOpts = Maps.newHashMap(clusterRoleMap["worker"])
     assert workerOpts["env.CHEESE"] == "stilton";
 
-    Map<String, String> envmap = HoyaUtils.buildEnvMap(workerOpts);
+    Map<String, String> envmap = SliderUtils.buildEnvMap(workerOpts);
     assert envmap["CHEESE"] == "stilton";
 
   }

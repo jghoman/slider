@@ -24,7 +24,7 @@ import org.apache.hadoop.service.Service;
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
 import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +52,11 @@ public class CompoundLaunchedService extends CompoundService
    * @return
    */
   protected static boolean isUnset(String s) {
-    return HoyaUtils.isUnset(s);
+    return SliderUtils.isUnset(s);
   }
 
   protected static boolean isSet(String s) {
-    return HoyaUtils.isSet(s);
+    return SliderUtils.isSet(s);
   }
 
   protected String[] getArgv() {

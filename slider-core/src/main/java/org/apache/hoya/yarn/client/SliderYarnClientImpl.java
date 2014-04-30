@@ -33,7 +33,7 @@ import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.SliderKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.Duration;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -201,7 +201,7 @@ public class SliderYarnClientImpl extends YarnClientImpl {
       ApplicationReport r = getApplicationReport(appId);
 
       log.debug("queried status is\n{}",
-                new HoyaUtils.OnDemandReportStringifier(r));
+                new SliderUtils.OnDemandReportStringifier(r));
 
       YarnApplicationState state = r.getYarnApplicationState();
       if (state.ordinal() >= desiredState.ordinal()) {
@@ -213,7 +213,7 @@ public class SliderYarnClientImpl extends YarnClientImpl {
           "Wait limit of {} millis to get to state {}, exceeded; app status\n {}",
           duration.limit,
           desiredState,
-          new HoyaUtils.OnDemandReportStringifier(r));
+          new SliderUtils.OnDemandReportStringifier(r));
         return null;
       }
 

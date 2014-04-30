@@ -21,9 +21,8 @@ package org.apache.hoya.core.conf;
 import org.apache.hoya.core.CoreKeys;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.slf4j.Logger;
@@ -92,7 +91,7 @@ public class ConfTreeOperations {
    * @param component dest values
    */
   public void mergeInGlobal(Map<String, String> component) {
-    HoyaUtils.mergeMapsIgnoreDuplicateKeys(component, confTree.global);
+    SliderUtils.mergeMapsIgnoreDuplicateKeys(component, confTree.global);
   }
 
   /**

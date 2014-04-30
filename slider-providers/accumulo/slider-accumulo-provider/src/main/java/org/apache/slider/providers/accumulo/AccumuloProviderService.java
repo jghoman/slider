@@ -42,10 +42,10 @@ import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.BlockingZKWatcher;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.EventNotifyingService;
 import org.apache.hoya.yarn.service.ForkedProcessService;
@@ -132,9 +132,9 @@ public class AccumuloProviderService extends AbstractProviderService implements
     this.instanceDefinition = instanceDefinition;
     
     // Set the environment
-    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+    launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
 
-    Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
+    Map<String, String> env = SliderUtils.buildEnvMap(appComponent);
     launcher.setEnv(ACCUMULO_LOG_DIR, ApplicationConstants.LOG_DIR_EXPANSION_VAR);
     ConfTreeOperations appConf =
       instanceDefinition.getAppConfOperations();
@@ -171,7 +171,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
     
     String heap = "-Xmx" + appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
     String opt = "ACCUMULO_OTHER_OPTS";
-    if (HoyaUtils.isSet(heap)) {
+    if (SliderUtils.isSet(heap)) {
       if (AccumuloKeys.ROLE_MASTER.equals(role)) {
         opt = "ACCUMULO_MASTER_OPTS";
       } else if (AccumuloKeys.ROLE_TABLET.equals(role)) {

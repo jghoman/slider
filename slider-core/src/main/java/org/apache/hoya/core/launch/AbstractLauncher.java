@@ -32,7 +32,7 @@ import org.apache.hoya.api.ResourceKeys;
 import org.apache.hoya.api.RoleKeys;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.tools.CoreFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,7 +147,7 @@ public abstract class AbstractLauncher extends Configured {
    * @return a string descriptionof the commands
    */
   public String getCommandsAsString() {
-    return HoyaUtils.join(getCommands(), "; ");
+    return SliderUtils.join(getCommands(), "; ");
   }
 
   /**
@@ -157,7 +157,7 @@ public abstract class AbstractLauncher extends Configured {
   public ContainerLaunchContext completeContainerLaunch() throws IOException {
     dumpLocalResources();
 
-    String cmdStr = HoyaUtils.join(commands, " ", false);
+    String cmdStr = SliderUtils.join(commands, " ", false);
     log.debug("Completed setting up container command {}", cmdStr);
     containerLaunchContext.setCommands(commands);
 
@@ -187,7 +187,7 @@ public abstract class AbstractLauncher extends Configured {
 
         String key = entry.getKey();
         LocalResource val = entry.getValue();
-        log.debug(key + "=" + HoyaUtils.stringify(val.getResource()));
+        log.debug(key + "=" + SliderUtils.stringify(val.getResource()));
       }
     }
   }

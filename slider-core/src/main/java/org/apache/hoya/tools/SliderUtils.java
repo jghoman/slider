@@ -80,9 +80,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * These are hoya-specific Util methods
  */
-public final class HoyaUtils {
+public final class SliderUtils {
 
-  private static final Logger log = LoggerFactory.getLogger(HoyaUtils.class);
+  private static final Logger log = LoggerFactory.getLogger(SliderUtils.class);
 
   /**
    * Atomic bool to track whether or not process security has already been
@@ -91,7 +91,7 @@ public final class HoyaUtils {
   private static final AtomicBoolean processSecurityAlreadyInitialized =
     new AtomicBoolean(false);
 
-  private HoyaUtils() {
+  private SliderUtils() {
   }
 
   /**
@@ -184,7 +184,7 @@ public final class HoyaUtils {
    * @throws FileNotFoundException if the class did not resolve to a file
    */
   public static File findContainingJarOrFail(Class clazz) throws IOException {
-    File localFile = HoyaUtils.findContainingJar(clazz);
+    File localFile = SliderUtils.findContainingJar(clazz);
     if (null == localFile) {
       throw new FileNotFoundException("Could not find JAR containing " + clazz);
     }
@@ -891,7 +891,7 @@ public final class HoyaUtils {
     boolean clusterSecure = isClusterSecure(conf);
     if (clusterSecure) {
       log.debug("Enabling security");
-      HoyaUtils.initProcessSecurity(conf);
+      SliderUtils.initProcessSecurity(conf);
     }
     return clusterSecure;
   }
@@ -913,7 +913,7 @@ public final class HoyaUtils {
     }
 
     log.info("JVM initialized into secure mode with kerberos realm {}",
-             HoyaUtils.getKerberosRealm());
+        SliderUtils.getKerberosRealm());
     //this gets UGI to reset its previous world view (i.e simple auth)
     //security
     log.debug("java.security.krb5.realm={}",
@@ -921,7 +921,7 @@ public final class HoyaUtils {
     log.debug("java.security.krb5.kdc={}",
               System.getProperty("java.security.krb5.kdc", ""));
     SecurityUtil.setAuthenticationMethod(
-      UserGroupInformation.AuthenticationMethod.KERBEROS, conf);
+        UserGroupInformation.AuthenticationMethod.KERBEROS, conf);
     UserGroupInformation.setConfiguration(conf);
     UserGroupInformation authUser = UserGroupInformation.getCurrentUser();
     log.debug("Authenticating as " + authUser.toString());
@@ -939,9 +939,9 @@ public final class HoyaUtils {
 
     }
 
-    HoyaUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
-    HoyaUtils.verifyPrincipalSet(conf,
-                                 DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
+    SliderUtils.verifyPrincipalSet(conf, YarnConfiguration.RM_PRINCIPAL);
+    SliderUtils.verifyPrincipalSet(conf,
+        DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
     return true;
   }
 
@@ -1253,7 +1253,7 @@ public final class HoyaUtils {
                                  String keyHumanTime,
                           String keyMachineTime,
                           long time) {
-    info.put(keyHumanTime, HoyaUtils.toGMTString(time));
+    info.put(keyHumanTime, SliderUtils.toGMTString(time));
     info.put(keyMachineTime, Long.toString(time));
   }
 

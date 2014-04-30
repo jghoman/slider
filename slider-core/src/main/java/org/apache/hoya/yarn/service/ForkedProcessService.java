@@ -26,7 +26,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exec.ApplicationEventHandler;
 import org.apache.hoya.exec.RunLongLivedApp;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +119,7 @@ public class ForkedProcessService extends AbstractService implements
       SliderException {
     assert process == null;
     this.commands = commands;
-    this.commandLine = HoyaUtils.join(commands, " ", false);
+    this.commandLine = SliderUtils.join(commands, " ", false);
     this.environment = environment;
     process = new RunLongLivedApp(log, commands);
     process.setApplicationEventHandler(this);

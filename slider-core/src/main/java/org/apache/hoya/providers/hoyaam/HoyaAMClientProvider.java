@@ -43,7 +43,7 @@ import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -237,7 +237,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                    DEFAULT_JVM_HEAP);
     cmdLine.setJVMHeap(heap);
     String jvmopts = hoyaAM.getOption(RoleKeys.JVM_OPTS, "");
-    if (HoyaUtils.isSet(jvmopts)) {
+    if (SliderUtils.isSet(jvmopts)) {
       cmdLine.add(jvmopts);
     }
   }

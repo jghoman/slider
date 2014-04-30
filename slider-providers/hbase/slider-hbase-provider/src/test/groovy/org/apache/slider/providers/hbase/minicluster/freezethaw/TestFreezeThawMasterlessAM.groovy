@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
@@ -57,7 +57,7 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
     //copy the confdir somewhere
     Path resConfPath = new Path(getResourceConfDirURI())
     Path tempConfPath = new Path(confDir)
-    HoyaUtils.copyDirectory(conf, resConfPath, tempConfPath, null)
+    SliderUtils.copyDirectory(conf, resConfPath, tempConfPath, null)
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)

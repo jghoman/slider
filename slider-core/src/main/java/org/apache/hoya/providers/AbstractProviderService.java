@@ -27,7 +27,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.service.ForkedProcessService;
@@ -114,7 +114,7 @@ public abstract class AbstractProviderService
     if (!siteXML.exists()) {
       throw new BadCommandArgumentsException(
         "Configuration directory %s doesn't contain %s - listing is %s",
-        confDir, siteXMLFilename, HoyaUtils.listDir(confDir));
+        confDir, siteXMLFilename, SliderUtils.listDir(confDir));
     }
 
     //now read it in

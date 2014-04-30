@@ -37,7 +37,7 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.persist.JsonSerDeser;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.AppState;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
@@ -139,7 +139,7 @@ public class TestAMManagementWebServices extends JerseyTest {
   public void setUp() throws Exception {
     super.setUp();
     injector = createInjector();
-    YarnConfiguration conf = HoyaUtils.createConfiguration();
+    YarnConfiguration conf = SliderUtils.createConfiguration();
     fs = FileSystem.get(new URI("file:///"), conf);
   }
 

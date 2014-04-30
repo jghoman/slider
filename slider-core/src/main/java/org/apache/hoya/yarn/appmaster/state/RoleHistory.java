@@ -28,7 +28,7 @@ import org.apache.hoya.avro.RoleHistoryHeader;
 import org.apache.hoya.avro.RoleHistoryWriter;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -726,7 +726,7 @@ public class RoleHistory {
       List<NodeInstance> instances =
         getOrCreateNodesForRoleId(role.id);
       log.info("  available: " + instances.size()
-               + " " + HoyaUtils.joinWithInnerSeparator(", ", instances));
+               + " " + SliderUtils.joinWithInnerSeparator(", ", instances));
     }
 
     log.info("Nodes in Cluster: {}", getClusterSize());

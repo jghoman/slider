@@ -436,7 +436,7 @@ public class CoreFileSystem {
    */
   public LocalResource submitJarWithClass(Class clazz, Path tempPath, String subdir, String jarName)
           throws IOException, SliderException {
-    File localFile = HoyaUtils.findContainingJarOrFail(clazz);
+    File localFile = SliderUtils.findContainingJarOrFail(clazz);
     LocalResource resource = submitFile(localFile, tempPath, subdir, jarName);
     return resource;
   }

@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.api.records.ContainerId;
 import org.apache.hadoop.yarn.api.records.NodeId;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.proto.Messages;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 
 import java.util.Arrays;
 
@@ -116,7 +116,7 @@ public final class RoleInstance implements Cloneable {
   public String toString() {
     final StringBuilder sb =
       new StringBuilder("RoleInstance{");
-    sb.append("container=").append(HoyaUtils.containerToString(container));
+    sb.append("container=").append(SliderUtils.containerToString(container));
     sb.append(", id='").append(id).append('\'');
     sb.append(", createTime=").append(createTime);
     sb.append(", startTime=").append(startTime);

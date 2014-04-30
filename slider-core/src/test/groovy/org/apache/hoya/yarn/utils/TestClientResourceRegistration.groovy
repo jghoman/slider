@@ -36,7 +36,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.junit.Test
 
 @Slf4j
@@ -50,12 +50,12 @@ class TestClientResourceRegistration {
   
   @Test
   public void testRegistration() throws Throwable {
-    assert HoyaUtils.registerHoyaClientResource();
+    assert SliderUtils.registerHoyaClientResource();
   }
 
   @Test
   public void testLoad() throws Throwable {
-    assert HoyaUtils.registerHoyaClientResource();
+    assert SliderUtils.registerHoyaClientResource();
     Configuration conf = new Configuration(true);
     assert conf.get(KEY_HOYA_RESOURCE_ORIGIN) == "test/resources"
   }
@@ -84,14 +84,14 @@ class TestClientResourceRegistration {
    */
   @Test
   public void testLoadRes() throws Throwable {
-    Configuration conf = HoyaUtils.loadHoyaClientConfigurationResource()
+    Configuration conf = SliderUtils.loadHoyaClientConfigurationResource()
     assert conf.get(KEY_HOYA_RESOURCE_ORIGIN) == "test/resources"
     String hostname = "nosuchhost:0"
     conf.set(YarnConfiguration.RM_ADDRESS, hostname)
     YarnConfiguration yc = new YarnConfiguration()
     ConfigHelper.mergeConfigurations(yc, conf, "slider-client")
-    InetSocketAddress addr = HoyaUtils.getRmAddress(yc)
-    assert HoyaUtils.isAddressDefined(addr)
+    InetSocketAddress addr = SliderUtils.getRmAddress(yc)
+    assert SliderUtils.isAddressDefined(addr)
   }
 
 

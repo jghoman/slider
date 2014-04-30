@@ -26,7 +26,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.Arguments;
 import org.apache.hoya.yarn.SliderActions;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public abstract class CommonArgs extends ArgOps implements SliderActions,
   }
 
   public CommonArgs(Collection args) {
-    List<String> argsAsStrings = HoyaUtils.collectionToStringList(args);
+    List<String> argsAsStrings = SliderUtils.collectionToStringList(args);
     this.args = argsAsStrings.toArray(new String[argsAsStrings.size()]);
     commander = new JCommander(this);
   }
@@ -121,7 +121,8 @@ public abstract class CommonArgs extends ArgOps implements SliderActions,
       throw new BadCommandArgumentsException(e, "%s in %s",
                                              e.toString(),
                                              (getArgs() != null
-                                              ? (HoyaUtils.join(getArgs(), " ", false))
+                                              ? (SliderUtils.join(getArgs(),
+                                                 " ", false))
                                               : "[]"));
     }
     //now copy back to this class some of the attributes that are common to all

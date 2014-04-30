@@ -71,7 +71,7 @@ import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.HoyaVersionInfo;
 import org.apache.hoya.yarn.Arguments;
 import org.apache.hoya.yarn.SliderActions;
@@ -156,19 +156,19 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     serviceArgs.parse();
     // yarn-ify
     YarnConfiguration yarnConfiguration = new YarnConfiguration(config);
-    return HoyaUtils.patchConfiguration(yarnConfiguration);
+    return SliderUtils.patchConfiguration(yarnConfiguration);
   }
 
   @Override
   protected void serviceInit(Configuration conf) throws Exception {
-    Configuration clientConf = HoyaUtils.loadHoyaClientConfigurationResource();
+    Configuration clientConf = SliderUtils.loadHoyaClientConfigurationResource();
     ConfigHelper.mergeConfigurations(conf, clientConf, CLIENT_RESOURCE);
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
     // init security with our conf
-    if (HoyaUtils.isClusterSecure(conf)) {
-      HoyaUtils.forceLogin();
-      HoyaUtils.initProcessSecurity(conf);
+    if (SliderUtils.isClusterSecure(conf)) {
+      SliderUtils.forceLogin();
+      SliderUtils.initProcessSecurity(conf);
     }
     //create the YARN client
     yarnClient = new SliderYarnClientImpl();
@@ -253,7 +253,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   public int actionDestroy(String clustername) throws YarnException,
                                                       IOException {
     // verify that a live cluster isn't there
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     //no=op, it is now mandatory. 
     verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
@@ -361,7 +361,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                          AbstractClusterBuildingActionArgs buildInfo)
         throws YarnException, IOException {
     // verify that a live cluster isn't there
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
 
@@ -464,7 +464,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
 
     String quorum = buildInfo.getZKhosts();
-    if (HoyaUtils.isUnset(quorum)) {
+    if (SliderUtils.isUnset(quorum)) {
       quorum = registryQuorum;
     }
     if (isUnset(quorum)) {
@@ -522,8 +522,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @throws BadCommandArgumentsException the exception raised on an invalid config
    */
   public void verifyBindingsDefined() throws BadCommandArgumentsException {
-    InetSocketAddress rmAddr = HoyaUtils.getRmAddress(getConfig());
-    if (!HoyaUtils.isAddressDefined(rmAddr)) {
+    InetSocketAddress rmAddr = SliderUtils.getRmAddress(getConfig());
+    if (!SliderUtils.isAddressDefined(rmAddr)) {
       throw new BadCommandArgumentsException(
         "No valid Resource Manager address provided in the argument "
         + Arguments.ARG_MANAGER
@@ -630,11 +630,11 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
 
     deployedClusterName = clustername;
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     verifyNoLiveClusters(clustername);
     Configuration config = getConfig();
     lookupZKQuorum();
-    boolean clusterSecure = HoyaUtils.isClusterSecure(config);
+    boolean clusterSecure = SliderUtils.isClusterSecure(config);
     //create the Slider AM provider -this helps set up the AM
     HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(config);
 
@@ -665,7 +665,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // now build up the image path
     // TODO: consider supporting apps that don't have an image path
     Path imagePath =
-      HoyaUtils.extractImagePath(hoyaFileSystem, internalOptions);
+      SliderUtils.extractImagePath(hoyaFileSystem, internalOptions);
     if (log.isDebugEnabled()) {
       log.debug(instanceDefinition.toString());
     }
@@ -712,12 +712,12 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
         throw new BadConfigException(E_CONFIGURATION_DIRECTORY_NOT_FOUND,
                                      confDir);
       }
-      Path localConfDirPath = HoyaUtils.createLocalPath(confDir);
+      Path localConfDirPath = SliderUtils.createLocalPath(confDir);
       log.debug("Copying AM configuration data from {}", localConfDirPath);
       remoteConfPath = new Path(clusterDirectory,
                                     SliderKeys.SUBMITTED_CONF_DIR);
-      HoyaUtils.copyDirectory(config, localConfDirPath, remoteConfPath,
-                              null);
+      SliderUtils.copyDirectory(config, localConfDirPath, remoteConfPath,
+          null);
     }
     // the assumption here is that minimr cluster => this is a test run
     // and the classpath can look after itself
@@ -733,7 +733,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
         Map<String, LocalResource> submittedConfDir =
           hoyaFileSystem.submitDirectory(remoteConfPath,
                                          relativeConfDir);
-        HoyaUtils.mergeMaps(localResources, submittedConfDir);
+        SliderUtils.mergeMaps(localResources, submittedConfDir);
       }
     }
     // build up the configuration 
@@ -744,8 +744,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     Configuration clientConfExtras = new Configuration(false);
     // then build up the generated path.
     FsPermission clusterPerms = getClusterDirectoryPermissions(config);
-    HoyaUtils.copyDirectory(config, snapshotConfPath, generatedConfDirPath,
-                            clusterPerms);
+    SliderUtils.copyDirectory(config, snapshotConfPath, generatedConfDirPath,
+        clusterPerms);
 
 
     // add AM and provider specific artifacts to the resource map
@@ -805,17 +805,17 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     // build the environment
     amLauncher.putEnv(
-      HoyaUtils.buildEnvMap(hoyaAMResourceComponent));
-    ClasspathConstructor classpath = HoyaUtils.buildClasspath(relativeConfDir,
-                                                              libdir,
-                                                              getConfig(),
+      SliderUtils.buildEnvMap(hoyaAMResourceComponent));
+    ClasspathConstructor classpath = SliderUtils.buildClasspath(relativeConfDir,
+        libdir,
+        getConfig(),
         usingMiniMRCluster);
     amLauncher.setEnv("CLASSPATH",
                       classpath.buildClasspath());
     if (log.isDebugEnabled()) {
       log.debug("AM classpath={}", classpath);
       log.debug("Environment Map:\n{}",
-                HoyaUtils.stringifyMap(amLauncher.getEnv()));
+                SliderUtils.stringifyMap(amLauncher.getEnv()));
       log.debug("Files in lib path\n{}", hoyaFileSystem.listFSDir(libPath));
     }
 
@@ -823,7 +823,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     InetSocketAddress rmSchedulerAddress = null;
     try {
-      rmSchedulerAddress = HoyaUtils.getRmSchedulerAddress(config);
+      rmSchedulerAddress = SliderUtils.getRmSchedulerAddress(config);
     } catch (IllegalArgumentException e) {
       throw new BadConfigException("%s Address invalid: %s",
                                    YarnConfiguration.RM_SCHEDULER_ADDRESS,
@@ -932,7 +932,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
 
     // may have failed, so check that
-    if (HoyaUtils.hasAppFinished(report)) {
+    if (SliderUtils.hasAppFinished(report)) {
       exitCode = buildExitCode(report);
     } else {
       // exit unless there is a wait
@@ -1218,7 +1218,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       }
       return EXIT_SUCCESS;
     } else {
-      HoyaUtils.validateClusterName(clustername);
+      SliderUtils.validateClusterName(clustername);
       log.debug("Listing cluster named {}", clustername);
       ApplicationReport report =
         findClusterInInstanceList(instances, clustername);
@@ -1236,7 +1236,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @param report report to log
    */
   public void logAppReport(ApplicationReport report) {
-    log.info(HoyaUtils.appReportToString(report, "\n"));
+    log.info(SliderUtils.appReportToString(report, "\n"));
   }
 
   /**
@@ -1246,7 +1246,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   @VisibleForTesting
   public int actionFlex(String name, ActionFlexArgs args) throws YarnException, IOException {
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(name);
+    SliderUtils.validateClusterName(name);
     log.debug("actionFlex({})", name);
     Map<String, Integer> roleInstances = new HashMap<String, Integer>();
     Map<String, String> roleMap = args.getComponentMap();
@@ -1272,7 +1272,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   @VisibleForTesting
   public int actionExists(String name, boolean live) throws YarnException, IOException {
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(name);
+    SliderUtils.validateClusterName(name);
     log.debug("actionExists({}, {})", name, live);
 
     //initial probe for a cluster in the filesystem
@@ -1290,8 +1290,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
         return EXIT_FALSE;
       } else {
         // the app exists, but it may be in a terminated state
-        HoyaUtils.OnDemandReportStringifier report =
-          new HoyaUtils.OnDemandReportStringifier(instance);
+        SliderUtils.OnDemandReportStringifier report =
+          new SliderUtils.OnDemandReportStringifier(instance);
         YarnApplicationState state =
           instance.getYarnApplicationState();
         if (state.ordinal() >= YarnApplicationState.FINISHED.ordinal()) {
@@ -1323,7 +1323,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                                YarnException,
                                                                IOException {
     String id = args.id;
-    if (HoyaUtils.isUnset(id)) {
+    if (SliderUtils.isUnset(id)) {
       throw new BadCommandArgumentsException("Missing container id");
     }
     log.info("killingContainer {}:{}", name, id);
@@ -1443,7 +1443,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                               YarnException,
                                               IOException {
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     String outfile = statusArgs.getOutput();
     ClusterDescription status = getClusterDescription(clustername);
     String text = status.toJsonString();
@@ -1476,7 +1476,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                             YarnException,
                                                             IOException {
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     int waittime = freezeArgs.getWaittime();
     String text = freezeArgs.message;
     boolean forcekill = freezeArgs.force;
@@ -1495,7 +1495,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       return EXIT_SUCCESS;
     }
     log.debug("App to freeze was found: {}:\n{}", clustername,
-              new HoyaUtils.OnDemandReportStringifier(app));
+              new SliderUtils.OnDemandReportStringifier(app));
     if (app.getYarnApplicationState().ordinal() >=
         YarnApplicationState.FINISHED.ordinal()) {
       log.info("Cluster {} is a terminated state {}", clustername,
@@ -1597,7 +1597,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     String format = confArgs.getFormat();
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     ClusterDescription status = getClusterDescription(clustername);
     Writer writer;
     boolean toPrint;
@@ -1637,7 +1637,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * Restore a cluster
    */
   public int actionThaw(String clustername, ActionThawArgs thaw) throws YarnException, IOException {
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     // see if it is actually running and bail out;
     verifyBindingsDefined();
     verifyNoLiveClusters(clustername);
@@ -1660,7 +1660,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                    YarnException,
                                    IOException {
     verifyBindingsDefined();
-    HoyaUtils.validateClusterName(clustername);
+    SliderUtils.validateClusterName(clustername);
     Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       clustername,

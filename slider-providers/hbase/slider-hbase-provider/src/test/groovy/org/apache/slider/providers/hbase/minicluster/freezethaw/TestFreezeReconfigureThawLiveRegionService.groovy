@@ -32,7 +32,7 @@ import org.apache.hoya.core.build.InstanceIO
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
@@ -117,7 +117,7 @@ class TestFreezeReconfigureThawLiveRegionService
     //get the options
     ClusterDescription stat = thawed.clusterDescription
     Map<String, String> properties = stat.clientProperties
-    log.info("Cluster properties: \n" + HoyaUtils.stringifyMap(properties));
+    log.info("Cluster properties: \n" + SliderUtils.stringifyMap(properties));
     assert properties[patchedText] == "true";
 
   }

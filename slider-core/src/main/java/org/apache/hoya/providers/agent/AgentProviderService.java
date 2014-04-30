@@ -41,7 +41,7 @@ import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentCommandType;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
@@ -139,7 +139,7 @@ public class AgentProviderService extends AbstractProviderService implements
     log.debug(instanceDefinition.toString());
 
     // Set the environment
-    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+    launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
 
     String workDir = ApplicationConstants.Environment.PWD.$();
     launcher.setEnv("AGENT_WORK_ROOT", workDir);
@@ -154,7 +154,7 @@ public class AgentProviderService extends AbstractProviderService implements
     String scriptPath = new File(AgentKeys.AGENT_MAIN_SCRIPT_ROOT, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (HoyaUtils.isSet(appHome)) {
+    if (SliderUtils.isSet(appHome)) {
       scriptPath = new File(appHome, AgentKeys.AGENT_MAIN_SCRIPT).getPath();
     }
 

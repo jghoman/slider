@@ -32,7 +32,7 @@ class TestMiscSliderUtils extends SliderTestBase {
 
   @Test
   public void testPurgeTempDir() throws Throwable {
-    //HoyaUtils. //
+    //SliderUtils. //
 
     Configuration configuration = new Configuration()
     HadoopFS fs = HadoopFS.get(new URI("file:///"), configuration)

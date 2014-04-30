@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.utils
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.junit.Assert
 import org.junit.Test
 
@@ -27,13 +27,13 @@ import org.junit.Test
 class TestClusterNames {
 
   void assertValidName(String name) {
-    boolean valid = HoyaUtils.isClusternameValid(name)
+    boolean valid = SliderUtils.isClusternameValid(name)
     Assert.assertTrue("Clustername '$name' mistakenly declared invalid",
                       valid)
   }
 
   void assertInvalidName(String name) {
-    boolean valid = HoyaUtils.isClusternameValid(name)
+    boolean valid = SliderUtils.isClusternameValid(name)
     Assert.assertFalse("Clustername '$name' mistakenly declared valid",
                        valid)
   }

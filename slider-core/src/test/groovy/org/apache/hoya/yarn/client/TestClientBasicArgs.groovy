@@ -22,7 +22,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.BadCommandArgumentsException
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ClientArgs
 import org.junit.Test
@@ -40,7 +40,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
   @Test
   public void testHelp() throws Throwable {
     ServiceLauncher launcher = launch(SliderClient,
-                                      HoyaUtils.createConfiguration(),
+                                      SliderUtils.createConfiguration(),
                                       [ClientArgs.ACTION_HELP])
     assert 0 == launcher.serviceExitCode
   } 
@@ -49,7 +49,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
   public void testNoArgs() throws Throwable {
     try {
       ServiceLauncher launcher = launch(SliderClient,
-                                        HoyaUtils.createConfiguration(),
+                                        SliderUtils.createConfiguration(),
                                         [])
       assert SliderExitCodes.EXIT_COMMAND_ARGUMENT_ERROR == launcher.serviceExitCode
     } catch (BadCommandArgumentsException ignored) {
@@ -61,7 +61,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
   public void testListUnknownHost() throws Throwable {
     try {
       ServiceLauncher launcher = launch(SliderClient,
-                                        HoyaUtils.createConfiguration(),
+                                        SliderUtils.createConfiguration(),
                                         [
                                         ClientArgs.ACTION_LIST,
                                         "cluster",

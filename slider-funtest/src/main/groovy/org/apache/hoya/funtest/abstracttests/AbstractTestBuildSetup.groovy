@@ -25,7 +25,7 @@ import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.testtools.HoyaTestUtils
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.junit.Test
 
 /**
@@ -147,9 +147,9 @@ abstract class AbstractTestBuildSetup extends HoyaTestUtils implements FuntestPr
   @Test
   public void testSecuritySettingsValid() throws Throwable {
     Configuration conf = loadHoyaConf();
-    if (HoyaUtils.maybeInitSecurity(conf)) {
+    if (SliderUtils.maybeInitSecurity(conf)) {
       log.info("Security enabled")
-      HoyaUtils.forceLogin()
+      SliderUtils.forceLogin()
     }
     log.info("Login User = ${UserGroupInformation.getLoginUser()}")
   }

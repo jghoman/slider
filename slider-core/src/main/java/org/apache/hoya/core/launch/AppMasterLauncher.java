@@ -29,7 +29,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.tools.CoreFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,7 +189,7 @@ public class AppMasterLauncher extends AbstractLauncher {
   private void addSecurityTokens() throws IOException {
 
     String tokenRenewer = getConf().get(YarnConfiguration.RM_PRINCIPAL);
-    if (HoyaUtils.isUnset(tokenRenewer)) {
+    if (SliderUtils.isUnset(tokenRenewer)) {
       throw new IOException(
         "Can't get Master Kerberos principal for the RM to use as renewer: "
         + YarnConfiguration.RM_PRINCIPAL

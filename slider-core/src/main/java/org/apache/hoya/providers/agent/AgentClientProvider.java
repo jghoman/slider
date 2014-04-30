@@ -33,7 +33,7 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +94,7 @@ public class AgentClientProvider extends AbstractClientProvider
 
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
-    if (HoyaUtils.isUnset(appHome)) {
+    if (SliderUtils.isUnset(appHome)) {
       String agentImage = instanceDefinition.getInternalOperations().
           get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
       hoyaFileSystem.verifyFileExists(new Path(agentImage));
@@ -156,7 +156,7 @@ public class AgentClientProvider extends AbstractClientProvider
     String agentImage = instanceDefinition.getInternalOperations().
         get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
 
-    if (HoyaUtils.isUnset(appHome) && HoyaUtils.isUnset(agentImage)) {
+    if (SliderUtils.isUnset(appHome) && SliderUtils.isUnset(agentImage)) {
       throw new BadConfigException("Either agent package path " +
                                    AgentKeys.PACKAGE_PATH + " or image root " +
                                    OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH

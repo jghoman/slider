@@ -23,7 +23,8 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
+
 import java.util.Map;
 
 import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_QUORUM;
@@ -44,12 +45,12 @@ public class ClusterDescriptionOperations {
 
     //options are a merge of all globals
     Map<String, String> options = cd.options;
-    HoyaUtils.mergeMapsIgnoreDuplicateKeys(options,
-                                           aggregateConf.getInternal().global);
-    HoyaUtils.mergeMapsIgnoreDuplicateKeys(options,
-                                           aggregateConf.getAppConf().global);
-    HoyaUtils.mergeMapsIgnoreDuplicateKeys(options,
-                                           aggregateConf.getResources().global);
+    SliderUtils.mergeMapsIgnoreDuplicateKeys(options,
+        aggregateConf.getInternal().global);
+    SliderUtils.mergeMapsIgnoreDuplicateKeys(options,
+        aggregateConf.getAppConf().global);
+    SliderUtils.mergeMapsIgnoreDuplicateKeys(options,
+        aggregateConf.getResources().global);
 
     //roles are the role values merged in the same order
     mergeInComponentMap(cd, aggregateConf.getInternal());
@@ -87,7 +88,7 @@ public class ClusterDescriptionOperations {
       String name = compEntry.getKey();
       Map<String, String> destRole = cd.getOrAddRole(name);
       Map<String, String> sourceComponent = compEntry.getValue();
-      HoyaUtils.mergeMapsIgnoreDuplicateKeys(destRole, sourceComponent);
+      SliderUtils.mergeMapsIgnoreDuplicateKeys(destRole, sourceComponent);
     }
   }
 }

@@ -40,7 +40,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
@@ -126,7 +126,7 @@ public class HBaseProviderService extends AbstractProviderService implements
     this.hoyaFileSystem = hoyaFileSystem;
     this.instanceDefinition = instanceDefinition;
     // Set the environment
-    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+    launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
 
     launcher.setEnv(HBASE_LOG_DIR, providerUtils.getLogdir());
 
@@ -149,13 +149,13 @@ public class HBaseProviderService extends AbstractProviderService implements
     CommandLineBuilder cli = new CommandLineBuilder();
 
     String heap = appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
-    if (HoyaUtils.isSet(heap)) {
-      String adjustedHeap = HoyaUtils.translateTrailingHeapUnit(heap);
+    if (SliderUtils.isSet(heap)) {
+      String adjustedHeap = SliderUtils.translateTrailingHeapUnit(heap);
       launcher.setEnv("HBASE_HEAPSIZE", adjustedHeap);
     }
     
     String gcOpts = appComponent.getOption(RoleKeys.GC_OPTS, DEFAULT_GC_OPTS);
-    if (HoyaUtils.isSet(gcOpts)) {
+    if (SliderUtils.isSet(gcOpts)) {
       launcher.setEnv("SERVER_GC_OPTS", gcOpts);
     }
     
@@ -236,7 +236,7 @@ public class HBaseProviderService extends AbstractProviderService implements
     if (!siteXML.exists()) {
       throw new BadCommandArgumentsException(
         "Configuration directory %s doesn't contain %s - listing is %s",
-        confDir, siteXMLFilename, HoyaUtils.listDir(confDir));
+        confDir, siteXMLFilename, SliderUtils.listDir(confDir));
     }
 
     //now read it in
@@ -246,10 +246,10 @@ public class HBaseProviderService extends AbstractProviderService implements
     
     if (secure) {
       //secure mode: take a look at the keytab of master and RS
-      HoyaUtils.verifyKeytabExists(siteConf,
-                                   HBaseConfigFileOptions.KEY_MASTER_KERBEROS_KEYTAB);
-      HoyaUtils.verifyKeytabExists(siteConf,
-                                   HBaseConfigFileOptions.KEY_REGIONSERVER_KERBEROS_KEYTAB);
+      SliderUtils.verifyKeytabExists(siteConf,
+          HBaseConfigFileOptions.KEY_MASTER_KERBEROS_KEYTAB);
+      SliderUtils.verifyKeytabExists(siteConf,
+          HBaseConfigFileOptions.KEY_REGIONSERVER_KERBEROS_KEYTAB);
 
     }
   }

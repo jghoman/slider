@@ -20,7 +20,7 @@ package org.apache.hoya.core.launch;
 
 import com.google.common.base.Preconditions;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +99,7 @@ public class CommandLineBuilder {
    * @return the command line
    */
   public String build() {
-    return HoyaUtils.join(argumentList, " ");
+    return SliderUtils.join(argumentList, " ");
   }
 
   public List<String> getArgumentList() {
@@ -112,7 +112,7 @@ public class CommandLineBuilder {
    * trimmed.
    */
   public void setJVMHeap(String heap) {
-    if (HoyaUtils.isSet(heap)) {
+    if (SliderUtils.isSet(heap)) {
       add("-Xmx" + heap.trim());
     }
   }

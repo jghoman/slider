@@ -38,7 +38,7 @@ import org.apache.hadoop.fs.Path
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -95,7 +95,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
 
       clusterActionFreeze(client, clustername)
     } finally {
-      HoyaUtils.deleteDirectoryTree(localConf)
+      SliderUtils.deleteDirectoryTree(localConf)
     }
 
 

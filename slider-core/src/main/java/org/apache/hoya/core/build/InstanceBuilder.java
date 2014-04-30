@@ -39,7 +39,7 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.CoreFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
@@ -111,15 +111,15 @@ public class InstanceBuilder {
 
     Map<String, Object> md = internalOps.getConfTree().metadata;
     long time = System.currentTimeMillis();
-    md.put(StatusKeys.INFO_CREATE_TIME_HUMAN, HoyaUtils.toGMTString(time));
+    md.put(StatusKeys.INFO_CREATE_TIME_HUMAN, SliderUtils.toGMTString(time));
     md.put(StatusKeys.INFO_CREATE_TIME_MILLIS, Long.toString(time));
 
     MapOperations globalOptions = internalOps.getGlobalOptions();
     BuildHelper.addBuildMetadata(md, "create");
-    HoyaUtils.setInfoTime(md,
-                          StatusKeys.INFO_CREATE_TIME_HUMAN,
-                          StatusKeys.INFO_CREATE_TIME_MILLIS,
-                          System.currentTimeMillis());
+    SliderUtils.setInfoTime(md,
+        StatusKeys.INFO_CREATE_TIME_HUMAN,
+        StatusKeys.INFO_CREATE_TIME_MILLIS,
+        System.currentTimeMillis());
 
     internalOps.set(INTERNAL_AM_TMP_DIR,
                     instancePaths.tmpPathAM.toUri());
@@ -145,7 +145,7 @@ public class InstanceBuilder {
   public void setImageDetails(
     Path appImage,
     String appHomeDir) throws BadConfigException {
-    boolean appHomeUnset = HoyaUtils.isUnset(appHomeDir);
+    boolean appHomeUnset = SliderUtils.isUnset(appHomeDir);
     // App home or image
     if (appImage != null) {
       if (!appHomeUnset) {
@@ -209,8 +209,8 @@ public class InstanceBuilder {
     // bulk copy
     FsPermission clusterPerms = coreFS.getInstanceDirectoryPermissions();
     // first the original from wherever to the DFS
-    HoyaUtils.copyDirectory(conf, appconfdir, instancePaths.snapshotConfPath,
-                            clusterPerms);
+    SliderUtils.copyDirectory(conf, appconfdir, instancePaths.snapshotConfPath,
+        clusterPerms);
   }
 
 
@@ -243,7 +243,7 @@ public class InstanceBuilder {
   public void addZKBinding(ZKPathBuilder zkBinding) throws BadConfigException {
 
     String quorum = zkBinding.getAppQuorum();
-    if (HoyaUtils.isSet(quorum)) {
+    if (SliderUtils.isSet(quorum)) {
       MapOperations globalAppOptions =
           instanceDescription.getAppConfOperations().getGlobalOptions();
       globalAppOptions.put(ZOOKEEPER_PATH, zkBinding.getAppPath());

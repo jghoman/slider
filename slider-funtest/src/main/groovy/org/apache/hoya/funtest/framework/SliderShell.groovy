@@ -21,7 +21,7 @@ package org.apache.hoya.funtest.framework
 import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell
 import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 
 @Slf4j
 
@@ -65,7 +65,7 @@ class SliderShell extends Shell {
     ]
     if (!slider_classpath_extra.isEmpty()) {
       commandLine << env(FuntestProperties.ENV_SLIDER_CLASSPATH_EXTRA,
-          HoyaUtils.join(slider_classpath_extra, ":", false))
+          SliderUtils.join(slider_classpath_extra, ":", false))
     }
     commandLine << command
     String script = commandLine.join("\n")

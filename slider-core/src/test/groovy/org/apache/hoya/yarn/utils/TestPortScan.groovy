@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.utils
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.junit.Test
 
 @CompileStatic
@@ -32,8 +32,8 @@ class TestPortScan {
     
     try {
       int serverPort = server.getLocalPort()
-      assert !HoyaUtils.isPortAvailable(serverPort)
-      int port = HoyaUtils.findFreePort(serverPort, 10)
+      assert !SliderUtils.isPortAvailable(serverPort)
+      int port = SliderUtils.findFreePort(serverPort, 10)
       assert port > 0 && serverPort < port
     } finally {
       server.close()

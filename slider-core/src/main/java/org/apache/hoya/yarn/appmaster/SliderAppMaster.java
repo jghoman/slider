@@ -81,7 +81,7 @@ import org.apache.hoya.providers.ProviderService;
 import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.HoyaVersionInfo;
 import org.apache.hoya.yarn.SliderActions;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaAMPolicyProvider;
@@ -307,19 +307,19 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     String rmAddress = createAction.getRmAddress();
     if (rmAddress != null) {
       log.debug("Setting rm address from the command line: {}", rmAddress);
-      HoyaUtils.setRmSchedulerAddress(conf, rmAddress);
+      SliderUtils.setRmSchedulerAddress(conf, rmAddress);
     }
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
     //init security with our conf
-    if (HoyaUtils.isClusterSecure(conf)) {
+    if (SliderUtils.isClusterSecure(conf)) {
       log.info("Secure mode with kerberos realm {}",
-               HoyaUtils.getKerberosRealm());
+               SliderUtils.getKerberosRealm());
       UserGroupInformation.setConfiguration(conf);
       UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
       log.debug("Authenticating as " + ugi.toString());
-      HoyaUtils.verifyPrincipalSet(conf,
-                                   DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
+      SliderUtils.verifyPrincipalSet(conf,
+          DFSConfigKeys.DFS_NAMENODE_USER_NAME_KEY);
       // always enforce protocol to be token-based.
       conf.set(
         CommonConfigurationKeysPublic.HADOOP_SECURITY_AUTHENTICATION,
@@ -351,7 +351,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     serviceArgs.parse();
     //yarn-ify
     YarnConfiguration yarnConfiguration = new YarnConfiguration(config);
-    return HoyaUtils.patchConfiguration(yarnConfiguration);
+    return SliderUtils.patchConfiguration(yarnConfiguration);
   }
 
 
@@ -367,7 +367,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     //dump the system properties if in debug mode
     if (log.isDebugEnabled()) {
       log.debug("System properties:\n" +
-                HoyaUtils.propertiesToString(System.getProperties()));
+                SliderUtils.propertiesToString(System.getProperties()));
     }
 
     //choose the action
@@ -429,7 +429,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     if (!confDir.exists() || !confDir.isDirectory()) {
       log.info("Conf dir {} does not exist.", confDir);
       File parentFile = confDir.getParentFile();
-      log.info("Parent dir {}:\n{}", parentFile, HoyaUtils.listDir(parentFile));
+      log.info("Parent dir {}:\n{}", parentFile, SliderUtils.listDir(parentFile));
     }
 
     Configuration serviceConf = getConfig();
@@ -452,7 +452,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     // init the provider BUT DO NOT START IT YET
     initAndAddService(providerService);
     
-    InetSocketAddress address = HoyaUtils.getRmSchedulerAddress(conf);
+    InetSocketAddress address = SliderUtils.getRmSchedulerAddress(conf);
     log.info("RM is at {}", address);
     yarnRPC = YarnRPC.create(conf);
 
@@ -461,8 +461,8 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
      * turned into an (incompete) container
      */
     appMasterContainerID = ConverterUtils.toContainerId(
-      HoyaUtils.mandatoryEnvVariable(
-        ApplicationConstants.Environment.CONTAINER_ID.name())
+      SliderUtils.mandatoryEnvVariable(
+          ApplicationConstants.Environment.CONTAINER_ID.name())
                                                        );
     appAttemptID = appMasterContainerID.getApplicationAttemptId();
 
@@ -571,7 +571,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
 
       // Register self with ResourceManager
       // This will start heartbeating to the RM
-      // address = HoyaUtils.getRmSchedulerAddress(asyncRMClient.getConfig());
+      // address = SliderUtils.getRmSchedulerAddress(asyncRMClient.getConfig());
       log.info("Connecting to RM at {},address tracking URL={}",
                appMasterRpcPort, appMasterTrackingUrl);
       RegisterApplicationMasterResponse response = asyncRMClient
@@ -1131,7 +1131,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Messages.StopClusterResponseProto stopCluster(Messages.StopClusterRequestProto request) throws
                                                                                                  IOException,
                                                                                                  YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
     String message = request.getMessage();
     log.info("HoyaAppMasterApi.stopCluster: {}",message);
     signalAMComplete(EXIT_CLIENT_INITIATED_SHUTDOWN, message);
@@ -1142,7 +1142,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Messages.FlexClusterResponseProto flexCluster(Messages.FlexClusterRequestProto request) throws
                                                                                                  IOException,
                                                                                                  YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
 
     String payload = request.getClusterSpec();
     ConfTreeSerDeser confTreeSerDeser = new ConfTreeSerDeser();
@@ -1156,7 +1156,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     Messages.GetJSONClusterStatusRequestProto request) throws
                                                        IOException,
                                                        YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
     String result;
     //quick update
     //query and json-ify
@@ -1216,7 +1216,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Messages.ListNodeUUIDsByRoleResponseProto listNodeUUIDsByRole(Messages.ListNodeUUIDsByRoleRequestProto request) throws
                                                                                                                          IOException,
                                                                                                                          YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
     String role = request.getRole();
     Messages.ListNodeUUIDsByRoleResponseProto.Builder builder =
       Messages.ListNodeUUIDsByRoleResponseProto.newBuilder();
@@ -1231,7 +1231,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Messages.GetNodeResponseProto getNode(Messages.GetNodeRequestProto request) throws
                                                                                      IOException,
                                                                                      YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
     RoleInstance instance = appState.getLiveInstanceByContainerID(
       request.getUuid());
     return Messages.GetNodeResponseProto.newBuilder()
@@ -1243,7 +1243,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Messages.GetClusterNodesResponseProto getClusterNodes(Messages.GetClusterNodesRequestProto request) throws
                                                                                                              IOException,
                                                                                                              YarnException {
-    HoyaUtils.getCurrentUser();
+    SliderUtils.getCurrentUser();
     List<RoleInstance>
       clusterNodes = appState.getLiveInstancesByContainerIDs(
       request.getUuidList());
@@ -1301,7 +1301,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     String text = request.getText();
     int delay = request.getDelay();
     log.info("AM Suicide with signal {}, message {} delay = {}", signal, text, delay);
-    HoyaUtils.haltAM(signal, text, delay);
+    SliderUtils.haltAM(signal, text, delay);
     Messages.AMSuicideResponseProto.Builder builder =
       Messages.AMSuicideResponseProto.newBuilder();
     return builder.build();

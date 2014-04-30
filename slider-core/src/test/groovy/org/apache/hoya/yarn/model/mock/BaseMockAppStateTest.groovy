@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.api.records.ContainerStatus
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.SliderTestBase
 import org.apache.hoya.yarn.appmaster.state.*
 import org.junit.Before
@@ -51,7 +51,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
   @Override
   void setup() {
     super.setup()
-    YarnConfiguration conf = HoyaUtils.createConfiguration()
+    YarnConfiguration conf = SliderUtils.createConfiguration()
     fs = HadoopFS.get(new URI("file:///"), conf)
     hoyaFileSystem = new HoyaFileSystem(fs, conf)
     engine = createYarnEngine()
@@ -72,7 +72,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
     String historyDirName = testName;
 
 
-    YarnConfiguration conf = HoyaUtils.createConfiguration()
+    YarnConfiguration conf = SliderUtils.createConfiguration()
 
     fs = HadoopFS.get(new URI("file:///"), conf)
     historyWorkDir = new File("target/history", historyDirName)

@@ -43,7 +43,7 @@ import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
+import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.appmaster.SliderAppMaster
@@ -81,7 +81,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   public static final String YRAM = "256"
 
 
-  public static final YarnConfiguration SLIDER_CONFIG = HoyaUtils.createConfiguration();
+  public static final YarnConfiguration SLIDER_CONFIG = SliderUtils.createConfiguration();
   static {
     SLIDER_CONFIG.setInt(SliderXmlConfKeys.KEY_AM_RESTART_LIMIT, 1)
     SLIDER_CONFIG.setInt(YarnConfiguration.RM_AM_MAX_ATTEMPTS, 100)
@@ -218,7 +218,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     conf.setInt(YarnConfiguration.RM_SCHEDULER_MINIMUM_ALLOCATION_MB, 64);
     conf.setClass(YarnConfiguration.RM_SCHEDULER,
         FifoScheduler.class, ResourceScheduler.class);
-    HoyaUtils.patchConfiguration(conf)
+    SliderUtils.patchConfiguration(conf)
     miniCluster = new MiniYARNCluster(name, noOfNodeManagers, numLocalDirs, numLogDirs)
     miniCluster.init(conf)
     miniCluster.start();
@@ -643,7 +643,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
 
   public void logReport(ApplicationReport report) {
-    log.info(HoyaUtils.reportToString(report));
+    log.info(SliderUtils.reportToString(report));
   }
 
 

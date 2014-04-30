@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.service;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.AbstractService;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 
 /**
  * A security checker service, which validates that the service
@@ -35,6 +35,6 @@ public class SecurityCheckerService extends AbstractService {
   @Override
   protected void serviceInit(Configuration conf) throws Exception {
     super.serviceInit(conf);
-    HoyaUtils.initProcessSecurity(conf);
+    SliderUtils.initProcessSecurity(conf);
   }
 }

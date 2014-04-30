@@ -54,7 +54,7 @@ import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.TriggerClusterTeardownException;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -535,22 +535,22 @@ public class AppState implements StateAccessForProviders {
     status.state = ClusterDescription.STATE_CREATED;
     MapOperations infoOps = new MapOperations("info", status.info);
     infoOps.mergeWithoutOverwrite(applicationInfo);
-    HoyaUtils.addBuildInfo(infoOps, "status");
+    SliderUtils.addBuildInfo(infoOps, "status");
 
     long now = now();
     status.setInfoTime(StatusKeys.INFO_LIVE_TIME_HUMAN,
                               StatusKeys.INFO_LIVE_TIME_MILLIS,
                               now);
-    HoyaUtils.setInfoTime(infoOps,
-                          StatusKeys.INFO_LIVE_TIME_HUMAN,
-                          StatusKeys.INFO_LIVE_TIME_MILLIS,
-                          now);
+    SliderUtils.setInfoTime(infoOps,
+        StatusKeys.INFO_LIVE_TIME_HUMAN,
+        StatusKeys.INFO_LIVE_TIME_MILLIS,
+        now);
     if (0 == status.createTime) {
       status.createTime = now;
-      HoyaUtils.setInfoTime(infoOps,
-                            StatusKeys.INFO_CREATE_TIME_HUMAN,
-                            StatusKeys.INFO_CREATE_TIME_MILLIS,
-                            now);
+      SliderUtils.setInfoTime(infoOps,
+          StatusKeys.INFO_CREATE_TIME_HUMAN,
+          StatusKeys.INFO_CREATE_TIME_MILLIS,
+          now);
     }
     status.state = ClusterDescription.STATE_LIVE;
 
@@ -568,16 +568,17 @@ public class AppState implements StateAccessForProviders {
                                                 MapOperations component) throws
                                                         BadConfigException {
     String priOpt = component.getMandatoryOption(ResourceKeys.COMPONENT_PRIORITY);
-    int pri = HoyaUtils.parseAndValidate("value of " + name + " " +
-                                         ResourceKeys.COMPONENT_PRIORITY,
-                                         priOpt, 0, 1, -1
-                                        );
+    int pri = SliderUtils.parseAndValidate("value of " + name + " " +
+                                           ResourceKeys.COMPONENT_PRIORITY,
+        priOpt, 0, 1, -1
+    );
     log.info("Role {} assigned priority {}", name, pri);
     String placementOpt = component.getOption(
       ResourceKeys.COMPONENT_PLACEMENT_POLICY, "0");
-    int placement = HoyaUtils.parseAndValidate("value of " + name + " " +
-                                                   ResourceKeys.COMPONENT_PLACEMENT_POLICY,
-                                               placementOpt, 0, 0, -1);
+    int placement = SliderUtils.parseAndValidate("value of " + name + " " +
+                                                 ResourceKeys.COMPONENT_PLACEMENT_POLICY,
+        placementOpt, 0, 0, -1
+    );
     return new ProviderRole(name, pri, placement);
   }
 
@@ -635,7 +636,7 @@ public class AppState implements StateAccessForProviders {
     //propagate the role table
 
     Map<String, Map<String, String>> updated = resources.components;
-    getClusterStatus().roles = HoyaUtils.deepClone(updated);
+    getClusterStatus().roles = SliderUtils.deepClone(updated);
     getClusterStatus().updateTime = now();
     buildRoleRequirementsFromResources();
   }
@@ -1105,7 +1106,7 @@ public class AppState implements StateAccessForProviders {
     if (null != instance) {
       RoleStatus roleStatus = lookupRoleStatus(instance.roleId);
       if (null != thrown) {
-        instance.diagnostics = HoyaUtils.stringify(thrown);
+        instance.diagnostics = SliderUtils.stringify(thrown);
       }
       roleStatus.noteFailed(null);
       roleStatus.incStartFailed(); 
@@ -1224,7 +1225,7 @@ public class AppState implements StateAccessForProviders {
           if (roleInstance.container != null) {
             String user = null;
             try {
-              user = HoyaUtils.getCurrentUser().getShortUserName();
+              user = SliderUtils.getCurrentUser().getShortUserName();
             } catch (IOException ioe) {
             }
             String completedLogsUrl = null;
@@ -1333,7 +1334,7 @@ public class AppState implements StateAccessForProviders {
     }
     MapOperations infoOps = new MapOperations("info",cd.info);
     infoOps.mergeWithoutOverwrite(applicationInfo);
-    HoyaUtils.addBuildInfo(infoOps, "status");
+    SliderUtils.addBuildInfo(infoOps, "status");
     cd.statistics = new HashMap<String, Map<String, Integer>>();
 
     // build the map of node -> container IDs

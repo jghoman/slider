@@ -19,12 +19,11 @@
 package org.apache.hoya.core.conf;
 
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -128,13 +127,13 @@ public class MapOperations implements Map<String, String> {
    * @throws BadConfigException
    */
   public void verifyOptionSet(String key) throws BadConfigException {
-    if (HoyaUtils.isUnset(getOption(key, null))) {
+    if (SliderUtils.isUnset(getOption(key, null))) {
       throw new BadConfigException("Unset option %s", key);
     }
   }
   
   public void mergeWithoutOverwrite(Map<String, String> that) {
-    HoyaUtils.mergeMapsIgnoreDuplicateKeys(options, that);
+    SliderUtils.mergeMapsIgnoreDuplicateKeys(options, that);
   }
 
   /**
@@ -231,7 +230,7 @@ public class MapOperations implements Map<String, String> {
   }
 
   public boolean isSet(String key) {
-    return HoyaUtils.isSet(get(key));
+    return SliderUtils.isSet(get(key));
   }
 
   @Override

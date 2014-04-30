@@ -38,7 +38,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 import org.apache.hoya.SliderKeys;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.NodeEntry;
 import org.apache.hoya.yarn.appmaster.state.NodeInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleHistory;
@@ -97,7 +97,7 @@ public class RoleHistoryWriter {
       header.setVersion(ROLE_HISTORY_VERSION);
       header.setSaved(savetime);
       header.setSavedx(Long.toHexString(savetime));
-      header.setSavedate(HoyaUtils.toGMTString(savetime));
+      header.setSavedate(SliderUtils.toGMTString(savetime));
       header.setRoles(roles);
       RoleHistoryRecord record = new RoleHistoryRecord(header);
       Schema schema = record.getSchema();
@@ -231,7 +231,7 @@ public class RoleHistoryWriter {
           }
 
           String hostname =
-            HoyaUtils.sequenceToString(nodeEntryRecord.getHost());
+            SliderUtils.sequenceToString(nodeEntryRecord.getHost());
           NodeInstance instance = history.getOrCreateNodeInstance(hostname);
           instance.set(roleId, nodeEntry);
         }

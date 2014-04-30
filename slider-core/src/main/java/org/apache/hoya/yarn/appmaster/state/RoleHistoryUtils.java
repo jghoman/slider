@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.appmaster.state;
 
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.NodeId;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 
 public class RoleHistoryUtils {
 
@@ -28,7 +28,7 @@ public class RoleHistoryUtils {
     NodeId nodeId = container.getNodeId();
     if (nodeId== null) {
       throw new RuntimeException("Container has no node ID: %s" +
-         HoyaUtils.containerToString(container));
+         SliderUtils.containerToString(container));
     }
     return nodeId.getHost();
   }

@@ -507,6 +507,6 @@ public class ConfigHelper {
    */
   public static Map<String, String> buildMapFromConfiguration(Configuration conf) {
     Map<String, String> map = new HashMap<String, String>();
-    return HoyaUtils.mergeEntries(map, conf);
+    return SliderUtils.mergeEntries(map, conf);
   }
 }

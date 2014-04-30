@@ -35,7 +35,7 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -90,7 +90,7 @@ public class ProviderUtils implements RoleKeys {
       IOException,
       SliderException {
     try {
-      HoyaUtils.putJar(providerResources,
+      SliderUtils.putJar(providerResources,
           hoyaFileSystem,
           provider.getClass(),
           tempPath,
@@ -139,12 +139,12 @@ public class ProviderUtils implements RoleKeys {
     for (int i = 0; i < size; i++) {
       String jarName = resources[i];
       Class clazz = classes[i];
-      HoyaUtils.putJar(providerResources,
-                       hoyaFileSystem,
-                       clazz,
-                       tempPath,
-                       libdir,
-                       jarName);
+      SliderUtils.putJar(providerResources,
+          hoyaFileSystem,
+          clazz,
+          tempPath,
+          libdir,
+          jarName);
     }
     
   }
@@ -314,11 +314,11 @@ public class ProviderUtils implements RoleKeys {
       path = homedir.getAbsolutePath();
 
       //this is absolute, resolve its entire path
-      HoyaUtils.verifyIsDir(homedir, log);
+      SliderUtils.verifyIsDir(homedir, log);
       File bin = new File(homedir, bindir);
-      HoyaUtils.verifyIsDir(bin, log);
+      SliderUtils.verifyIsDir(bin, log);
       scriptFile = new File(bin, script);
-      HoyaUtils.verifyFileExists(scriptFile, log);
+      SliderUtils.verifyFileExists(scriptFile, log);
     }
     return path;
   }
@@ -410,7 +410,7 @@ public class ProviderUtils implements RoleKeys {
                                              String script)
       throws FileNotFoundException {
     
-    HoyaUtils.verifyIsDir(base, log);
+    SliderUtils.verifyIsDir(base, log);
     File[] ls = base.listFiles();
     if (ls == null) {
       //here for the IDE to be happy, as the previous check will pick this case
@@ -437,9 +437,9 @@ public class ProviderUtils implements RoleKeys {
     }
     File archive = directories.get(0);
     File bin = new File(archive, bindir);
-    HoyaUtils.verifyIsDir(bin, log);
+    SliderUtils.verifyIsDir(bin, log);
     File scriptFile = new File(bin, script);
-    HoyaUtils.verifyFileExists(scriptFile, log);
+    SliderUtils.verifyFileExists(scriptFile, log);
     return scriptFile;
   }
 

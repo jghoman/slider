@@ -36,7 +36,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,12 +173,12 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                     boolean secure,
                                     String origin) throws BadConfigException {
     try {
-      HoyaUtils.verifyOptionSet(siteConf, KEY_HBASE_CLUSTER_DISTRIBUTED,
-                                false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_HBASE_ROOTDIR, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZNODE_PARENT, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_QUORUM, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_PORT, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_HBASE_CLUSTER_DISTRIBUTED,
+          false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_HBASE_ROOTDIR, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZNODE_PARENT, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_QUORUM, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_PORT, false);
       int zkPort =
         siteConf.getInt(HBaseConfigFileOptions.KEY_ZOOKEEPER_PORT, 0);
       if (zkPort == 0) {
@@ -190,15 +190,15 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
       if (secure) {
         //better have the secure cluster definition up and running
-        HoyaUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_PRINCIPAL,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_KEYTAB,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf,
-                                  KEY_REGIONSERVER_KERBEROS_PRINCIPAL,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf,
-                                  KEY_REGIONSERVER_KERBEROS_KEYTAB, false);
+        SliderUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_PRINCIPAL,
+            false);
+        SliderUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_KEYTAB,
+            false);
+        SliderUtils.verifyOptionSet(siteConf,
+            KEY_REGIONSERVER_KERBEROS_PRINCIPAL,
+            false);
+        SliderUtils.verifyOptionSet(siteConf,
+            KEY_REGIONSERVER_KERBEROS_KEYTAB, false);
       }
     } catch (BadConfigException e) {
       //bad configuration, dump it

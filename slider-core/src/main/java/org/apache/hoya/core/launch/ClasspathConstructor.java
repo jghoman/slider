@@ -22,7 +22,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -65,9 +65,9 @@ public class ClasspathConstructor {
   }
 
   public String buildClasspath() {
-    return HoyaUtils.join(pathElements,
-                          CLASS_PATH_SEPARATOR,
-                          false);
+    return SliderUtils.join(pathElements,
+        CLASS_PATH_SEPARATOR,
+        false);
   }
 
   /**

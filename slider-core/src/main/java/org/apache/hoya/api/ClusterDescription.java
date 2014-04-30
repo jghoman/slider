@@ -25,7 +25,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.hoya.tools.SliderUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -471,7 +471,7 @@ public class ClusterDescription implements Cloneable {
    * @throws BadConfigException
    */
   public void verifyOptionSet(String key) throws BadConfigException {
-    if (HoyaUtils.isUnset(getOption(key, null))) {
+    if (SliderUtils.isUnset(getOption(key, null))) {
       throw new BadConfigException("Unset cluster option %s", key);
     }
   }
@@ -652,7 +652,7 @@ public class ClusterDescription implements Cloneable {
    */
   
   public void setInfoTime(String keyHumanTime, String keyMachineTime, long time) {
-    HoyaUtils.setInfoTime(info, keyHumanTime, keyMachineTime, time );
+    SliderUtils.setInfoTime(info, keyHumanTime, keyMachineTime, time);
   }
 
   /**
@@ -751,6 +751,6 @@ public class ClusterDescription implements Cloneable {
    */
   @JsonIgnore
   public boolean isImagePathSet() {
-    return HoyaUtils.isSet(getImagePath());
+    return SliderUtils.isSet(getImagePath());
   }
 }
