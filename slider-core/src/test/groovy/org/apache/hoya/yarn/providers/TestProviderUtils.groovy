@@ -22,14 +22,14 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.providers.ProviderUtils
-import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Before
 import org.junit.Test
 
 @CompileStatic
 @Slf4j
 
-class TestProviderUtils extends HoyaTestBase {
+class TestProviderUtils extends SliderTestBase {
 
   ProviderUtils providerUtils = new ProviderUtils(log)
 

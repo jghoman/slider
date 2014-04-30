@@ -22,10 +22,10 @@ import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 
-class TestHoyaFileSystem extends HoyaTestBase {
+class TestSliderFileSystem extends SliderTestBase {
   private static Configuration defaultConfiguration() {
     new Configuration()
   }

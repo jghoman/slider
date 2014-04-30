@@ -20,14 +20,7 @@ package org.apache.hoya.funtest.basic
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.security.UserGroupInformation
-import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.funtest.abstracttests.AbstractTestBuildSetup
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.testtools.HoyaTestUtils
-import org.apache.hoya.tools.HoyaUtils
-import org.junit.Test
 
 /**
  * Simple tests to verify that the build has been set up: if these

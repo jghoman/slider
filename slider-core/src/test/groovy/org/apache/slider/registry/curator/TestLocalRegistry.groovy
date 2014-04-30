@@ -20,7 +20,7 @@ package org.apache.slider.registry.curator
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.SliderKeys
-import org.apache.hoya.testtools.HoyaTestUtils
+import org.apache.hoya.testtools.SliderTestUtils
 import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorHelper
@@ -151,7 +151,7 @@ class TestLocalRegistry {
     assert mordorInstance.port == 8090
 
     def instances = registryBinder.listInstances(SliderKeys.APP_TYPE);
-    HoyaTestUtils.dumpRegistryInstances(instances)
+    SliderTestUtils.dumpRegistryInstances(instances)
     assert instances.size() == 2
     
   }

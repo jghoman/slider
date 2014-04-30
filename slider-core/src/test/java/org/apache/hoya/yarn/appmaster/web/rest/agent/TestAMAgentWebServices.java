@@ -50,7 +50,7 @@ import org.apache.hoya.yarn.model.mock.MockRecordFactory;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import static org.junit.Assert.*;
-import static org.apache.hoya.testtools.HoyaTestUtils.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;

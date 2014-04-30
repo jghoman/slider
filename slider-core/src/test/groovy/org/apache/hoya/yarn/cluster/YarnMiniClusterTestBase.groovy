@@ -53,7 +53,7 @@ import org.junit.After
 import org.junit.Rule
 import org.junit.rules.Timeout
 
-import static org.apache.hoya.testtools.HoyaTestUtils.*
+import static org.apache.hoya.testtools.SliderTestUtils.*
 import static org.apache.hoya.testtools.KeysForTests.*
 import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 

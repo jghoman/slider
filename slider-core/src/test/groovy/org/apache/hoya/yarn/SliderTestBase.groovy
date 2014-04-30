@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.testtools.HoyaTestUtils
+import org.apache.hoya.testtools.SliderTestUtils
 import org.junit.Before
 
 /**
@@ -30,7 +30,7 @@ import org.junit.Before
  */
 
 @CompileStatic
-public abstract class HoyaTestBase extends HoyaTestUtils {
+public abstract class SliderTestBase extends SliderTestUtils {
 
   @Before
   public void setup() {

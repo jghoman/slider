@@ -33,7 +33,7 @@ import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.hoya.yarn.Arguments.*
-import static org.apache.hoya.testtools.HoyaTestUtils.*
+import static org.apache.hoya.testtools.SliderTestUtils.*
 import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 import static HBaseKeys.*
 /**

@@ -20,14 +20,12 @@ package org.apache.hoya.yarn.utils
 
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.RegisterApplicationMasterResponsePBImpl
-import org.apache.hadoop.yarn.api.records.ApplicationSubmissionContext
-import org.apache.hadoop.yarn.api.records.impl.pb.ApplicationSubmissionContextPBImpl
 import org.apache.hoya.core.launch.AMRestartSupport
-import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 
 @Slf4j
-class TestHoyaServiceUtils extends HoyaTestBase {
+class TestSliderServiceUtils extends SliderTestBase {
 
   @Test
   public void testRetrieveContainers() throws Throwable {

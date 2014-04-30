@@ -18,12 +18,12 @@
 
 package org.apache.hadoop.yarn.service.launcher;
 
-import org.apache.hoya.yarn.HoyaTestBase;
+import org.apache.hoya.yarn.SliderTestBase;
 
 /**
  * Base class for tests that use the service launcher
  */
-public class ServiceLauncherBaseTest extends HoyaTestBase {
+public class ServiceLauncherBaseTest extends SliderTestBase {
 
 
 }

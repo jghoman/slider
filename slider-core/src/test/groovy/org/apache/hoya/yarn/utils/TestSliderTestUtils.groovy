@@ -19,11 +19,11 @@
 package org.apache.hoya.yarn.utils
 
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.testtools.HoyaTestUtils
+import org.apache.hoya.testtools.SliderTestUtils
 import org.junit.Test
 import org.junit.internal.AssumptionViolatedException
 
-class TestHoyaTestUtils extends HoyaTestUtils {
+class TestSliderTestUtils extends SliderTestUtils {
 
 
   @Test

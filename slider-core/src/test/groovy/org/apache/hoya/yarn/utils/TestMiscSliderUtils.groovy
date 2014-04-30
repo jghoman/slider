@@ -22,10 +22,10 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 
-class TestMiscHoyaUtils extends HoyaTestBase {
+class TestMiscSliderUtils extends SliderTestBase {
 
 
   public static final String CLUSTER1 = "cluster1"

@@ -31,13 +31,13 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.HoyaTestBase
+import org.apache.hoya.yarn.SliderTestBase
 import org.apache.hoya.yarn.appmaster.state.*
 import org.junit.Before
 
 @CompileStatic
 @Slf4j
-abstract class BaseMockAppStateTest extends HoyaTestBase implements MockRoles {
+abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles {
   public static final int RM_MAX_RAM = 4096
   public static final int RM_MAX_CORES = 64
   MockFactory factory = new MockFactory()

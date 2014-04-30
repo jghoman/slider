@@ -61,7 +61,7 @@ import static org.apache.hoya.yarn.Arguments.ARG_OPTION
  */
 @Slf4j
 @CompileStatic
-class HoyaTestUtils extends Assert {
+class SliderTestUtils extends Assert {
 
   public static void describe(String s) {
     log.info("");

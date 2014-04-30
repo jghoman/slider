@@ -33,7 +33,7 @@ import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
-import org.apache.hoya.testtools.HoyaTestUtils
+import org.apache.hoya.testtools.SliderTestUtils
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.client.SliderClient
@@ -43,7 +43,7 @@ import org.apache.hoya.yarn.client.SliderClient
  */
 @Slf4j
 @CompileStatic
-class HBaseTestUtils extends HoyaTestUtils {
+class HBaseTestUtils extends SliderTestUtils {
 
   /**
    * Create an (unshared) HConnection talking to the hbase service that
