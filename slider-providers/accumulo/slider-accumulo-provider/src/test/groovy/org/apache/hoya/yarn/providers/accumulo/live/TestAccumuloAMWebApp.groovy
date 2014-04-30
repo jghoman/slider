@@ -27,7 +27,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.apache.slider.core.registry.zk.ZKIntegration
 import org.junit.Test
@@ -56,7 +56,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
         (AccumuloKeys.ROLE_GARBAGE_COLLECTOR): gc
     ];
     ServiceLauncher launcher = createAccCluster(clustername, roles, [], true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
 

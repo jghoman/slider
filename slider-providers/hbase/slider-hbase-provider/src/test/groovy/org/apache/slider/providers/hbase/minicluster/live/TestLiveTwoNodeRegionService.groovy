@@ -25,7 +25,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
@@ -48,14 +48,14 @@ class TestLiveTwoNodeRegionService extends HBaseMiniClusterTestBase {
     describe(" Create a two node region service cluster");
 
     //now launch the cluster
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(clustername, regionServerCount,
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(clustername, regionServerCount,
         [
             Arguments.ARG_COMP_OPT,  HBaseKeys.ROLE_MASTER, RoleKeys.JVM_HEAP , HB_HEAP,
             Arguments.ARG_COMP_OPT,  HBaseKeys.ROLE_WORKER, RoleKeys.JVM_HEAP , HB_HEAP
         ],
         true,
         true)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     dumpClusterDescription("initial status", status)

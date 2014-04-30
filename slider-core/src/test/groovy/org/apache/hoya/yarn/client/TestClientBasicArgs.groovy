@@ -39,7 +39,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
    */
   @Test
   public void testHelp() throws Throwable {
-    ServiceLauncher launcher = launch(HoyaClient,
+    ServiceLauncher launcher = launch(SliderClient,
                                       HoyaUtils.createConfiguration(),
                                       [ClientArgs.ACTION_HELP])
     assert 0 == launcher.serviceExitCode
@@ -48,7 +48,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
   @Test
   public void testNoArgs() throws Throwable {
     try {
-      ServiceLauncher launcher = launch(HoyaClient,
+      ServiceLauncher launcher = launch(SliderClient,
                                         HoyaUtils.createConfiguration(),
                                         [])
       assert HoyaExitCodes.EXIT_COMMAND_ARGUMENT_ERROR == launcher.serviceExitCode
@@ -60,7 +60,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
   @Test
   public void testListUnknownHost() throws Throwable {
     try {
-      ServiceLauncher launcher = launch(HoyaClient,
+      ServiceLauncher launcher = launch(SliderClient,
                                         HoyaUtils.createConfiguration(),
                                         [
                                         ClientArgs.ACTION_LIST,

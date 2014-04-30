@@ -25,7 +25,7 @@ import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -59,7 +59,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
     //verify that exists(live) is now false

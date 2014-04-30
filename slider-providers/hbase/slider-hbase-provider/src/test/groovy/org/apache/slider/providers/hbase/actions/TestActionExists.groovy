@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
@@ -71,9 +71,9 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     //launch the cluster
     String clustername = "testExistsLiveCluster"
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     addToTeardown(launcher)
-    ApplicationReport report = waitForClusterLive((HoyaClient) launcher.service)
+    ApplicationReport report = waitForClusterLive((SliderClient) launcher.service)
 
     // exists holds when cluster is running
     launcher = launchClientAgainstMiniMR(

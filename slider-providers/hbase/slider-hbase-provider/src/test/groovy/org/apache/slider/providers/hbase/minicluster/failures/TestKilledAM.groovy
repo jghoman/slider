@@ -34,7 +34,7 @@ import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionAMSuicideArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
@@ -64,13 +64,13 @@ class TestKilledAM extends HBaseMiniClusterTestBase {
     describe(" Kill the AM, expect cluster to die");
 
     //now launch the cluster
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(
         clustername,
         regionServerCount,
         [],
         true,
         true)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
 

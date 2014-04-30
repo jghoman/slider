@@ -27,7 +27,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.api.ResourceKeys
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
@@ -110,7 +110,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   }
 
 
-  public static void assertHBaseMasterNotStopped(HoyaClient hoyaClient,
+  public static void assertHBaseMasterNotStopped(SliderClient hoyaClient,
                                           String clustername) {
     String[] nodes = hoyaClient.listNodeUUIDsByRole(ROLE_MASTER);
     int masterNodeCount = nodes.length;
@@ -144,7 +144,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
     return HBaseTestUtils.hbaseStatusToString(status)
   }
 
-  public static ClusterStatus getHBaseClusterStatus(HoyaClient hoyaClient) {
+  public static ClusterStatus getHBaseClusterStatus(SliderClient hoyaClient) {
     return HBaseTestUtils.getHBaseClusterStatus(hoyaClient)
   }
 
@@ -163,7 +163,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @return an hbase config extended with the custom properties from the
    * cluster, including the binding to the HBase cluster
    */
-  public static Configuration createHBaseConfiguration(HoyaClient hoyaClient) {
+  public static Configuration createHBaseConfiguration(SliderClient hoyaClient) {
     return HBaseTestUtils.createHBaseConfiguration(hoyaClient)
   }
 
@@ -177,7 +177,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createHBaseCluster(String clustername,
+  public ServiceLauncher<SliderClient> createHBaseCluster(String clustername,
       int workers,
       List<String> extraArgs,
       boolean deleteExistingData,
@@ -203,7 +203,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createHBaseCluster(
+  public ServiceLauncher<SliderClient> createHBaseCluster(
       String clustername,
       int masters,
       int workers,
@@ -234,7 +234,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createMasterlessAM(String clustername, int size, boolean deleteExistingData, boolean blockUntilRunning) {
+  public ServiceLauncher<SliderClient> createMasterlessAM(String clustername, int size, boolean deleteExistingData, boolean blockUntilRunning) {
     Map<String, Integer> roles = [
         (ROLE_MASTER): 0,
         (ROLE_WORKER): size,
@@ -249,7 +249,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
         [:])
   }
 
-  public ClusterStatus basicHBaseClusterStartupSequence(HoyaClient hoyaClient) {
+  public ClusterStatus basicHBaseClusterStartupSequence(SliderClient hoyaClient) {
     return HBaseTestUtils.basicHBaseClusterStartupSequence(hoyaClient,
                                    hbaseClusterStartupTime,
                                    hbaseClusterStartupToLiveTime)
@@ -262,7 +262,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param regionServerCount RS count
    * @param timeout timeout
    */
-  public static ClusterStatus waitForHBaseRegionServerCount(HoyaClient hoyaClient,
+  public static ClusterStatus waitForHBaseRegionServerCount(SliderClient hoyaClient,
                                                      String clustername,
                                                      int regionServerCount,
                                                      int timeout) {
@@ -284,8 +284,8 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
                       1,
                       true);
     //now launch the cluster
-    HoyaClient hoyaClient;
-    ServiceLauncher<HoyaClient> launcher = createCluster(clustername,
+    SliderClient hoyaClient;
+    ServiceLauncher<SliderClient> launcher = createCluster(clustername,
            [
                (ROLE_MASTER): masters,
                (ROLE_WORKER): workers,
@@ -342,13 +342,13 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param desiredCount RS count
    * @param timeout timeout
    */
-  public static ClusterDescription waitForWorkerInstanceCount(HoyaClient hoyaClient,
+  public static ClusterDescription waitForWorkerInstanceCount(SliderClient hoyaClient,
                                                    int desiredCount,
                                                    int timeout) {
     return waitForRoleCount(hoyaClient, ROLE_WORKER, desiredCount, timeout)
   }
   
-  public static ClusterDescription waitForHoyaMasterCount(HoyaClient hoyaClient,
+  public static ClusterDescription waitForHoyaMasterCount(SliderClient hoyaClient,
                                                    int desiredCount,
                                                    int timeout) {
     return waitForRoleCount(hoyaClient, ROLE_MASTER, desiredCount, timeout)
@@ -360,7 +360,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
    * @param clientConf client config
    */
   public void assertNoHBaseMaster(
-      HoyaClient hoyaClient, Configuration clientConf) {
+      SliderClient hoyaClient, Configuration clientConf) {
     HBaseTestUtils.assertNoHBaseMaster(hoyaClient, clientConf)
   }
   

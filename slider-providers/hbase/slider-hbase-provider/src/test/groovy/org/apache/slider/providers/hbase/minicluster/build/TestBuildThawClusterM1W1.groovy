@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -56,7 +56,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     def serviceRegistryClient = hoyaClient.YARNRegistryClient
     ApplicationReport report = serviceRegistryClient.findInstance(clustername)
@@ -64,9 +64,9 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
 
     //thaw time
     ServiceLauncher l2 = thawCluster(clustername, [], true)
-    HoyaClient client2 = (HoyaClient) l2.service
+    SliderClient client2 = (SliderClient) l2.service
     addToTeardown(client2);
-    waitForClusterLive(l2.service as HoyaClient)
+    waitForClusterLive(l2.service as SliderClient)
   }
 
 }

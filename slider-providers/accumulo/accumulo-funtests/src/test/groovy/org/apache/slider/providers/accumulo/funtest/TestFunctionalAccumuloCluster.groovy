@@ -25,7 +25,7 @@ import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -113,7 +113,7 @@ class TestFunctionalAccumuloCluster extends AccumuloCommandTestBase
         )
 
     //get a hoya client against the cluster
-    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, getClusterName())
+    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, getClusterName())
     ClusterDescription cd = hoyaClient.clusterDescription
     assert getClusterName() == cd.name
 

@@ -27,7 +27,7 @@ import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.docstore.PublishedConfigSet
 import org.apache.slider.core.registry.info.CustomRegistryConstants
@@ -57,9 +57,9 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     //launch fake master
     String clustername = "test_standalone_registry_am"
     createMiniCluster(clustername, configuration, 1, true)
-    ServiceLauncher<HoyaClient> launcher
+    ServiceLauncher<SliderClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     addToTeardown(client);
 
     ApplicationReport report = waitForClusterLive(client)

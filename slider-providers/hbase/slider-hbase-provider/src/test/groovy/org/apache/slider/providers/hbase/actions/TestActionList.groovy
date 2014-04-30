@@ -22,7 +22,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
@@ -56,7 +56,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         ]
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
   }
   
   @Test
@@ -79,7 +79,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     //launch the cluster
     String clustername = "test_list_live_cluster"
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, false)
-    ApplicationReport report = waitForClusterLive((HoyaClient) launcher.service)
+    ApplicationReport report = waitForClusterLive((SliderClient) launcher.service)
 
     //now list
     launcher = launchClientAgainstMiniMR(
@@ -94,7 +94,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
     //now look for the explicit sevice
     
     //do the low level operations to get a better view of what is going on 
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     def serviceRegistryClient = hoyaClient.YARNRegistryClient
     ApplicationReport instance = serviceRegistryClient.findInstance(clustername)
     assert instance != null

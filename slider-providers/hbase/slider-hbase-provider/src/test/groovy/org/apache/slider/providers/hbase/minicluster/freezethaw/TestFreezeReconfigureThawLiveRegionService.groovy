@@ -33,7 +33,7 @@ import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 
@@ -64,7 +64,7 @@ class TestFreezeReconfigureThawLiveRegionService
         [],
         true,
         true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
@@ -111,7 +111,7 @@ class TestFreezeReconfigureThawLiveRegionService
 
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    HoyaClient thawed = launcher2.service as HoyaClient
+    SliderClient thawed = launcher2.service as SliderClient
     clustat = basicHBaseClusterStartupSequence(thawed)
 
     //get the options

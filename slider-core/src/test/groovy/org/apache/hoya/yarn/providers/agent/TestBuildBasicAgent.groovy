@@ -28,9 +28,8 @@ import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.ConfPersister
 import org.apache.hoya.exceptions.BadConfigException
-import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*
@@ -94,7 +93,7 @@ class TestBuildBasicAgent extends AgentTestBase {
 
     def master = "hbase-master"
     def rs = "hbase-rs"
-    ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
+    ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         [
             (ROLE_NODE): 5,
             (master): 1,

@@ -36,7 +36,7 @@ import org.apache.hoya.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 
 /**
  * Static HBase test utils
@@ -81,7 +81,7 @@ class HBaseTestUtils extends HoyaTestUtils {
     return builder.toString()
   }
 
-  public static ClusterStatus getHBaseClusterStatus(HoyaClient hoyaClient) {
+  public static ClusterStatus getHBaseClusterStatus(SliderClient hoyaClient) {
     Configuration clientConf = createHBaseConfiguration(hoyaClient)
     return getHBaseClusterStatus(clientConf)
   }
@@ -105,7 +105,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @return an hbase config extended with the custom properties from the
    * cluster, including the binding to the HBase cluster
    */
-  public static Configuration createHBaseConfiguration(HoyaClient hoyaClient) {
+  public static Configuration createHBaseConfiguration(SliderClient hoyaClient) {
     Configuration siteConf = fetchClientSiteConfig(hoyaClient);
     Configuration conf = HBaseConfiguration.create(siteConf);
     // patch in some timeouts
@@ -123,7 +123,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @param hoyaClient
    * @param clustername
    */
-  public static void dumpHBaseClientConf(HoyaClient hoyaClient) {
+  public static void dumpHBaseClientConf(SliderClient hoyaClient) {
     Configuration conf = fetchClientSiteConfig(hoyaClient);
     describe("AM-generated site configuration");
     ConfigHelper.dumpConf(conf);
@@ -136,7 +136,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @param hoyaClient hoya client
    * @param clustername name of the cluster
    */
-  public static void dumpFullHBaseConf(HoyaClient hoyaClient) {
+  public static void dumpFullHBaseConf(SliderClient hoyaClient) {
     Configuration conf = createHBaseConfiguration(hoyaClient);
     describe("HBase site configuration from AM");
     ConfigHelper.dumpConf(conf);
@@ -151,7 +151,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @throws org.apache.hoya.exceptions.SliderException
    */
   public static boolean spinForClusterStartup(
-      HoyaClient hoyaClient,
+      SliderClient hoyaClient,
       long spintime,
       String role = "master")
   throws WaitTimeoutException, IOException, SliderException {
@@ -160,7 +160,7 @@ class HBaseTestUtils extends HoyaTestUtils {
   }
 
   public static ClusterStatus basicHBaseClusterStartupSequence(
-      HoyaClient hoyaClient, int startupTime, int startupToLiveTime ) {
+      SliderClient hoyaClient, int startupTime, int startupToLiveTime ) {
     int state = hoyaClient.waitForRoleInstanceLive(HoyaKeys.COMPONENT_AM,
                                                    startupTime);
     assert state == ClusterDescription.STATE_LIVE;
@@ -188,7 +188,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @param timeout timeout
    */
   public static ClusterStatus waitForHBaseRegionServerCount(
-      HoyaClient hoyaClient,
+      SliderClient hoyaClient,
       String clustername,
       int regionServerCount,
       int timeout) {
@@ -242,7 +242,7 @@ class HBaseTestUtils extends HoyaTestUtils {
    * @param clientConf client config
    */
   public static void assertNoHBaseMaster(
-      HoyaClient hoyaClient,
+      SliderClient hoyaClient,
       Configuration clientConf) {
     boolean masterFound = isHBaseMasterFound(clientConf)
     if (masterFound) {

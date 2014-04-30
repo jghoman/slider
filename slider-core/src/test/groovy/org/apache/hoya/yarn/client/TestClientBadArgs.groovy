@@ -33,7 +33,7 @@ import org.junit.Test
 class TestClientBadArgs extends ServiceLauncherBaseTest {
   @Test
   public void testNoAction() throws Throwable {
-    launchExpectingException(HoyaClient,
+    launchExpectingException(SliderClient,
                              new Configuration(),
                              ErrorStrings.ERROR_NO_ACTION,
                              [])
@@ -42,7 +42,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
 
   @Test
   public void testUnknownAction() throws Throwable {
-    launchExpectingException(HoyaClient,
+    launchExpectingException(SliderClient,
                              new Configuration(),
                              "not-a-known-action",
                              ["not-a-known-action"])
@@ -50,7 +50,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
 
   @Test
   public void testActionWithoutEnoughArgs() throws Throwable {
-    launchExpectingException(HoyaClient,
+    launchExpectingException(SliderClient,
                              new Configuration(),
                              ErrorStrings.ERROR_NOT_ENOUGH_ARGUMENTS,
                              [HoyaActions.ACTION_THAW])
@@ -58,7 +58,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
 
   @Test
   public void testActionWithTooManyArgs() throws Throwable {
-    launchExpectingException(HoyaClient,
+    launchExpectingException(SliderClient,
                              new Configuration(),
                              ErrorStrings.ERROR_TOO_MANY_ARGUMENTS,
                              [HoyaActions.ACTION_HELP,
@@ -67,7 +67,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
   
   @Test
   public void testBadImageArg() throws Throwable {
-    launchExpectingException(HoyaClient,
+    launchExpectingException(SliderClient,
                              new Configuration(),
                              "Unknown option: --image",
                             [HoyaActions.ACTION_HELP,

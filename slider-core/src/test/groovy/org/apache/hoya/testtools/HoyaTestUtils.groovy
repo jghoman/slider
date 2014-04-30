@@ -40,8 +40,8 @@ import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.hadoop.yarn.api.records.ApplicationReport
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Assert
@@ -168,7 +168,7 @@ class HoyaTestUtils extends Assert {
    * @param hoyaClient client
    * @return the app report of the live cluster
    */
-  public static ApplicationReport waitForClusterLive(HoyaClient hoyaClient,int goLiveTime) {
+  public static ApplicationReport waitForClusterLive(SliderClient hoyaClient,int goLiveTime) {
     ApplicationReport report = hoyaClient.monitorAppToRunning(
         new Duration(goLiveTime));
     assertNotNull(
@@ -187,7 +187,7 @@ class HoyaTestUtils extends Assert {
     return converted;
   }
 
-  public static void waitWhileClusterLive(HoyaClient client, int timeout) {
+  public static void waitWhileClusterLive(SliderClient client, int timeout) {
     Duration duration = new Duration(timeout);
     duration.start()
     while (client.actionExists(client.deployedClusterName, true) &&
@@ -199,7 +199,7 @@ class HoyaTestUtils extends Assert {
     }
   }
 
-  public static void waitUntilClusterLive(HoyaClient client, int timeout) {
+  public static void waitUntilClusterLive(SliderClient client, int timeout) {
     Duration duration = new Duration(timeout);
     duration.start()
     while (!client.actionExists(client.deployedClusterName, true) &&
@@ -219,7 +219,7 @@ class HoyaTestUtils extends Assert {
    * @param timeout timeout
    */
   public static ClusterDescription waitForRoleCount(
-      HoyaClient client,
+      SliderClient client,
       String role,
       int desiredCount,
       int timeout) {
@@ -234,7 +234,7 @@ class HoyaTestUtils extends Assert {
    * @param timeout timeout
    */
   public static ClusterDescription waitForRoleCount(
-      HoyaClient client,
+      SliderClient client,
       Map<String, Integer> roles,
       int timeout,
       String operation = "startup") {
@@ -293,20 +293,20 @@ class HoyaTestUtils extends Assert {
    * @throws IOException
    * @throws SliderException
    */
-  public static boolean spinForClusterStartup(HoyaClient client, long spintime,
+  public static boolean spinForClusterStartup(SliderClient client, long spintime,
       String role)
       throws WaitTimeoutException, IOException, SliderException {
     int state = client.waitForRoleInstanceLive(role, spintime);
     return state == ClusterDescription.STATE_LIVE;
   }
 
-  public static ClusterDescription dumpClusterStatus(HoyaClient client, String text) {
+  public static ClusterDescription dumpClusterStatus(SliderClient client, String text) {
     ClusterDescription status = client.clusterDescription;
     dumpClusterDescription(text, status)
     return status;
   }
 
-  public static List<ClusterNode> listNodesInRole(HoyaClient client, String role) {
+  public static List<ClusterNode> listNodesInRole(SliderClient client, String role) {
     return client.listClusterNodesInRole(role)
   }
 
@@ -329,7 +329,7 @@ class HoyaTestUtils extends Assert {
    * @param clustername name of the cluster
    * @return the site config
    */
-  public static Configuration fetchClientSiteConfig(HoyaClient client) {
+  public static Configuration fetchClientSiteConfig(SliderClient client) {
     ClusterDescription status = client.clusterDescription;
     Configuration siteConf = new Configuration(false)
     status.clientProperties.each { String key, String val ->
@@ -470,11 +470,11 @@ class HoyaTestUtils extends Assert {
    * @param args arg list
    * @return the return code
    */
-  protected static ServiceLauncher<HoyaClient> execSliderCommand(
+  protected static ServiceLauncher<SliderClient> execSliderCommand(
       Configuration conf,
       List args) {
-    ServiceLauncher<HoyaClient> serviceLauncher =
-        new ServiceLauncher<HoyaClient>(HoyaClient.name);
+    ServiceLauncher<SliderClient> serviceLauncher =
+        new ServiceLauncher<SliderClient>(SliderClient.name);
     serviceLauncher.launchService(conf,
                                   toArray(args),
                                   false);
@@ -512,7 +512,7 @@ class HoyaTestUtils extends Assert {
   }
 
 
-  public static ServiceLauncher<HoyaClient> launchClientAgainstRM(
+  public static ServiceLauncher<SliderClient> launchClientAgainstRM(
       String address,
       List args,
       Configuration conf) {
@@ -521,7 +521,7 @@ class HoyaTestUtils extends Assert {
     if (!args.contains(Arguments.ARG_MANAGER)) {
       args += [Arguments.ARG_MANAGER, address]
     }
-    ServiceLauncher<HoyaClient> launcher = execSliderCommand(conf, args)
+    ServiceLauncher<SliderClient> launcher = execSliderCommand(conf, args)
     return launcher
   }
 
@@ -669,7 +669,7 @@ class HoyaTestUtils extends Assert {
     return buf.toString();
   }
 
-  public static void waitWhileClusterLive(HoyaClient hoyaClient) {
+  public static void waitWhileClusterLive(SliderClient hoyaClient) {
     waitWhileClusterLive(hoyaClient, 30000)
   }
 

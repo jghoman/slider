@@ -27,7 +27,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
@@ -46,9 +46,9 @@ class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
     //launch fake master
     String clustername = "test_create_masterless_am"
     createMiniCluster(clustername, configuration, 1, true)
-    ServiceLauncher<HoyaClient> launcher
+    ServiceLauncher<SliderClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     addToTeardown(client);
 
     ApplicationReport report = waitForClusterLive(client)

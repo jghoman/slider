@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
@@ -46,7 +46,7 @@ class TestCreateDuplicateLiveCluster extends HBaseMiniClusterTestBase {
       //launch fake master
       ServiceLauncher launcher
       launcher = createMasterlessAM(clustername, 0, true, true)
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      SliderClient hoyaClient = (SliderClient) launcher.service
       addToTeardown(hoyaClient);
 
       //now try to create instance #2, and expect an in-use failure

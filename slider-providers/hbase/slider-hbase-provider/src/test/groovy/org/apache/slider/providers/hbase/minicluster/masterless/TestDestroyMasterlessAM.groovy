@@ -27,7 +27,7 @@ import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.params.CommonArgs
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
@@ -61,7 +61,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
     HoyaFileSystem hoyaFileSystem = createHoyaFileSystem()
@@ -105,7 +105,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     describe "thaw expected to fail"
     //expect thaw to now fail
     try {
-      launcher = launch(HoyaClient,
+      launcher = launch(SliderClient,
                         configuration,
                         [
                             CommonArgs.ACTION_THAW,
@@ -126,7 +126,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
     //and create a new cluster
     launcher = createMasterlessAM(clustername, 0, false, true)
-    HoyaClient cluster2 = launcher.service
+    SliderClient cluster2 = launcher.service
 
     // do an echo here of a large string
     // Hadoop RPC couldn't handle strings > 32K chars, this

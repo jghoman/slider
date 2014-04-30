@@ -39,7 +39,7 @@ import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
@@ -76,8 +76,8 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
     out.close()
     try {
       System.setProperty(HoyaKeys.PROPERTY_CONF_DIR,localConf.absolutePath);
-      ServiceLauncher<HoyaClient> launcher = createMasterlessAM(clustername, 0, true, true)
-      HoyaClient client = launcher.service
+      ServiceLauncher<SliderClient> launcher = createMasterlessAM(clustername, 0, true, true)
+      SliderClient client = launcher.service
       addToTeardown(client);
       ApplicationReport report = waitForClusterLive(client)
 

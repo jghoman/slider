@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ResourceKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*
@@ -72,7 +72,7 @@ class TestAgentEcho extends AgentTestBase {
     Map<String, Integer> roles = [
         (role): 1,
     ];
-    ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
+    ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         roles,
         [
             ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
@@ -85,7 +85,7 @@ class TestAgentEcho extends AgentTestBase {
         ],
         true, true,
         true)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
 
     waitForRoleCount(hoyaClient, roles, AGENT_CLUSTER_STARTUP_TIME)
     //sleep a bit

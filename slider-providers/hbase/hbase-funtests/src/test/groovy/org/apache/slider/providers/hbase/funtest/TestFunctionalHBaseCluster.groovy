@@ -28,7 +28,7 @@ import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.HBaseConfigFileOptions
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.zookeeper.*
@@ -106,7 +106,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     )
 
     //get a hoya client against the cluster
-    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
+    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
     ClusterDescription cd2 = hoyaClient.getClusterDescription()
     assert clusterName == cd2.name
 

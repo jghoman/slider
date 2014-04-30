@@ -19,7 +19,7 @@
 package org.apache.hoya;
 
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher;
-import org.apache.hoya.yarn.client.HoyaClient;
+import org.apache.hoya.yarn.client.SliderClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * This is just the entry point class
  */
-public class Hoya extends HoyaClient {
+public class Hoya extends SliderClient {
 
 
   public static final String SERVICE_CLASSNAME = "org.apache.hoya.Hoya";

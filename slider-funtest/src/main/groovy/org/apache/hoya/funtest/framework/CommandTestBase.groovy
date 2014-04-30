@@ -32,7 +32,7 @@ import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -363,11 +363,11 @@ abstract class CommandTestBase extends HoyaTestUtils {
    * @param clustername
    * @return
    */
-  HoyaClient bondToCluster(Configuration conf, String clustername) {
+  SliderClient bondToCluster(Configuration conf, String clustername) {
 
     String address = getRequiredConfOption(conf, YarnConfiguration.RM_ADDRESS)
 
-    ServiceLauncher<HoyaClient> launcher = launchClientAgainstRM(
+    ServiceLauncher<SliderClient> launcher = launchClientAgainstRM(
         address,
         ["exists", clustername],
         conf)
@@ -376,7 +376,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
     if (exitCode) {
       throw new ExitUtil.ExitException(exitCode, "exit code = $exitCode")
     }
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     hoyaClient.deployedClusterName = clustername
     return hoyaClient;
   }
@@ -464,7 +464,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
 
 
   public ClusterDescription killAmAndWaitForRestart(
-      HoyaClient hoyaClient, String cluster) {
+      SliderClient hoyaClient, String cluster) {
     
     assert cluster
     slider(0, [

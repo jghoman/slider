@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.live
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.slider.core.registry.info.ServiceInstanceData
@@ -45,8 +45,8 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     String clustername1 = "testtwoliveclusters-a"
     //now launch the cluster
     int regionServerCount = 1
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(clustername1, regionServerCount, [], true, true) 
-    HoyaClient hoyaClient = launcher.service
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(clustername1, regionServerCount, [], true, true) 
+    SliderClient hoyaClient = launcher.service
     addToTeardown(hoyaClient);
 
     basicHBaseClusterStartupSequence(hoyaClient)
@@ -69,7 +69,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
                                  ],
                                  true,
                                  true)
-    HoyaClient cluster2Client = launcher.service
+    SliderClient cluster2Client = launcher.service
     addToTeardown(cluster2Client);
 
     basicHBaseClusterStartupSequence(cluster2Client)

@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -48,7 +48,7 @@ class TestFreezeCommands extends HBaseMiniClusterTestBase {
     describe "create a masterless AM, freeze it, try to freeze again"
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true);
-    addToTeardown(launcher.service as HoyaClient);
+    addToTeardown(launcher.service as SliderClient);
 
     
     log.info("ListOp")

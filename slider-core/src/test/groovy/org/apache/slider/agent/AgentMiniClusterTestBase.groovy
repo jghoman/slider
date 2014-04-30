@@ -23,9 +23,8 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaXMLConfKeysForTesting
 import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 import org.junit.BeforeClass
 
@@ -101,7 +100,7 @@ public abstract class AgentMiniClusterTestBase
  * @param blockUntilRunning block until the AM is running
  * @return launcher which will have executed the command.
  */
-  public ServiceLauncher<HoyaClient> createMasterlessAM(
+  public ServiceLauncher<SliderClient> createMasterlessAM(
       String clustername,
       int size,
       boolean deleteExistingData,

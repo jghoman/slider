@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -61,7 +61,7 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
     assert 0 == clusterActionFreeze(hoyaClient, clustername)
@@ -74,7 +74,7 @@ class TestFreezeThawMasterlessAM extends HBaseMiniClusterTestBase {
     
     //now start the cluster
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    HoyaClient newCluster = launcher.getService() as HoyaClient
+    SliderClient newCluster = launcher.getService() as SliderClient
     newCluster.getClusterDescription(clustername);
     
     //freeze

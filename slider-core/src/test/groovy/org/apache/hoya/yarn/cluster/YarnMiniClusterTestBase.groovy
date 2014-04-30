@@ -47,7 +47,7 @@ import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.yarn.appmaster.HoyaAppMaster
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
 import org.junit.After
 import org.junit.Rule
@@ -111,7 +111,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   protected boolean imageIsRemote = false
   protected URI remoteImageURI
 
-  protected List<HoyaClient> clustersToTeardown = [];
+  protected List<SliderClient> clustersToTeardown = [];
 
   /**
    * This is set in a system property
@@ -167,11 +167,11 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     stopMiniCluster();
   }
 
-  protected void addToTeardown(HoyaClient client) {
+  protected void addToTeardown(SliderClient client) {
     clustersToTeardown << client;
   }
-  protected void addToTeardown(ServiceLauncher<HoyaClient> launcher) {
-    HoyaClient hoyaClient = launcher.service
+  protected void addToTeardown(ServiceLauncher<SliderClient> launcher) {
+    SliderClient hoyaClient = launcher.service
     if (hoyaClient) addToTeardown(hoyaClient)
   }
 
@@ -184,7 +184,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * Stop any running cluster that has been added
    */
   public void stopRunningClusters() {
-    clustersToTeardown.each { HoyaClient client ->
+    clustersToTeardown.each { SliderClient client ->
       try {
         maybeStopCluster(client, "", "Teardown at end of test case");
       } catch (Exception e) {
@@ -262,9 +262,9 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param args arg list
    * @return the return code
    */
-  protected ServiceLauncher<HoyaClient> launchClientAgainstMiniMR(Configuration conf,
+  protected ServiceLauncher<SliderClient> launchClientAgainstMiniMR(Configuration conf,
                                                                       List args) {
-    ServiceLauncher<HoyaClient> launcher = launchClientNoExitCodeCheck(conf, args)
+    ServiceLauncher<SliderClient> launcher = launchClientNoExitCodeCheck(conf, args)
     int exited = launcher.serviceExitCode
     if (exited != 0) {
       throw new SliderException(exited, "Launch failed with exit code $exited")
@@ -279,7 +279,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param args arg list
    * @return the return code
    */
-  public ServiceLauncher<HoyaClient> launchClientNoExitCodeCheck(
+  public ServiceLauncher<SliderClient> launchClientNoExitCodeCheck(
       Configuration conf,
       List args) {
     assert miniCluster != null
@@ -387,7 +387,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createCluster(
+  public ServiceLauncher<SliderClient> createCluster(
       String clustername,
       Map<String, Integer> roles,
       List<String> extraArgs,
@@ -416,7 +416,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param clusterOps map of key=value cluster options to set with the --option arg
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createOrBuildCluster(String action, String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning, Map<String, String> clusterOps) {
+  public ServiceLauncher<SliderClient> createOrBuildCluster(String action, String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning, Map<String, String> clusterOps) {
     assert clustername != null
     assert miniCluster != null
     if (deleteExistingData) {
@@ -458,14 +458,14 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    ServiceLauncher<HoyaClient> launcher = launchClientAgainstMiniMR(
+    ServiceLauncher<SliderClient> launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     if (blockUntilRunning) {
       client.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
@@ -586,7 +586,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> thawCluster(String clustername, List<String> extraArgs, boolean blockUntilRunning) {
+  public ServiceLauncher<SliderClient> thawCluster(String clustername, List<String> extraArgs, boolean blockUntilRunning) {
     assert clustername != null
     assert miniCluster != null
 
@@ -601,14 +601,14 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     if (extraArgs != null) {
       argsList += extraArgs;
     }
-    ServiceLauncher<HoyaClient> launcher = launchClientAgainstMiniMR(
+    ServiceLauncher<SliderClient> launcher = launchClientAgainstMiniMR(
         //config includes RM binding info
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         argsList
     )
     assert launcher.serviceExitCode == 0
-    HoyaClient client = (HoyaClient) launcher.service
+    SliderClient client = (SliderClient) launcher.service
     if (blockUntilRunning) {
       client.monitorAppToRunning(new Duration(CLUSTER_GO_LIVE_TIME))
     }
@@ -656,7 +656,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param client client
    * @return the app report of the live cluster
    */
-  public ApplicationReport waitForClusterLive(HoyaClient client) {
+  public ApplicationReport waitForClusterLive(SliderClient client) {
     return waitForClusterLive(client, CLUSTER_GO_LIVE_TIME)
   }
 
@@ -665,14 +665,14 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * it to shut down cleanly
    * @param client client to talk to
    */
-  public ApplicationReport waitForAppToFinish(HoyaClient client) {
+  public ApplicationReport waitForAppToFinish(SliderClient client) {
 
     int waitTime = getWaitTimeMillis(client.config)
     return waitForAppToFinish(client, waitTime)
   }
 
   public static ApplicationReport waitForAppToFinish(
-      HoyaClient client,
+      SliderClient client,
       int waitTime) {
     ApplicationReport report = client.monitorAppToState(
         YarnApplicationState.FINISHED,
@@ -698,7 +698,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param clustername cluster
    * @return the exit code
    */
-  public int clusterActionFreeze(HoyaClient hoyaClient, String clustername, String message = "action freeze") {
+  public int clusterActionFreeze(SliderClient hoyaClient, String clustername, String message = "action freeze") {
     log.info("Freezing cluster $clustername: $message")
     ActionFreezeArgs freezeArgs  = new ActionFreezeArgs();
     freezeArgs.waittime = CLUSTER_STOP_TIME
@@ -719,7 +719,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @return
    */
   public int maybeStopCluster(
-      HoyaClient hoyaClient,
+      SliderClient hoyaClient,
       String clustername,
       String message) {
     if (hoyaClient != null) {

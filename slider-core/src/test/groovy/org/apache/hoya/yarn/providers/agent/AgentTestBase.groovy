@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
@@ -95,7 +95,7 @@ public abstract class AgentTestBase extends YarnZKMiniClusterTestBase {
    * @param blockUntilRunning
    * @return the cluster launcher
    */
-  public ServiceLauncher<HoyaClient> buildAgentCluster(
+  public ServiceLauncher<SliderClient> buildAgentCluster(
       String clustername,
       Map<String, Integer> roles,
       List<String> extraArgs,

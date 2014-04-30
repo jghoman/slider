@@ -29,7 +29,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.providers.agent.AgentTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
@@ -70,7 +70,7 @@ class TestRegistryRestResources extends AgentTestBase {
     assert app_def_path.exists()
     assert agt_ver_path.exists()
     assert agt_conf_path.exists()
-    ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
+    ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         roles,
         [
             ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
@@ -80,7 +80,7 @@ class TestRegistryRestResources extends AgentTestBase {
         ],
         true, true,
         true)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     def report = waitForClusterLive(hoyaClient)
     def trackingUrl = report.trackingUrl
     log.info("tracking URL is $trackingUrl")

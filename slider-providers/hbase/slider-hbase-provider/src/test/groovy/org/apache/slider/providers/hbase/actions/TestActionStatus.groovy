@@ -25,7 +25,7 @@ import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionStatusArgs
 import org.apache.hoya.yarn.params.ClientArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
@@ -84,7 +84,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive(launcher.service)
 
     //do the low level operations to get a better view of what is going on 
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
 
     //now look for the explicit sevice
 

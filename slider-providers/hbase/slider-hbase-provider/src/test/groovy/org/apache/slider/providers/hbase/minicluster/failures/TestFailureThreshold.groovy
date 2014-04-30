@@ -30,7 +30,7 @@ import org.apache.hoya.api.OptionKeys
 import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 
@@ -63,7 +63,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
         "Create a single region service cluster then " + action + " the RS");
 
     //now launch the cluster
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(
         clustername,
         regionServerCount,
         [
@@ -71,7 +71,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
             Integer.toString(threshold)],
         true,
         true)
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     addToTeardown(client);
     ClusterDescription status = client.getClusterDescription(clustername)
 

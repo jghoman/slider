@@ -26,7 +26,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ResourceKeys
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
@@ -119,7 +119,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
    * @param blockUntilRunning block until the AM is running
    * @return launcher which will have executed the command.
    */
-  public ServiceLauncher<HoyaClient> createAccCluster(String clustername, int tablets, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning) {
+  public ServiceLauncher<SliderClient> createAccCluster(String clustername, int tablets, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning) {
     Map<String, Integer> roles = [
         (ROLE_MASTER): 1,
         (ROLE_TABLET): tablets,
@@ -136,7 +136,7 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
    * @param blockUntilRunning
    * @return the cluster launcher
    */
-  public ServiceLauncher<HoyaClient> createAccCluster(String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning) {
+  public ServiceLauncher<SliderClient> createAccCluster(String clustername, Map<String, Integer> roles, List<String> extraArgs, boolean deleteExistingData, boolean blockUntilRunning) {
     extraArgs << ARG_PROVIDER << PROVIDER_ACCUMULO;
 
     YarnConfiguration conf = testConfiguration
@@ -182,13 +182,13 @@ public abstract class AccumuloTestBase extends YarnZKMiniClusterTestBase {
                       1,
                       true);
     //now launch the cluster
-    HoyaClient hoyaClient = null;
+    SliderClient hoyaClient = null;
     ServiceLauncher launcher = createAccCluster(clustername,
                                                  plan[0],
                                                  [],
                                                  true,
                                                  true);
-    hoyaClient = (HoyaClient) launcher.service;
+    hoyaClient = (SliderClient) launcher.service;
     try {
 
       //verify the #of roles is as expected

@@ -27,7 +27,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.junit.Test
 
@@ -55,7 +55,7 @@ class TestInvalidMonitorAddress extends AccumuloTestBase {
            ],
            true,
            true)
-      HoyaClient hoyaClient = launcher.service
+      SliderClient hoyaClient = launcher.service
       addToTeardown(hoyaClient);
       ClusterDescription status = hoyaClient.clusterDescription
       dumpClusterDescription("Remote CD", status)

@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.junit.Test
@@ -46,7 +46,7 @@ class TestRecreateMasterlessAM extends HBaseMiniClusterTestBase {
              "a second cluster with the same name"
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     clusterActionFreeze(hoyaClient, clustername)
 

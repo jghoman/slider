@@ -19,7 +19,6 @@
 package org.apache.hoya.yarn.client;
 
 import com.google.common.annotations.VisibleForTesting;
-import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -117,11 +116,11 @@ import java.util.Properties;
  * Client service for Hoya
  */
 
-public class HoyaClient extends AbstractSliderLaunchedService implements RunService,
+public class SliderClient extends AbstractSliderLaunchedService implements RunService,
                                                           HoyaExitCodes,
                                                           HoyaKeys,
                                                           ErrorStrings {
-  private static final Logger log = LoggerFactory.getLogger(HoyaClient.class);
+  private static final Logger log = LoggerFactory.getLogger(SliderClient.class);
 
   private ClientArgs serviceArgs;
   public ApplicationId applicationId;
@@ -146,7 +145,7 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   /**
    * Constructor
    */
-  public HoyaClient() {
+  public SliderClient() {
     super("Slider Client");
   }
 

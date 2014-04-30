@@ -27,7 +27,7 @@ import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.hoya.yarn.client.SliderClient
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -111,7 +111,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       getConf(0, CLUSTER)
 
       //get a hoya client against the cluster
-      HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
+      SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
       ClusterDescription cd2 = hoyaClient.getClusterDescription()
       assert CLUSTER == cd2.name
 
