@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
+import org.apache.slider.core.launcher.LauncherExitCodes
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase

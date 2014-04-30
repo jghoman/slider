@@ -18,7 +18,7 @@
 
 package org.apache.hoya;
 
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher;
+import org.apache.slider.core.launcher.ServiceLauncher;
 import org.apache.hoya.yarn.client.SliderClient;
 
 import java.util.ArrayList;

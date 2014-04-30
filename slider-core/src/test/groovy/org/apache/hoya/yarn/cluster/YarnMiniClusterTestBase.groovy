@@ -34,8 +34,8 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.MiniYARNCluster
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterNode

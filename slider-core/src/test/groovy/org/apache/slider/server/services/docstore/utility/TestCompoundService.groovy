@@ -21,7 +21,7 @@ package org.apache.slider.server.services.docstore.utility
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.service.Service
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.junit.Test
 
 @Slf4j

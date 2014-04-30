@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hadoop.yarn.service.launcher;
+package org.apache.slider.core.launcher;
 
 
 import org.apache.hadoop.yarn.exceptions.YarnException;

@@ -24,7 +24,7 @@ import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.SliderActions
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test
 
 /**

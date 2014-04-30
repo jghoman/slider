@@ -24,7 +24,7 @@ import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription

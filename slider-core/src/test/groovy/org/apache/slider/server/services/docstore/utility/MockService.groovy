@@ -20,7 +20,7 @@ package org.apache.slider.server.services.docstore.utility
 
 import org.apache.hadoop.service.AbstractService
 import org.apache.hadoop.service.ServiceStateException
-import org.apache.hadoop.yarn.service.launcher.ExitCodeProvider
+import org.apache.slider.core.launcher.ExitCodeProvider
 
 /**
  * Little mock service to simulate delays

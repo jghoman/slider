@@ -18,7 +18,7 @@
 
 package org.apache.hoya.yarn.appmaster;
 
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
+import org.apache.slider.core.launcher.LauncherExitCodes;
 import org.apache.hoya.SliderExitCodes;
 
 public class AMUtils {

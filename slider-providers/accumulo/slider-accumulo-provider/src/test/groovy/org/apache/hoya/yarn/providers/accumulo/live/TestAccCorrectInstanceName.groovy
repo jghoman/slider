@@ -24,7 +24,7 @@ import org.apache.accumulo.core.client.Connector
 import org.apache.accumulo.core.client.ZooKeeperInstance
 import org.apache.accumulo.core.client.security.tokens.PasswordToken
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.hoya.yarn.Arguments

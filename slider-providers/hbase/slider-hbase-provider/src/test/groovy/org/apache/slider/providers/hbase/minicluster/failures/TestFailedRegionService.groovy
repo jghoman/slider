@@ -27,7 +27,7 @@ import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionKillContainerArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test
 
 /**

@@ -22,7 +22,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.cluster.YarnMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 

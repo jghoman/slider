@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.minicluster.build
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
+import org.apache.slider.core.launcher.LauncherExitCodes
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
@@ -28,7 +28,7 @@ import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE

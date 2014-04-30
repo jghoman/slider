@@ -18,7 +18,7 @@
 
 package org.apache.hoya;
 
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
+import org.apache.slider.core.launcher.LauncherExitCodes;
 
 public interface SliderExitCodes extends LauncherExitCodes {
 

@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.client
 
 import groovy.transform.CompileStatic
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions

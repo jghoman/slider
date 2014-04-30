@@ -18,8 +18,8 @@
 
 package org.apache.hoya.yarn.client
 
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.SliderUtils

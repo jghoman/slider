@@ -25,7 +25,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test
 
 /**
