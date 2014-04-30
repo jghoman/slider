@@ -69,7 +69,6 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
   protected static final Logger log =
     LoggerFactory.getLogger(SliderAMClientProvider.class);
   protected static final String NAME = "SliderAM";
-  private static final ProviderUtils providerUtils = new ProviderUtils(log);
   public static final String INSTANCE_RESOURCE_BASE = PROVIDER_RESOURCE_BASE_ROOT +
                                                        "slideram/instance/";
   public static final String INTERNAL_JSON =
@@ -78,9 +77,6 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
     INSTANCE_RESOURCE_BASE + "appconf.json";
   public static final String RESOURCES_JSON =
     INSTANCE_RESOURCE_BASE + "resources.json";
-
-  public static final String AM_ROLE_CONFIG_RESOURCE =
-    PROVIDER_RESOURCE_BASE +"slideram/role-am.xml";
 
   public SliderAMClientProvider(Configuration conf) {
     super(conf);
