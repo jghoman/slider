@@ -22,7 +22,7 @@ package org.apache.slider.providers.hbase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
@@ -66,7 +66,7 @@ import java.util.TreeMap;
 public class HBaseProviderService extends AbstractProviderService implements
                                                                   ProviderCore,
                                                                   HBaseKeys,
-                                                                  HoyaKeys,
+    SliderKeys,
     AgentRestOperations{
 
   public static final String ERROR_UNKNOWN_ROLE = "Unknown role ";
@@ -132,7 +132,7 @@ public class HBaseProviderService extends AbstractProviderService implements
 
     launcher.setEnv("PROPAGATED_CONFDIR",
         ProviderUtils.convertToAppRelativePath(
-            HoyaKeys.PROPAGATED_CONF_DIR_NAME) );
+            SliderKeys.PROPAGATED_CONF_DIR_NAME) );
 
 
     //local resources
@@ -140,7 +140,7 @@ public class HBaseProviderService extends AbstractProviderService implements
     //add the configuration resources
     launcher.addLocalResources(hoyaFileSystem.submitDirectory(
         generatedConfPath,
-        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+        SliderKeys.PROPAGATED_CONF_DIR_NAME));
     //Add binaries
     //now add the image if it was set
     String imageURI = instanceDefinition.getInternalOperations().get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);

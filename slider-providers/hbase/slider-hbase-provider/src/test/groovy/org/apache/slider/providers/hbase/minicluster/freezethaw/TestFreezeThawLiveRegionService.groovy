@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
@@ -48,7 +48,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     //use a smaller AM HEAP to include it in the test cycle
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
           [
-              Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "96M",
+              Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "96M",
           ],
                                                   true, true)
     SliderClient hoyaClient = (SliderClient) launcher.service

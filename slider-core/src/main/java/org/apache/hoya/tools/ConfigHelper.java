@@ -24,7 +24,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.slf4j.Logger;
@@ -319,7 +319,7 @@ public class ConfigHelper {
   /**
    * looks for the config under $confdir/$templateFilename; if not there
    * loads it from /conf/templateFile.
-   * The property {@link HoyaKeys#KEY_TEMPLATE_ORIGIN} is set to the
+   * The property {@link SliderKeys#KEY_TEMPLATE_ORIGIN} is set to the
    * origin to help debug what's happening
    * @param systemConf system conf
    * @param confdir conf dir in FS
@@ -342,7 +342,7 @@ public class ConfigHelper {
   /**
    * looks for the config under $confdir/$templateFilename; if not there
    * loads it from /conf/templateFile.
-   * The property {@link HoyaKeys#KEY_TEMPLATE_ORIGIN} is set to the
+   * The property {@link SliderKeys#KEY_TEMPLATE_ORIGIN} is set to the
    * origin to help debug what's happening.
    * @param fs Filesystem
    * @param templatePath HDFS path for template

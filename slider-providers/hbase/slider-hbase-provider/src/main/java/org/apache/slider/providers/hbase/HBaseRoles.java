@@ -18,7 +18,7 @@
 
 package org.apache.slider.providers.hbase;
 
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 
@@ -33,9 +33,9 @@ public class HBaseRoles {
   protected static final List<ProviderRole> ROLES =
     new ArrayList<ProviderRole>();
 
-  public static final int KEY_WORKER = HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
+  public static final int KEY_WORKER = SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
 
-  public static final int KEY_MASTER = HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 2;
+  public static final int KEY_MASTER = SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 2;
 
   /**
    * Initialize role list

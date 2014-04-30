@@ -22,7 +22,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;
@@ -157,7 +157,7 @@ public class ProviderUtils implements RoleKeys {
     String logdir = System.getenv("LOGDIR");
     if (logdir == null) {
       logdir =
-        HoyaKeys.TMP_LOGDIR_PREFIX + UserGroupInformation.getCurrentUser().getShortUserName();
+        SliderKeys.TMP_LOGDIR_PREFIX + UserGroupInformation.getCurrentUser().getShortUserName();
     }
     return logdir;
   }
@@ -295,12 +295,12 @@ public class ProviderUtils implements RoleKeys {
     String path;
     File scriptFile;
     if (imagePath!=null) {
-      File tarball = new File(HoyaKeys.LOCAL_TARBALL_INSTALL_SUBDIR);
+      File tarball = new File(SliderKeys.LOCAL_TARBALL_INSTALL_SUBDIR);
       scriptFile = findBinScriptInExpandedArchive(tarball, bindir, script);
       // now work back from the script to build the relative path
       // to the binary which will be valid remote or local
       StringBuilder builder = new StringBuilder();
-      builder.append(HoyaKeys.LOCAL_TARBALL_INSTALL_SUBDIR);
+      builder.append(SliderKeys.LOCAL_TARBALL_INSTALL_SUBDIR);
       builder.append("/");
       //for the script, we want the name of ../..
       File archive = scriptFile.getParentFile().getParentFile();

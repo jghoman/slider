@@ -20,7 +20,7 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;
 import org.apache.hoya.core.conf.AggregateConf;
@@ -45,7 +45,7 @@ import java.util.Set;
 
 /** This class implements  the client-side aspects of the agent deployer */
 public class AgentClientProvider extends AbstractClientProvider
-    implements AgentKeys, HoyaKeys {
+    implements AgentKeys, SliderKeys {
 
 
   protected static final Logger log =
@@ -115,7 +115,7 @@ public class AgentClientProvider extends AbstractClientProvider
                                     0, -1);
 
     Set<String> names = resources.getComponentNames();
-    names.remove(HoyaKeys.COMPONENT_AM);
+    names.remove(SliderKeys.COMPONENT_AM);
     Map<Integer, String> priorityMap = new HashMap<Integer, String>();
     for (String name : names) {
       MapOperations component = resources.getMandatoryComponent(name);

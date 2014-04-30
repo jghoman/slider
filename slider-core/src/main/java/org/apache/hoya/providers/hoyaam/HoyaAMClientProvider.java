@@ -28,7 +28,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.Resource;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;
 import org.apache.hoya.api.RoleKeys;
@@ -63,7 +63,7 @@ import java.util.Map;
  * out of the core hoya client
  */
 public class HoyaAMClientProvider extends AbstractClientProvider implements
-                                                     HoyaKeys {
+    SliderKeys {
 
 
   protected static final Logger log =
@@ -134,7 +134,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
     Path path = new Path(dataPath);
     hoyaFileSystem.verifyDirectoryWriteAccess(path);
-    Path historyPath = new Path(clusterDirPath, HoyaKeys.HISTORY_DIR_NAME);
+    Path historyPath = new Path(clusterDirPath, SliderKeys.HISTORY_DIR_NAME);
     hoyaFileSystem.verifyDirectoryWriteAccess(historyPath);
   }
 
@@ -204,7 +204,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
     //also pick up all env variables from a map
     launcher.copyEnvVars(
       instanceDescription.getInternalOperations().getOrAddComponent(
-        HoyaKeys.COMPONENT_AM));
+        SliderKeys.COMPONENT_AM));
   }
 
   /**
@@ -230,7 +230,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                                         BadConfigException {
     MapOperations hoyaAM =
       aggregateConf.getAppConfOperations().getMandatoryComponent(
-        HoyaKeys.COMPONENT_AM);
+        SliderKeys.COMPONENT_AM);
     cmdLine.sysprop("java.net.preferIPv4Stack", "true");
     cmdLine.sysprop("java.awt.headless", "true");
     String heap = hoyaAM.getOption(RoleKeys.JVM_HEAP,

@@ -20,7 +20,7 @@ package org.apache.hoya.providers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.SliderException;
@@ -103,7 +103,7 @@ public abstract class HoyaProviderFactory extends Configured {
 
   public static Configuration loadHoyaConfiguration() {
     Configuration conf = new Configuration();
-    conf.addResource(HoyaKeys.HOYA_XML);
+    conf.addResource(SliderKeys.HOYA_XML);
     return conf;
   }
 }

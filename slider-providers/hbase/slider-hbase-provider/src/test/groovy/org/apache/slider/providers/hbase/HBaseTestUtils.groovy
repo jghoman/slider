@@ -29,7 +29,7 @@ import org.apache.hadoop.hbase.client.HBaseAdmin
 import org.apache.hadoop.hbase.client.HConnection
 import org.apache.hadoop.hbase.client.HConnectionManager
 import org.apache.hadoop.hbase.client.RetriesExhaustedException
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.WaitTimeoutException
@@ -161,7 +161,7 @@ class HBaseTestUtils extends HoyaTestUtils {
 
   public static ClusterStatus basicHBaseClusterStartupSequence(
       SliderClient hoyaClient, int startupTime, int startupToLiveTime ) {
-    int state = hoyaClient.waitForRoleInstanceLive(HoyaKeys.COMPONENT_AM,
+    int state = hoyaClient.waitForRoleInstanceLive(SliderKeys.COMPONENT_AM,
                                                    startupTime);
     assert state == ClusterDescription.STATE_LIVE;
     state = hoyaClient.waitForRoleInstanceLive(HBaseKeys.ROLE_MASTER,

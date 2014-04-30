@@ -25,7 +25,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
@@ -71,7 +71,7 @@ import java.util.TreeMap;
 public class AccumuloProviderService extends AbstractProviderService implements
                                                                      ProviderCore,
                                                                      AccumuloKeys,
-                                                                     HoyaKeys {
+    SliderKeys {
 
   protected static final Logger log =
     LoggerFactory.getLogger(AccumuloClientProvider.class);
@@ -150,7 +150,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
 
     launcher.setEnv(ACCUMULO_CONF_DIR,
             ProviderUtils.convertToAppRelativePath(
-              HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+              SliderKeys.PROPAGATED_CONF_DIR_NAME));
     launcher.setEnv(ZOOKEEPER_HOME, appConfGlobal.getMandatoryOption(OPTION_ZK_HOME));
 
     //local resources
@@ -159,7 +159,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
     //add the configuration resources
     launcher.addLocalResources(fileSystem.submitDirectory(
         generatedConfPath,
-        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+        SliderKeys.PROPAGATED_CONF_DIR_NAME));
 
     //Add binaries
     //now add the image if it was set

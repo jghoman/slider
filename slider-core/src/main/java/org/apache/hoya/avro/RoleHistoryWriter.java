@@ -36,7 +36,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.GlobFilter;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.appmaster.state.NodeEntry;
@@ -156,7 +156,7 @@ public class RoleHistoryWriter {
    */
   public Path createHistoryFilename(Path historyPath, long time) {
     String filename = String.format(Locale.ENGLISH,
-                                    HoyaKeys.HISTORY_FILENAME_CREATION_PATTERN,
+                                    SliderKeys.HISTORY_FILENAME_CREATION_PATTERN,
                                     time);
     Path path = new Path(historyPath, filename);
     return path;
@@ -309,7 +309,7 @@ public class RoleHistoryWriter {
    * Find all history entries in a dir. The dir is created if it is
    * not already defined.
    * 
-   * The scan uses the match pattern {@link HoyaKeys#HISTORY_FILENAME_MATCH_PATTERN}
+   * The scan uses the match pattern {@link SliderKeys#HISTORY_FILENAME_MATCH_PATTERN}
    * while dropping empty files and directories which match the pattern.
    * The list is then sorted with a comparator that sorts on filename,
    * relying on the filename of newer created files being later than the old ones.
@@ -334,7 +334,7 @@ public class RoleHistoryWriter {
       throw new FileNotFoundException("Not a directory " + dir.toString());
     }
     
-    PathFilter filter = new GlobFilter(HoyaKeys.HISTORY_FILENAME_GLOB_PATTERN);
+    PathFilter filter = new GlobFilter(SliderKeys.HISTORY_FILENAME_GLOB_PATTERN);
     FileStatus[] stats = fs.listStatus(dir, filter);
     List<Path> paths = new ArrayList<Path>(stats.length);
     for (FileStatus stat : stats) {

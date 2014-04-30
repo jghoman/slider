@@ -33,7 +33,7 @@ import org.apache.hadoop.yarn.api.records.LocalResourceVisibility;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.SliderExitCodes;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.core.persist.Filenames;
 import org.apache.hoya.core.persist.InstancePaths;
@@ -84,7 +84,7 @@ public class CoreFileSystem {
    */
   public Path getTempPathForCluster(String clustername) {
     Path clusterDir = buildHoyaClusterDirPath(clustername);
-    return new Path(clusterDir, HoyaKeys.TMP_DIR_PREFIX);
+    return new Path(clusterDir, SliderKeys.TMP_DIR_PREFIX);
   }
 
   /**
@@ -117,7 +117,7 @@ public class CoreFileSystem {
       throw new NullPointerException();
     }
     Path hoyaPath = getBaseApplicationPath();
-    return new Path(hoyaPath, HoyaKeys.CLUSTER_DIRECTORY + "/" + clustername);
+    return new Path(hoyaPath, SliderKeys.CLUSTER_DIRECTORY + "/" + clustername);
   }
 
   /**
@@ -346,7 +346,7 @@ public class CoreFileSystem {
   public Path getBaseApplicationPath() {
     String configuredBasePath = configuration.get(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH);
     return configuredBasePath != null ? new Path(configuredBasePath) :
-           new Path(getHomeDirectory(), HoyaKeys.SLIDER_BASE_DIRECTORY);
+           new Path(getHomeDirectory(), SliderKeys.SLIDER_BASE_DIRECTORY);
   }
 
   public Path getHomeDirectory() {
@@ -358,7 +358,7 @@ public class CoreFileSystem {
     if (imagePath != null) {
       LocalResource resource = createAmResource(imagePath,
           LocalResourceType.ARCHIVE);
-      localResources.put(HoyaKeys.LOCAL_TARBALL_INSTALL_SUBDIR, resource);
+      localResources.put(SliderKeys.LOCAL_TARBALL_INSTALL_SUBDIR, resource);
       return true;
     } else {
       return false;

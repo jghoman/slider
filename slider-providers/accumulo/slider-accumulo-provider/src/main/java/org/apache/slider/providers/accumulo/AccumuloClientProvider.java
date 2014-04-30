@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
@@ -239,7 +239,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
     Map<String, LocalResource> providerResources;
     providerResources = fileSystem.submitDirectory(generatedConfDirPath,
-                                                   HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                                                   SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
 
     ProviderUtils.addProviderJar(providerResources,
@@ -286,13 +286,13 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
     log.debug("Saving the config to {}", sitePath);
     launcher.submitDirectory(generatedConfDirPath,
-                             HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                             SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
   }
 
   private static Set<String> knownRoleNames = new HashSet<String>();
   static {
-    knownRoleNames.add(HoyaKeys.COMPONENT_AM);
+    knownRoleNames.add(SliderKeys.COMPONENT_AM);
     for (ProviderRole role : AccumuloRoles.ROLES) {
       knownRoleNames.add(role.name);
     }

@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
@@ -56,7 +56,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
                (HBaseKeys.ROLE_WORKER): 0,
            ],
            [
-               Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "invalid",
+               Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "invalid",
                ARG_PROVIDER, PROVIDER_HBASE
            ],
            true,

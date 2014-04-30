@@ -1,8 +1,8 @@
 package org.apache.hoya.funtest.framework
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.HoyaKeys
 import org.apache.hoya.HoyaXMLConfKeysForTesting
+import org.apache.hoya.SliderKeys
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -52,7 +52,7 @@ public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
 
   String KEY_HOYA_FUNTESTS_ENABLED = "slider.funtest.enabled"
 
-  String CLIENT_CONFIG_FILENAME = HoyaKeys.CLIENT_RESOURCE
+  String CLIENT_CONFIG_FILENAME = SliderKeys.CLIENT_RESOURCE
   
   String ENV_CONF_DIR = "SLIDER_CONF_DIR"
   String ENV_SLIDER_CLASSPATH_EXTRA = "SLIDER_CLASSPATH_EXTRA"

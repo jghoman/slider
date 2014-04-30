@@ -35,7 +35,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.Constants;
 import org.apache.hoya.SliderExitCodes;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.ClusterNode;
 import org.apache.hoya.api.HoyaClusterProtocol;
@@ -118,7 +118,7 @@ import java.util.Properties;
 
 public class SliderClient extends AbstractSliderLaunchedService implements RunService,
     SliderExitCodes,
-                                                          HoyaKeys,
+    SliderKeys,
                                                           ErrorStrings {
   private static final Logger log = LoggerFactory.getLogger(SliderClient.class);
 
@@ -670,9 +670,9 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       log.debug(instanceDefinition.toString());
     }
     MapOperations hoyaAMResourceComponent =
-      resourceOperations.getOrAddComponent(HoyaKeys.COMPONENT_AM);
+      resourceOperations.getOrAddComponent(SliderKeys.COMPONENT_AM);
     AppMasterLauncher amLauncher = new AppMasterLauncher(clustername,
-                                                         HoyaKeys.APP_TYPE,
+                                                         SliderKeys.APP_TYPE,
                                                          config,
                                                          hoyaFileSystem,
                                                          yarnClient,
@@ -703,7 +703,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     Path remoteConfPath = null;
     String relativeConfDir = null;
     String confdirProp =
-      System.getProperty(HoyaKeys.PROPERTY_CONF_DIR);
+      System.getProperty(SliderKeys.PROPERTY_CONF_DIR);
     if (confdirProp == null || confdirProp.isEmpty()) {
       log.debug("No local configuration directory provided as system property");
     } else {
@@ -715,7 +715,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       Path localConfDirPath = HoyaUtils.createLocalPath(confDir);
       log.debug("Copying AM configuration data from {}", localConfDirPath);
       remoteConfPath = new Path(clusterDirectory,
-                                    HoyaKeys.SUBMITTED_CONF_DIR);
+                                    SliderKeys.SUBMITTED_CONF_DIR);
       HoyaUtils.copyDirectory(config, localConfDirPath, remoteConfPath,
                               null);
     }
@@ -729,7 +729,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
       // insert conf dir first
       if (remoteConfPath != null) {
-        relativeConfDir = HoyaKeys.SUBMITTED_CONF_DIR;
+        relativeConfDir = SliderKeys.SUBMITTED_CONF_DIR;
         Map<String, LocalResource> submittedConfDir =
           hoyaFileSystem.submitDirectory(remoteConfPath,
                                          relativeConfDir);
@@ -1951,7 +1951,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       IOException {
     maybeStartRegistry();
     List<CuratorServiceInstance<ServiceInstanceData>> instances =
-        registry.listInstances(HoyaKeys.APP_TYPE);
+        registry.listInstances(SliderKeys.APP_TYPE);
 
     for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
       log.info("{} at http://{}:{}/", instance.id, instance.address,
@@ -1982,7 +1982,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   public List<CuratorServiceInstance<ServiceInstanceData>> listRegistryInstances()
       throws IOException, YarnException {
     maybeStartRegistry();
-    return registry.listInstances(HoyaKeys.APP_TYPE);
+    return registry.listInstances(SliderKeys.APP_TYPE);
   }
 
   /**
@@ -1996,7 +1996,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       YarnException {
     try {
       maybeStartRegistry();
-      return registry.instanceIDs(HoyaKeys.APP_TYPE);
+      return registry.instanceIDs(SliderKeys.APP_TYPE);
     } catch (IOException e) {
       throw e;
     } catch (YarnException e) {

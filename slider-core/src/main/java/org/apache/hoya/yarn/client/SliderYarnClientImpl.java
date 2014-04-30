@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.client.api.impl.YarnClientImpl;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.HoyaUtils;
@@ -70,7 +70,7 @@ public class SliderYarnClientImpl extends YarnClientImpl {
   public List<ApplicationReport> listInstances(String user)
     throws YarnException, IOException {
     Set<String> types = new HashSet<String>(1);
-    types.add(HoyaKeys.APP_TYPE);
+    types.add(SliderKeys.APP_TYPE);
     List<ApplicationReport> allApps = getApplications(types);
     List<ApplicationReport> results = new ArrayList<ApplicationReport>();
     for (ApplicationReport report : allApps) {

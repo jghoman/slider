@@ -32,7 +32,7 @@ import org.apache.hadoop.yarn.client.api.AMRMClient;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
 import org.apache.hoya.SliderExitCodes;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.ClusterDescriptionKeys;
 import org.apache.hoya.api.ClusterDescriptionOperations;
@@ -720,7 +720,7 @@ public class AppState implements StateAccessForProviders {
     container.setNodeId(nodeId);
     container.setNodeHttpAddress(nodeHttpAddress);
     RoleInstance am = new RoleInstance(container);
-    am.role = HoyaKeys.COMPONENT_AM;
+    am.role = SliderKeys.COMPONENT_AM;
     appMasterNode = am;
     //it is also added to the set of live nodes
     getLiveNodes().put(containerId, am);
@@ -1371,7 +1371,7 @@ public class AppState implements StateAccessForProviders {
     hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_SURPLUS, surplusContainers.get());
     hoyastats.put(StatusKeys.STATISTICS_CONTAINERS_UNKNOWN_COMPLETED,
                   completionOfUnknownContainerEvent.get());
-    cd.statistics.put(HoyaKeys.COMPONENT_AM, hoyastats);
+    cd.statistics.put(SliderKeys.COMPONENT_AM, hoyastats);
     
   }
 

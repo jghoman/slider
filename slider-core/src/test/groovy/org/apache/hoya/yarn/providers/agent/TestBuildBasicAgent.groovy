@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
@@ -187,7 +187,7 @@ class TestBuildBasicAgent extends AgentTestBase {
             ARG_OPTION, APP_DEF, "file://" + TestResources.getAppDef().absolutePath,
             ARG_OPTION, AGENT_CONF, "file://" + TestResources.getAgentConf().absolutePath,
             ARG_PACKAGE, ".",
-            ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_OPTS, jvmopts,
+            ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_OPTS, jvmopts,
             ARG_COMP_OPT, master, RoleKeys.JVM_OPTS, jvmopts,
             ARG_COMP_OPT, rs, RoleKeys.JVM_OPTS, jvmopts,
             ARG_RES_COMP_OPT, master, ResourceKeys.COMPONENT_PRIORITY, "2",
@@ -200,7 +200,7 @@ class TestBuildBasicAgent extends AgentTestBase {
     //now we want to look at the value
     AggregateConf instanceDefinition = loadInstanceDefinition(cluster4)
     def opt = instanceDefinition.getAppConfOperations().getComponentOpt(
-        HoyaKeys.COMPONENT_AM,
+        SliderKeys.COMPONENT_AM,
         RoleKeys.JVM_OPTS,
         "")
 

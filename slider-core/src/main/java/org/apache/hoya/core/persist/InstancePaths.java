@@ -19,7 +19,7 @@
 package org.apache.hoya.core.persist;
 
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 
 /**
  * Build up all the paths of an instance relative to the supplied instance
@@ -38,12 +38,12 @@ public class InstancePaths {
   public InstancePaths(Path instanceDir) {
     this.instanceDir = instanceDir;
     snapshotConfPath =
-      new Path(instanceDir, HoyaKeys.SNAPSHOT_CONF_DIR_NAME);
+      new Path(instanceDir, SliderKeys.SNAPSHOT_CONF_DIR_NAME);
     generatedConfPath =
-      new Path(instanceDir, HoyaKeys.GENERATED_CONF_DIR_NAME);
-    historyPath = new Path(instanceDir, HoyaKeys.HISTORY_DIR_NAME);
-    dataPath = new Path(instanceDir, HoyaKeys.DATA_DIR_NAME);
-    tmpPath = new Path(instanceDir, HoyaKeys.TMP_DIR_PREFIX);
+      new Path(instanceDir, SliderKeys.GENERATED_CONF_DIR_NAME);
+    historyPath = new Path(instanceDir, SliderKeys.HISTORY_DIR_NAME);
+    dataPath = new Path(instanceDir, SliderKeys.DATA_DIR_NAME);
+    tmpPath = new Path(instanceDir, SliderKeys.TMP_DIR_PREFIX);
     tmpPathAM = new Path(tmpPath, "appmaster");
   }
 

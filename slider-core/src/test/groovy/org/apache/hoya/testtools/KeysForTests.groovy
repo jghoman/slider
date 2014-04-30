@@ -18,13 +18,13 @@
 
 package org.apache.hoya.testtools
 
-import org.apache.hoya.HoyaKeys
 import org.apache.hoya.HoyaXMLConfKeysForTesting
+import org.apache.hoya.SliderKeys
 
 /**
  * Keys shared across tests
  */
-public interface KeysForTests extends HoyaKeys, HoyaXMLConfKeysForTesting {
+public interface KeysForTests extends SliderKeys, HoyaXMLConfKeysForTesting {
   /**
    * Username for all clusters, ZK, etc
    */

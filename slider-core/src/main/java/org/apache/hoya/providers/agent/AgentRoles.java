@@ -18,7 +18,7 @@
 
 package org.apache.hoya.providers.agent;
 
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.providers.ProviderRole;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class AgentRoles {
     new ArrayList<ProviderRole>();
 
   public static final int KEY_NODE =
-                                 HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
+                                 SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
     /**
      * Initialize role list
      */

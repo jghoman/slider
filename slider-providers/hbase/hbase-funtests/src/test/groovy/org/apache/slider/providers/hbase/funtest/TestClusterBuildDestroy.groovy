@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -64,7 +64,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
     --roleopt master app.infoport 8180  \\
     --role master 1 
 '''
-    def clusterDir = HoyaKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
+    def clusterDir = SliderKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
     def clusterDirPath = new Path(clusterFS.homeDirectory, clusterDir)
     clusterFS.delete(clusterDirPath, true)
     slider(0,

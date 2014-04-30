@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
@@ -67,25 +67,25 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
     List<ApplicationReport> apps = client.applications;
 
     List<ClusterNode> clusterNodes = client.listClusterNodesInRole(
-        HoyaKeys.COMPONENT_AM)
+        SliderKeys.COMPONENT_AM)
     assert clusterNodes.size() == 1
 
     ClusterNode masterNode = clusterNodes[0]
     log.info("Master node = ${masterNode}");
 
     List<ClusterNode> nodes
-    String[] uuids = client.listNodeUUIDsByRole(HoyaKeys.COMPONENT_AM)
+    String[] uuids = client.listNodeUUIDsByRole(SliderKeys.COMPONENT_AM)
     assert uuids.length == 1;
     nodes = client.listClusterNodes(uuids);
     assert nodes.size() == 1;
     describe "AM Node UUID=${uuids[0]}"
 
-    nodes = listNodesInRole(client, HoyaKeys.COMPONENT_AM)
+    nodes = listNodesInRole(client, SliderKeys.COMPONENT_AM)
     assert nodes.size() == 1;
     nodes = listNodesInRole(client, "")
     assert nodes.size() == 1;
     ClusterNode master = nodes[0]
-    assert master.role == HoyaKeys.COMPONENT_AM
+    assert master.role == SliderKeys.COMPONENT_AM
 
 
 

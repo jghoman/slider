@@ -25,7 +25,7 @@ import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.LocalResourceType;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.StatusKeys;
@@ -79,7 +79,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AgentProviderService extends AbstractProviderService implements
     ProviderCore,
     AgentKeys,
-    HoyaKeys, AgentRestOperations {
+    SliderKeys, AgentRestOperations {
 
 
   protected static final Logger log =
@@ -588,7 +588,7 @@ public class AgentProviderService extends AbstractProviderService implements
   private void buildEndpointDetails(Map<String, URL> details) {
     try {
       List<CuratorServiceInstance<ServiceInstanceData>> services =
-          registry.listInstances(HoyaKeys.APP_TYPE);
+          registry.listInstances(SliderKeys.APP_TYPE);
       assert services.size() == 1;
       CuratorServiceInstance<ServiceInstanceData> service = services.get(0);
       Map payload = (Map) service.getPayload();

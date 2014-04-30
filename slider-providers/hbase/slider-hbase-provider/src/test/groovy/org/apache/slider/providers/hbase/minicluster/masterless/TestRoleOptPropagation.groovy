@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.slider.providers.hbase.HBaseKeys
@@ -83,7 +83,7 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
              (HBaseKeys.ROLE_WORKER): 0,
          ],
          [
-             Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, MALLOC_ARENA, "4",
+             Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, MALLOC_ARENA, "4",
              Arguments.ARG_COMP_OPT, "unknown", MALLOC_ARENA, "3",
              ARG_PROVIDER, PROVIDER_HBASE
          ],

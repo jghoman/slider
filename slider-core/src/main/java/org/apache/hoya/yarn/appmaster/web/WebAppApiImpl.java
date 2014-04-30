@@ -24,11 +24,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;
-import org.apache.hoya.yarn.appmaster.state.AppState;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
@@ -41,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class WebAppApiImpl implements WebAppApi {
   private static final Logger log = LoggerFactory.getLogger(WebAppApiImpl.class);
 
-  protected static final ProviderRole HOYA_AM_ROLE = new ProviderRole("Slider Application Master", HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX);
+  protected static final ProviderRole HOYA_AM_ROLE = new ProviderRole("Slider Application Master", SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX);
 
   protected final HoyaClusterProtocol clusterProto;
   protected final StateAccessForProviders appState;
@@ -100,7 +99,7 @@ public class WebAppApiImpl implements WebAppApi {
    */
   private Map<Integer,ProviderRole> rolesById(List<ProviderRole> roles) {
     Map<Integer,ProviderRole> rolesById = new HashMap<Integer,ProviderRole>();
-    rolesById.put(HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX, HOYA_AM_ROLE);
+    rolesById.put(SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX, HOYA_AM_ROLE);
 
     for (ProviderRole role : roles) {
       rolesById.put(role.id, role);

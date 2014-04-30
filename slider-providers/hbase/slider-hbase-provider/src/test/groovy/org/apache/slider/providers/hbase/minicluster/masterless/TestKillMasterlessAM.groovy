@@ -56,7 +56,7 @@ class TestKillMasterlessAM extends HBaseMiniClusterTestBase {
         roles,
         [
 /*
-            ARG_COMP_OPT, HoyaKeys.COMPONENT_AM,
+            ARG_COMP_OPT, SliderKeys.COMPONENT_AM,
             RoleKeys.JVM_OPTS, "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005",
 */
             ARG_PROVIDER, PROVIDER_HBASE

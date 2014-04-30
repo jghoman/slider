@@ -57,7 +57,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.webapp.WebApps;
 import org.apache.hoya.SliderExitCodes;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.api.OptionKeys;
@@ -144,7 +144,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
              NMClientAsync.CallbackHandler,
              RunService,
     SliderExitCodes,
-             HoyaKeys,
+    SliderKeys,
              HoyaClusterProtocol,
              ServiceStateChangeListener,
              RoleKeys,
@@ -689,7 +689,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       ApplicationId appid) throws Exception {
     // the registry is running, so register services
     URL amWeb = new URL(appMasterTrackingUrl);
-    String serviceName = HoyaKeys.APP_TYPE;
+    String serviceName = SliderKeys.APP_TYPE;
     int id = appid.getId();
     String appRegistryName = RegistryNaming.createRegistryName(instanceName,
         service_user_name,
@@ -797,7 +797,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
    */
   public File getLocalConfDir() {
     File confdir =
-      new File(HoyaKeys.PROPAGATED_CONF_DIR_NAME).getAbsoluteFile();
+      new File(SliderKeys.PROPAGATED_CONF_DIR_NAME).getAbsoluteFile();
     return confdir;
   }
 

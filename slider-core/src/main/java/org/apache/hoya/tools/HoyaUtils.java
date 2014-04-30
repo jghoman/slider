@@ -36,7 +36,7 @@ import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.RoleKeys;
@@ -1057,13 +1057,13 @@ public final class HoyaUtils {
 
   /**
    * Register the client resource in
-   * {@link HoyaKeys#CLIENT_RESOURCE}
+   * {@link SliderKeys#CLIENT_RESOURCE}
    * for Configuration instances.
    *
    * @return true if the resource could be loaded
    */
   public static URL registerHoyaClientResource() {
-    return ConfigHelper.registerDefaultResource(HoyaKeys.CLIENT_RESOURCE);
+    return ConfigHelper.registerDefaultResource(SliderKeys.CLIENT_RESOURCE);
   }
 
 
@@ -1073,7 +1073,7 @@ public final class HoyaUtils {
    * @return a config
    */
   public static Configuration loadHoyaClientConfigurationResource() {
-    return ConfigHelper.loadFromResource(HoyaKeys.CLIENT_RESOURCE);
+    return ConfigHelper.loadFromResource(SliderKeys.CLIENT_RESOURCE);
   }
 
   /**

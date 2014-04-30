@@ -25,7 +25,7 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.SliderException
@@ -459,7 +459,7 @@ abstract class CommandTestBase extends HoyaTestUtils {
   }
 
   public Path buildClusterPath(String clustername) {
-    return new Path(clusterFS.homeDirectory, "${HoyaKeys.SLIDER_BASE_DIRECTORY}/cluster/${clustername}")
+    return new Path(clusterFS.homeDirectory, "${SliderKeys.SLIDER_BASE_DIRECTORY}/cluster/${clustername}")
   }
 
 

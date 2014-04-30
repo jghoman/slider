@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.HoyaKeys;
+import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
@@ -53,7 +53,7 @@ import java.util.Set;
  * of an HBase Cluster
  */
 public class HBaseClientProvider extends AbstractClientProvider implements
-                                                          HBaseKeys, HoyaKeys,
+                                                          HBaseKeys, SliderKeys,
                                                           HBaseConfigFileOptions {
 
   
@@ -212,7 +212,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   private static Set<String> knownRoleNames = new HashSet<String>();
   static {
     List<ProviderRole> roles = HBaseRoles.getRoles();
-    knownRoleNames.add(HoyaKeys.COMPONENT_AM);
+    knownRoleNames.add(SliderKeys.COMPONENT_AM);
     for (ProviderRole role : roles) {
       knownRoleNames.add(role.name);
     }
@@ -322,7 +322,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     log.debug("Saving the config to {}", sitePath);
     launcher.submitDirectory(generatedConfDirPath,
-                             HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                             SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
   }
 

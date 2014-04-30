@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.model.history
 
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderKeys
 import org.apache.hoya.avro.RoleHistoryWriter
 import org.apache.hoya.yarn.appmaster.state.NodeEntry
 import org.apache.hoya.yarn.appmaster.state.NodeInstance
@@ -69,8 +69,8 @@ class TestHistoryRWOrdering extends BaseMockAppStateTest {
   public void testPatternRoundTrip() throws Throwable {
     describe "test pattern matching of names"
     long value=System.currentTimeMillis()
-    String name = String.format(HoyaKeys.HISTORY_FILENAME_CREATION_PATTERN,value)
-    String matchpattern = HoyaKeys.HISTORY_FILENAME_MATCH_PATTERN
+    String name = String.format(SliderKeys.HISTORY_FILENAME_CREATION_PATTERN,value)
+    String matchpattern = SliderKeys.HISTORY_FILENAME_MATCH_PATTERN
     Pattern pattern = Pattern.compile(matchpattern)
     Matcher matcher = pattern.matcher(name);
     if (!matcher.find()) {
