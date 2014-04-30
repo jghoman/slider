@@ -47,7 +47,7 @@ public class TestRPCBinding {
   @Test
   public void testRegistration() throws Throwable {
     Configuration conf = new Configuration();
-    RpcBinder.registerHoyaAPI(conf);
+    RpcBinder.registerSliderAPI(conf);
     assert RpcBinder.verifyBondedToProtobuf(conf, SliderClusterProtocolPB.class);
   }
 

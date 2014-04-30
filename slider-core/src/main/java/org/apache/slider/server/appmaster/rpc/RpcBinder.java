@@ -76,8 +76,8 @@ public class RpcBinder {
                                             BlockingService blockingService,
                                             String portRangeConfig) throws
                                                       IOException {
-    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
-      conf);
+    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerSliderAPI(
+        conf);
     RPC.Server server = new RPC.Builder(conf).setProtocol(hoyaClusterAPIClass)
                                              .setInstance(blockingService)
                                              .setBindAddress(addr.getHostName())
@@ -101,8 +101,8 @@ public class RpcBinder {
    * @param conf configuration to patch
    * @return the protocol class
    */
-  public static Class<SliderClusterProtocolPB> registerHoyaAPI(
-    Configuration conf) {
+  public static Class<SliderClusterProtocolPB> registerSliderAPI(
+      Configuration conf) {
     Class<SliderClusterProtocolPB> hoyaClusterAPIClass =
       SliderClusterProtocolPB.class;
     RPC.setProtocolEngine(conf, hoyaClusterAPIClass, ProtobufRpcEngine.class);
@@ -130,8 +130,8 @@ public class RpcBinder {
                                                     UserGroupInformation currentUser,
                                                     Configuration conf,
                                                     int rpcTimeout) throws IOException {
-    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
-      conf);
+    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerSliderAPI(
+        conf);
 
     log.debug("Connecting to Slider AM at {}", addr);
     ProtocolProxy<SliderClusterProtocolPB> protoProxy =
@@ -249,13 +249,11 @@ public class RpcBinder {
         newUgi.doAs(new PrivilegedExceptionAction<SliderClusterProtocol>() {
           @Override
           public SliderClusterProtocol run() throws IOException {
-            return connectToServer(serviceAddr, newUgi, conf,
-                                   rpcTimeout);
+            return connectToServer(serviceAddr, newUgi, conf, rpcTimeout);
           }
         });
     } else {
-      return connectToServer(serviceAddr, newUgi, conf,
-                             rpcTimeout);
+      return connectToServer(serviceAddr, newUgi, conf, rpcTimeout);
     }
     return realProxy;
   }
