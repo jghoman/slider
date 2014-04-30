@@ -32,7 +32,7 @@ import java.lang.annotation.Annotation;
 /**
  * This is where security may go
  */
-public class HoyaRPCSecurityInfo extends SecurityInfo {
+public class SliderRPCSecurityInfo extends SecurityInfo {
 
   @Override
   public KerberosInfo getKerberosInfo(Class<?> protocol, Configuration conf) {
