@@ -60,7 +60,7 @@ slider_classpath_extra=${SLIDER_CLASSPATH_EXTRA:-""}
 
 slider_classpath="${libdir}/*:${confdir}:${slider_classpath_extra}"
 
-launcher=org.apache.hoya.Hoya
+launcher=org.apache.hoya.Slider
 
 
 echo "slider_home = \"${slider_home}\""

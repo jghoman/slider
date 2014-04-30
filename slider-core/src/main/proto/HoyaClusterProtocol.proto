@@ -36,7 +36,7 @@ import "HoyaClusterMessages.proto";
 
 
 /**
- * Protocol used from between Hoya Client and AM
+ * Protocol used from between Slider Client and AM
  */
 service HoyaClusterProtocolPB {
 

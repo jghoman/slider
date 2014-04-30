@@ -17,7 +17,7 @@
 This is a set of configurations for a single-node YARN cluster running in
 a VM, with HDFS and YARN brought up on the external network, not localhost.
 Assuming the physical host has a DNS entry for the machine, *ubuntu*, 
-a Hoya Client running on the host can upload Hoya and deploy HBase onto
+a Slider Client running on the host can upload Slider and deploy HBase onto
 the single-node cluster even though neither is installed on the VM.
  
  
