@@ -27,8 +27,8 @@ import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.OptionKeys
-import org.apache.hoya.exceptions.BadClusterStateException
-import org.apache.hoya.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.BadClusterStateException
+import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase

@@ -33,7 +33,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;

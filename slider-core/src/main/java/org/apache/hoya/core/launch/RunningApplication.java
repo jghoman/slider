@@ -22,7 +22,7 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 

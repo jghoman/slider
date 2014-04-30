@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
 /**
  * An exception to raise on a bad configuration

@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.core.launcher.LauncherExitCodes
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient

@@ -28,8 +28,8 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.exceptions.BadCommandArgumentsException
-import org.apache.hoya.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
+import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions

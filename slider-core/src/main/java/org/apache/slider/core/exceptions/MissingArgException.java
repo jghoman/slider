@@ -16,19 +16,11 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
-public class SliderInternalStateException extends SliderException {
-  public SliderInternalStateException(String s) {
-    super(EXIT_INTERNAL_ERROR, s);
-  }
 
-  public SliderInternalStateException(String s, Throwable throwable) {
-    super(EXIT_INTERNAL_ERROR, throwable, s);
-  }
-
-  public SliderInternalStateException(String message,
-      Object... args) {
-    super(EXIT_INTERNAL_ERROR, message, args);
+public class MissingArgException extends RuntimeException {
+  public MissingArgException(String s) {
+    super(s);
   }
 }

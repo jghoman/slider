@@ -21,9 +21,9 @@ package org.apache.hoya.yarn.params;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hoya.SliderXmlConfKeys;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.ErrorStrings;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.yarn.SliderActions;
 
 import java.util.Collection;

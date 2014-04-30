@@ -19,7 +19,7 @@
 package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient

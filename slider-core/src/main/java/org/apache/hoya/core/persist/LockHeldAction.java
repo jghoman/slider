@@ -18,7 +18,7 @@
 
 package org.apache.hoya.core.persist;
 
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 
 import java.io.IOException;
 

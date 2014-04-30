@@ -23,7 +23,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.Service;
 import org.apache.slider.core.launcher.LauncherExitCodes;
 import org.apache.slider.core.launcher.RunService;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

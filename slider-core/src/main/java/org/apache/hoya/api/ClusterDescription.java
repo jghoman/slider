@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.tools.SliderUtils;
 import org.codehaus.jackson.JsonGenerationException;

@@ -35,9 +35,9 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.JsonSerDeser
-import org.apache.hoya.exceptions.BadClusterStateException
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.exceptions.WaitTimeoutException
+import org.apache.slider.core.exceptions.BadClusterStateException
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hadoop.yarn.api.records.ApplicationReport

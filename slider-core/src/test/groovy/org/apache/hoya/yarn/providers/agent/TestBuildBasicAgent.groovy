@@ -27,7 +27,7 @@ import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.ConfPersister
-import org.apache.hoya.exceptions.BadConfigException
+import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.hoya.yarn.client.SliderClient
 import org.junit.Test

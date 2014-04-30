@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
 public interface ErrorStrings {
   String E_UNSTABLE_CLUSTER = "Unstable Application Instance :";

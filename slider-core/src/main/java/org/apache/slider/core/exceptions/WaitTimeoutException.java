@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
 import java.io.IOException;
 
 /**
- * Exception raised when a node cannot be found in the structure
- * that is being examined.
+ * Called when some spinning operation timed out
  */
-public class NoSuchNodeException extends IOException {
+public class WaitTimeoutException extends IOException {
+  public WaitTimeoutException(String message) {
+    super(message);
+  }
 
-  public NoSuchNodeException(String uuid) {
-    super("Unknown node: " + uuid);
+  public WaitTimeoutException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

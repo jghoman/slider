@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.client
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.exceptions.BadCommandArgumentsException
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ClientArgs

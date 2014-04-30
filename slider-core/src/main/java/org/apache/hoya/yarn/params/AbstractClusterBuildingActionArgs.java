@@ -24,7 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.providers.SliderProviderFactory;
 
 import java.io.File;

@@ -31,8 +31,8 @@ import org.apache.hadoop.hbase.client.HConnectionManager
 import org.apache.hadoop.hbase.client.RetriesExhaustedException
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.exceptions.WaitTimeoutException
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.SliderTestUtils
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.Duration
@@ -148,7 +148,7 @@ class HBaseTestUtils extends SliderTestUtils {
    * @param spintime time to wait
    * @return true if the cluster came out of the sleep time live 
    * @throws IOException
-   * @throws org.apache.hoya.exceptions.SliderException
+   * @throws org.apache.slider.core.exceptions.SliderException
    */
   public static boolean spinForClusterStartup(
       SliderClient hoyaClient,

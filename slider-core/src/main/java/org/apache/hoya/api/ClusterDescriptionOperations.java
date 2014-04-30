@@ -21,7 +21,7 @@ package org.apache.hoya.api;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.tools.SliderUtils;
 

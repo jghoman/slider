@@ -19,8 +19,8 @@
 package org.apache.hoya.exec;
 
 import org.apache.hadoop.io.IOUtils;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.exceptions.SliderInternalStateException;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderInternalStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -37,10 +37,10 @@ import org.apache.hoya.SliderKeys;
 import org.apache.hoya.SliderXmlConfKeys;
 import org.apache.hoya.core.persist.Filenames;
 import org.apache.hoya.core.persist.InstancePaths;
-import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException;
+import org.apache.slider.core.exceptions.BadClusterStateException;
+import org.apache.slider.core.exceptions.ErrorStrings;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,7 +179,7 @@ public class CoreFileSystem {
    * @param dir          directory
    * @param clusterPerms cluster permissions
    * @throws IOException                                 IO problem
-   * @throws org.apache.hoya.exceptions.BadClusterStateException any cluster state problem
+   * @throws org.apache.slider.core.exceptions.BadClusterStateException any cluster state problem
    */
   public void createWithPermissions(Path dir, FsPermission clusterPerms) throws
           IOException,

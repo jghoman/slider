@@ -26,7 +26,7 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData

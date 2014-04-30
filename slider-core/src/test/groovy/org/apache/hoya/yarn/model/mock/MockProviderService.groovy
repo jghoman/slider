@@ -29,8 +29,8 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.conf.MapOperations
 import org.apache.hoya.core.launch.ContainerLauncher
-import org.apache.hoya.exceptions.BadCommandArgumentsException
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.tools.SliderFileSystem

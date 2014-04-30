@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.exceptions.BadCommandArgumentsException
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.SliderClient

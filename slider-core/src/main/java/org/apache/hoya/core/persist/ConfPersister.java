@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

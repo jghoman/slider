@@ -37,7 +37,7 @@ import org.apache.hadoop.fs.GlobFilter;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
 import org.apache.hoya.SliderKeys;
-import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.NodeEntry;
 import org.apache.hoya.yarn.appmaster.state.NodeInstance;

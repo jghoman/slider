@@ -25,7 +25,7 @@ import org.apache.hoya.SliderKeys
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase

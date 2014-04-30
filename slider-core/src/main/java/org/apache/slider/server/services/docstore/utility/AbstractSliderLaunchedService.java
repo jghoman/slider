@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import static org.apache.hoya.SliderXmlConfKeys.*;
 
 import org.apache.hoya.SliderXmlConfKeys;
-import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;

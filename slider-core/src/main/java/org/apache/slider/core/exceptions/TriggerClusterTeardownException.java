@@ -16,20 +16,23 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
-
+package org.apache.slider.core.exceptions;
 
 /**
- * YARN cluster itself is in a bad state
+ * An Exception to be thrown for an explicit "shut down the cluster" operation
+ * raised by the application state or other parts of the AM
  */
-public class BadClusterStateException extends SliderException {
-  public BadClusterStateException(String message,
-                                  Object... args) {
-    super(EXIT_BAD_STATE, message, args);
+public class TriggerClusterTeardownException extends SliderException {
+
+  public TriggerClusterTeardownException(int code,
+                                         String message,
+                                         Object... args) {
+    super(code, message, args);
   }
 
-  public BadClusterStateException(Throwable throwable,
-                                  String message, Object... args) {
-    super(EXIT_BAD_STATE, throwable, message, args);
+  public TriggerClusterTeardownException(int code,
+                                         Throwable throwable,
+                                         String message, Object... args) {
+    super(code, throwable, message, args);
   }
 }

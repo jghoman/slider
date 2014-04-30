@@ -39,8 +39,8 @@ import org.apache.slider.core.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils

@@ -20,7 +20,7 @@ package org.apache.slider.core.registry.zk;
 
 import com.google.common.net.HostAndPort;
 import org.apache.hadoop.util.StringUtils;
-import org.apache.hoya.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.tools.SliderUtils;
 
 import java.util.ArrayList;

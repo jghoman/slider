@@ -23,7 +23,7 @@ import org.apache.hadoop.service.AbstractService;
 import org.apache.hadoop.service.ServiceStateException;
 import org.apache.slider.core.launcher.ExitCodeProvider;
 import org.apache.slider.core.launcher.ServiceLaunchException;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.exec.ApplicationEventHandler;
 import org.apache.hoya.exec.RunLongLivedApp;
 import org.apache.hoya.tools.SliderUtils;

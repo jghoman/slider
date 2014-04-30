@@ -20,7 +20,7 @@ package org.apache.hoya.providers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 
 import java.util.List;
 public interface ProviderCore {

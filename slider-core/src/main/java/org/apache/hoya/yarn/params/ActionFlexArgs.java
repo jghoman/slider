@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.yarn.SliderActions;
 
 import java.util.List;

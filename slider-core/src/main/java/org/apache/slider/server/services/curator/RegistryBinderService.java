@@ -27,7 +27,7 @@ import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
 import org.apache.hoya.core.persist.JsonSerDeser;
-import org.apache.hoya.exceptions.BadClusterStateException;
+import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

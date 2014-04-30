@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
 import org.apache.slider.core.launcher.ServiceLaunchException;
 import org.apache.hoya.SliderExitCodes;

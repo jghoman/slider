@@ -20,9 +20,9 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.util.logging.Slf4j
 import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs

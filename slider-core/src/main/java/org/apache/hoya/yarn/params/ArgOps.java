@@ -20,8 +20,8 @@ package org.apache.hoya.yarn.params;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.ErrorStrings;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.ErrorStrings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

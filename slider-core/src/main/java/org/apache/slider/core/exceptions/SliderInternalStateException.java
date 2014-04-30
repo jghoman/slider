@@ -16,15 +16,19 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exceptions;
+package org.apache.slider.core.exceptions;
 
-public class BadCommandArgumentsException extends SliderException {
-  public BadCommandArgumentsException(String s, Object... args) {
-    super(EXIT_COMMAND_ARGUMENT_ERROR, s, args);
+public class SliderInternalStateException extends SliderException {
+  public SliderInternalStateException(String s) {
+    super(EXIT_INTERNAL_ERROR, s);
   }
 
-  public BadCommandArgumentsException(Throwable throwable, String message,
-                                      Object... args) {
-    super(EXIT_COMMAND_ARGUMENT_ERROR, throwable, message, args);
+  public SliderInternalStateException(String s, Throwable throwable) {
+    super(EXIT_INTERNAL_ERROR, throwable, s);
+  }
+
+  public SliderInternalStateException(String message,
+      Object... args) {
+    super(EXIT_INTERNAL_ERROR, message, args);
   }
 }
