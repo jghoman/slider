@@ -27,7 +27,7 @@ import org.apache.hoya.yarn.SliderActions;
 @Parameters(commandNames = {SliderActions.ACTION_CREATE},
             commandDescription = SliderActions.DESCRIBE_ACTION_CREATE)
 
-public class HoyaAMCreateAction extends AbstractActionArgs implements
+public class SliderAMCreateAction extends AbstractActionArgs implements
                                                            LaunchArgsAccessor {
 
 
@@ -45,7 +45,7 @@ public class HoyaAMCreateAction extends AbstractActionArgs implements
    */
   @Parameter(names = ARG_CLUSTER_URI,
              description = "URI to the Slider cluster", required = true)
-  public String hoyaClusterURI;
+  public String sliderClusterURI;
 
   @ParametersDelegate
   LaunchArgsDelegate launchArgs = new LaunchArgsDelegate();

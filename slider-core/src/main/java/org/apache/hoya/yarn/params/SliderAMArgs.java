@@ -24,15 +24,15 @@ import org.apache.hoya.yarn.appmaster.SliderAppMaster;
 /**
  * Parameters sent by the Client to the AM
  */
-public class HoyaAMArgs extends CommonArgs {
+public class SliderAMArgs extends CommonArgs {
   /**
    * Name of entry class: {@value}
    */
   public static final String CLASSNAME = SliderAppMaster.SERVICE_CLASSNAME;
 
-  HoyaAMCreateAction createAction = new HoyaAMCreateAction();
+  SliderAMCreateAction createAction = new SliderAMCreateAction();
 
-  public HoyaAMArgs(String[] args) {
+  public SliderAMArgs(String[] args) {
     super(args);
   }
 
@@ -49,8 +49,8 @@ public class HoyaAMArgs extends CommonArgs {
    * This is the URI in the FS to the Slider cluster; the conf file (and any
    * other cluster-specifics) can be picked up here
    */
-  public String getHoyaClusterURI() {
-    return createAction.hoyaClusterURI;
+  public String getSliderClusterURI() {
+    return createAction.sliderClusterURI;
   }
 
   /**

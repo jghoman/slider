@@ -88,7 +88,7 @@ import org.apache.hoya.yarn.params.ActionRegistryArgs;
 import org.apache.hoya.yarn.params.ActionStatusArgs;
 import org.apache.hoya.yarn.params.ActionThawArgs;
 import org.apache.hoya.yarn.params.ClientArgs;
-import org.apache.hoya.yarn.params.HoyaAMArgs;
+import org.apache.hoya.yarn.params.SliderAMArgs;
 import org.apache.hoya.yarn.params.LaunchArgsAccessor;
 import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
@@ -841,7 +841,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // enable asserts if the text option is set
     commandLine.enableJavaAssertions();
     // add the hoya AM sevice entry point
-    commandLine.add(HoyaAMArgs.CLASSNAME);
+    commandLine.add(SliderAMArgs.CLASSNAME);
 
     // create action and the cluster name
     commandLine.add(SliderActions.ACTION_CREATE, clustername);

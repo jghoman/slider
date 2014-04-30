@@ -101,8 +101,8 @@ import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
 import static org.apache.hoya.yarn.appmaster.web.rest.RestPaths.*;
 import org.apache.hoya.yarn.params.AbstractActionArgs;
-import org.apache.hoya.yarn.params.HoyaAMArgs;
-import org.apache.hoya.yarn.params.HoyaAMCreateAction;
+import org.apache.hoya.yarn.params.SliderAMArgs;
+import org.apache.hoya.yarn.params.SliderAMCreateAction;
 import org.apache.hoya.yarn.service.AbstractSliderLaunchedService;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.RpcService;
@@ -242,7 +242,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
 
 
   /** Arguments passed in : raw*/
-  private HoyaAMArgs serviceArgs;
+  private SliderAMArgs serviceArgs;
 
   /**
    * ID of the AM container
@@ -299,7 +299,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     ConfigHelper.mergeConfigurations(conf, serverConf, SERVER_RESOURCE);
 
     AbstractActionArgs action = serviceArgs.getCoreAction();
-    HoyaAMCreateAction createAction = (HoyaAMCreateAction) action;
+    SliderAMCreateAction createAction = (SliderAMCreateAction) action;
     //sort out the location of the AM
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
@@ -347,7 +347,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public Configuration bindArgs(Configuration config, String... args) throws
                                                                       Exception {
     config = super.bindArgs(config, args);
-    serviceArgs = new HoyaAMArgs(args);
+    serviceArgs = new SliderAMArgs(args);
     serviceArgs.parse();
     //yarn-ify
     YarnConfiguration yarnConfiguration = new YarnConfiguration(config);
@@ -409,7 +409,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   private int createAndRunCluster(String clustername) throws Throwable {
 
     //load the cluster description from the cd argument
-    String hoyaClusterDir = serviceArgs.getHoyaClusterURI();
+    String hoyaClusterDir = serviceArgs.getSliderClusterURI();
     URI hoyaClusterURI = new URI(hoyaClusterDir);
     Path clusterDirPath = new Path(hoyaClusterURI);
     SliderFileSystem fs = getClusterFS();
