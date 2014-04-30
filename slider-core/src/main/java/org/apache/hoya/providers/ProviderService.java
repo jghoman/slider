@@ -32,7 +32,7 @@ import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
-import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 

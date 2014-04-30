@@ -16,45 +16,54 @@
  * limitations under the License.
  */
 
-package org.apache.slider.server.services;
+package org.apache.slider.server.services.docstore.utility;
 
-import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.service.AbstractService;
-
-import java.io.Closeable;
+import org.apache.hadoop.yarn.webapp.WebApp;
 
 /**
- * Service that closes the closeable supplied during shutdown, if not null.
+ * Contains a webapp reference and stops it in teardown if non-null
+ * 
+ * It does not start the application.
+ * Access to the field is not synchronized across threads; it is the
+ * responsibility of the caller.
  */
-public class ClosingService extends AbstractService {
+public class WebAppService<T extends WebApp> extends AbstractService {
 
-  private Closeable closeable;
+  private T webApp;
 
-
-  public ClosingService(String name,
-                        Closeable closeable) {
+  public WebAppService(String name) {
     super(name);
-    this.closeable = closeable;
+  }
+
+  public WebAppService(String name, T app) {
+    super(name);
+    webApp = app;
+  }
+
+  public T getWebApp() {
+    return webApp;
+  }
+
+  public void setWebApp(T webApp) {
+    this.webApp = webApp;
   }
 
 
-  public Closeable getCloseable() {
-    return closeable;
-  }
+  @Override
+  protected void serviceStart() throws Exception {
 
-  public void setCloseable(Closeable closeable) {
-    this.closeable = closeable;
   }
 
   /**
-   * Stop routine will close the closeable -if not null - and set the
-   * reference to null afterwards
+   * Stop operation stops the webapp; sets the reference to null
    * @throws Exception
    */
   @Override
   protected void serviceStop() throws Exception {
-    IOUtils.closeStream(closeable);
-    closeable = null;
-
+    if (webApp != null) {
+      webApp.stop();
+      webApp = null;
+    }
   }
 }

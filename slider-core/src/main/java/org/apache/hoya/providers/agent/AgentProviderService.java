@@ -53,7 +53,7 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.StatusCommand;
-import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import static org.apache.slider.core.registry.info.RegistryFields.*;
 import org.apache.slider.server.services.curator.CuratorServiceInstance;

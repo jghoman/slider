@@ -47,7 +47,7 @@ import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
-import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -16,25 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.service;
+package org.apache.slider.server.services.docstore.utility;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.service.AbstractService;
-import org.apache.hoya.tools.SliderUtils;
-
-/**
- * A security checker service, which validates that the service
- * is running with security in its init() operation.
- */
-public class SecurityCheckerService extends AbstractService {
-
-  public SecurityCheckerService() {
-    super("Security Checker");
-  }
-
-  @Override
-  protected void serviceInit(Configuration conf) throws Exception {
-    super.serviceInit(conf);
-    SliderUtils.initProcessSecurity(conf);
-  }
+public interface EventCallback {
+  
+  public void eventCallbackEvent();
+  
 }

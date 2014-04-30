@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.service;
+package org.apache.slider.server.services.docstore.utility;
 
 import org.apache.hadoop.ipc.Server;
 import org.apache.hadoop.net.NetUtils;

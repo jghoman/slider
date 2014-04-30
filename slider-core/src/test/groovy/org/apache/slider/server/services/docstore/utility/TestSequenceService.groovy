@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.service
+package org.apache.slider.server.services.docstore.utility
 
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.yarn.service;
+package org.apache.slider.server.services.docstore.utility;
 
 import com.google.common.base.Preconditions;
 import org.apache.hadoop.conf.Configuration;
