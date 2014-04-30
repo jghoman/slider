@@ -168,6 +168,8 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   public static final int NUM_RPC_HANDLERS = 5;
   public static final String SERVICE_CLASSNAME =
     "org.apache.hoya.yarn.appmaster.SliderAppMaster";
+  public static final String SERVICE_CLASSNAME_SHORT =
+    "SliderAppMaster";
 
   /** YARN RPC to communicate with the Resource Manager or Node Manager */
   private YarnRPC yarnRPC;

@@ -75,6 +75,7 @@ import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.common.tools.SliderVersionInfo;
 import org.apache.slider.common.params.Arguments;
 import org.apache.slider.common.params.SliderActions;
+import org.apache.slider.server.appmaster.SliderAppMaster;
 import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.apache.slider.common.params.AbstractClusterBuildingActionArgs;
 import org.apache.slider.common.params.ActionAMSuicideArgs;
@@ -840,8 +841,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     hoyaAM.addJVMOptions(instanceDefinition, commandLine);
     // enable asserts if the text option is set
     commandLine.enableJavaAssertions();
-    // add the hoya AM sevice entry point
-    commandLine.add(SliderAMArgs.CLASSNAME);
+    // add the AM sevice entry point
+    commandLine.add(SliderAppMaster.SERVICE_CLASSNAME);
 
     // create action and the cluster name
     commandLine.add(SliderActions.ACTION_CREATE, clustername);

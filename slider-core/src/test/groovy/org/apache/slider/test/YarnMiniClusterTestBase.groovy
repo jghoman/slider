@@ -292,7 +292,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param signal
    */
   public void killHoyaAM(int signal) {
-    killJavaProcesses(SliderAppMaster.SERVICE_CLASSNAME, signal)
+    killJavaProcesses(SliderAppMaster.SERVICE_CLASSNAME_SHORT, signal)
   }
 
   /**

@@ -25,10 +25,6 @@ import org.apache.slider.server.appmaster.SliderAppMaster;
  * Parameters sent by the Client to the AM
  */
 public class SliderAMArgs extends CommonArgs {
-  /**
-   * Name of entry class: {@value}
-   */
-  public static final String CLASSNAME = SliderAppMaster.SERVICE_CLASSNAME;
 
   SliderAMCreateAction createAction = new SliderAMCreateAction();
 
