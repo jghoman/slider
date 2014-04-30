@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class WebAppApiImpl implements WebAppApi {
   private static final Logger log = LoggerFactory.getLogger(WebAppApiImpl.class);
 
-  protected static final ProviderRole HOYA_AM_ROLE = new ProviderRole("Slider Application Master", SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX);
+  protected static final ProviderRole AM_ROLE_NAME = new ProviderRole("Slider Application Master", SliderKeys.ROLE_AM_PRIORITY_INDEX);
 
   protected final SliderClusterProtocol clusterProto;
   protected final StateAccessForProviders appState;
@@ -99,7 +99,7 @@ public class WebAppApiImpl implements WebAppApi {
    */
   private Map<Integer,ProviderRole> rolesById(List<ProviderRole> roles) {
     Map<Integer,ProviderRole> rolesById = new HashMap<Integer,ProviderRole>();
-    rolesById.put(SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX, HOYA_AM_ROLE);
+    rolesById.put(SliderKeys.ROLE_AM_PRIORITY_INDEX, AM_ROLE_NAME);
 
     for (ProviderRole role : roles) {
       rolesById.put(role.id, role);

@@ -33,7 +33,7 @@ public class AgentRoles {
     new ArrayList<ProviderRole>();
 
   public static final int KEY_NODE =
-                                 SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
+                                 SliderKeys.ROLE_AM_PRIORITY_INDEX + 1;
     /**
      * Initialize role list
      */

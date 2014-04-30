@@ -44,18 +44,19 @@ class TestClientResourceRegistration {
    * Origin of a hoya resource -again, internal tracking 
    * rather than something to set by hand.
    */
-  private final static String KEY_HOYA_RESOURCE_ORIGIN = "hoya.client.resource.origin";
+  private final static String KEY_RESOURCE_ORIGIN = "test" +
+                                                    ".client.resource.origin";
   
   @Test
   public void testRegistration() throws Throwable {
-    assert SliderUtils.registerHoyaClientResource();
+    assert SliderUtils.registerClientResource();
   }
 
   @Test
   public void testLoad() throws Throwable {
-    assert SliderUtils.registerHoyaClientResource();
+    assert SliderUtils.registerClientResource();
     Configuration conf = new Configuration(true);
-    assert conf.get(KEY_HOYA_RESOURCE_ORIGIN) == "test/resources"
+    assert conf.get(KEY_RESOURCE_ORIGIN) == "test/resources"
   }
 
   @Test
@@ -82,8 +83,8 @@ class TestClientResourceRegistration {
    */
   @Test
   public void testLoadRes() throws Throwable {
-    Configuration conf = SliderUtils.loadHoyaClientConfigurationResource()
-    assert conf.get(KEY_HOYA_RESOURCE_ORIGIN) == "test/resources"
+    Configuration conf = SliderUtils.loadClientConfigurationResource()
+    assert conf.get(KEY_RESOURCE_ORIGIN) == "test/resources"
     String hostname = "nosuchhost:0"
     conf.set(YarnConfiguration.RM_ADDRESS, hostname)
     YarnConfiguration yc = new YarnConfiguration()

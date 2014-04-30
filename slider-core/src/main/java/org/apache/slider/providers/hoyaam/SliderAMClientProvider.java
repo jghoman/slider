@@ -92,7 +92,7 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
   public static final List<ProviderRole> ROLES =
     new ArrayList<ProviderRole>();
 
-  public static final int KEY_AM = ROLE_HOYA_AM_PRIORITY_INDEX;
+  public static final int KEY_AM = ROLE_AM_PRIORITY_INDEX;
 
   /**
    * Initialize role list

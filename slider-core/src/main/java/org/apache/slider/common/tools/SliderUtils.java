@@ -1062,7 +1062,7 @@ public final class SliderUtils {
    *
    * @return true if the resource could be loaded
    */
-  public static URL registerHoyaClientResource() {
+  public static URL registerClientResource() {
     return ConfigHelper.registerDefaultResource(SliderKeys.CLIENT_RESOURCE);
   }
 
@@ -1072,7 +1072,7 @@ public final class SliderUtils {
    * resource is not on the CP an empty config is returned.
    * @return a config
    */
-  public static Configuration loadHoyaClientConfigurationResource() {
+  public static Configuration loadClientConfigurationResource() {
     return ConfigHelper.loadFromResource(SliderKeys.CLIENT_RESOURCE);
   }
 

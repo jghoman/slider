@@ -48,7 +48,7 @@ public class AccumuloRoles  {
    * Initialize role list
    */
   static {
-    BASE = SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX;
+    BASE = SliderKeys.ROLE_AM_PRIORITY_INDEX;
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_MASTER, BASE + 1));
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_TABLET, BASE + 2));
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_GARBAGE_COLLECTOR, BASE + 3));

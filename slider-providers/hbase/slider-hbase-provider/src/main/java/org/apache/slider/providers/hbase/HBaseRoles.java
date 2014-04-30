@@ -33,9 +33,9 @@ public class HBaseRoles {
   protected static final List<ProviderRole> ROLES =
     new ArrayList<ProviderRole>();
 
-  public static final int KEY_WORKER = SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 1;
+  public static final int KEY_WORKER = SliderKeys.ROLE_AM_PRIORITY_INDEX + 1;
 
-  public static final int KEY_MASTER = SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX + 2;
+  public static final int KEY_MASTER = SliderKeys.ROLE_AM_PRIORITY_INDEX + 2;
 
   /**
    * Initialize role list

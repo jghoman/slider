@@ -30,7 +30,7 @@ public interface SliderKeys extends SliderXmlConfKeys {
   /**
    * Slider role is "special"
    */
-  int ROLE_HOYA_AM_PRIORITY_INDEX = 0;
+  int ROLE_AM_PRIORITY_INDEX = 0;
   
   
   /**

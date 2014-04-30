@@ -161,7 +161,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
   @Override
   protected void serviceInit(Configuration conf) throws Exception {
-    Configuration clientConf = SliderUtils.loadHoyaClientConfigurationResource();
+    Configuration clientConf = SliderUtils.loadClientConfigurationResource();
     ConfigHelper.mergeConfigurations(conf, clientConf, CLIENT_RESOURCE);
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
@@ -896,7 +896,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     // Set the queue to which this application is to be submitted in the RM
     // Queue for App master
-    String amQueue = config.get(KEY_YARN_QUEUE, DEFAULT_HOYA_YARN_QUEUE);
+    String amQueue = config.get(KEY_YARN_QUEUE, DEFAULT_YARN_QUEUE);
 
     amLauncher.setQueue(amQueue);
 

@@ -98,7 +98,7 @@ public interface SliderXmlConfKeys {
    * queue name
    */
   String KEY_YARN_QUEUE = "slider.yarn.queue";
-  String DEFAULT_HOYA_YARN_QUEUE = YarnConfiguration.DEFAULT_QUEUE_NAME;
+  String DEFAULT_YARN_QUEUE = YarnConfiguration.DEFAULT_QUEUE_NAME;
 
   /**
    * default priority
