@@ -3,7 +3,7 @@
   {
     "type": "record",
     "name": "NodeEntryRecord",
-    "namespace": "org.apache.hoya.avro",
+    "namespace": "org.apache.slider.server.avro",
     "fields": [
       {
         "name": "host",
@@ -27,7 +27,7 @@
   {
     "type": "record",
     "name": "RoleHistoryHeader",
-    "namespace": "org.apache.hoya.avro",
+    "namespace": "org.apache.slider.server.avro",
     "fields": [
       {
         "name": "version",
@@ -55,7 +55,7 @@
   {
     "type": "record",
     "name": "RoleHistoryFooter",
-    "namespace": "org.apache.hoya.avro",
+    "namespace": "org.apache.slider.server.avro",
     "fields": [
       {
         "name": "count",
@@ -67,14 +67,14 @@
   {
     "type": "record",
     "name": "RoleHistoryRecord",
-    "namespace": "org.apache.hoya.avro",
+    "namespace": "org.apache.slider.server.avro",
     "fields": [
       {
         "name": "entry",
         "type": [
-          "org.apache.hoya.avro.NodeEntryRecord",
-          "org.apache.hoya.avro.RoleHistoryHeader",
-          "org.apache.hoya.avro.RoleHistoryFooter"
+          "org.apache.slider.server.avro.NodeEntryRecord",
+          "org.apache.slider.server.avro.RoleHistoryHeader",
+          "org.apache.slider.server.avro.RoleHistoryFooter"
         ]
       }
     ]
