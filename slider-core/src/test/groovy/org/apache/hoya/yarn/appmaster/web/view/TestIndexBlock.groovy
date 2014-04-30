@@ -43,7 +43,7 @@ public class TestIndexBlock {
 
   @Before
   public void setup() {
-    HoyaClusterProtocol clusterProto = new MockHoyaClusterProtocol();
+    HoyaClusterProtocol clusterProto = new MockSliderClusterProtocol();
     AppState appState = new MockAppState(new MockRecordFactory());
     ProviderService providerService = new MockProviderService();
 

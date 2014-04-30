@@ -42,7 +42,7 @@ import org.apache.hoya.api.proto.Messages.StopClusterResponseProto
 /**
  * 
  */
-class MockHoyaClusterProtocol implements HoyaClusterProtocol {
+class MockSliderClusterProtocol implements HoyaClusterProtocol {
 
   @Override
   public long getProtocolVersion(String protocol, long clientVersion) throws IOException {

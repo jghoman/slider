@@ -30,9 +30,9 @@ import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.appmaster.web.WebAppApi
 import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl
 import org.apache.hoya.yarn.model.mock.MockAppState
-import org.apache.hoya.yarn.model.mock.MockHoyaClusterProtocol
 import org.apache.hoya.yarn.model.mock.MockProviderService
 import org.apache.hoya.yarn.model.mock.MockRecordFactory
+import org.apache.hoya.yarn.model.mock.MockSliderClusterProtocol
 import org.junit.Before
 import org.junit.Test
 
@@ -44,7 +44,7 @@ public class TestClusterSpecificationBlock {
 
   @Before
   public void setup() {
-    HoyaClusterProtocol clusterProto = new MockHoyaClusterProtocol();
+    HoyaClusterProtocol clusterProto = new MockSliderClusterProtocol();
     AppState appState = new MyAppState(new MockRecordFactory());
     ProviderService providerService = new MockProviderService();
 

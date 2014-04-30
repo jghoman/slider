@@ -44,7 +44,7 @@ import org.apache.hoya.yarn.appmaster.web.WebAppApiImpl;
 import org.apache.hoya.yarn.appmaster.web.rest.AMWebServices;
 import org.apache.hoya.yarn.appmaster.web.rest.SliderJacksonJaxbJsonProvider;
 import org.apache.hoya.yarn.model.mock.MockFactory;
-import org.apache.hoya.yarn.model.mock.MockHoyaClusterProtocol;
+import org.apache.hoya.yarn.model.mock.MockSliderClusterProtocol;
 import org.apache.hoya.yarn.model.mock.MockProviderService;
 import org.apache.hoya.yarn.model.mock.MockRecordFactory;
 import org.codehaus.jettison.json.JSONException;
@@ -138,7 +138,7 @@ public class TestAMAgentWebServices extends JerseyTest {
         } catch (Exception e) {
           log.error("Failed to set up app {}", e);
         }
-        slider = new WebAppApiImpl(new MockHoyaClusterProtocol(), appState,
+        slider = new WebAppApiImpl(new MockSliderClusterProtocol(), appState,
                                    new MockProviderService());
 
         bind(SliderJacksonJaxbJsonProvider.class);
