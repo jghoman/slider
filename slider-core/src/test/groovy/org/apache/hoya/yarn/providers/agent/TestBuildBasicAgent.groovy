@@ -28,11 +28,11 @@ import org.apache.slider.api.RoleKeys
 import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.core.persist.ConfPersister
 import org.apache.slider.core.exceptions.BadConfigException
-import org.apache.hoya.providers.agent.AgentKeys
+import org.apache.slider.providers.agent.AgentKeys
 import org.apache.slider.client.SliderClient
 import org.junit.Test
 
-import static org.apache.hoya.providers.agent.AgentKeys.*
+import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.*
 
 @CompileStatic

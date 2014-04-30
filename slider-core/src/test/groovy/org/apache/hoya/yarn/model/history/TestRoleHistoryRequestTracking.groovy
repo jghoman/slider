@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.model.history
 
 import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.providers.ProviderRole
+import org.apache.slider.providers.ProviderRole
 import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.slider.server.appmaster.state.OutstandingRequest
 import org.apache.slider.server.appmaster.state.RoleHistory

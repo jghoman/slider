@@ -19,7 +19,7 @@
 package org.apache.slider.providers.accumulo;
 
 import org.apache.slider.common.SliderKeys;
-import org.apache.hoya.providers.ProviderRole;
+import org.apache.slider.providers.ProviderRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

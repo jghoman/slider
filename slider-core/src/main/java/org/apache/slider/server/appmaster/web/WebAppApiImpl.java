@@ -26,8 +26,8 @@ import java.util.TreeMap;
 
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.HoyaClusterProtocol;
-import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.providers.ProviderService;
+import org.apache.slider.providers.ProviderRole;
+import org.apache.slider.providers.ProviderService;
 import org.apache.slider.server.appmaster.state.RoleStatus;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;

@@ -19,7 +19,7 @@
 package org.apache.slider.core.conf
 
 import org.apache.slider.core.persist.JsonSerDeser
-import org.apache.hoya.providers.hoyaam.SliderAMClientProvider
+import org.apache.slider.providers.hoyaam.SliderAMClientProvider
 
 /*
   names of the example configs

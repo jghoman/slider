@@ -52,7 +52,7 @@ import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderInternalStateException;
 import org.apache.slider.core.exceptions.NoSuchNodeException;
 import org.apache.slider.core.exceptions.TriggerClusterTeardownException;
-import org.apache.hoya.providers.ProviderRole;
+import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.common.tools.ConfigHelper;
 import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.registry.docstore.PublishedConfigSet;

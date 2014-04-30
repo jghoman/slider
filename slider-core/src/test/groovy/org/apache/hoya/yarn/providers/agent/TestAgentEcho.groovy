@@ -26,7 +26,7 @@ import org.apache.slider.api.ResourceKeys
 import org.apache.slider.client.SliderClient
 import org.junit.Test
 
-import static org.apache.hoya.providers.agent.AgentKeys.*
+import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.*
 
 /**

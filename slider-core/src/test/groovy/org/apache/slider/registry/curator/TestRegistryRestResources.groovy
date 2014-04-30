@@ -38,7 +38,7 @@ import org.junit.Test
 
 import javax.ws.rs.core.MediaType
 
-import static org.apache.hoya.providers.agent.AgentKeys.*
+import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.ARG_OPTION
 import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClient;
 

@@ -27,7 +27,7 @@ import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
-import static org.apache.hoya.providers.agent.AgentKeys.CONF_RESOURCE
+import static org.apache.slider.providers.agent.AgentKeys.CONF_RESOURCE
 
 /**
  * test base for all agent clusters

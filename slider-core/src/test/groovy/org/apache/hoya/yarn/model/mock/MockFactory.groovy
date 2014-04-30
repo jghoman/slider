@@ -28,7 +28,7 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.ResourceKeys
 import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.core.conf.ConfTree
-import org.apache.hoya.providers.ProviderRole
+import org.apache.slider.providers.ProviderRole
 
 /**
  * Factory for creating things

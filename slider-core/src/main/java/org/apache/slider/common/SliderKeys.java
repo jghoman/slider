@@ -108,7 +108,7 @@ public interface SliderKeys extends SliderXmlConfKeys {
    * XML resource listing the standard Slider providers
    * {@value}
    */
-  String HOYA_XML ="org/apache/hoya/hoya.xml";
+  String HOYA_XML = "org/apache/slider/slider.xml";
 
   String CLUSTER_DIRECTORY = "cluster";
 

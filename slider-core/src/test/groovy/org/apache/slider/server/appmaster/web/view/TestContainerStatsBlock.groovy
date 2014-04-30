@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.TR
 import org.apache.hadoop.yarn.webapp.hamlet.HamletImpl.EImp
 import org.apache.slider.api.ClusterNode
 import org.apache.slider.api.HoyaClusterProtocol
-import org.apache.hoya.providers.ProviderService
+import org.apache.slider.providers.ProviderService
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.state.RoleInstance
 import org.apache.slider.server.appmaster.web.WebAppApi

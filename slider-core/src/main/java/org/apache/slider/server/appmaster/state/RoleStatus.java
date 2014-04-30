@@ -19,8 +19,8 @@
 package org.apache.slider.server.appmaster.state;
 
 import org.apache.slider.api.StatusKeys;
-import org.apache.hoya.providers.PlacementPolicy;
-import org.apache.hoya.providers.ProviderRole;
+import org.apache.slider.providers.PlacementPolicy;
+import org.apache.slider.providers.ProviderRole;
 
 import java.util.HashMap;
 import java.util.Map;

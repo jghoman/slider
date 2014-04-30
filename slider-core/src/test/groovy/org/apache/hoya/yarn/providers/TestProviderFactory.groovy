@@ -20,9 +20,9 @@ package org.apache.hoya.yarn.providers
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.providers.SliderProviderFactory
-import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.providers.agent.AgentProviderFactory
+import org.apache.slider.providers.SliderProviderFactory
+import org.apache.slider.providers.agent.AgentKeys
+import org.apache.slider.providers.agent.AgentProviderFactory
 import org.junit.Test
 
 @CompileStatic

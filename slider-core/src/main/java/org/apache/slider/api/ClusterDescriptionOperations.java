@@ -22,7 +22,7 @@ import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTree;
 import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.exceptions.BadConfigException;
-import org.apache.hoya.providers.SliderProviderFactory;
+import org.apache.slider.providers.SliderProviderFactory;
 import org.apache.slider.common.tools.SliderUtils;
 
 import java.util.Map;

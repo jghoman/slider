@@ -19,7 +19,7 @@ package org.apache.slider.server.appmaster.web;
 import java.util.Map;
 
 import org.apache.slider.api.HoyaClusterProtocol;
-import org.apache.hoya.providers.ProviderService;
+import org.apache.slider.providers.ProviderService;
 import org.apache.slider.server.appmaster.state.AppState;
 import org.apache.slider.server.appmaster.state.RoleStatus;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;

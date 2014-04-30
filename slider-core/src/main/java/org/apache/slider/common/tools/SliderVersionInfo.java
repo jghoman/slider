@@ -58,7 +58,7 @@ public class SliderVersionInfo {
    * Name of the resource containing the filled-in-at-runtime props
    */
   public static final String VERSION_RESOURCE =
-    "org/apache/hoya/dynamic/application.properties";
+      "org/apache/slider/providers/dynamic/application.properties";
 
   public static final String APP_NAME = "application.name";
   public static final String APP_VERSION = "application.version";

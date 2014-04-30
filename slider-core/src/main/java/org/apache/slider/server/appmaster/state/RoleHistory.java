@@ -27,7 +27,7 @@ import org.apache.hadoop.yarn.client.api.AMRMClient;
 import org.apache.hoya.avro.RoleHistoryHeader;
 import org.apache.hoya.avro.RoleHistoryWriter;
 import org.apache.slider.core.exceptions.BadConfigException;
-import org.apache.hoya.providers.ProviderRole;
+import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
