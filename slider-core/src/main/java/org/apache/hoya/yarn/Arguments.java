@@ -46,6 +46,7 @@ public interface Arguments {
   String ARG_COMP_OPT_SHORT = "--co";
   
   String ARG_DEBUG = "--debug";
+  String ARG_DEST = "--dest";
   String ARG_DEFINE = "-D";
   String ARG_EXITCODE = "--exitcode";
   /**
@@ -56,13 +57,17 @@ public interface Arguments {
   String ARG_BASE_PATH = "--basepath";
   String ARG_FORMAT = "--format";
   String ARG_FORCE = "--force";
-  String ARG_GET = "--get";
+  String ARG_GETCONF = "--getconf";
+  String ARG_GETFILES = "--getfiles";
   String ARG_HELP = "--help";
   String ARG_ID = "--id";
   String ARG_IMAGE = "--image";
   String ARG_LIST = "--list";
+  String ARG_LISTFILES = "--listfiles";
+  String ARG_LISTCONF = "--listconf";
   String ARG_LIVE = "--live";
   String ARG_MANAGER = "--manager";
+  String ARG_MANAGER_SHORT = "--m";
   String ARG_MESSAGE = "--message";
   String ARG_OPTION = "--option";
   String ARG_OPTION_SHORT = "-O";

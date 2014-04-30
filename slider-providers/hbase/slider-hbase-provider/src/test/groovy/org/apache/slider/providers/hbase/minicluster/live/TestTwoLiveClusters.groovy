@@ -26,6 +26,7 @@ import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
+import org.apache.slider.server.services.curator.RegistryBinderService
 import org.junit.Test
 
 @CompileStatic
@@ -78,8 +79,10 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     //and now verify that cluster 1 is still happy
     waitForHBaseRegionServerCount(hoyaClient, clustername1, 1, hbaseClusterStartupToLiveTime)
 
-    // registry instances
-    def names = hoyaClient.listRegistryNames(clustername1)
+    // registry instances    def names = client.listRegistryNames(clustername)
+    describe "service registry names"
+    RegistryBinderService<ServiceInstanceData> registry = cluster2Client.registry
+    def names = registry.queryForNames();
     dumpRegistryNames(names)
 
     List<String> instanceIds = hoyaClient.listRegistryInstanceIDs()
@@ -91,7 +94,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
 
 
     List<CuratorServiceInstance<ServiceInstanceData>> instances = hoyaClient.listRegistryInstances(
-        clustername1)
+    )
     dumpRegistryInstances(instances)
     assert instances.size() == 2
 

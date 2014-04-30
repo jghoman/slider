@@ -21,5 +21,5 @@ package org.apache.slider.server.services.curator;
 public class RegistryConsts {
   public static final String REGISTRY_RESOURCE_PATH = "/ws/registry";
   public static final int INSTANCE_REFRESH_MS = 1000;
-  public static String SLIDER_INSTANCE_NAME_FORMAT = "%s.%s";
+  public static String SLIDER_INSTANCE_NAME_FORMAT = "%s-%s";
 }

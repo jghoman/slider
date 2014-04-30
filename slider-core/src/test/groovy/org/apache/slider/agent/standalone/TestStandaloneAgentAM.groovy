@@ -31,6 +31,7 @@ import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
+import org.apache.slider.server.services.curator.RegistryBinderService
 import org.junit.Test
 
 @CompileStatic
@@ -95,9 +96,9 @@ class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
     //switch to the ZK-based registry
 
     describe "service registry names"
-    def names = client.listRegistryNames(clustername)
-    log.info("number of names: ${names.size()}")
-    names.each { String it -> log.info(it) }
+    RegistryBinderService<ServiceInstanceData> registry = client.registry
+    def names = registry.queryForNames();
+    dumpRegistryNames(names)
     describe "service registry instance IDs"
 
     def instanceIds = client.listRegistryInstanceIDs()
@@ -107,7 +108,7 @@ class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
 
     describe "service registry slider instances"
     List<CuratorServiceInstance<ServiceInstanceData>> instances = client.listRegistryInstances(
-        clustername)
+    )
     instances.each { CuratorServiceInstance<ServiceInstanceData> svc ->
       log.info svc.toString()
     }
