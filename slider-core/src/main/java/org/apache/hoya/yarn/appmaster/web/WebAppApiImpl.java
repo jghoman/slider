@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;

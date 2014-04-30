@@ -19,7 +19,7 @@ package org.apache.hoya.yarn.appmaster.rpc;
 
 import org.apache.hadoop.security.authorize.PolicyProvider;
 import org.apache.hadoop.security.authorize.Service;
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 
 /**
  * {@link PolicyProvider} for Slider protocols.

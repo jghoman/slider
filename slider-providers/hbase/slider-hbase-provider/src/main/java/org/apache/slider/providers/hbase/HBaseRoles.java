@@ -18,7 +18,7 @@
 
 package org.apache.slider.providers.hbase;
 
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 

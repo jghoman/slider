@@ -19,7 +19,7 @@
 package org.apache.hoya.core.persist;
 
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 
 /**
  * Build up all the paths of an instance relative to the supplied instance

@@ -18,7 +18,7 @@
 
 package org.apache.hoya.providers.agent;
 
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 import org.apache.hoya.providers.ProviderRole;
 
 import java.util.ArrayList;

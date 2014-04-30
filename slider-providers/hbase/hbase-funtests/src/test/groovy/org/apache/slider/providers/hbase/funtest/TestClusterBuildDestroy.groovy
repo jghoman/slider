@@ -22,8 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.slider.core.launcher.LauncherExitCodes
-import org.apache.hoya.SliderKeys
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments

@@ -20,7 +20,7 @@ package org.apache.hoya.funtest.commands
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions

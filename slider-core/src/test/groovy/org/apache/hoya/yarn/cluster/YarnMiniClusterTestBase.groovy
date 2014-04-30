@@ -36,8 +36,8 @@ import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.slider.core.launcher.ServiceLauncherBaseTest
-import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterNode
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
@@ -55,7 +55,7 @@ import org.junit.rules.Timeout
 
 import static org.apache.hoya.testtools.SliderTestUtils.*
 import static org.apache.hoya.testtools.KeysForTests.*
-import static org.apache.hoya.SliderXMLConfKeysForTesting.*
+import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 
 /**
  * Base class for mini cluster tests -creates a field for the

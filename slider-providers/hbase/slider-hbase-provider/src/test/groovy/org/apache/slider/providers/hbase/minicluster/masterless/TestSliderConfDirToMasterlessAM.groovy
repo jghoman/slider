@@ -35,7 +35,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.SliderKeys
+import org.apache.slider.common.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils

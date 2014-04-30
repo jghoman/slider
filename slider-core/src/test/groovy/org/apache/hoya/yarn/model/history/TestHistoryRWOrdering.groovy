@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.model.history
 
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.SliderKeys
+import org.apache.slider.common.SliderKeys
 import org.apache.hoya.avro.RoleHistoryWriter
 import org.apache.hoya.yarn.appmaster.state.NodeEntry
 import org.apache.hoya.yarn.appmaster.state.NodeInstance

@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.zk.BlockingZKWatcher
 import org.apache.slider.core.registry.zk.ZKIntegration

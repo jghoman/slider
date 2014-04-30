@@ -19,7 +19,7 @@
 package org.apache.slider.core.exceptions;
 
 import org.apache.slider.core.launcher.ServiceLaunchException;
-import org.apache.hoya.SliderExitCodes;
+import org.apache.slider.common.SliderExitCodes;
 
 public class SliderException extends ServiceLaunchException implements
     SliderExitCodes {

@@ -24,7 +24,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DFSConfigKeys;
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.StatusKeys;
 import org.apache.hoya.core.conf.AggregateConf;

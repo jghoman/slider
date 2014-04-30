@@ -20,7 +20,7 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;
 import org.apache.hoya.core.conf.AggregateConf;

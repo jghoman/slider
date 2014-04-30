@@ -35,7 +35,7 @@ package org.apache.hoya.api;
 import org.apache.hadoop.ipc.VersionedProtocol;
 import org.apache.hadoop.security.KerberosInfo;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.hoya.api.proto.Messages;
 
 import java.io.IOException;

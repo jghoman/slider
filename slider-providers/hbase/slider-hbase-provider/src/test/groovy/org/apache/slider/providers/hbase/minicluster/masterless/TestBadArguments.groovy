@@ -20,9 +20,9 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.SliderExitCodes
-import org.apache.hoya.SliderKeys
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments

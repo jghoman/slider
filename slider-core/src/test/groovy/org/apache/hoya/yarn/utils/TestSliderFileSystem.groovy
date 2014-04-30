@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.utils
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test

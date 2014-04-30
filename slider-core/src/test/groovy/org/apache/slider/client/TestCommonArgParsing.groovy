@@ -25,7 +25,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hdfs.DFSConfigKeys
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.api.ResourceKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.core.exceptions.BadCommandArgumentsException

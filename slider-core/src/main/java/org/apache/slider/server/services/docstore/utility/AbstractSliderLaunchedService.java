@@ -20,9 +20,9 @@ package org.apache.slider.server.services.docstore.utility;
 
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import static org.apache.hoya.SliderXmlConfKeys.*;
+import static org.apache.slider.common.SliderXmlConfKeys.*;
 
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.info.ServiceInstanceData;

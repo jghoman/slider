@@ -19,7 +19,7 @@
 package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.ErrorStrings

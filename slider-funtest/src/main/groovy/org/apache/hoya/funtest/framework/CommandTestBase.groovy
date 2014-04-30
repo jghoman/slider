@@ -25,8 +25,8 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.SliderKeys
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
@@ -39,11 +39,11 @@ import org.junit.Rule
 import org.junit.rules.Timeout
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import static org.apache.hoya.SliderExitCodes.*
+import static org.apache.slider.common.SliderExitCodes.*
 import static FuntestProperties.*
 import static org.apache.hoya.yarn.Arguments.*
 import static org.apache.hoya.yarn.SliderActions.*
-import static org.apache.hoya.SliderXMLConfKeysForTesting.*
+import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 
 @CompileStatic
 abstract class CommandTestBase extends HoyaTestUtils {

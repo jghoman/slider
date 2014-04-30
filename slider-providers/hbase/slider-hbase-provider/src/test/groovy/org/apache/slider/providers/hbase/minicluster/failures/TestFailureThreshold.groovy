@@ -24,7 +24,7 @@ import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.FinalApplicationStatus
 import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.OptionKeys
 import org.apache.slider.core.exceptions.BadClusterStateException

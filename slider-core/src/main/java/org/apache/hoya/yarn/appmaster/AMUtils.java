@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.appmaster;
 
 import org.apache.slider.core.launcher.LauncherExitCodes;
-import org.apache.hoya.SliderExitCodes;
+import org.apache.slider.common.SliderExitCodes;
 
 public class AMUtils {
   /**

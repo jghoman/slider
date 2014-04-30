@@ -20,8 +20,8 @@ package org.apache.hoya.providers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hoya.SliderKeys;
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.providers.agent.AgentKeys;

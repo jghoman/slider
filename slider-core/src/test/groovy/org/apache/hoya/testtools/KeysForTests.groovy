@@ -18,8 +18,8 @@
 
 package org.apache.hoya.testtools
 
-import org.apache.hoya.SliderXMLConfKeysForTesting
-import org.apache.hoya.SliderKeys
+import org.apache.slider.common.SliderXMLConfKeysForTesting
+import org.apache.slider.common.SliderKeys
 
 /**
  * Keys shared across tests

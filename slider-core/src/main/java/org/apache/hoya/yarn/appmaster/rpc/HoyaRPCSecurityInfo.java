@@ -25,7 +25,7 @@ import org.apache.hadoop.security.token.TokenIdentifier;
 import org.apache.hadoop.security.token.TokenInfo;
 import org.apache.hadoop.security.token.TokenSelector;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenSelector;
-import org.apache.hoya.SliderXmlConfKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
 
 import java.lang.annotation.Annotation;
 

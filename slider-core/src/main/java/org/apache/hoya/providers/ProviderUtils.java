@@ -22,7 +22,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.SliderKeys;
+import org.apache.slider.common.SliderKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.OptionKeys;
 import org.apache.hoya.api.ResourceKeys;

@@ -33,7 +33,7 @@ import org.apache.hadoop.fs.LocalFileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapreduce.filecache.DistributedCache
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.SliderXMLConfKeysForTesting
+import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
 import org.apache.slider.providers.accumulo.AccumuloKeys

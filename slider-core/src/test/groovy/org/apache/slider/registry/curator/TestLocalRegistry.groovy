@@ -19,7 +19,7 @@
 package org.apache.slider.registry.curator
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.SliderKeys
+import org.apache.slider.common.SliderKeys
 import org.apache.hoya.testtools.SliderTestUtils
 import org.apache.hoya.yarn.MicroZKCluster
 import org.apache.slider.core.registry.info.ServiceInstanceData

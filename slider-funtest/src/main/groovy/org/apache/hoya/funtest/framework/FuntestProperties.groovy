@@ -1,8 +1,8 @@
 package org.apache.hoya.funtest.framework
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.SliderXMLConfKeysForTesting
-import org.apache.hoya.SliderKeys
+import org.apache.slider.common.SliderXMLConfKeysForTesting
+import org.apache.slider.common.SliderKeys
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

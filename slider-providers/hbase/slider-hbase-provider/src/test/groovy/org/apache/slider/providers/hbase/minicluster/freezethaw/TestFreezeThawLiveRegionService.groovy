@@ -21,8 +21,8 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.SliderKeys
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.core.exceptions.SliderException

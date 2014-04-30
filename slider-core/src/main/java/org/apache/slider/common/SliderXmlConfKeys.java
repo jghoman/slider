@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya;
+package org.apache.slider.common;
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 

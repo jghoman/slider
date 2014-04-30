@@ -20,13 +20,13 @@ package org.apache.hoya.core.launch;
 
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.SliderExitCodes;
+import org.apache.slider.common.SliderExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.apache.slider.client.SliderYarnClientImpl;
 
-import static org.apache.hoya.Constants.*;
+import static org.apache.slider.common.Constants.*;
 
 import java.io.IOException;
 

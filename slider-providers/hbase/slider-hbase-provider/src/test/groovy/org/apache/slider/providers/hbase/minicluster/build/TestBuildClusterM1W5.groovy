@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.build
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.core.launcher.LauncherExitCodes
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.SliderActions

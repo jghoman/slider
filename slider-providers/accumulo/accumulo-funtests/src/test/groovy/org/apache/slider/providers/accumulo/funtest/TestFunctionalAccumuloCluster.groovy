@@ -21,7 +21,7 @@ import static org.apache.slider.providers.accumulo.AccumuloKeys.*
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments

@@ -20,7 +20,7 @@ package org.apache.slider.client
 
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.slider.core.launcher.ServiceLauncherBaseTest
-import org.apache.hoya.SliderExitCodes
+import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments

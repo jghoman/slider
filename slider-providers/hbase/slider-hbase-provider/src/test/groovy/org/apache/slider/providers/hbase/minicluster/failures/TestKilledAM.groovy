@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
 import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.SliderXmlConfKeys
+import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
 import org.apache.slider.providers.hbase.HBaseKeys
