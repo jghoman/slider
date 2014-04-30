@@ -24,8 +24,8 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.slider.test.HoyaTestUtils
 import org.apache.slider.common.tools.SliderUtils
+import org.apache.slider.test.SliderTestUtils
 import org.junit.Test
 
 /**
@@ -38,7 +38,7 @@ import org.junit.Test
  */
 @CompileStatic
 @Slf4j
-abstract class AbstractTestBuildSetup extends HoyaTestUtils implements FuntestProperties {
+abstract class AbstractTestBuildSetup extends SliderTestUtils implements FuntestProperties {
 
 
   String getRequiredSysprop(String name) {

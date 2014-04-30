@@ -29,10 +29,10 @@ import org.apache.slider.common.SliderKeys
 import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.slider.test.HoyaTestUtils
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
+import org.apache.slider.test.SliderTestUtils
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -46,7 +46,7 @@ import static org.apache.slider.common.params.SliderActions.*
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 
 @CompileStatic
-abstract class CommandTestBase extends HoyaTestUtils {
+abstract class CommandTestBase extends SliderTestUtils {
   private static final Logger log =
       LoggerFactory.getLogger(CommandTestBase.class);
   
