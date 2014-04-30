@@ -64,7 +64,7 @@ import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.ResourceKeys;
 import org.apache.slider.api.RoleKeys;
 import org.apache.slider.api.StatusKeys;
-import org.apache.slider.api.proto.HoyaClusterAPI;
+import org.apache.slider.api.proto.SliderClusterAPI;
 import org.apache.slider.api.proto.Messages;
 import org.apache.slider.core.build.InstanceIO;
 import org.apache.slider.core.conf.AggregateConf;
@@ -85,7 +85,7 @@ import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.common.tools.SliderVersionInfo;
 import org.apache.slider.common.params.SliderActions;
 import org.apache.slider.server.appmaster.rpc.SliderAMPolicyProvider;
-import org.apache.slider.server.appmaster.rpc.HoyaClusterProtocolPBImpl;
+import org.apache.slider.server.appmaster.rpc.SliderClusterProtocolPBImpl;
 import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.apache.slider.server.appmaster.state.AbstractRMOperation;
 import org.apache.slider.server.appmaster.state.AppState;
@@ -925,8 +925,8 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
    * Start the hoya RPC server
    */
   private void startHoyaRPCServer() throws IOException {
-    HoyaClusterProtocolPBImpl protobufRelay = new HoyaClusterProtocolPBImpl(this);
-    BlockingService blockingService = HoyaClusterAPI.HoyaClusterProtocolPB
+    SliderClusterProtocolPBImpl protobufRelay = new SliderClusterProtocolPBImpl(this);
+    BlockingService blockingService = SliderClusterAPI.SliderClusterProtocolPB
                                                     .newReflectiveBlockingService(
                                                       protobufRelay);
 

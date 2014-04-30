@@ -36,8 +36,7 @@ public class HoyaRPCSecurityInfo extends SecurityInfo {
 
   @Override
   public KerberosInfo getKerberosInfo(Class<?> protocol, Configuration conf) {
-    if (!protocol
-        .equals(HoyaClusterProtocolPB.class)) {
+    if (!protocol.equals(SliderClusterProtocolPB.class)) {
       return null;
     }
     return new KerberosInfo() {
@@ -61,8 +60,7 @@ public class HoyaRPCSecurityInfo extends SecurityInfo {
 
   @Override
   public TokenInfo getTokenInfo(Class<?> protocol, Configuration conf) {
-    if (!protocol
-        .equals(HoyaClusterProtocolPB.class)) {
+    if (!protocol.equals(SliderClusterProtocolPB.class)) {
       return null;
     }
     return new TokenInfo() {
@@ -80,7 +78,7 @@ public class HoyaRPCSecurityInfo extends SecurityInfo {
 
       @Override
       public String toString() {
-        return "HoyaClusterProtocolPB token info";
+        return "SliderClusterProtocolPB token info";
       }
     };
   }

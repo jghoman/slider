@@ -45,10 +45,10 @@ import java.io.IOException;
 
 public class HoyaClusterProtocolProxy implements HoyaClusterProtocol {
 
-  final HoyaClusterProtocolPB endpoint;
+  final SliderClusterProtocolPB endpoint;
   private static final RpcController NULL_CONTROLLER = null;
   
-  public HoyaClusterProtocolProxy(HoyaClusterProtocolPB endpoint) {
+  public HoyaClusterProtocolProxy(SliderClusterProtocolPB endpoint) {
     this.endpoint = endpoint;
   }
 
@@ -176,9 +176,9 @@ public class HoyaClusterProtocolProxy implements HoyaClusterProtocol {
                                                 long clientVersion,
                                                 int clientMethodsHash) throws
                                                                        IOException {
-    if (!protocol.equals(RPC.getProtocolName(HoyaClusterProtocolPB.class))) {
+    if (!protocol.equals(RPC.getProtocolName(SliderClusterProtocolPB.class))) {
       throw new IOException("Serverside implements " +
-                            RPC.getProtocolName(HoyaClusterProtocolPB.class) +
+                            RPC.getProtocolName(SliderClusterProtocolPB.class) +
                             ". The following requested protocol is unknown: " +
                             protocol);
     }

@@ -33,7 +33,7 @@
 package org.apache.slider.api;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.slider.server.appmaster.rpc.HoyaClusterProtocolPB;
+import org.apache.slider.server.appmaster.rpc.SliderClusterProtocolPB;
 import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class TestRPCBinding {
   public void testRegistration() throws Throwable {
     Configuration conf = new Configuration();
     RpcBinder.registerHoyaAPI(conf);
-    assert RpcBinder.verifyBondedToProtobuf(conf, HoyaClusterProtocolPB.class);
+    assert RpcBinder.verifyBondedToProtobuf(conf, SliderClusterProtocolPB.class);
   }
 
   @Test

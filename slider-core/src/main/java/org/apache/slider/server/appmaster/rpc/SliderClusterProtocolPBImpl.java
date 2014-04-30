@@ -25,11 +25,11 @@ import java.io.IOException;
  * Relay from Protobuf to internal RPC.
  *
  */
-public class HoyaClusterProtocolPBImpl implements HoyaClusterProtocolPB {
+public class SliderClusterProtocolPBImpl implements SliderClusterProtocolPB {
 
   private HoyaClusterProtocol real;
 
-  public HoyaClusterProtocolPBImpl(HoyaClusterProtocol real) {
+  public SliderClusterProtocolPBImpl(HoyaClusterProtocol real) {
     this.real = real;
   }
 

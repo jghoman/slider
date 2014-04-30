@@ -186,8 +186,8 @@
               <source>
                 <directory>${basedir}/src/main/proto</directory>
                 <includes>
-                  <include>HoyaClusterMessages.proto</include>
-                  <include>HoyaClusterProtocol.proto</include>
+                  <include>SliderClusterMessages.proto</include>
+                  <include>SliderClusterProtocol.proto</include>
                 </includes>
               </source>
               <output>${project.build.directory}/generated-sources/java</output>

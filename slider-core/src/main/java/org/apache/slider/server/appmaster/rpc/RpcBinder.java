@@ -52,12 +52,12 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenIdentifier;
 import org.apache.hadoop.yarn.util.ConverterUtils;
-import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.common.SliderExitCodes;
+import org.apache.slider.common.tools.Duration;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +76,7 @@ public class RpcBinder {
                                             BlockingService blockingService,
                                             String portRangeConfig) throws
                                                       IOException {
-    Class<HoyaClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
+    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
       conf);
     RPC.Server server = new RPC.Builder(conf).setProtocol(hoyaClusterAPIClass)
                                              .setInstance(blockingService)
@@ -101,10 +101,10 @@ public class RpcBinder {
    * @param conf configuration to patch
    * @return the protocol class
    */
-  public static Class<HoyaClusterProtocolPB> registerHoyaAPI(
+  public static Class<SliderClusterProtocolPB> registerHoyaAPI(
     Configuration conf) {
-    Class<HoyaClusterProtocolPB> hoyaClusterAPIClass =
-      HoyaClusterProtocolPB.class;
+    Class<SliderClusterProtocolPB> hoyaClusterAPIClass =
+      SliderClusterProtocolPB.class;
     RPC.setProtocolEngine(conf, hoyaClusterAPIClass, ProtobufRpcEngine.class);
     
     //quick sanity check here
@@ -120,7 +120,7 @@ public class RpcBinder {
    * @return
    */
   public static boolean verifyBondedToProtobuf(Configuration conf,
-                                                Class<HoyaClusterProtocolPB> hoyaClusterAPIClass) {
+                                                Class<SliderClusterProtocolPB> hoyaClusterAPIClass) {
     return conf.getClass("rpc.engine." + hoyaClusterAPIClass.getName(),
                          RpcEngine.class) .equals(ProtobufRpcEngine.class);
   }
@@ -130,11 +130,11 @@ public class RpcBinder {
                                                     UserGroupInformation currentUser,
                                                     Configuration conf,
                                                     int rpcTimeout) throws IOException {
-    Class<HoyaClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
+    Class<SliderClusterProtocolPB> hoyaClusterAPIClass = registerHoyaAPI(
       conf);
 
     log.debug("Connecting to Slider AM at {}", addr);
-    ProtocolProxy<HoyaClusterProtocolPB> protoProxy =
+    ProtocolProxy<SliderClusterProtocolPB> protoProxy =
       RPC.getProtocolProxy(hoyaClusterAPIClass,
                            1,
                            addr,
@@ -143,7 +143,7 @@ public class RpcBinder {
                            NetUtils.getDefaultSocketFactory(conf),
                            rpcTimeout,
                            null);
-    HoyaClusterProtocolPB endpoint = protoProxy.getProxy();
+    SliderClusterProtocolPB endpoint = protoProxy.getProxy();
     return new HoyaClusterProtocolProxy(endpoint);
   }
 

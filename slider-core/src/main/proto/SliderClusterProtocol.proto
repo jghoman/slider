@@ -25,20 +25,20 @@
 // This file contains protocol buffers that are used throughout HDFS -- i.e.
 // by the client, server, and data transfer protocols.
 
-option java_package = "org.apache.hoya.api.proto";
-option java_outer_classname = "HoyaClusterAPI";
+option java_package = "org.apache.slider.api.proto";
+option java_outer_classname = "SliderClusterAPI";
 option java_generic_services = true;
 option java_generate_equals_and_hash = true;
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 //import "Security.proto";
-import "HoyaClusterMessages.proto";
+import "SliderClusterMessages.proto";
 
 
 /**
  * Protocol used from between Slider Client and AM
  */
-service HoyaClusterProtocolPB {
+service SliderClusterProtocolPB {
 
   /**
    * Stop the cluster

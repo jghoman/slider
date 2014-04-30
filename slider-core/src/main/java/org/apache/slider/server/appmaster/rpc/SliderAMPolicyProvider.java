@@ -29,7 +29,7 @@ public class SliderAMPolicyProvider extends PolicyProvider {
   
   private static final Service[] services = 
       new Service[] {
-    new Service(SliderXmlConfKeys.KEY_PROTOCOL_ACL, HoyaClusterProtocolPB.class)
+    new Service(SliderXmlConfKeys.KEY_PROTOCOL_ACL, SliderClusterProtocolPB.class)
   };
 
   @SuppressWarnings("ReturnOfCollectionOrArrayField")
