@@ -67,6 +67,8 @@ public class TestAMManagementWebServices extends JerseyTest {
 
   public static final int RM_MAX_RAM = 4096;
   public static final int RM_MAX_CORES = 64;
+  public static final String EXAMPLES =
+      "/org/apache/slider/core/conf/examples/";
   static MockFactory factory = new MockFactory();
   private static Configuration conf = new Configuration();
   private static WebAppApi slider;
@@ -115,13 +117,13 @@ public class TestAMManagementWebServices extends JerseyTest {
       try {
         internal =
             confTreeJsonSerDeser.fromResource(
-                "/org/apache/hoya/core/conf/examples/internal.json");
+                EXAMPLES +"internal.json");
         app_conf =
             confTreeJsonSerDeser.fromResource(
-                "/org/apache/hoya/core/conf/examples/app_configuration.json");
+                EXAMPLES + "app_configuration.json");
         resources =
             confTreeJsonSerDeser.fromResource(
-                "/org/apache/hoya/core/conf/examples/resources.json");
+                EXAMPLES + "resources.json");
       } catch (IOException e) {
         fail(e.getMessage());
       }

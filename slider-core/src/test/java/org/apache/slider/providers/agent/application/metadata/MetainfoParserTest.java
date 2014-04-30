@@ -30,7 +30,7 @@ public class MetainfoParserTest {
   protected static final Logger log =
       LoggerFactory.getLogger(MetainfoParserTest.class);
   public static final String METAINFO_XML =
-      "/org/apache/hoya/providers/agent/application/metadata/metainfo.xml";
+      "/org/apache/slider/providers/agent/application/metadata/metainfo.xml";
 
   @Test
   public void testParse() throws IOException {
