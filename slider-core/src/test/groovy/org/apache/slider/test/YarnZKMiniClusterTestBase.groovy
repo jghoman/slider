@@ -40,7 +40,7 @@ public abstract class YarnZKMiniClusterTestBase extends YarnMiniClusterTestBase 
   protected MicroZKCluster microZKCluster
   
   public void stopMiniCluster() {
-    stopMiniCluster()
+    super.stopMiniCluster()
     microZKCluster?.close()
   }
 
