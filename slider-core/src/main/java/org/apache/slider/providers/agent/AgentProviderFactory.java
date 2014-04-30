@@ -25,6 +25,9 @@ import org.apache.slider.providers.SliderProviderFactory;
 
 public class AgentProviderFactory extends SliderProviderFactory {
 
+  public static final String CLASSNAME =
+      "org.apache.slider.providers.agent.AgentProviderFactory";
+
   public AgentProviderFactory() {
   }
 

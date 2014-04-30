@@ -51,7 +51,8 @@ class TestProviderFactory {
   
   @Test
   public void testCreateProviderByClassname() throws Throwable {
-    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory("org.apache.hoya.providers.agent.AgentProviderFactory");
+    SliderProviderFactory factory = SliderProviderFactory.createSliderProviderFactory(
+        AgentProviderFactory.CLASSNAME);
     assert null != factory.createServerProvider();
     assert factory instanceof AgentProviderFactory
   }
