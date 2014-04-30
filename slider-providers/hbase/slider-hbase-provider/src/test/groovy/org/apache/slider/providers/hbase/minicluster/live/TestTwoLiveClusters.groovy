@@ -20,7 +20,6 @@ package org.apache.slider.providers.hbase.minicluster.live
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.curator.x.discovery.ServiceDiscovery
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
@@ -83,8 +82,7 @@ class TestTwoLiveClusters extends HBaseMiniClusterTestBase {
     // registry instances    def names = client.listRegistryNames(clustername)
     describe "service registry names"
     RegistryBinderService<ServiceInstanceData> registry = cluster2Client.registry
-    ServiceDiscovery<ServiceInstanceData> discovery = registry.discovery;
-    def names = discovery.queryForNames();
+    def names = registry.queryForNames();
     dumpRegistryNames(names)
 
     List<String> instanceIds = hoyaClient.listRegistryInstanceIDs()

@@ -20,7 +20,6 @@ package org.apache.slider.agent.standalone
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.curator.x.discovery.ServiceDiscovery
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -108,8 +107,7 @@ class TestStandaloneRegistryAM extends AgentMiniClusterTestBase {
 
     describe "service registry names"
     RegistryBinderService<ServiceInstanceData> registry = client.registry
-    ServiceDiscovery<ServiceInstanceData> discovery = registry.discovery;
-    def names = discovery.queryForNames();
+    def names = registry.queryForNames();
     dumpRegistryNames(names)
 
     List<String> instanceIds = client.listRegistryInstanceIDs()

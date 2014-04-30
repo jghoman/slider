@@ -36,7 +36,6 @@ import java.util.List;
 public abstract class AbstractActionArgs extends ArgOps implements Arguments {
   protected static final Logger log =
     LoggerFactory.getLogger(AbstractActionArgs.class);
-  private static final String UNKNOWN = "unknown";
 
 
   protected AbstractActionArgs() {
@@ -51,7 +50,7 @@ public abstract class AbstractActionArgs extends ArgOps implements Arguments {
   public URI filesystemURL;
 
   @Parameter(names = {ARG_BASE_PATH},
-             description = "Slider Base path on the filesystem",
+             description = "Slider base path on the filesystem",
              converter =  PathArgumentConverter.class)
   public Path basePath;
 
@@ -93,7 +92,7 @@ public abstract class AbstractActionArgs extends ArgOps implements Arguments {
   public final List<String> sysprops = new ArrayList<String>(0);
 
 
-  @Parameter(names = {"--m", ARG_MANAGER},
+  @Parameter(names = {ARG_MANAGER_SHORT, ARG_MANAGER},
              description = "hostname:port of the YARN resource manager")
   public String manager;
 

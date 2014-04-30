@@ -20,7 +20,11 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+import org.apache.hoya.exceptions.BadCommandArgumentsException;
+import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.yarn.HoyaActions;
+
+import java.io.File;
 
 @Parameters(commandNames = {HoyaActions.ACTION_REGISTRY},
             commandDescription = HoyaActions.DESCRIBE_ACTION_REGISTRY)
@@ -31,23 +35,67 @@ public class ActionRegistryArgs extends AbstractActionArgs {
     return HoyaActions.ACTION_REGISTRY;
   }
 
+
+  /**
+   * Get the min #of params expected
+   * @return the min number of params in the {@link #parameters} field
+   */
+  @Override
+  public int getMinParams() {
+    return 0;
+  }
+
   //--format 
   @Parameter(names = ARG_FORMAT,
       description = "Format for a response: [text|xml|json|properties]")
   public String format = FORMAT_XML;
 
 
-  @Parameter(names = {ARG_OUTPUT, ARG_OUTPUT_SHORT},
-      description = "Output file for the configuration data")
-  public String output;
+  @Parameter(names = {ARG_DEST},
+      description = "Output destination")
+  public File dest;
 
+  @Parameter(names = {ARG_LIST}, 
+      description = "list services")
+  public String list;
 
-  @Parameter(names = {ARG_GET},
+  @Parameter(names = {ARG_LISTCONF}, 
+      description = "list configurations")
+  public String listConf;
+
+  @Parameter(names = {ARG_GETCONF},
       description = "get files")
-  public boolean get;
+  public String getConf;
 
-  @Parameter(names = {ARG_LIST},
+
+  @Parameter(names = {ARG_LISTFILES}, 
       description = "list files")
-  public boolean list;
+  public String listFiles;
 
+  @Parameter(names = {ARG_GETFILES},
+      description = "get files")
+  public String getFiles;
+
+  @Override
+  public void validate() throws BadCommandArgumentsException {
+    super.validate();
+
+    //verify that at most one of the operations is set
+    int gets = s(getConf) + s(getFiles);
+    int lists = s(list) + s(listConf) + s(listFiles);
+    int set = lists + gets;
+    if (set > 1) {
+      throw new BadCommandArgumentsException(
+          ErrorStrings.ERROR_TOO_MANY_ARGUMENTS);
+    }
+    if (dest != null && (lists > 0 || set == 0)) {
+      throw new BadCommandArgumentsException("Argument " + ARG_DEST
+                           + " is only supported on 'get' operations");
+    }
+  }
+  
+  @SuppressWarnings("VariableNotUsedInsideIf")
+  private int s(String arg) {
+    return arg != null ? 1 : 0;
+  }
 }

@@ -34,6 +34,7 @@ public class ActionHelpArgs extends AbstractActionArgs {
    * Get the min #of params expected
    * @return the min number of params in the {@link #parameters} field
    */
+  @Override
   public int getMinParams() {
     return 0;
   }

@@ -26,8 +26,6 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceInstanceBuilder;
 import org.apache.curator.x.discovery.ServiceType;
 import org.apache.curator.x.discovery.UriSpec;
-import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.core.persist.JsonSerDeser;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.zookeeper.KeeperException;
@@ -37,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -196,6 +195,8 @@ public class RegistryBinderService<Payload> extends CuratorService {
     return null;
   }
 
+  
+  
   /**
    * List all the instances
    * @param name name of the service
@@ -223,4 +224,15 @@ public class RegistryBinderService<Payload> extends CuratorService {
   }
 
 
+  public Collection<String> queryForNames() throws IOException {
+    try {
+      return getDiscovery().queryForNames();
+    } catch (IOException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+  
+  
 }

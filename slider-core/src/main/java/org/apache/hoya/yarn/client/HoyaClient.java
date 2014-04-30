@@ -1950,9 +1950,9 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
   public int actionRegistry(ActionRegistryArgs registryArgs) throws
       YarnException,
       IOException {
-    String clustername = registryArgs.getClusterName();
+    maybeStartRegistry();
     List<CuratorServiceInstance<ServiceInstanceData>> instances =
-        listRegistryInstances();
+        registry.listInstances(HoyaKeys.APP_TYPE);
 
     for (CuratorServiceInstance<ServiceInstanceData> instance : instances) {
       log.info("{} at http://{}:{}/", instance.id, instance.address,
@@ -1969,20 +1969,9 @@ public class HoyaClient extends AbstractSliderLaunchedService implements RunServ
    */
   public Collection<String> listRegistryNames() throws IOException, YarnException {
     Collection<String> names;
-    try {
       verifyBindingsDefined();
 
-      maybeStartRegistry();
-      ServiceDiscovery<ServiceInstanceData> discovery = registry.getDiscovery();
-      names = discovery.queryForNames();
-    } catch (IOException e) {
-      throw e;
-    } catch (YarnException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new IOException(e);
-    }
-    return names;
+      return getRegistry().queryForNames();
   }
 
   /**
