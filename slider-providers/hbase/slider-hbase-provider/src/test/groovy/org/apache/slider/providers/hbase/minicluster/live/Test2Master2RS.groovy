@@ -26,7 +26,7 @@ import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 

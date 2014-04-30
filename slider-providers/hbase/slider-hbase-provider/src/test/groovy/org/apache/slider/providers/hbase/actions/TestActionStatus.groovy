@@ -25,7 +25,7 @@ import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.params.ActionStatusArgs
 import org.apache.hoya.yarn.params.ClientArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase

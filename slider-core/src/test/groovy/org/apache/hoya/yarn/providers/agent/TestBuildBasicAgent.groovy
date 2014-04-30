@@ -29,7 +29,7 @@ import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.ConfPersister
 import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*

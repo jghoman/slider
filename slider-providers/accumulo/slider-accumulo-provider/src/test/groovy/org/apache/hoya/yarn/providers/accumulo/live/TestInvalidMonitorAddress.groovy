@@ -27,7 +27,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.junit.Test
 

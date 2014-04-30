@@ -39,7 +39,7 @@ import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration

@@ -23,7 +23,7 @@ package org.apache.slider.providers.hbase.minicluster.archives
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test

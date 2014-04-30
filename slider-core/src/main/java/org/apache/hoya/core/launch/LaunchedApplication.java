@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hoya.tools.Duration;
-import org.apache.hoya.yarn.client.SliderYarnClientImpl;
+import org.apache.slider.client.SliderYarnClientImpl;
 
 import java.io.IOException;
 

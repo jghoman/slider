@@ -47,7 +47,7 @@ import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.appmaster.SliderAppMaster
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
 import org.junit.After
 import org.junit.Rule

@@ -29,7 +29,7 @@ import org.apache.hoya.core.conf.AggregateConf
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.launcher.ServiceLaunchException
 import org.apache.slider.core.launcher.ServiceLauncher

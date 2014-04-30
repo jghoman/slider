@@ -41,7 +41,7 @@ import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.yarn.Arguments
 import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Assert

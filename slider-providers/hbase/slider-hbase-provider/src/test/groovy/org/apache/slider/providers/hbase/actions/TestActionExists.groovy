@@ -24,7 +24,7 @@ import org.apache.slider.core.launcher.LauncherExitCodes
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration

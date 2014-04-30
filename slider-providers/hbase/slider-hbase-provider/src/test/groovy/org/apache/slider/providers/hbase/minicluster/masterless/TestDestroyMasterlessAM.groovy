@@ -27,7 +27,7 @@ import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.params.CommonArgs
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test

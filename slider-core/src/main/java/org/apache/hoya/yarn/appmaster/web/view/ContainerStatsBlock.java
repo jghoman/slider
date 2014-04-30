@@ -34,7 +34,7 @@ import org.apache.hoya.api.ClusterNode;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
-import org.apache.hoya.yarn.client.SliderClusterOperations;
+import org.apache.slider.client.SliderClusterOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

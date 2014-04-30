@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test

@@ -32,7 +32,7 @@ import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule

@@ -27,7 +27,7 @@ import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.junit.Test
 
 import javax.ws.rs.core.MediaType

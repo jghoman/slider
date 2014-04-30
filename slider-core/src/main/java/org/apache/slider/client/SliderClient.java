@@ -16,7 +16,7 @@
  * limitations under the License.
 */
 
-package org.apache.hoya.yarn.client;
+package org.apache.slider.client;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.conf.Configuration;

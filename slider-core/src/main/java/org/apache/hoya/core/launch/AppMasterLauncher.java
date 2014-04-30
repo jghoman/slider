@@ -30,7 +30,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.tools.CoreFileSystem;
 import org.apache.hoya.tools.SliderUtils;
-import org.apache.hoya.yarn.client.SliderYarnClientImpl;
+import org.apache.slider.client.SliderYarnClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

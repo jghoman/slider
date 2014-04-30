@@ -25,7 +25,7 @@ import org.apache.hoya.SliderExitCodes
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.SliderActions
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.slider.core.launcher.ServiceLauncher

@@ -21,7 +21,7 @@ package org.apache.hoya.core.registry;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.yarn.client.SliderYarnClientImpl;
+import org.apache.slider.client.SliderYarnClientImpl;
 
 import java.io.IOException;
 import java.util.List;

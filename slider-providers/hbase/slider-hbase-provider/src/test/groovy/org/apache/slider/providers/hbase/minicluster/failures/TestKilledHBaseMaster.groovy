@@ -26,7 +26,7 @@ import org.apache.hadoop.hbase.HConstants
 import org.apache.hadoop.hbase.ServerName
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.junit.Test

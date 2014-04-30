@@ -26,7 +26,7 @@ import org.apache.hoya.SliderXmlConfKeys
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState

@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.api.ResourceKeys
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*

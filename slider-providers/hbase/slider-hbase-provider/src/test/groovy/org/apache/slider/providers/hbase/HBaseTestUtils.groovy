@@ -36,7 +36,7 @@ import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.SliderTestUtils
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 
 /**
  * Static HBase test utils

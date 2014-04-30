@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.yarn.client
+package org.apache.slider.client
 
 import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.slider.core.launcher.ServiceLauncherBaseTest

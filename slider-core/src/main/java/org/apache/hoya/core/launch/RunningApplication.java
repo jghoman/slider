@@ -24,7 +24,7 @@ import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
-import org.apache.hoya.yarn.client.SliderYarnClientImpl;
+import org.apache.slider.client.SliderYarnClientImpl;
 
 import static org.apache.hoya.Constants.*;
 

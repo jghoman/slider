@@ -29,7 +29,7 @@ import org.apache.slider.core.launcher.ServiceLauncher
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
-import org.apache.hoya.yarn.client.SliderClient
+import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.providers.agent.AgentTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
