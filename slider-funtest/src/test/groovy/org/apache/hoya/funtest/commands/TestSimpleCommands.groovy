@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
-import org.apache.hoya.yarn.SliderActions
+import org.apache.slider.common.params.SliderActions
 import org.junit.Test
 
 @CompileStatic

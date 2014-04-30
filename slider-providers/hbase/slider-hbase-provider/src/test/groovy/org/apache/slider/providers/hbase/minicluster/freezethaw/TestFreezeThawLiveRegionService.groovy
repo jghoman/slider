@@ -26,7 +26,7 @@ import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.RoleKeys
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.main.ServiceLauncher

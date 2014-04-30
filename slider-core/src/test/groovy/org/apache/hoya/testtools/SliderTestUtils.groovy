@@ -39,7 +39,7 @@ import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.slider.client.SliderClient
 import org.apache.slider.core.registry.info.ServiceInstanceData
@@ -47,7 +47,7 @@ import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Assert
 import org.junit.Assume
 
-import static org.apache.hoya.yarn.Arguments.ARG_OPTION
+import static Arguments.ARG_OPTION
 
 /**
  * Static utils for tests in this package and in other test projects.

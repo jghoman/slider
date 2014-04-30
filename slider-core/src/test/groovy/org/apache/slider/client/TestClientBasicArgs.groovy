@@ -23,8 +23,8 @@ import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.SliderUtils
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.params.ClientArgs
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.ClientArgs
 import org.junit.Test
 
 /**

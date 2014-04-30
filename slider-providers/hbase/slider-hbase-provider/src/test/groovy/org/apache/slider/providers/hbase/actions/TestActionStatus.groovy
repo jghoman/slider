@@ -24,10 +24,10 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
-import org.apache.hoya.yarn.params.ActionStatusArgs
-import org.apache.hoya.yarn.params.ClientArgs
+import org.apache.slider.common.params.ActionStatusArgs
+import org.apache.slider.common.params.ClientArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration

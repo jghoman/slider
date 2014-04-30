@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 import org.junit.BeforeClass

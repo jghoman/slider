@@ -34,7 +34,7 @@ import javax.ws.rs.core.MediaType
 
 import static org.apache.hoya.providers.agent.AgentKeys.*
 import static org.apache.hoya.testtools.SliderTestUtils.log
-import static org.apache.hoya.yarn.Arguments.ARG_OPTION
+import static org.apache.slider.common.params.Arguments.ARG_OPTION
 import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createDummyJSONRegister
 import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClient;
 

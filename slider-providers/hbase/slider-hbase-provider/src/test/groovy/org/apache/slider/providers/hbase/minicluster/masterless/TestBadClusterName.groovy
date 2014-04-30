@@ -29,7 +29,7 @@ import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j

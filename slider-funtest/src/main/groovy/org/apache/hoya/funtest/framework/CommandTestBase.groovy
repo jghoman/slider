@@ -31,7 +31,7 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.SliderUtils
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
 import org.junit.Before
 import org.junit.BeforeClass
@@ -41,8 +41,8 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import static org.apache.slider.common.SliderExitCodes.*
 import static FuntestProperties.*
-import static org.apache.hoya.yarn.Arguments.*
-import static org.apache.hoya.yarn.SliderActions.*
+import static Arguments.*
+import static org.apache.slider.common.params.SliderActions.*
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 
 @CompileStatic

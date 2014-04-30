@@ -31,9 +31,9 @@ import org.apache.slider.api.RoleKeys
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.hoya.tools.SliderUtils
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.SliderActions
-import org.apache.hoya.yarn.params.*
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.common.params.*
 import org.junit.Assert
 import org.junit.Test
 

@@ -24,14 +24,14 @@ import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j

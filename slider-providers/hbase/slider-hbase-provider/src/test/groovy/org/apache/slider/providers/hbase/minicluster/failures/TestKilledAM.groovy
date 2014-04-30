@@ -35,7 +35,7 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.StatusKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.client.SliderClient
-import org.apache.hoya.yarn.params.ActionAMSuicideArgs
+import org.apache.slider.common.params.ActionAMSuicideArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 

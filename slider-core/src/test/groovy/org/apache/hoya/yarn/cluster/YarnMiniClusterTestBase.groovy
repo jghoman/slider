@@ -44,11 +44,11 @@ import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.tools.Duration
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.SliderActions
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.hoya.yarn.appmaster.SliderAppMaster
 import org.apache.slider.client.SliderClient
-import org.apache.hoya.yarn.params.ActionFreezeArgs
+import org.apache.slider.common.params.ActionFreezeArgs
 import org.junit.After
 import org.junit.Rule
 import org.junit.rules.Timeout

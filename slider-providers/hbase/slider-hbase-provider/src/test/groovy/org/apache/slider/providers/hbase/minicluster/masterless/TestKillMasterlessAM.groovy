@@ -29,7 +29,7 @@ import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static org.apache.slider.providers.hbase.HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.*
+import static org.apache.slider.common.params.Arguments.*
 
 /**
  * create masterless AMs and work with them. This is faster than

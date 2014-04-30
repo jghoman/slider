@@ -22,8 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.common.SliderExitCodes
 import org.apache.hoya.funtest.categories.FunctionalTests
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.SliderActions
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
 import org.junit.BeforeClass

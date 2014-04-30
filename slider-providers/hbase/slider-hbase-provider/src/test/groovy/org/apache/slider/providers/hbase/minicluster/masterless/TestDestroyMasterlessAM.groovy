@@ -24,9 +24,9 @@ import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.params.ActionEchoArgs
-import org.apache.hoya.yarn.params.CommonArgs
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.ActionEchoArgs
+import org.apache.slider.common.params.CommonArgs
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.slider.core.main.ServiceLauncher

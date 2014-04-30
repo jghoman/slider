@@ -26,8 +26,8 @@ import org.apache.slider.common.SliderKeys
 import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.SliderActions
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.AfterClass
 import org.junit.BeforeClass

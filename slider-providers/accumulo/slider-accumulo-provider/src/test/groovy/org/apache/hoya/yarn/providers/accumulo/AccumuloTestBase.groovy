@@ -31,8 +31,8 @@ import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 import static org.apache.slider.providers.accumulo.AccumuloKeys.*
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
-import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_RES_COMP_OPT
 
 /**
  * test base for accumulo clusters

@@ -25,8 +25,8 @@ import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.StatusKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.SliderActions
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.slider.client.SliderClient
 import org.junit.After
 import org.junit.Before

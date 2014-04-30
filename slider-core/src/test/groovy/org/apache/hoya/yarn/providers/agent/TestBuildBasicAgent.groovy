@@ -33,7 +33,7 @@ import org.apache.slider.client.SliderClient
 import org.junit.Test
 
 import static org.apache.hoya.providers.agent.AgentKeys.*
-import static org.apache.hoya.yarn.Arguments.*
+import static org.apache.slider.common.params.Arguments.*
 
 @CompileStatic
 @Slf4j

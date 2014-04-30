@@ -22,8 +22,8 @@ import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_APPCONF
 import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_TAR
 import static org.apache.slider.api.ResourceKeys.YARN_MEMORY
 import static org.apache.slider.providers.accumulo.AccumuloKeys.*
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
-import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_RES_COMP_OPT
 
 import org.apache.accumulo.core.client.mapreduce.AccumuloInputFormat
 import org.apache.accumulo.fate.ZooStore
@@ -37,7 +37,7 @@ import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
 import org.apache.slider.providers.accumulo.AccumuloKeys
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.thrift.TException
 import org.junit.Before
 
