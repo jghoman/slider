@@ -23,7 +23,7 @@
 <configuration>
   <property>
     <name>hoya.client.resource.origin</name>
-    <value>conf/hoya-client.xml</value>
+    <value>conf/slider-client.xml</value>
     <description>This is just for diagnostics</description>
   </property>
 
