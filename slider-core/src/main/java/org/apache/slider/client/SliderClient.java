@@ -75,7 +75,7 @@ import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.slider.common.params.Arguments;
 import org.apache.slider.common.params.SliderActions;
-import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
+import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.apache.slider.common.params.AbstractClusterBuildingActionArgs;
 import org.apache.slider.common.params.ActionAMSuicideArgs;
 import org.apache.slider.common.params.ActionCreateArgs;

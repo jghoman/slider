@@ -21,10 +21,10 @@ package org.apache.hoya.yarn.model.history
 import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.hadoop.yarn.client.api.AMRMClient
 import org.apache.hoya.providers.ProviderRole
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
-import org.apache.hoya.yarn.appmaster.state.OutstandingRequest
-import org.apache.hoya.yarn.appmaster.state.RoleHistory
-import org.apache.hoya.yarn.appmaster.state.RoleStatus
+import org.apache.slider.server.appmaster.state.NodeInstance
+import org.apache.slider.server.appmaster.state.OutstandingRequest
+import org.apache.slider.server.appmaster.state.RoleHistory
+import org.apache.slider.server.appmaster.state.RoleStatus
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockContainer
 import org.apache.hoya.yarn.model.mock.MockFactory

@@ -22,9 +22,9 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.slider.api.ResourceKeys
-import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
-import org.apache.hoya.yarn.appmaster.state.AppState
-import org.apache.hoya.yarn.appmaster.state.RoleInstance
+import org.apache.slider.server.appmaster.state.AbstractRMOperation
+import org.apache.slider.server.appmaster.state.AppState
+import org.apache.slider.server.appmaster.state.RoleInstance
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRecordFactory
 import org.apache.hoya.yarn.model.mock.MockRoles

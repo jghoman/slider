@@ -22,12 +22,12 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.yarn.appmaster.state.*
+import org.apache.slider.server.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRoles
 import org.junit.Test
 
-import static org.apache.hoya.yarn.appmaster.state.ContainerPriority.extractRole
+import static org.apache.slider.server.appmaster.state.ContainerPriority.extractRole
 
 /**
  * Test that the app state lets you ask for nodes, get a specific host,

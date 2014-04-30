@@ -34,8 +34,8 @@ import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders
-import org.apache.hoya.yarn.appmaster.web.rest.agent.*
+import org.apache.slider.server.appmaster.state.StateAccessForProviders
+import org.apache.slider.server.appmaster.web.rest.agent.*
 import org.apache.slider.server.services.docstore.utility.EventCallback
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.RegistryBinderService

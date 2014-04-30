@@ -26,7 +26,7 @@ import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.ClusterNode
 import org.apache.slider.core.persist.JsonSerDeser
-import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
+import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.client.SliderClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
 import org.apache.slider.core.registry.docstore.PublishedConfigSet

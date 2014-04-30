@@ -18,9 +18,9 @@
 
 package org.apache.hoya.yarn.model.history
 
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
-import org.apache.hoya.yarn.appmaster.state.OutstandingRequest
-import org.apache.hoya.yarn.appmaster.state.OutstandingRequestTracker
+import org.apache.slider.server.appmaster.state.NodeInstance
+import org.apache.slider.server.appmaster.state.OutstandingRequest
+import org.apache.slider.server.appmaster.state.OutstandingRequestTracker
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.junit.Test
 

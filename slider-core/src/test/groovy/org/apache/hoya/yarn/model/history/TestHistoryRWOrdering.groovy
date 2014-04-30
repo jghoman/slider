@@ -22,9 +22,9 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.slider.common.SliderKeys
 import org.apache.hoya.avro.RoleHistoryWriter
-import org.apache.hoya.yarn.appmaster.state.NodeEntry
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
-import org.apache.hoya.yarn.appmaster.state.RoleHistory
+import org.apache.slider.server.appmaster.state.NodeEntry
+import org.apache.slider.server.appmaster.state.NodeInstance
+import org.apache.slider.server.appmaster.state.RoleHistory
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockFactory
 import org.junit.Test

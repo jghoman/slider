@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.TriggerClusterTeardownException
-import org.apache.hoya.yarn.appmaster.state.*
+import org.apache.slider.server.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRoles
 import org.apache.hoya.yarn.model.mock.MockYarnEngine

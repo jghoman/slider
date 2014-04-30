@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.model.mock
 
 import org.apache.hadoop.yarn.api.records.Resource
-import org.apache.hoya.yarn.appmaster.state.AbstractRecordFactory
+import org.apache.slider.server.appmaster.state.AbstractRecordFactory
 
 class MockRecordFactory extends AbstractRecordFactory {
 

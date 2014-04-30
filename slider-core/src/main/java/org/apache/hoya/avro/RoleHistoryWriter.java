@@ -39,9 +39,9 @@ import org.apache.hadoop.fs.PathFilter;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.hoya.tools.SliderUtils;
-import org.apache.hoya.yarn.appmaster.state.NodeEntry;
-import org.apache.hoya.yarn.appmaster.state.NodeInstance;
-import org.apache.hoya.yarn.appmaster.state.RoleHistory;
+import org.apache.slider.server.appmaster.state.NodeEntry;
+import org.apache.slider.server.appmaster.state.NodeInstance;
+import org.apache.slider.server.appmaster.state.RoleHistory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

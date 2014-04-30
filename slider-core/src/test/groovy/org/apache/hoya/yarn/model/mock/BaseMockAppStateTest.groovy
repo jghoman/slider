@@ -32,7 +32,7 @@ import org.apache.slider.core.main.LauncherExitCodes
 import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.SliderTestBase
-import org.apache.hoya.yarn.appmaster.state.*
+import org.apache.slider.server.appmaster.state.*
 import org.junit.Before
 
 @CompileStatic

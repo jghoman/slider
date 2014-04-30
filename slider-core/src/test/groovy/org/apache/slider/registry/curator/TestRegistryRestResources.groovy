@@ -28,7 +28,7 @@ import org.apache.curator.x.discovery.ServiceType
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.StatusKeys
-import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
+import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.providers.agent.AgentTestBase
 import org.apache.slider.core.registry.info.ServiceInstanceData

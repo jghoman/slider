@@ -26,7 +26,7 @@ import org.apache.slider.api.ResourceKeys
 import org.apache.hoya.avro.RoleHistoryWriter
 import org.apache.slider.core.conf.ConfTreeOperations
 import org.apache.slider.core.exceptions.BadConfigException
-import org.apache.hoya.yarn.appmaster.state.AppState
+import org.apache.slider.server.appmaster.state.AppState
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRecordFactory
 import org.apache.hoya.yarn.model.mock.MockRoles

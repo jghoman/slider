@@ -22,7 +22,7 @@ import com.sun.jersey.api.client.Client
 import com.sun.jersey.api.client.config.ClientConfig
 import com.sun.jersey.api.client.config.DefaultClientConfig
 import com.sun.jersey.api.json.JSONConfiguration
-import org.apache.hoya.yarn.appmaster.web.rest.agent.Register
+import org.apache.slider.server.appmaster.web.rest.agent.Register
 import org.codehaus.jettison.json.JSONException
 import org.codehaus.jettison.json.JSONObject
 

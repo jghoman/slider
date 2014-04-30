@@ -24,9 +24,9 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.StatusKeys
-import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
+import org.apache.slider.server.appmaster.web.SliderAMWebApp
+import org.apache.slider.server.appmaster.web.rest.agent.RegistrationResponse
+import org.apache.slider.server.appmaster.web.rest.agent.RegistrationStatus
 import org.apache.slider.client.SliderClient
 import org.junit.Test
 

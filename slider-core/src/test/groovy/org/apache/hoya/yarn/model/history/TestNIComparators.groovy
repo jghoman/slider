@@ -18,7 +18,7 @@
 
 package org.apache.hoya.yarn.model.history
 
-import org.apache.hoya.yarn.appmaster.state.NodeInstance
+import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockFactory
 import org.junit.Test

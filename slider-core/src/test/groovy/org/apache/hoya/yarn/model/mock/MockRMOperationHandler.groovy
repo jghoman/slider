@@ -21,10 +21,10 @@ package org.apache.hoya.yarn.model.mock
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
-import org.apache.hoya.yarn.appmaster.state.ContainerReleaseOperation
-import org.apache.hoya.yarn.appmaster.state.ContainerRequestOperation
-import org.apache.hoya.yarn.appmaster.state.RMOperationHandler
+import org.apache.slider.server.appmaster.state.AbstractRMOperation
+import org.apache.slider.server.appmaster.state.ContainerReleaseOperation
+import org.apache.slider.server.appmaster.state.ContainerRequestOperation
+import org.apache.slider.server.appmaster.state.RMOperationHandler
 
 @Slf4j
 class MockRMOperationHandler extends RMOperationHandler {

@@ -34,8 +34,8 @@ package org.apache.hoya.yarn.api;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.slider.api.HoyaClusterProtocol;
-import org.apache.hoya.yarn.appmaster.rpc.HoyaClusterProtocolPB;
-import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
+import org.apache.slider.server.appmaster.rpc.HoyaClusterProtocolPB;
+import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.junit.Test;
 
 import java.net.InetSocketAddress;

@@ -26,7 +26,7 @@ import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.slider.providers.accumulo.AccumuloKeys
-import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp
+import org.apache.slider.server.appmaster.web.SliderAMWebApp
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.apache.slider.core.registry.zk.ZKIntegration

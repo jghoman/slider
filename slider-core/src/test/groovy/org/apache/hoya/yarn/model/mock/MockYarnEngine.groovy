@@ -25,9 +25,9 @@ import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
-import org.apache.hoya.yarn.appmaster.state.ContainerReleaseOperation
-import org.apache.hoya.yarn.appmaster.state.ContainerRequestOperation
+import org.apache.slider.server.appmaster.state.AbstractRMOperation
+import org.apache.slider.server.appmaster.state.ContainerReleaseOperation
+import org.apache.slider.server.appmaster.state.ContainerRequestOperation
 
 /**
  * This is an evolving engine to mock YARN operations
