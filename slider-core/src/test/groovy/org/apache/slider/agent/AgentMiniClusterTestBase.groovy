@@ -20,13 +20,12 @@ package org.apache.slider.agent
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaXMLConfKeysForTesting
-import org.apache.hoya.providers.agent.AgentKeys
-import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.SliderXMLConfKeysForTesting
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.providers.agent.AgentKeys
+import org.apache.slider.test.YarnZKMiniClusterTestBase
 import org.junit.BeforeClass
 
 /**
@@ -77,12 +76,12 @@ public abstract class AgentMiniClusterTestBase
 
   @Override
   String getApplicationHomeKey() {
-    return HoyaXMLConfKeysForTesting.KEY_TEST_AGENT_HOME;
+    return SliderXMLConfKeysForTesting.KEY_TEST_AGENT_HOME;
   }
 
   @Override
   String getArchiveKey() {
-    return HoyaXMLConfKeysForTesting.KEY_TEST_AGENT_TAR;
+    return SliderXMLConfKeysForTesting.KEY_TEST_AGENT_TAR;
   }
 
   /**
@@ -101,7 +100,7 @@ public abstract class AgentMiniClusterTestBase
  * @param blockUntilRunning block until the AM is running
  * @return launcher which will have executed the command.
  */
-  public ServiceLauncher<HoyaClient> createMasterlessAM(
+  public ServiceLauncher<SliderClient> createMasterlessAM(
       String clustername,
       int size,
       boolean deleteExistingData,

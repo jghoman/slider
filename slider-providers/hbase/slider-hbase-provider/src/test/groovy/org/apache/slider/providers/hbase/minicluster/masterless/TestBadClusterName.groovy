@@ -21,15 +21,15 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.LauncherExitCodes
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j
@@ -55,7 +55,7 @@ class TestBadClusterName extends HBaseMiniClusterTestBase {
            true,
            false,
            [:])
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      SliderClient hoyaClient = (SliderClient) launcher.service
       addToTeardown(hoyaClient);
       fail("expected a failure")
     } catch (ServiceLaunchException e) {

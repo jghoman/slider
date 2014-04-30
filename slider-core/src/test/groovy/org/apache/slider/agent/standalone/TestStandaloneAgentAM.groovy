@@ -23,12 +23,12 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
 import org.apache.slider.agent.AgentMiniClusterTestBase
+import org.apache.slider.api.ClusterNode
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.apache.slider.server.services.curator.RegistryBinderService
@@ -38,17 +38,17 @@ import org.junit.Test
 @Slf4j
 class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
   @Test
-  public void testCreateMasterlessAM() throws Throwable {
+  public void testStandaloneAgentAM() throws Throwable {
 
 
     describe "create a masterless AM then get the service and look it up via the AM"
 
     //launch fake master
-    String clustername = "test_create_masterless_am"
+    String clustername = "test_standalone_agent_am"
     createMiniCluster(clustername, configuration, 1, true)
-    ServiceLauncher<HoyaClient> launcher
+    ServiceLauncher<SliderClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     addToTeardown(client);
 
     ApplicationReport report = waitForClusterLive(client)
@@ -58,24 +58,24 @@ class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
     //get some of its status
     dumpClusterStatus(client, "masterless application status")
     List<ClusterNode> clusterNodes = client.listClusterNodesInRole(
-        HoyaKeys.COMPONENT_AM)
+        SliderKeys.COMPONENT_AM)
     assert clusterNodes.size() == 1
 
     ClusterNode masterNode = clusterNodes[0]
     log.info("Master node = ${masterNode}");
 
     List<ClusterNode> nodes
-    String[] uuids = client.listNodeUUIDsByRole(HoyaKeys.COMPONENT_AM)
+    String[] uuids = client.listNodeUUIDsByRole(SliderKeys.COMPONENT_AM)
     assert uuids.length == 1;
     nodes = client.listClusterNodes(uuids);
     assert nodes.size() == 1;
     describe "AM Node UUID=${uuids[0]}"
 
-    nodes = listNodesInRole(client, HoyaKeys.COMPONENT_AM)
+    nodes = listNodesInRole(client, SliderKeys.COMPONENT_AM)
     assert nodes.size() == 1;
     nodes = listNodesInRole(client, "")
     assert nodes.size() == 1;
-    assert nodes[0].role == HoyaKeys.COMPONENT_AM
+    assert nodes[0].role == SliderKeys.COMPONENT_AM
 
 
 

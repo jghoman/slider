@@ -18,7 +18,7 @@
 
 package org.apache.slider.providers.accumulo;
 
-import org.apache.hoya.api.StatusKeys;
+import org.apache.slider.api.StatusKeys;
 
 /**
  * Any keys related to acculumulo

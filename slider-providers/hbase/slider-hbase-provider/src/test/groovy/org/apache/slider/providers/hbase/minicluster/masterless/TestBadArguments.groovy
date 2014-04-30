@@ -20,22 +20,22 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.api.RoleKeys
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j
@@ -56,20 +56,20 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
                (HBaseKeys.ROLE_WORKER): 0,
            ],
            [
-               Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "invalid",
+               Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "invalid",
                ARG_PROVIDER, PROVIDER_HBASE
            ],
            true,
            false,
            [:])
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      SliderClient hoyaClient = (SliderClient) launcher.service
       addToTeardown(hoyaClient);
 
       ApplicationReport report = waitForClusterLive(hoyaClient)
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_YARN_SERVICE_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)
     }
     
   }
@@ -92,20 +92,20 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
            ],
            [
                Arguments.ARG_DEFINE,
-               HoyaXmlConfKeys.KEY_YARN_QUEUE + "=noqueue",
+               SliderXmlConfKeys.KEY_YARN_QUEUE + "=noqueue",
                ARG_PROVIDER, PROVIDER_HBASE
            ],
            true,
            false,
            [:])
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      SliderClient hoyaClient = (SliderClient) launcher.service
       addToTeardown(hoyaClient);
 
       ApplicationReport report = waitForClusterLive(hoyaClient)
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_YARN_SERVICE_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)
     }
     
   }

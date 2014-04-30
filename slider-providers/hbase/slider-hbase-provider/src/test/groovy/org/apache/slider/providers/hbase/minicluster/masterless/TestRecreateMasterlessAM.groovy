@@ -20,12 +20,12 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -46,7 +46,7 @@ class TestRecreateMasterlessAM extends HBaseMiniClusterTestBase {
              "a second cluster with the same name"
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     clusterActionFreeze(hoyaClient, clustername)
 
@@ -56,7 +56,7 @@ class TestRecreateMasterlessAM extends HBaseMiniClusterTestBase {
       fail("expected a failure")
     } catch (SliderException e) {
       assertExceptionDetails(e,
-                             HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+                             SliderExitCodes.EXIT_INSTANCE_EXISTS,
                              ErrorStrings.E_ALREADY_EXISTS)
     }
 

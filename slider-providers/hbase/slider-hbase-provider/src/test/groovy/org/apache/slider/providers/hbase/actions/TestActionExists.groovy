@@ -20,15 +20,15 @@ package org.apache.slider.providers.hbase.actions
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.core.main.LauncherExitCodes
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 
@@ -55,7 +55,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           "unknown-cluster",
           Arguments.ARG_MANAGER, RMAddr
           ],
@@ -71,9 +71,9 @@ class TestActionExists extends HBaseMiniClusterTestBase {
     //launch the cluster
     String clustername = "testExistsLiveCluster"
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, false)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     addToTeardown(launcher)
-    ApplicationReport report = waitForClusterLive((HoyaClient) launcher.service)
+    ApplicationReport report = waitForClusterLive((SliderClient) launcher.service)
 
     // exists holds when cluster is running
     launcher = launchClientAgainstMiniMR(
@@ -81,7 +81,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           clustername,
           Arguments.ARG_MANAGER, RMAddr
           ],
@@ -94,7 +94,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           clustername,
           Arguments.ARG_LIVE,
           Arguments.ARG_MANAGER, RMAddr

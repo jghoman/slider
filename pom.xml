@@ -1234,7 +1234,7 @@
             <configuration>
               <message>Creating site for ${project.version}</message>
               <dryRun>false</dryRun>
-              <repositoryName>hoya</repositoryName>
+              <repositoryName>slider</repositoryName>
               <repositoryOwner>hortonworks</repositoryOwner>
             </configuration>
             <executions>

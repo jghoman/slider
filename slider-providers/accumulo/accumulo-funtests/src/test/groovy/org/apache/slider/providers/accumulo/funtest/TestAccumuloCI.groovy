@@ -28,11 +28,11 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.Text
 import org.apache.hadoop.util.ToolRunner
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.funtest.framework.PortAssignments
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.FuntestProperties
+import org.apache.slider.funtest.framework.PortAssignments
 
 /**
  * 
@@ -64,7 +64,7 @@ class TestAccumuloCI extends TestFunctionalAccumuloCluster {
     assert clustername
 
     String currentUser = System.getProperty("user.name");
-    String zookeepers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM,
+    String zookeepers = SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM,
         FuntestProperties.DEFAULT_SLIDER_ZK_HOSTS)
     ZooKeeperInstance inst = new ZooKeeperInstance(currentUser + "-" + clustername, zookeepers)
     PasswordToken passwd = new PasswordToken(getPassword())

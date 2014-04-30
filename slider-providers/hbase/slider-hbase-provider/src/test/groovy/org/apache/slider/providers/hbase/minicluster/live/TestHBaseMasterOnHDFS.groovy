@@ -20,10 +20,10 @@ package org.apache.slider.providers.hbase.minicluster.live
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -40,7 +40,7 @@ class TestHBaseMasterOnHDFS extends HBaseMiniClusterTestBase {
     log.info("HDFS is at $fsDefaultName")
     assert fsDefaultName.startsWith("hdfs://")
     ServiceLauncher launcher = createHBaseCluster(clustername, 1, [], true, true) 
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("Status $status")

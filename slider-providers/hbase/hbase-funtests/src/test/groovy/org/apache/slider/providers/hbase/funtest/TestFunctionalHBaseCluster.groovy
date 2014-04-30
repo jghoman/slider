@@ -21,14 +21,14 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
+import org.apache.slider.funtest.framework.FuntestProperties
+import org.apache.slider.common.tools.ConfigHelper
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.HBaseConfigFileOptions
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.zookeeper.*
@@ -42,7 +42,7 @@ import static org.apache.slider.providers.hbase.HBaseKeys.ROLE_WORKER
 @CompileStatic
 @Slf4j
 public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
-    implements FuntestProperties, Arguments, HoyaExitCodes {
+    implements FuntestProperties, Arguments, SliderExitCodes {
 
 
   public static final String HBASE_HEAP = "96m"
@@ -58,7 +58,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
   @Before
   public void prepareCluster() {
 
-    String quorumServers = SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS)
+    String quorumServers = SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS)
   
     ZooKeeper monitor = new ZooKeeper(quorumServers,
       1000, new Watcher(){
@@ -106,7 +106,7 @@ public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
     )
 
     //get a hoya client against the cluster
-    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
+    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
     ClusterDescription cd2 = hoyaClient.getClusterDescription()
     assert clusterName == cd2.name
 

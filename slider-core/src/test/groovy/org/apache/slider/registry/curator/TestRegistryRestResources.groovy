@@ -25,28 +25,41 @@ import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.curator.x.discovery.ServiceType
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.providers.agent.AgentTestBase
+import org.apache.hadoop.security.UserGroupInformation
+import org.apache.slider.api.StatusKeys
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.providers.agent.AgentTestBase
+import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.apache.slider.server.services.curator.CuratorServiceInstances
+import org.apache.slider.server.services.curator.RegistryNaming
 import org.junit.Test
 
 import javax.ws.rs.core.MediaType
 
-import static org.apache.hoya.providers.agent.AgentKeys.*
-import static org.apache.hoya.yarn.Arguments.ARG_OPTION
-import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClient;
+import static org.apache.slider.common.params.Arguments.ARG_OPTION
+import static org.apache.slider.providers.agent.AgentKeys.*
+import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient
 
 @CompileStatic
 @Slf4j
 class TestRegistryRestResources extends AgentTestBase {
 
   public static final String REGISTRY_URI = RestPaths.SLIDER_PATH_REGISTRY;
+
+  
+  private String id(String instanceName) {
+
+    RegistryNaming.createUniqueInstanceId(
+        instanceName,
+        UserGroupInformation.getCurrentUser().getUserName(),
+        SliderKeys.APP_TYPE,
+        1);
+  }
+
 
   @Test
   public void testRestURIs() throws Throwable {
@@ -70,7 +83,7 @@ class TestRegistryRestResources extends AgentTestBase {
     assert app_def_path.exists()
     assert agt_ver_path.exists()
     assert agt_conf_path.exists()
-    ServiceLauncher<HoyaClient> launcher = buildAgentCluster(clustername,
+    ServiceLauncher<SliderClient> launcher = buildAgentCluster(clustername,
         roles,
         [
             ARG_OPTION, PACKAGE_PATH, hoya_core.absolutePath,
@@ -80,7 +93,7 @@ class TestRegistryRestResources extends AgentTestBase {
         ],
         true, true,
         true)
-    HoyaClient hoyaClient = launcher.service
+    SliderClient hoyaClient = launcher.service
     def report = waitForClusterLive(hoyaClient)
     def trackingUrl = report.trackingUrl
     log.info("tracking URL is $trackingUrl")
@@ -118,11 +131,11 @@ class TestRegistryRestResources extends AgentTestBase {
     def responseStr = response.getEntity(String.class)
     log.info("response is " + responseStr)
 
-     "{\"names\":[\"${HoyaKeys.APP_TYPE}\"]}".equals(responseStr)
+     "{\"names\":[\"${SliderKeys.APP_TYPE}\"]}".equals(responseStr)
 
     webResource = client.resource(
         appendToURL(registry_url,
-            "${RestPaths.REGISTRY_SERVICE}/${HoyaKeys.APP_TYPE}"));
+            "${RestPaths.REGISTRY_SERVICE}/${SliderKeys.APP_TYPE}"));
     CuratorServiceInstances<ServiceInstanceData> services = webResource.type(MediaType.APPLICATION_JSON)
             .get(CuratorServiceInstances.class);
     assert services.services.size() == 1
@@ -131,14 +144,14 @@ class TestRegistryRestResources extends AgentTestBase {
 
     webResource = client.resource(
         appendToURL(registry_url,
-            "${RestPaths.REGISTRY_SERVICE}/${HoyaKeys.APP_TYPE}/test_registryws-1"));
+            "${RestPaths.REGISTRY_SERVICE}/${SliderKeys.APP_TYPE}/"+id("test_registryws")));
     service = webResource.type(MediaType.APPLICATION_JSON)
               .get(CuratorServiceInstance.class);
     validateService(service)
 
     webResource = client.resource(
         appendToURL(
-            registry_url, "${RestPaths.REGISTRY_ANYSERVICE}/${HoyaKeys.APP_TYPE}"));
+            registry_url, "${RestPaths.REGISTRY_ANYSERVICE}/${SliderKeys.APP_TYPE}"));
     service = webResource.type(MediaType.APPLICATION_JSON)
             .get(CuratorServiceInstance.class);
     validateService(service)
@@ -152,7 +165,7 @@ class TestRegistryRestResources extends AgentTestBase {
 
     try {
       webResource = client.resource(appendToURL(registry_url,
-          "${RestPaths.REGISTRY_SERVICE}/${HoyaKeys.APP_TYPE}/test_registryws-99"));
+          "${RestPaths.REGISTRY_SERVICE}/${SliderKeys.APP_TYPE}/test_registryws-99"));
       
       service = webResource.type(MediaType.APPLICATION_JSON)
                            .get(CuratorServiceInstance.class);
@@ -174,8 +187,8 @@ class TestRegistryRestResources extends AgentTestBase {
  }
 
   private void validateService(CuratorServiceInstance service) {
-    assert service.name.equals(HoyaKeys.APP_TYPE)
+    assert service.name.equals(SliderKeys.APP_TYPE)
     assert service.serviceType == ServiceType.DYNAMIC
-    assert service.id.equals("test_registryws-1")
+    assert service.id.contains("test_registryws")
   }
 }

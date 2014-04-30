@@ -16,7 +16,7 @@
 
 <configuration>
   <property>
-    <name>hoya.client.resource.origin</name>
+    <name>slider.client.resource.origin</name>
     <value>test/resources</value>
     <comment>Used in TestClientResourceRegistration -do not change</comment>
   </property>

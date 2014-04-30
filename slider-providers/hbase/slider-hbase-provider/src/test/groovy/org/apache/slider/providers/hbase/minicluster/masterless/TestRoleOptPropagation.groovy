@@ -20,18 +20,18 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.exceptions.BadCommandArgumentsException
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j
@@ -60,7 +60,7 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
                    true,
                    true,
                    [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.clusterDescription
     Map<String, String> masterRole = status.getRole(HBaseKeys.ROLE_MASTER);
@@ -83,7 +83,7 @@ class TestRoleOptPropagation extends HBaseMiniClusterTestBase {
              (HBaseKeys.ROLE_WORKER): 0,
          ],
          [
-             Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, MALLOC_ARENA, "4",
+             Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, MALLOC_ARENA, "4",
              Arguments.ARG_COMP_OPT, "unknown", MALLOC_ARENA, "3",
              ARG_PROVIDER, PROVIDER_HBASE
          ],

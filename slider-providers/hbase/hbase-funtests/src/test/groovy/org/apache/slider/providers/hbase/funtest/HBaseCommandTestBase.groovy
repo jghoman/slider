@@ -18,16 +18,16 @@
 
 package org.apache.slider.providers.hbase.funtest
 
-import org.apache.hoya.funtest.categories.FunctionalTests
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.funtest.categories.FunctionalTests
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.SliderShell
+import org.apache.slider.common.params.Arguments
 import org.apache.slider.providers.hbase.HBaseClientProvider
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.Before
 import org.junit.BeforeClass
 
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
+import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 
 /**
  * Anything specific to HBase tests

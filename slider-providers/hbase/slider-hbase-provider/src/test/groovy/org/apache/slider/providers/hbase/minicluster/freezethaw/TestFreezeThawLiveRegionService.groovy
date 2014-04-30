@@ -21,15 +21,15 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -48,10 +48,10 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     //use a smaller AM HEAP to include it in the test cycle
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
           [
-              Arguments.ARG_COMP_OPT, HoyaKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "96M",
+              Arguments.ARG_COMP_OPT, SliderKeys.COMPONENT_AM, RoleKeys.JVM_HEAP, "96M",
           ],
                                                   true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
@@ -67,10 +67,10 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     //verify you can't start a new cluster with that name
     try {
       ServiceLauncher launcher3 = createHBaseCluster(clustername, regionServerCount, [], false, false)
-      HoyaClient cluster3 = launcher3.service as HoyaClient
+      SliderClient cluster3 = launcher3.service as SliderClient
       fail("expected a failure, got ${cluster3}")
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE;
+      assert e.exitCode == SliderExitCodes.EXIT_APPLICATION_IN_USE;
     }
     
     
@@ -78,7 +78,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     killAllRegionServers();
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    HoyaClient newCluster = launcher2.service as HoyaClient
+    SliderClient newCluster = launcher2.service as SliderClient
     basicHBaseClusterStartupSequence(newCluster)
 
     //get the hbase status
@@ -89,10 +89,10 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
     //now let's start the cluster up again
     try {
       ServiceLauncher launcher3 = thawCluster(clustername, [], true);
-      HoyaClient cluster3 = launcher3.service as HoyaClient
+      SliderClient cluster3 = launcher3.service as SliderClient
       fail("expected a failure, got ${cluster3}")
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE
+      assert e.exitCode == SliderExitCodes.EXIT_APPLICATION_IN_USE
     }
   }
 

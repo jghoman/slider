@@ -19,19 +19,19 @@
 package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.exceptions.BadClusterStateException
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.params.ActionStatusArgs
-import org.apache.hoya.yarn.params.ClientArgs
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.core.exceptions.BadClusterStateException
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.params.ActionStatusArgs
+import org.apache.slider.common.params.ClientArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 
@@ -84,13 +84,13 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
     ApplicationReport report = waitForClusterLive(launcher.service)
 
     //do the low level operations to get a better view of what is going on 
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
 
     //now look for the explicit sevice
 
     ActionStatusArgs statusArgs = new ActionStatusArgs()
     int status = hoyaClient.actionStatus(clustername, statusArgs)
-    assert status == HoyaExitCodes.EXIT_SUCCESS
+    assert status == SliderExitCodes.EXIT_SUCCESS
 
     //now exec the status command
     ServiceLauncher statusLauncher = launchClientAgainstMiniMR(

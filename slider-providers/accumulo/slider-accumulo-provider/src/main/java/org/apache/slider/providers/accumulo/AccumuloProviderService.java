@@ -25,30 +25,30 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.api.RoleKeys;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.ConfTreeOperations;
-import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.core.launch.CommandLineBuilder;
-import org.apache.hoya.core.launch.ContainerLauncher;
-import org.apache.hoya.exceptions.BadClusterStateException;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.providers.AbstractProviderService;
-import org.apache.hoya.providers.ProviderCore;
-import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.providers.ProviderUtils;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.api.RoleKeys;
+import org.apache.slider.core.conf.AggregateConf;
+import org.apache.slider.core.conf.ConfTreeOperations;
+import org.apache.slider.core.conf.MapOperations;
+import org.apache.slider.core.launch.CommandLineBuilder;
+import org.apache.slider.core.launch.ContainerLauncher;
+import org.apache.slider.core.exceptions.BadClusterStateException;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.providers.AbstractProviderService;
+import org.apache.slider.providers.ProviderCore;
+import org.apache.slider.providers.ProviderRole;
+import org.apache.slider.providers.ProviderUtils;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.BlockingZKWatcher;
-import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
-import org.apache.hoya.yarn.service.EventCallback;
-import org.apache.hoya.yarn.service.EventNotifyingService;
-import org.apache.hoya.yarn.service.ForkedProcessService;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
+import org.apache.slider.server.services.docstore.utility.EventNotifyingService;
+import org.apache.slider.server.services.docstore.utility.ForkedProcessService;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
@@ -71,14 +71,14 @@ import java.util.TreeMap;
 public class AccumuloProviderService extends AbstractProviderService implements
                                                                      ProviderCore,
                                                                      AccumuloKeys,
-                                                                     HoyaKeys {
+    SliderKeys {
 
   protected static final Logger log =
     LoggerFactory.getLogger(AccumuloClientProvider.class);
   private AccumuloClientProvider clientProvider;
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   
-  private HoyaFileSystem fileSystem = null;
+  private SliderFileSystem fileSystem = null;
 
   public AccumuloProviderService() {
     super("accumulo");
@@ -120,7 +120,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem fileSystem,
+      SliderFileSystem fileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,
@@ -132,9 +132,9 @@ public class AccumuloProviderService extends AbstractProviderService implements
     this.instanceDefinition = instanceDefinition;
     
     // Set the environment
-    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+    launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
 
-    Map<String, String> env = HoyaUtils.buildEnvMap(appComponent);
+    Map<String, String> env = SliderUtils.buildEnvMap(appComponent);
     launcher.setEnv(ACCUMULO_LOG_DIR, ApplicationConstants.LOG_DIR_EXPANSION_VAR);
     ConfTreeOperations appConf =
       instanceDefinition.getAppConfOperations();
@@ -150,7 +150,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
 
     launcher.setEnv(ACCUMULO_CONF_DIR,
             ProviderUtils.convertToAppRelativePath(
-              HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+              SliderKeys.PROPAGATED_CONF_DIR_NAME));
     launcher.setEnv(ZOOKEEPER_HOME, appConfGlobal.getMandatoryOption(OPTION_ZK_HOME));
 
     //local resources
@@ -159,7 +159,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
     //add the configuration resources
     launcher.addLocalResources(fileSystem.submitDirectory(
         generatedConfPath,
-        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+        SliderKeys.PROPAGATED_CONF_DIR_NAME));
 
     //Add binaries
     //now add the image if it was set
@@ -171,7 +171,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
     
     String heap = "-Xmx" + appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
     String opt = "ACCUMULO_OTHER_OPTS";
-    if (HoyaUtils.isSet(heap)) {
+    if (SliderUtils.isSet(heap)) {
       if (AccumuloKeys.ROLE_MASTER.equals(role)) {
         opt = "ACCUMULO_MASTER_OPTS";
       } else if (AccumuloKeys.ROLE_TABLET.equals(role)) {

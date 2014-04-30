@@ -21,15 +21,15 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static org.apache.slider.providers.hbase.HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.*
+import static org.apache.slider.common.params.Arguments.*
 
 /**
  * create masterless AMs and work with them. This is faster than
@@ -56,7 +56,7 @@ class TestKillMasterlessAM extends HBaseMiniClusterTestBase {
         roles,
         [
 /*
-            ARG_COMP_OPT, HoyaKeys.COMPONENT_AM,
+            ARG_COMP_OPT, SliderKeys.COMPONENT_AM,
             RoleKeys.JVM_OPTS, "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005",
 */
             ARG_PROVIDER, PROVIDER_HBASE
@@ -64,7 +64,7 @@ class TestKillMasterlessAM extends HBaseMiniClusterTestBase {
         true,
         true,
         [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     describe("listing services")
     lsJavaProcesses();

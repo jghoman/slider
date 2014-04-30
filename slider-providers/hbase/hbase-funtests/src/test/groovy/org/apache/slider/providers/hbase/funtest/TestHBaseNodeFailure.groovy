@@ -19,11 +19,11 @@
 package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.yarn.client.HoyaClient
-import org.apache.hoya.yarn.params.ActionKillContainerArgs
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
+import org.apache.slider.api.StatusKeys
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.params.ActionKillContainerArgs
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.providers.hbase.HBaseTestUtils
 
@@ -49,7 +49,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
       int numWorkers,
       Map<String, Integer> roleMap,
       ClusterDescription cd) {
-    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
+    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, clusterName)
 
 
     killInstanceOfRole(hoyaClient, HBaseKeys.ROLE_WORKER)
@@ -110,7 +110,7 @@ class TestHBaseNodeFailure extends TestFunctionalHBaseCluster {
    * @return ID of container killed
    */
   public String killInstanceOfRole(
-      HoyaClient hoyaClient, String role) {
+      SliderClient hoyaClient, String role) {
     ClusterDescription cd = hoyaClient.getClusterDescription()
     def instances = cd.instances[role]
     if (instances == null || instances.size() == 0) {

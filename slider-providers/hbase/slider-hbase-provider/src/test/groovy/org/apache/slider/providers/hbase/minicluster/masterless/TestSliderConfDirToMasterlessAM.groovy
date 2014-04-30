@@ -35,15 +35,15 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 
 import org.junit.Test
@@ -75,19 +75,19 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
     out.flush()
     out.close()
     try {
-      System.setProperty(HoyaKeys.PROPERTY_CONF_DIR,localConf.absolutePath);
-      ServiceLauncher<HoyaClient> launcher = createMasterlessAM(clustername, 0, true, true)
-      HoyaClient client = launcher.service
+      System.setProperty(SliderKeys.PROPERTY_CONF_DIR,localConf.absolutePath);
+      ServiceLauncher<SliderClient> launcher = createMasterlessAM(clustername, 0, true, true)
+      SliderClient client = launcher.service
       addToTeardown(client);
       ApplicationReport report = waitForClusterLive(client)
 
-      ClusterDescription cd = waitForRoleCount(client,HoyaKeys.COMPONENT_AM,
+      ClusterDescription cd = waitForRoleCount(client,SliderKeys.COMPONENT_AM,
           1, hbaseClusterStartupTime)
       HadoopFS fs = HadoopFS.getLocal(conf);
       
-      Path clusterDir = new HoyaFileSystem(fs, conf).buildHoyaClusterDirPath(clustername)
+      Path clusterDir = new SliderFileSystem(fs, conf).buildHoyaClusterDirPath(clustername)
       assert fs.exists(clusterDir);
-      Path hoyaConfDir = new Path(clusterDir, HoyaKeys.SUBMITTED_CONF_DIR)
+      Path hoyaConfDir = new Path(clusterDir, SliderKeys.SUBMITTED_CONF_DIR)
       assert fs.exists(hoyaConfDir);
       Path remoteXml = new Path(hoyaConfDir,name)
       assert fs.exists(remoteXml)
@@ -95,7 +95,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
 
       clusterActionFreeze(client, clustername)
     } finally {
-      HoyaUtils.deleteDirectoryTree(localConf)
+      SliderUtils.deleteDirectoryTree(localConf)
     }
 
 

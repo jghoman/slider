@@ -19,11 +19,11 @@
 package org.apache.slider.providers.accumulo;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.providers.ProviderService;
+import org.apache.slider.providers.AbstractClientProvider;
+import org.apache.slider.providers.SliderProviderFactory;
+import org.apache.slider.providers.ProviderService;
 
-public class AccumuloProviderFactory extends HoyaProviderFactory {
+public class AccumuloProviderFactory extends SliderProviderFactory {
 
   public AccumuloProviderFactory() {
   }

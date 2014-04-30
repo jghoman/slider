@@ -20,19 +20,19 @@ package org.apache.slider.providers.hbase.minicluster.build
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.exceptions.SliderException
+import org.apache.slider.core.main.LauncherExitCodes
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j
@@ -47,7 +47,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
     describe "verify that a build cluster is created but not started"
 
     ServiceLauncher launcher = createOrBuildCluster(
-        HoyaActions.ACTION_BUILD,
+        SliderActions.ACTION_BUILD,
         clustername,
         [
             (HBaseKeys.ROLE_MASTER): 1,
@@ -59,7 +59,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
     //verify that exists(live) is now false
@@ -76,7 +76,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
     //and a second attempt will fail as the cluster now exists
     try {
       createOrBuildCluster(
-          HoyaActions.ACTION_BUILD,
+          SliderActions.ACTION_BUILD,
           clustername,
           [
               (HBaseKeys.ROLE_MASTER): 1,
@@ -89,7 +89,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
           false,
           [:])
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_INSTANCE_EXISTS
+      assert e.exitCode == SliderExitCodes.EXIT_INSTANCE_EXISTS
     }
   }
 

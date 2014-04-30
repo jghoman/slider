@@ -19,7 +19,7 @@
       "OPTIONAL" in this document are to be interpreted as described in
       RFC 2119.
 
-An agent is an application independent entity that can handle any application as long as its definition conforms to a specific format (TBD). While HOYA will install the agent in its entirity, for now the host, where the agent is deployed, needs to be prepared for the agent. The following steps are necessary to setup the host for agent.
+An agent is an application independent entity that can handle any application as long as its definition conforms to a specific format (TBD). While Slider will install the agent in its entirity, for now the host, where the agent is deployed, needs to be prepared for the agent. The following steps are necessary to setup the host for agent.
 
 ## Install resource management library
 The resource management library is a common python library used by all application specification. The library is either pre-installed on the hosts or it is packaged along with the application package itself.

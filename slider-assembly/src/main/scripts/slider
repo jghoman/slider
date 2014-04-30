@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-# this is the shell script to start Hoya deploying an application
+# this is the shell script to start Slider deploying an application
 # Usage: slider <action> <commands>
 
 # The env variable SLIDER_JVM_OPTS can be used to override
@@ -28,7 +28,7 @@ function usage
   echo ""
 }
 
-# Hoya works out its own location 
+# Slider works out its own location 
 this="${BASH_SOURCE-$0}"
 bindir=$(cd -P -- "$(dirname -- "$this")" && pwd -P)
 script="$(basename -- "$this")"
@@ -60,7 +60,7 @@ slider_classpath_extra=${SLIDER_CLASSPATH_EXTRA:-""}
 
 slider_classpath="${libdir}/*:${confdir}:${slider_classpath_extra}"
 
-launcher=org.apache.hoya.Hoya
+launcher=org.apache.slider.Slider
 
 
 echo "slider_home = \"${slider_home}\""

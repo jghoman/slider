@@ -22,8 +22,8 @@
 -->
 <configuration>
   <property>
-    <name>hoya.client.resource.origin</name>
-    <value>conf/hoya-client.xml</value>
+    <name>slider.client.resource.origin</name>
+    <value>conf/slider-client.xml</value>
     <description>This is just for diagnostics</description>
   </property>
 

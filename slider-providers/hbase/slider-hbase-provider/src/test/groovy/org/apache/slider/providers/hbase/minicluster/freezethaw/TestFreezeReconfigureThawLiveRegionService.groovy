@@ -25,15 +25,15 @@ import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.OptionKeys
-import org.apache.hoya.core.build.InstanceIO
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.OptionKeys
+import org.apache.slider.core.build.InstanceIO
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.tools.HoyaUtils
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.tools.ConfigHelper
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 
@@ -64,7 +64,7 @@ class TestFreezeReconfigureThawLiveRegionService
         [],
         true,
         true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
@@ -87,7 +87,7 @@ class TestFreezeReconfigureThawLiveRegionService
 
     //get the location of the cluster
     HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), miniCluster.config)
-    HoyaFileSystem hoyaFileSystem = new HoyaFileSystem(dfs, miniCluster.config)
+    SliderFileSystem hoyaFileSystem = new SliderFileSystem(dfs, miniCluster.config)
     Path clusterDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
     def instanceDefinition = InstanceIO.loadInstanceDefinitionUnresolved(
         hoyaFileSystem,
@@ -111,13 +111,13 @@ class TestFreezeReconfigureThawLiveRegionService
 
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    HoyaClient thawed = launcher2.service as HoyaClient
+    SliderClient thawed = launcher2.service as SliderClient
     clustat = basicHBaseClusterStartupSequence(thawed)
 
     //get the options
     ClusterDescription stat = thawed.clusterDescription
     Map<String, String> properties = stat.clientProperties
-    log.info("Cluster properties: \n" + HoyaUtils.stringifyMap(properties));
+    log.info("Cluster properties: \n" + SliderUtils.stringifyMap(properties));
     assert properties[patchedText] == "true";
 
   }

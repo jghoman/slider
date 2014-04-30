@@ -21,8 +21,8 @@ package org.apache.slider.providers.hbase.funtest
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.FuntestProperties
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.FuntestProperties
 import org.junit.Before
 import org.junit.Test
 

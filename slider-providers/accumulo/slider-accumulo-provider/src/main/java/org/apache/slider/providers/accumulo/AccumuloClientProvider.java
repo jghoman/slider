@@ -23,21 +23,21 @@ import org.apache.hadoop.fs.CommonConfigurationKeys;
 import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.ConfTreeOperations;
-import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.core.launch.AbstractLauncher;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.core.conf.AggregateConf;
+import org.apache.slider.core.conf.ConfTreeOperations;
+import org.apache.slider.core.conf.MapOperations;
+import org.apache.slider.core.launch.AbstractLauncher;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.providers.AbstractClientProvider;
+import org.apache.slider.providers.ProviderRole;
+import org.apache.slider.providers.ProviderUtils;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +114,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * Build the accumulo-site.xml file
    * This the configuration used by Accumulo directly
    * @param instanceDescription this is the cluster specification used to define this
-   * @return a map of the dynamic bindings for this Hoya instance
+   * @return a map of the dynamic bindings for this Slider instance
    */
   public Map<String, String> buildSiteConfFromInstance(
     AggregateConf instanceDescription)
@@ -156,11 +156,11 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                    CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY);
     }
     sitexml.put(CommonConfigurationKeysPublic.FS_DEFAULT_NAME_KEY, fsDefaultName);
-    sitexml.put(HoyaXmlConfKeys.FS_DEFAULT_NAME_CLASSIC, fsDefaultName);
+    sitexml.put(SliderXmlConfKeys.FS_DEFAULT_NAME_CLASSIC, fsDefaultName);
   }
 
   @Override 
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -169,7 +169,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                                     boolean secure) throws
       SliderException,
                                                                     IOException {
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername,
                                                 configuration,
                                                 instanceDefinition,
                                                 clusterDirPath,
@@ -190,14 +190,14 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * @see <a href="https://issues.apache.org/;jira/browse/PIG-3285">PIG-3285</a>
    *
    * @param providerResources provider resources to add resource to
-   * @param hoyaFileSystem filesystem
+   * @param sliderFileSystem filesystem
    * @param libdir relative directory to place resources
    * @param tempPath path in the cluster FS for temp files
    * @throws IOException IO problems
-   * @throws SliderException Hoya-specific issues
+   * @throws SliderException Slider-specific issues
    */
   private void addAccumuloDependencyJars(Map<String, LocalResource> providerResources,
-                                            HoyaFileSystem hoyaFileSystem,
+                                            SliderFileSystem sliderFileSystem,
                                             String libdir,
                                             Path tempPath) throws
                                                            IOException,
@@ -211,13 +211,13 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 /*      org.apache.zookeeper.ClientCnxn.class*/
     };
     
-    ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
+    ProviderUtils.addDependencyJars(providerResources, sliderFileSystem, tempPath,
                                     libdir, jars,
                                     classes);
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,
@@ -239,7 +239,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
     Map<String, LocalResource> providerResources;
     providerResources = fileSystem.submitDirectory(generatedConfDirPath,
-                                                   HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                                                   SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
 
     ProviderUtils.addProviderJar(providerResources,
@@ -286,13 +286,13 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 
     log.debug("Saving the config to {}", sitePath);
     launcher.submitDirectory(generatedConfDirPath,
-                             HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                             SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
   }
 
   private static Set<String> knownRoleNames = new HashSet<String>();
   static {
-    knownRoleNames.add(HoyaKeys.COMPONENT_AM);
+    knownRoleNames.add(SliderKeys.COMPONENT_AM);
     for (ProviderRole role : AccumuloRoles.ROLES) {
       knownRoleNames.add(role.name);
     }

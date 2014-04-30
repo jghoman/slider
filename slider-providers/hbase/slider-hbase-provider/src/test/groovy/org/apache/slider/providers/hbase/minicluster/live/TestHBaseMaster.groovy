@@ -21,18 +21,18 @@ package org.apache.slider.providers.hbase.minicluster.live
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.core.conf.AggregateConf;
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
+import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.core.registry.zk.ZKIntegration
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -53,11 +53,11 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
       [
           Arguments.ARG_COMP_OPT, HBaseKeys.ROLE_MASTER, RoleKeys.JVM_HEAP, "256M",
-          Arguments.ARG_DEFINE, HoyaXmlConfKeys.KEY_YARN_QUEUE + "=default"
+          Arguments.ARG_DEFINE, SliderXmlConfKeys.KEY_YARN_QUEUE + "=default"
       ],
       true,
       true) 
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     
@@ -86,7 +86,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
     try {
       ServiceLauncher launcher = createHBaseCluster(clustername, regionServerCount,
         [Arguments.ARG_COMP_OPT, HBaseKeys.ROLE_WORKER, RoleKeys.JVM_HEAP, "invalid"], true, true) 
-      HoyaClient hoyaClient = (HoyaClient) launcher.service
+      SliderClient hoyaClient = (SliderClient) launcher.service
       addToTeardown(hoyaClient);
 
       AggregateConf launchedInstance = hoyaClient.launchedInstanceDefinition
@@ -106,7 +106,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
       }
       assert 0 == clustat.servers.size()
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_DEPLOYMENT_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_DEPLOYMENT_FAILED)
     }
   }
 }

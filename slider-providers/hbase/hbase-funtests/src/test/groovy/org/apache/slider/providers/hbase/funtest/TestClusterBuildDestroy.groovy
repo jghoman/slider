@@ -21,13 +21,13 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
-import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.HoyaKeys
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.slider.core.main.LauncherExitCodes
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.FuntestProperties
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.AfterClass
 import org.junit.BeforeClass
@@ -64,15 +64,15 @@ public class TestClusterBuildDestroy extends CommandTestBase
     --roleopt master app.infoport 8180  \\
     --role master 1 
 '''
-    def clusterDir = HoyaKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
+    def clusterDir = SliderKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
     def clusterDirPath = new Path(clusterFS.homeDirectory, clusterDir)
     clusterFS.delete(clusterDirPath, true)
     slider(0,
         [
-            HoyaActions.ACTION_BUILD,
+            SliderActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
-            SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
+            SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
             ARG_IMAGE,
             SLIDER_CONFIG.get(KEY_TEST_HBASE_TAR),
             ARG_CONFDIR,

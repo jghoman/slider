@@ -21,10 +21,10 @@ package org.apache.slider.providers.hbase.minicluster.archives
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -41,8 +41,8 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
     int regionServerCount = 1
     createMiniCluster(clustername, configuration, 1, true)
     switchToImageDeploy = true
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
-    HoyaClient hoyaClient = launcher.service
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(clustername, regionServerCount, [], true, true)
+    SliderClient hoyaClient = launcher.service
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")
 
@@ -58,7 +58,7 @@ class TestFreezeThawClusterFromArchive extends HBaseMiniClusterTestBase {
 
     //now let's start the cluster up again
     ServiceLauncher launcher2 = thawCluster(clustername, [], true);
-    HoyaClient newCluster = launcher2.service
+    SliderClient newCluster = launcher2.service
     basicHBaseClusterStartupSequence(newCluster)
 
     //get the hbase status

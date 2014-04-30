@@ -21,11 +21,11 @@ import static org.apache.slider.providers.accumulo.AccumuloKeys.*
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.funtest.framework.FuntestProperties
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -36,7 +36,7 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 class TestFunctionalAccumuloCluster extends AccumuloCommandTestBase
-    implements FuntestProperties, Arguments, HoyaExitCodes {
+    implements FuntestProperties, Arguments, SliderExitCodes {
 
       
   public String getClusterName() {
@@ -113,7 +113,7 @@ class TestFunctionalAccumuloCluster extends AccumuloCommandTestBase
         )
 
     //get a hoya client against the cluster
-    HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, getClusterName())
+    SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, getClusterName())
     ClusterDescription cd = hoyaClient.clusterDescription
     assert getClusterName() == cd.name
 

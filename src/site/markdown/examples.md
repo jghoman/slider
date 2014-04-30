@@ -96,7 +96,7 @@ or
 
 ### Optional: point bin/slider at your chosen cluster configuration
 
-export HOYA_CONF_DIR=~/Projects/slider/slider-core/src/test/configs/ubuntu-secure/slider
+export SLIDER_CONF_DIR=~/Projects/slider/slider-core/src/test/configs/ubuntu-secure/slider
 
 ## Optional: Clean up any existing slider cluster details
 

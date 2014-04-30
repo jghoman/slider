@@ -19,11 +19,11 @@
 package org.apache.slider.providers.hbase;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.HoyaProviderFactory;
-import org.apache.hoya.providers.ProviderService;
+import org.apache.slider.providers.AbstractClientProvider;
+import org.apache.slider.providers.SliderProviderFactory;
+import org.apache.slider.providers.ProviderService;
 
-public class HBaseProviderFactory extends HoyaProviderFactory {
+public class HBaseProviderFactory extends SliderProviderFactory {
 
   public HBaseProviderFactory() {
   }

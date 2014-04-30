@@ -33,14 +33,6 @@
         <include>*.jar</include>
       </includes>
     </fileSet>
-    <!--pull in scripts-->
-    <fileSet>
-      <directory>${project.build.scriptSourceDirectory}</directory>
-      <outputDirectory></outputDirectory>
-      <includes>
-        <include>hoya*</include>
-      </includes>
-    </fileSet>
   </fileSets>
   <dependencySets>
     <dependencySet>

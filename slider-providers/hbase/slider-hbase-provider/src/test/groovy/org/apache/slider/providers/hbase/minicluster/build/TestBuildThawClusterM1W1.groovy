@@ -21,15 +21,15 @@ package org.apache.slider.providers.hbase.minicluster.build
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
 
 @CompileStatic
 @Slf4j
@@ -44,7 +44,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
     describe "verify that a built cluster can be thawed"
 
     ServiceLauncher launcher = createOrBuildCluster(
-        HoyaActions.ACTION_BUILD,
+        SliderActions.ACTION_BUILD,
         clustername,
         [
             (HBaseKeys.ROLE_MASTER): 1,
@@ -56,7 +56,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
         true,
         false,
         [:])
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     def serviceRegistryClient = hoyaClient.YARNRegistryClient
     ApplicationReport report = serviceRegistryClient.findInstance(clustername)
@@ -64,9 +64,9 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
 
     //thaw time
     ServiceLauncher l2 = thawCluster(clustername, [], true)
-    HoyaClient client2 = (HoyaClient) l2.service
+    SliderClient client2 = (SliderClient) l2.service
     addToTeardown(client2);
-    waitForClusterLive(l2.service as HoyaClient)
+    waitForClusterLive(l2.service as SliderClient)
   }
 
 }

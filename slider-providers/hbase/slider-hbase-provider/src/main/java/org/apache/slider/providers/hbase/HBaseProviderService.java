@@ -22,32 +22,32 @@ package org.apache.slider.providers.hbase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.api.RoleKeys;
-import org.apache.hoya.api.StatusKeys;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.core.launch.CommandLineBuilder;
-import org.apache.hoya.core.launch.ContainerLauncher;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.exceptions.SliderInternalStateException;
-import org.apache.hoya.providers.AbstractProviderService;
-import org.apache.hoya.providers.ProviderCore;
-import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.Register;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse;
-import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus;
-import org.apache.hoya.yarn.service.EventCallback;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.api.RoleKeys;
+import org.apache.slider.api.StatusKeys;
+import org.apache.slider.core.conf.AggregateConf;
+import org.apache.slider.core.conf.MapOperations;
+import org.apache.slider.core.launch.CommandLineBuilder;
+import org.apache.slider.core.launch.ContainerLauncher;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderInternalStateException;
+import org.apache.slider.providers.AbstractProviderService;
+import org.apache.slider.providers.ProviderCore;
+import org.apache.slider.providers.ProviderRole;
+import org.apache.slider.providers.ProviderUtils;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
+import org.apache.slider.server.appmaster.web.rest.agent.HeartBeat;
+import org.apache.slider.server.appmaster.web.rest.agent.HeartBeatResponse;
+import org.apache.slider.server.appmaster.web.rest.agent.Register;
+import org.apache.slider.server.appmaster.web.rest.agent.RegistrationResponse;
+import org.apache.slider.server.appmaster.web.rest.agent.RegistrationStatus;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +66,7 @@ import java.util.TreeMap;
 public class HBaseProviderService extends AbstractProviderService implements
                                                                   ProviderCore,
                                                                   HBaseKeys,
-                                                                  HoyaKeys,
+    SliderKeys,
     AgentRestOperations{
 
   public static final String ERROR_UNKNOWN_ROLE = "Unknown role ";
@@ -76,7 +76,7 @@ public class HBaseProviderService extends AbstractProviderService implements
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   private HBaseClientProvider clientProvider;
   private Configuration siteConf;
-  private HoyaFileSystem hoyaFileSystem = null;
+  private SliderFileSystem sliderFileSystem = null;
 
   public HBaseProviderService() {
     super("HBaseProviderService");
@@ -117,45 +117,45 @@ public class HBaseProviderService extends AbstractProviderService implements
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem hoyaFileSystem,
+      SliderFileSystem sliderFileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,
       Path containerTmpDirPath) throws IOException, SliderException {
 
-    this.hoyaFileSystem = hoyaFileSystem;
+    this.sliderFileSystem = sliderFileSystem;
     this.instanceDefinition = instanceDefinition;
     // Set the environment
-    launcher.putEnv(HoyaUtils.buildEnvMap(appComponent));
+    launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
 
     launcher.setEnv(HBASE_LOG_DIR, providerUtils.getLogdir());
 
     launcher.setEnv("PROPAGATED_CONFDIR",
         ProviderUtils.convertToAppRelativePath(
-            HoyaKeys.PROPAGATED_CONF_DIR_NAME) );
+            SliderKeys.PROPAGATED_CONF_DIR_NAME) );
 
 
     //local resources
 
     //add the configuration resources
-    launcher.addLocalResources(hoyaFileSystem.submitDirectory(
+    launcher.addLocalResources(sliderFileSystem.submitDirectory(
         generatedConfPath,
-        HoyaKeys.PROPAGATED_CONF_DIR_NAME));
+        SliderKeys.PROPAGATED_CONF_DIR_NAME));
     //Add binaries
     //now add the image if it was set
     String imageURI = instanceDefinition.getInternalOperations().get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
-    hoyaFileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
+    sliderFileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
 
     CommandLineBuilder cli = new CommandLineBuilder();
 
     String heap = appComponent.getOption(RoleKeys.JVM_HEAP, DEFAULT_JVM_HEAP);
-    if (HoyaUtils.isSet(heap)) {
-      String adjustedHeap = HoyaUtils.translateTrailingHeapUnit(heap);
+    if (SliderUtils.isSet(heap)) {
+      String adjustedHeap = SliderUtils.translateTrailingHeapUnit(heap);
       launcher.setEnv("HBASE_HEAPSIZE", adjustedHeap);
     }
     
     String gcOpts = appComponent.getOption(RoleKeys.GC_OPTS, DEFAULT_GC_OPTS);
-    if (HoyaUtils.isSet(gcOpts)) {
+    if (SliderUtils.isSet(gcOpts)) {
       launcher.setEnv("SERVER_GC_OPTS", gcOpts);
     }
     
@@ -236,7 +236,7 @@ public class HBaseProviderService extends AbstractProviderService implements
     if (!siteXML.exists()) {
       throw new BadCommandArgumentsException(
         "Configuration directory %s doesn't contain %s - listing is %s",
-        confDir, siteXMLFilename, HoyaUtils.listDir(confDir));
+        confDir, siteXMLFilename, SliderUtils.listDir(confDir));
     }
 
     //now read it in
@@ -246,10 +246,10 @@ public class HBaseProviderService extends AbstractProviderService implements
     
     if (secure) {
       //secure mode: take a look at the keytab of master and RS
-      HoyaUtils.verifyKeytabExists(siteConf,
-                                   HBaseConfigFileOptions.KEY_MASTER_KERBEROS_KEYTAB);
-      HoyaUtils.verifyKeytabExists(siteConf,
-                                   HBaseConfigFileOptions.KEY_REGIONSERVER_KERBEROS_KEYTAB);
+      SliderUtils.verifyKeytabExists(siteConf,
+          HBaseConfigFileOptions.KEY_MASTER_KERBEROS_KEYTAB);
+      SliderUtils.verifyKeytabExists(siteConf,
+          HBaseConfigFileOptions.KEY_REGIONSERVER_KERBEROS_KEYTAB);
 
     }
   }

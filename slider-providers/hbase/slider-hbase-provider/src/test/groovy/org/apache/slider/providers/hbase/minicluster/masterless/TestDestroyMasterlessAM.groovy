@@ -19,17 +19,17 @@
 package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.exceptions.SliderException
-import org.apache.hoya.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.tools.HoyaFileSystem
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.params.ActionEchoArgs
-import org.apache.hoya.yarn.params.CommonArgs
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.ActionEchoArgs
+import org.apache.slider.common.params.CommonArgs
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**
@@ -61,10 +61,10 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
 
     ServiceLauncher launcher = createMasterlessAM(clustername, 0, true, true)
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
-    HoyaFileSystem hoyaFileSystem = createHoyaFileSystem()
+    SliderFileSystem hoyaFileSystem = createHoyaFileSystem()
     def hdfs = hoyaFileSystem.fileSystem
     def instanceDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername)
 
@@ -86,7 +86,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
       fail("expected a failure, got an AM")
     } catch (SliderException e) {
       assertExceptionDetails(e,
-                             HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+                             SliderExitCodes.EXIT_INSTANCE_EXISTS,
                              ErrorStrings.E_ALREADY_EXISTS)
     }
 
@@ -105,7 +105,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     describe "thaw expected to fail"
     //expect thaw to now fail
     try {
-      launcher = launch(HoyaClient,
+      launcher = launch(SliderClient,
                         configuration,
                         [
                             CommonArgs.ACTION_THAW,
@@ -126,7 +126,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
 
     //and create a new cluster
     launcher = createMasterlessAM(clustername, 0, false, true)
-    HoyaClient cluster2 = launcher.service
+    SliderClient cluster2 = launcher.service
 
     // do an echo here of a large string
     // Hadoop RPC couldn't handle strings > 32K chars, this

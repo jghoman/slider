@@ -20,14 +20,14 @@ package org.apache.slider.providers.hbase.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.HoyaXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.common.SliderXmlConfKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.StatusKeys
+import org.apache.slider.funtest.framework.FuntestProperties
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.client.SliderClient
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +35,7 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 public class TestClusterLifecycle extends HBaseCommandTestBase
-    implements FuntestProperties, Arguments, HoyaExitCodes {
+    implements FuntestProperties, Arguments, SliderExitCodes {
 
 
   static String CLUSTER = "test_cluster_lifecycle"
@@ -97,7 +97,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
     try {
       slider(0,
            [
-               HoyaActions.ACTION_STATUS, CLUSTER,
+               SliderActions.ACTION_STATUS, CLUSTER,
                ARG_OUTPUT, jsonStatus.canonicalPath
            ])
 
@@ -111,7 +111,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       getConf(0, CLUSTER)
 
       //get a hoya client against the cluster
-      HoyaClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
+      SliderClient hoyaClient = bondToCluster(SLIDER_CONFIG, CLUSTER)
       ClusterDescription cd2 = hoyaClient.getClusterDescription()
       assert CLUSTER == cd2.name
 
@@ -119,7 +119,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       //freeze
       slider(0, [
-          HoyaActions.ACTION_FREEZE, CLUSTER,
+          SliderActions.ACTION_FREEZE, CLUSTER,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
           ARG_MESSAGE, "freeze-in-testHBaseCreateCluster"
       ])
@@ -134,12 +134,12 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       slider(0,
            [
-               HoyaActions.ACTION_THAW, CLUSTER,
+               SliderActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
            ])
       exists(0, CLUSTER)
       slider(0, [
-          HoyaActions.ACTION_FREEZE, CLUSTER,
+          SliderActions.ACTION_FREEZE, CLUSTER,
           ARG_FORCE,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
           ARG_MESSAGE, "forced-freeze-in-test"
@@ -156,9 +156,9 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       describe "the kill/restart phase may fail if yarn.resourcemanager.am.max-attempts is too low"
       slider(0,
            [
-               HoyaActions.ACTION_THAW, CLUSTER,
+               SliderActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
-               ARG_DEFINE, HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT + "=3"
+               ARG_DEFINE, SliderXmlConfKeys.KEY_AM_RESTART_LIMIT + "=3"
            ])
 
 

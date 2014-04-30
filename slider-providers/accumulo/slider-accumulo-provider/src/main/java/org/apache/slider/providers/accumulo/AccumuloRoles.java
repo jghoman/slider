@@ -18,8 +18,8 @@
 
 package org.apache.slider.providers.accumulo;
 
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.providers.ProviderRole;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.providers.ProviderRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +48,7 @@ public class AccumuloRoles  {
    * Initialize role list
    */
   static {
-    BASE = HoyaKeys.ROLE_HOYA_AM_PRIORITY_INDEX;
+    BASE = SliderKeys.ROLE_AM_PRIORITY_INDEX;
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_MASTER, BASE + 1));
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_TABLET, BASE + 2));
     AccumuloRoles.ROLES.add(new ProviderRole(ROLE_GARBAGE_COLLECTOR, BASE + 3));
@@ -58,7 +58,7 @@ public class AccumuloRoles  {
 
 
   /**
-   * Convert a Hoya role into the service/classname passed down 
+   * Convert a Slider role into the service/classname passed down 
    * to accumulo, (and implicitly , item to grep and kill when force
    * killing services at the end of a test run)
    * @param role role being instantiated

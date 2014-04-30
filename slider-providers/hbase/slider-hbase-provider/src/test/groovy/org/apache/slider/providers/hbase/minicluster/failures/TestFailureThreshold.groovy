@@ -23,14 +23,14 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.FinalApplicationStatus
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaExitCodes
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.OptionKeys
-import org.apache.hoya.exceptions.BadClusterStateException
-import org.apache.hoya.exceptions.ErrorStrings
-import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.common.SliderExitCodes
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.OptionKeys
+import org.apache.slider.core.exceptions.BadClusterStateException
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 
@@ -63,7 +63,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
         "Create a single region service cluster then " + action + " the RS");
 
     //now launch the cluster
-    ServiceLauncher<HoyaClient> launcher = createHBaseCluster(
+    ServiceLauncher<SliderClient> launcher = createHBaseCluster(
         clustername,
         regionServerCount,
         [
@@ -71,7 +71,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
             Integer.toString(threshold)],
         true,
         true)
-    HoyaClient client = launcher.service
+    SliderClient client = launcher.service
     addToTeardown(client);
     ClusterDescription status = client.getClusterDescription(clustername)
 
@@ -129,7 +129,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
             
           } catch (BadClusterStateException e) {
             assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
-            assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
+            assert e.exitCode == SliderExitCodes.EXIT_BAD_STATE
             //success
             break;
           }
@@ -137,7 +137,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
       }
     } catch (BadClusterStateException e) {
       assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
-      assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
+      assert e.exitCode == SliderExitCodes.EXIT_BAD_STATE
     }
     ApplicationReport report = client.applicationReport
     log.info(report.diagnostics)

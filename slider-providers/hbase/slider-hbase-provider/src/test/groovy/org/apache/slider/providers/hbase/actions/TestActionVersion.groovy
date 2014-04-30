@@ -19,10 +19,10 @@
 package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.cluster.YarnMiniClusterTestBase
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.test.YarnMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 
@@ -44,7 +44,7 @@ class TestActionVersion extends YarnMiniClusterTestBase {
     ServiceLauncher launcher = execSliderCommand(
         new YarnConfiguration(),
         [
-            HoyaActions.ACTION_VERSION,
+            SliderActions.ACTION_VERSION,
         ]
     )
     assert launcher.serviceExitCode == 0

@@ -22,11 +22,11 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.providers.hbase.HBaseTestUtils
-import org.apache.hoya.tools.Duration
-import org.apache.hoya.yarn.client.HoyaClient
+import org.apache.slider.common.tools.Duration
+import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test
 
@@ -57,7 +57,7 @@ class Test2Master2RS extends HBaseMiniClusterTestBase {
         true,
         true)
     
-    HoyaClient hoyaClient = (HoyaClient) launcher.service
+    SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
     ClusterDescription status = hoyaClient.getClusterDescription(clustername)
     log.info("${status.toJsonString()}")

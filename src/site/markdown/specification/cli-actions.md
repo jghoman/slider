@@ -17,14 +17,14 @@
  
 ## Important
 
-1. This document is still being migrated from the hoya terminology to the slider terminology
+1. This document is still being updated from the original hoya design
 2. The new cluster model of separated specification files for internal, resource and application configuration
 has not been incorporated.
 1. What is up to date is the CLI command list and arguments
  
 ## client configuration
  
-As well as the CLI options, the `conf/hoya-client.xml` XML file can define arguments used to communicate with the Application instance
+As well as the CLI options, the `conf/slider-client.xml` XML file can define arguments used to communicate with the Application instance
 
 
 ####    `fs.defaultFS`
@@ -49,7 +49,7 @@ These can define client options that are not set in `conf/hoya-client.xml` - or 
  
 ### Cluster names
 
-All actions that must take an instance name will fail with `EXIT_UNKNOWN_HOYA_CLUSTER`
+All actions that must take an instance name will fail with `EXIT_UNKNOWN_INSTANCE`
 if one is not provided.
 
 ## Action: Build
@@ -78,21 +78,21 @@ that is both well-defined and deployable -*but does not actually start the clust
 
 The instance name is valid
 
-    if not valid-instance-name(instancename) : raise HoyaException(EXIT_COMMAND_ARGUMENT_ERROR)
+    if not valid-instance-name(instancename) : raise SliderException(EXIT_COMMAND_ARGUMENT_ERROR)
 
 The instance must not be live. This is purely a safety check as the next test should have the same effect.
 
-    if slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_CLUSTER_IN_USE)
+    if slider-instance-live(YARN, instancename) : raise SliderException(EXIT_CLUSTER_IN_USE)
 
 The instance must not exist
 
-    if is-dir(HDFS, instance-path(FS, instancename)) : raise HoyaException(EXIT_CLUSTER_EXISTS)
+    if is-dir(HDFS, instance-path(FS, instancename)) : raise SliderException(EXIT_CLUSTER_EXISTS)
 
 The configuration directory must exist it does not have to be the instance's HDFS instance,
 as it will be copied there -and must contain only files
 
     let FS = FileSystem.get(appconfdir)
-    if not isDir(FS, appconfdir) raise HoyaException(EXIT_COMMAND_ARGUMENT_ERROR)
+    if not isDir(FS, appconfdir) raise SliderException(EXIT_COMMAND_ARGUMENT_ERROR)
     forall f in children(FS, appconfdir) :
         if not isFile(f): raise IOException
 
@@ -215,21 +215,21 @@ attempts to create a live application with the specified number of nodes
 
 #### Preconditions
 
-    if not valid-instance-name(instancename) : raise HoyaException(EXIT_COMMAND_ARGUMENT_ERROR)
+    if not valid-instance-name(instancename) : raise SliderException(EXIT_COMMAND_ARGUMENT_ERROR)
 
 The cluster must not be live. This is purely a safety check as the next test should have the same effect.
 
-    if slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_CLUSTER_IN_USE)
+    if slider-instance-live(YARN, instancename) : raise SliderException(EXIT_CLUSTER_IN_USE)
 
 The cluster must not exist
 
-    if is-dir(HDFS, application-instance-path(FS, instancename)) : raise HoyaException(EXIT_CLUSTER_EXISTS)
+    if is-dir(HDFS, application-instance-path(FS, instancename)) : raise SliderException(EXIT_CLUSTER_EXISTS)
 
 The cluster specification must exist, be valid and deployable
 
-    if not is-file(HDFS, cluster-json-path(HDFS, instancename)) : HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
-    if not well-defined-application-instance(HDFS, application-instance-path(HDFS, instancename)) : raise HoyaException(EXIT_BAD_CLUSTER_STATE)
-    if not deployable-application-instance(HDFS, application-instance-path(HDFS, instancename)) : raise HoyaException(EXIT_BAD_CLUSTER_STATE)
+    if not is-file(HDFS, cluster-json-path(HDFS, instancename)) : SliderException(EXIT_UNKNOWN_INSTANCE)
+    if not well-defined-application-instance(HDFS, application-instance-path(HDFS, instancename)) : raise SliderException(EXIT_BAD_CLUSTER_STATE)
+    if not deployable-application-instance(HDFS, application-instance-path(HDFS, instancename)) : raise SliderException(EXIT_BAD_CLUSTER_STATE)
 
 ### Postconditions
 
@@ -291,7 +291,7 @@ A (usually short) time after the AM is launched, it should start
 * the localized resources in the context could be copied to the container (which implies
 that they are readable by the user account the AM is running under)
 * The combined classpath of YARN, extra JAR files included in the launch context,
-and the resources in the hoya client 'conf' dir contain all necessary dependencies
+and the resources in the slider client 'conf' dir contain all necessary dependencies
 to run Slider.
 * There's no issue with the cluster specification that causes the AM to exit
 with an error code.
@@ -428,10 +428,10 @@ freeze is invoked on an already frozen cluster
 
 The cluster name is valid and it matches a known cluster 
 
-    if not valid-instance-name(instancename) : raise HoyaException(EXIT_COMMAND_ARGUMENT_ERROR)
+    if not valid-instance-name(instancename) : raise SliderException(EXIT_COMMAND_ARGUMENT_ERROR)
     
     if not is-file(HDFS, application-instance-path(HDFS, instancename)) :
-        raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+        raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 #### Postconditions
 
@@ -462,7 +462,7 @@ which will change the desired steady-state of the application
 #### Preconditions
 
     if not is-file(HDFS, cluster-json-path(HDFS, instancename)) :
-        raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+        raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 #### Postconditions
 
@@ -510,9 +510,9 @@ actually running.
 
 #### Preconditions
 
-    if not valid-instance-name(instancename) : raise HoyaException(EXIT_COMMAND_ARGUMENT_ERROR)
+    if not valid-instance-name(instancename) : raise SliderException(EXIT_COMMAND_ARGUMENT_ERROR)
 
-    if slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_CLUSTER_IN_USE)
+    if slider-instance-live(YARN, instancename) : raise SliderException(EXIT_CLUSTER_IN_USE)
 
 
 #### Postconditions
@@ -528,7 +528,7 @@ The cluster directory and all its children do not exist
     2
 #### Preconditions
 
-    if not slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+    if not slider-instance-live(YARN, instancename) : raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 #### Postconditions
 
@@ -557,7 +557,7 @@ operation with only the exit code returned
 
 
     if not is-file(HDFS, application-instance-path(HDFS, instancename)) :
-        raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+        raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 #### Postconditions
 
@@ -580,7 +580,7 @@ site-xml file.
 
 #### Preconditions
 
-    if not slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+    if not slider-instance-live(YARN, instancename) : raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 
 #### Postconditions
@@ -612,7 +612,7 @@ If a instancename is specified it must be in YARNs list of active or completed a
 of that user:
 
     if instancename != "" and [] == yarn-application-instances(YARN, instancename, user) 
-        raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+        raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
 
 #### Postconditions
@@ -638,7 +638,7 @@ of the cluster
     
 #### Preconditions
 
-    if not slider-instance-live(YARN, instancename) : raise HoyaException(EXIT_UNKNOWN_HOYA_CLUSTER)
+    if not slider-instance-live(YARN, instancename) : raise SliderException(EXIT_UNKNOWN_INSTANCE)
 
     exists c in hoya-app-containers(YARN, instancename, user) where c.id == container-id 
     

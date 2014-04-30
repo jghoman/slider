@@ -20,9 +20,8 @@ package org.apache.slider.core.registry.zk;
 
 import com.google.common.net.HostAndPort;
 import org.apache.hadoop.util.StringUtils;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.exceptions.BadConfigException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class ZookeeperUtils {
     String zkPort = Integer.toString(port);
     //parse the hosts
     String[] hostlist = zkHosts.split(",", 0);
-    String quorum = HoyaUtils.join(hostlist, ":" + zkPort + ",");
+    String quorum = SliderUtils.join(hostlist, ":" + zkPort + ",");
     //this quorum has a trailing comma
     quorum = quorum.substring(0, quorum.length() - 1);
     return quorum;
@@ -108,7 +107,7 @@ public class ZookeeperUtils {
     for (HostAndPort hostAndPort : hostAndPorts) {
       entries.add(buildQuorumEntry(hostAndPort, defaultPort));
     }
-    return HoyaUtils.join(entries, ",", false);
+    return SliderUtils.join(entries, ",", false);
   }
   
   public static String convertToHostsOnlyList(String quorum) throws

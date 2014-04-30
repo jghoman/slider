@@ -21,22 +21,22 @@ package org.apache.slider.providers.hbase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hoya.HoyaKeys;
-import org.apache.hoya.HoyaXmlConfKeys;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.ConfTreeOperations;
-import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.core.launch.AbstractLauncher;
-import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.ProviderRole;
-import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
-import org.apache.hoya.tools.HoyaUtils;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.core.conf.AggregateConf;
+import org.apache.slider.core.conf.ConfTreeOperations;
+import org.apache.slider.core.conf.MapOperations;
+import org.apache.slider.core.launch.AbstractLauncher;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
+import org.apache.slider.core.exceptions.BadConfigException;
+import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.providers.AbstractClientProvider;
+import org.apache.slider.providers.ProviderRole;
+import org.apache.slider.providers.ProviderUtils;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ import java.util.Set;
  * of an HBase Cluster
  */
 public class HBaseClientProvider extends AbstractClientProvider implements
-                                                          HBaseKeys, HoyaKeys,
+                                                          HBaseKeys, SliderKeys,
                                                           HBaseConfigFileOptions {
 
   
@@ -91,7 +91,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
    * Build the hdfs-site.xml file
    * This the configuration used by HBase directly
    * @param instanceDescription this is the cluster specification used to define this
-   * @return a map of the dynamic bindings for this Hoya instance
+   * @return a map of the dynamic bindings for this Slider instance
    */
   public Map<String, String> buildSiteConfFromInstance(
     AggregateConf instanceDescription)
@@ -137,7 +137,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   }
 
   @Override //Client
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -146,7 +146,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                                     boolean secure) throws
       SliderException,
                                                                     IOException {
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername,
                                                 configuration,
                                                 instanceDefinition,
                                                 clusterDirPath,
@@ -154,7 +154,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     Path templatePath = new Path(generatedConfDirPath, HBaseKeys.SITE_XML);
     //load the HBase site file or fail
-    Configuration siteConf = ConfigHelper.loadConfiguration(hoyaFileSystem.getFileSystem(),
+    Configuration siteConf = ConfigHelper.loadConfiguration(sliderFileSystem.getFileSystem(),
                                                             templatePath);
 
     //core customizations
@@ -173,12 +173,12 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                     boolean secure,
                                     String origin) throws BadConfigException {
     try {
-      HoyaUtils.verifyOptionSet(siteConf, KEY_HBASE_CLUSTER_DISTRIBUTED,
-                                false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_HBASE_ROOTDIR, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZNODE_PARENT, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_QUORUM, false);
-      HoyaUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_PORT, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_HBASE_CLUSTER_DISTRIBUTED,
+          false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_HBASE_ROOTDIR, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZNODE_PARENT, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_QUORUM, false);
+      SliderUtils.verifyOptionSet(siteConf, KEY_ZOOKEEPER_PORT, false);
       int zkPort =
         siteConf.getInt(HBaseConfigFileOptions.KEY_ZOOKEEPER_PORT, 0);
       if (zkPort == 0) {
@@ -190,15 +190,15 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
       if (secure) {
         //better have the secure cluster definition up and running
-        HoyaUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_PRINCIPAL,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_KEYTAB,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf,
-                                  KEY_REGIONSERVER_KERBEROS_PRINCIPAL,
-                                  false);
-        HoyaUtils.verifyOptionSet(siteConf,
-                                  KEY_REGIONSERVER_KERBEROS_KEYTAB, false);
+        SliderUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_PRINCIPAL,
+            false);
+        SliderUtils.verifyOptionSet(siteConf, KEY_MASTER_KERBEROS_KEYTAB,
+            false);
+        SliderUtils.verifyOptionSet(siteConf,
+            KEY_REGIONSERVER_KERBEROS_PRINCIPAL,
+            false);
+        SliderUtils.verifyOptionSet(siteConf,
+            KEY_REGIONSERVER_KERBEROS_KEYTAB, false);
       }
     } catch (BadConfigException e) {
       //bad configuration, dump it
@@ -212,7 +212,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   private static Set<String> knownRoleNames = new HashSet<String>();
   static {
     List<ProviderRole> roles = HBaseRoles.getRoles();
-    knownRoleNames.add(HoyaKeys.COMPONENT_AM);
+    knownRoleNames.add(SliderKeys.COMPONENT_AM);
     for (ProviderRole role : roles) {
       knownRoleNames.add(role.name);
     }
@@ -242,7 +242,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,
@@ -287,7 +287,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     if (log.isDebugEnabled()) {
       log.debug("Configuration came from {}",
-                siteConf.get(HoyaXmlConfKeys.KEY_TEMPLATE_ORIGIN));
+                siteConf.get(SliderXmlConfKeys.KEY_TEMPLATE_ORIGIN));
       ConfigHelper.dumpConf(siteConf);
     }
     //construct the cluster configuration values
@@ -322,7 +322,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     log.debug("Saving the config to {}", sitePath);
     launcher.submitDirectory(generatedConfDirPath,
-                             HoyaKeys.PROPAGATED_CONF_DIR_NAME);
+                             SliderKeys.PROPAGATED_CONF_DIR_NAME);
 
   }
 

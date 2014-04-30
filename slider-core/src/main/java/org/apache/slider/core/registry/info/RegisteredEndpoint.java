@@ -18,11 +18,10 @@
 
 package org.apache.slider.core.registry.info;
 
-import org.apache.hoya.exceptions.SliderException;
+import org.apache.slider.core.exceptions.SliderException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URI;

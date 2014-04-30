@@ -18,12 +18,12 @@
 
 package org.apache.slider.providers.accumulo.funtest
 
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_ACCUMULO_APPCONF
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.KEY_TEST_ACCUMULO_TAR
-import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY
+import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_APPCONF
+import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_TAR
+import static org.apache.slider.api.ResourceKeys.YARN_MEMORY
 import static org.apache.slider.providers.accumulo.AccumuloKeys.*
-import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
-import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT
+import static org.apache.slider.common.params.Arguments.ARG_PROVIDER
+import static org.apache.slider.common.params.Arguments.ARG_RES_COMP_OPT
 
 import org.apache.accumulo.core.client.mapreduce.AccumuloInputFormat
 import org.apache.accumulo.fate.ZooStore
@@ -33,11 +33,11 @@ import org.apache.hadoop.fs.LocalFileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapreduce.filecache.DistributedCache
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.HoyaXMLConfKeysForTesting
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
+import org.apache.slider.common.SliderXMLConfKeysForTesting
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.SliderShell
 import org.apache.slider.providers.accumulo.AccumuloKeys
-import org.apache.hoya.yarn.Arguments
+import org.apache.slider.common.params.Arguments
 import org.apache.thrift.TException
 import org.junit.Before
 
@@ -145,9 +145,9 @@ abstract class AccumuloCommandTestBase extends CommandTestBase {
     }
 
     if (missingJar) { 
-      String accumuloHome = conf.get(HoyaXMLConfKeysForTesting.KEY_TEST_ACCUMULO_HOME)
+      String accumuloHome = conf.get(SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_HOME)
       if (null == accumuloHome) {
-        log.info(HoyaXMLConfKeysForTesting.KEY_TEST_ACCUMULO_HOME + " is not defined in Slider configuration. Cannot load jars from local Accumulo installation")
+        log.info(SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_HOME + " is not defined in Slider configuration. Cannot load jars from local Accumulo installation")
       } else {
         Path p = new Path(accumuloHome + "/lib")
         if (localfs.exists(p)) {

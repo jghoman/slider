@@ -19,16 +19,14 @@
 package org.apache.slider.core.registry.docstore;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.tools.ConfigHelper;
-import org.codehaus.jackson.JsonGenerationException;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
