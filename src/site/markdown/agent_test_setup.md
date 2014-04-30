@@ -1,17 +1,20 @@
 <!---
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-   http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. See accompanying LICENSE file.
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 -->
-  
+
 # Setting up for Agent test
 
      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
@@ -23,7 +26,7 @@ An agent is an application independent entity that can handle any application as
 
 ## Install resource management library
 The resource management library is a common python library used by all application specification. The library is either pre-installed on the hosts or it is packaged along with the application package itself.
- 
+
 Get resource_management.tar and install it at /usr/lib/python2.6/site-packages
 
 ## Install the application spec
@@ -42,4 +45,3 @@ Ensure that the user creating the hbase cluster has necessary permission for the
 3. /var/lib/ambari-agent/cache/stacks/HDP
 4. /var/log/hbase, /var/run/hbase (or appropriate log and run directories)
 5. Ensure hbase root/staging HDFS directories have appropriate permission
-

@@ -1,19 +1,22 @@
 <!---
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-   http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. See accompanying LICENSE file.
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 -->
-  
+
 # Slider's needs of an application
- 
+
 Slider installs and runs applications in a YARN cluster -applications that
 do not need to be written for YARN. 
 
@@ -26,7 +29,7 @@ shutdown without any manual recovery process.
 They need to locate each other dynamically, both at startup and during execution,
 because the location of processes will be unknown at startup, and may change
 due to server and process failures. 
- 
+
 ## Must
 
 * Install and run from a tarball -and be run from a user that is not root. 
@@ -34,7 +37,7 @@ due to server and process failures.
 * Be self contained or have all dependencies pre-installed.
 
 * Support dynamic discovery of nodes -such as via ZK.
- 
+
 * Nodes to rebind themselves dynamically -so if nodes are moved, the application
 can continue
 
@@ -122,7 +125,7 @@ Slider AM restarts.
 
 * Ideally: report on load/cost of decommissioning.
   E.g amount of data; app load. 
-  
+
 
 ## MAY NOT
 
