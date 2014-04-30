@@ -62,12 +62,12 @@ import java.util.Map;
  * This keeps aspects of role, cluster validation and Clusterspec setup
  * out of the core hoya client
  */
-public class HoyaAMClientProvider extends AbstractClientProvider implements
+public class SliderAMClientProvider extends AbstractClientProvider implements
     SliderKeys {
 
 
   protected static final Logger log =
-    LoggerFactory.getLogger(HoyaAMClientProvider.class);
+    LoggerFactory.getLogger(SliderAMClientProvider.class);
   protected static final String NAME = "SliderAM";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   public static final String INSTANCE_RESOURCE_BASE = PROVIDER_RESOURCE_BASE_ROOT +
@@ -82,7 +82,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
   public static final String AM_ROLE_CONFIG_RESOURCE =
     PROVIDER_RESOURCE_BASE +"hoyaam/role-am.xml";
 
-  public HoyaAMClientProvider(Configuration conf) {
+  public SliderAMClientProvider(Configuration conf) {
     super(conf);
   }
 

@@ -20,10 +20,10 @@ package org.apache.hoya.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.HoyaProviderFactory;
+import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.providers.ProviderService;
 
-public class AgentProviderFactory extends HoyaProviderFactory {
+public class AgentProviderFactory extends SliderProviderFactory {
 
   public AgentProviderFactory() {
   }

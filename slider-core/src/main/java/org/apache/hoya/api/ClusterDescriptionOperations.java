@@ -22,7 +22,7 @@ import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.BadConfigException;
-import org.apache.hoya.providers.HoyaProviderFactory;
+import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.tools.SliderUtils;
 
 import java.util.Map;
@@ -65,7 +65,7 @@ public class ClusterDescriptionOperations {
       aggregateConf.getAppConfOperations().getGlobalOptions();
 
     cd.type = internalOptions.getOption(OptionKeys.INTERNAL_PROVIDER_NAME,
-                                HoyaProviderFactory.DEFAULT_CLUSTER_TYPE);
+                                SliderProviderFactory.DEFAULT_CLUSTER_TYPE);
 
     cd.dataPath = internalOptions.get(OptionKeys.INTERNAL_DATA_DIR_PATH);
     cd.name = internalOptions.get(OptionKeys.APPLICATION_NAME);

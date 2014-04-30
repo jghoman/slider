@@ -19,10 +19,7 @@
 package org.apache.hoya.core.conf
 
 import org.apache.hoya.core.persist.JsonSerDeser
-import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider
-
-import static org.apache.hoya.core.conf.ExampleConfResources.getOverridden
-import static org.apache.hoya.core.conf.ExampleConfResources.getPACKAGE
+import org.apache.hoya.providers.hoyaam.SliderAMClientProvider
 
 /*
   names of the example configs
@@ -52,9 +49,9 @@ class ExampleConfResources {
     all_examples.each { all_example_resources << (PACKAGE + it) }
 
     all_example_resources <<
-        HoyaAMClientProvider.RESOURCES_JSON <<
-        HoyaAMClientProvider.INTERNAL_JSON << 
-        HoyaAMClientProvider.APPCONF_JSON
+        SliderAMClientProvider.RESOURCES_JSON <<
+        SliderAMClientProvider.INTERNAL_JSON << 
+        SliderAMClientProvider.APPCONF_JSON
     
   }
 

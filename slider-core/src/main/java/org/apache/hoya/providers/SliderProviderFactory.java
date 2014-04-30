@@ -31,20 +31,20 @@ import org.slf4j.LoggerFactory;
 /**
  * Base class for factories
  */
-public abstract class HoyaProviderFactory extends Configured {
+public abstract class SliderProviderFactory extends Configured {
 
   public static final String DEFAULT_CLUSTER_TYPE = AgentKeys.PROVIDER_AGENT;
   
   protected static final Logger log =
-    LoggerFactory.getLogger(HoyaProviderFactory.class);
+    LoggerFactory.getLogger(SliderProviderFactory.class);
   public static final String PROVIDER_NOT_FOUND =
     "Unable to find provider of application type %s";
 
-  public HoyaProviderFactory(Configuration conf) {
+  public SliderProviderFactory(Configuration conf) {
     super(conf);
   }
 
-  protected HoyaProviderFactory() {
+  protected SliderProviderFactory() {
   }
 
   public abstract AbstractClientProvider createClientProvider();
@@ -57,7 +57,7 @@ public abstract class HoyaProviderFactory extends Configured {
    * @return app instance
    * @throws SliderException on any instantiation problem
    */
-  public static HoyaProviderFactory createHoyaProviderFactory(String application) throws
+  public static SliderProviderFactory createHoyaProviderFactory(String application) throws
       SliderException {
     Configuration conf = loadHoyaConfiguration();
     if (application == null) {
@@ -72,9 +72,9 @@ public abstract class HoyaProviderFactory extends Configured {
       providerKey = name;
     }
     
-    Class<? extends HoyaProviderFactory> providerClass;
+    Class<? extends SliderProviderFactory> providerClass;
     try {
-      providerClass = conf.getClass(providerKey, null, HoyaProviderFactory.class);
+      providerClass = conf.getClass(providerKey, null, SliderProviderFactory.class);
     } catch (RuntimeException e) {
       throw new BadClusterStateException(e, "Failed to load provider %s: %s", application, e);
     }
@@ -84,7 +84,7 @@ public abstract class HoyaProviderFactory extends Configured {
 
     Exception ex;
     try {
-      HoyaProviderFactory providerFactory = providerClass.newInstance();
+      SliderProviderFactory providerFactory = providerClass.newInstance();
       providerFactory.setConf(conf);
       return providerFactory;
     } catch (InstantiationException e) {

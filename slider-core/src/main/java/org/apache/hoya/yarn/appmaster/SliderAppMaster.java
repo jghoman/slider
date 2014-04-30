@@ -75,10 +75,10 @@ import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.SliderInternalStateException;
 import org.apache.hoya.exceptions.TriggerClusterTeardownException;
-import org.apache.hoya.providers.HoyaProviderFactory;
+import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;
-import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
+import org.apache.hoya.providers.hoyaam.SliderAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
@@ -445,9 +445,9 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     String providerType = globalInternalOptions.getMandatoryOption(
       OptionKeys.INTERNAL_PROVIDER_NAME);
     log.info("Cluster provider type is {}", providerType);
-    HoyaProviderFactory factory =
-      HoyaProviderFactory.createHoyaProviderFactory(
-        providerType);
+    SliderProviderFactory factory =
+      SliderProviderFactory.createHoyaProviderFactory(
+          providerType);
     providerService = factory.createServerProvider();
     // init the provider BUT DO NOT START IT YET
     initAndAddService(providerService);
@@ -550,7 +550,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       //build the role map
       List<ProviderRole> providerRoles =
         new ArrayList<ProviderRole>(providerService.getRoles());
-      providerRoles.addAll(HoyaAMClientProvider.ROLES);
+      providerRoles.addAll(SliderAMClientProvider.ROLES);
 
       // Start up the WebApp and track the URL for it
       webApp = new SliderAMWebApp(registry);

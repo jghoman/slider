@@ -65,9 +65,9 @@ import org.apache.hoya.exceptions.NoSuchNodeException;
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException;
 import org.apache.hoya.exceptions.WaitTimeoutException;
 import org.apache.hoya.providers.AbstractClientProvider;
-import org.apache.hoya.providers.HoyaProviderFactory;
+import org.apache.hoya.providers.SliderProviderFactory;
 import org.apache.hoya.providers.agent.AgentKeys;
-import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
+import org.apache.hoya.providers.hoyaam.SliderAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.SliderFileSystem;
@@ -308,8 +308,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    */
   private AbstractClientProvider createClientProvider(String provider)
     throws SliderException {
-    HoyaProviderFactory factory =
-      HoyaProviderFactory.createHoyaProviderFactory(provider);
+    SliderProviderFactory factory =
+      SliderProviderFactory.createHoyaProviderFactory(provider);
     return factory.createClientProvider();
   }
 
@@ -373,7 +373,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     String providerName = buildInfo.getProvider();
     requireArgumentSet(Arguments.ARG_PROVIDER, providerName);
     log.debug("Provider is {}", providerName);
-    HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(conf);
+    SliderAMClientProvider hoyaAM = new SliderAMClientProvider(conf);
     AbstractClientProvider provider =
       createClientProvider(providerName);
     InstanceBuilder builder =
@@ -636,7 +636,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     lookupZKQuorum();
     boolean clusterSecure = SliderUtils.isClusterSecure(config);
     //create the Slider AM provider -this helps set up the AM
-    HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(config);
+    SliderAMClientProvider hoyaAM = new SliderAMClientProvider(config);
 
     instanceDefinition.resolve();
     launchedInstanceDefinition = instanceDefinition;

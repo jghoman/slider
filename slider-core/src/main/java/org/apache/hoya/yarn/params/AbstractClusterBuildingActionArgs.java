@@ -25,7 +25,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.providers.HoyaProviderFactory;
+import org.apache.hoya.providers.SliderProviderFactory;
 
 import java.io.File;
 import java.util.List;
@@ -69,7 +69,7 @@ public abstract class AbstractClusterBuildingActionArgs extends AbstractActionAr
 
   @Parameter(names = ARG_PROVIDER,
              description = "Provider of the specific cluster application")
-  public String provider = HoyaProviderFactory.DEFAULT_CLUSTER_TYPE;
+  public String provider = SliderProviderFactory.DEFAULT_CLUSTER_TYPE;
 
 /*
 
