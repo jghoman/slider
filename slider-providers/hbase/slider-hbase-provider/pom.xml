@@ -111,6 +111,26 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${apache-rat-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>check-licenses</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/*.json</exclude>
+            <exclude>src/main/resources/org/apache/slider/providers/hbase/conf/regionservers</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
   
     </plugins>
   </build>

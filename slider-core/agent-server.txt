@@ -1,2 +1,0 @@
-Executing echo
-Argument List: ['/Users/smohanty/enlistments/hoya/hoya-core/src/test/python/hbase_master.py', 'START', '/Users/smohanty/enlistments/hoya/hoya-core/propagatedconf/command.json', '/Users/smohanty/enlistments/hoya/hoya-core', '/tmp/strout.txt']

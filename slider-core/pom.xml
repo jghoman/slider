@@ -1,3 +1,19 @@
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>slider-core</artifactId>
@@ -87,12 +103,6 @@
             </manifest>
           </archive>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
         <executions>
           <execution>
             <goals>
@@ -257,6 +267,38 @@
           <doUpdate>false</doUpdate>
           <!-- uses shorter Git checksums-->
           <shortRevisionLength>10</shortRevisionLength>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${apache-rat-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>check-licenses</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/*.json</exclude>
+            <exclude>src/test/python/agent.ini</exclude>
+            <exclude>src/test/python/version</exclude>
+            <exclude>src/main/resources/webapps/hoyaam/.keep</exclude>
+            <exclude>src/main/resources/webapps/static/yarn.dt.plugins.js</exclude>
+            <!-- jQuery DataTables files (BSD license) -->
+            <exclude>src/main/resources/webapps/static/dt-1.9.4/**</exclude>
+            <!-- jQuery (MIT license) -->
+            <exclude>src/main/resources/webapps/static/jquery/jquery-1.8.2.min.js</exclude>
+            <!-- jQuery UI (MIT license) -->
+            <exclude>src/main/resources/webapps/static/jquery/jquery-ui-1.9.1.custom.min.js</exclude>
+            <exclude>src/main/resources/webapps/static/jquery/themes-1.9.1/base/jquery-ui.css</exclude>
+            <!-- jQuery jsTree (MIT license) -->
+            <exclude>src/main/resources/webapps/static/jt/jquery.jstree.js</exclude>
+          </excludes>
         </configuration>
       </plugin>
       
