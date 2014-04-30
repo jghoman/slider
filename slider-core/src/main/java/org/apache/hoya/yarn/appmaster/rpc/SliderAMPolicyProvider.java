@@ -25,7 +25,7 @@ import org.apache.hoya.SliderXmlConfKeys;
  * {@link PolicyProvider} for Slider protocols.
  */
 
-public class HoyaAMPolicyProvider extends PolicyProvider {
+public class SliderAMPolicyProvider extends PolicyProvider {
   
   private static final Service[] services = 
       new Service[] {

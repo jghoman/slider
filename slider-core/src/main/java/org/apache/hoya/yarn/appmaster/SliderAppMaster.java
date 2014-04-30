@@ -84,7 +84,7 @@ import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.hoya.yarn.SliderActions;
-import org.apache.hoya.yarn.appmaster.rpc.HoyaAMPolicyProvider;
+import org.apache.hoya.yarn.appmaster.rpc.SliderAMPolicyProvider;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaClusterProtocolPBImpl;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation;
@@ -595,7 +595,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
         applicationACLs = response.getApplicationACLs();
 
         //tell the server what the ACLs are 
-        rpcService.getServer().refreshServiceAcl(conf, new HoyaAMPolicyProvider());
+        rpcService.getServer().refreshServiceAcl(conf, new SliderAMPolicyProvider());
       }
 
       // extract container list
