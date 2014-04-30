@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya;
+package org.apache.slider;
 
 import org.apache.slider.core.launcher.ServiceLauncher;
 import org.apache.slider.client.SliderClient;
