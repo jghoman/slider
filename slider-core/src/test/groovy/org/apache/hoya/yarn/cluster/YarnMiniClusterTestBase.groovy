@@ -46,7 +46,7 @@ import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
-import org.apache.hoya.yarn.appmaster.HoyaAppMaster
+import org.apache.hoya.yarn.appmaster.SliderAppMaster
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
 import org.junit.After
@@ -292,7 +292,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    * @param signal
    */
   public void killHoyaAM(int signal) {
-    killJavaProcesses(HoyaAppMaster.SERVICE_CLASSNAME, signal)
+    killJavaProcesses(SliderAppMaster.SERVICE_CLASSNAME, signal)
   }
 
   /**

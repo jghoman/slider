@@ -19,7 +19,7 @@
 
 package org.apache.hoya.yarn.params;
 
-import org.apache.hoya.yarn.appmaster.HoyaAppMaster;
+import org.apache.hoya.yarn.appmaster.SliderAppMaster;
 
 /**
  * Parameters sent by the Client to the AM
@@ -28,7 +28,7 @@ public class HoyaAMArgs extends CommonArgs {
   /**
    * Name of entry class: {@value}
    */
-  public static final String CLASSNAME = HoyaAppMaster.SERVICE_CLASSNAME;
+  public static final String CLASSNAME = SliderAppMaster.SERVICE_CLASSNAME;
 
   HoyaAMCreateAction createAction = new HoyaAMCreateAction();
 

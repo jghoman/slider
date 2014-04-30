@@ -29,10 +29,10 @@ import java.security.PrivilegedAction;
  *
  */
 public class PrivilegedConnectToCM implements PrivilegedAction<ContainerManagementProtocol> {
-  final HoyaAppMaster appMaster;
+  final SliderAppMaster appMaster;
   final InetSocketAddress cmAddress;
 
-  public PrivilegedConnectToCM(HoyaAppMaster appMaster,
+  public PrivilegedConnectToCM(SliderAppMaster appMaster,
                                InetSocketAddress cmAddress) {
     this.appMaster = appMaster;
     this.cmAddress = cmAddress;
