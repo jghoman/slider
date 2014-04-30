@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hoya.tools.Duration;
-import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
+import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 
 import java.io.IOException;
 
@@ -34,17 +34,17 @@ import java.io.IOException;
 public class LaunchedApplication {
 
   protected final ApplicationId applicationId;
-  protected final HoyaYarnClientImpl yarnClient;
+  protected final SliderYarnClientImpl yarnClient;
 
   public LaunchedApplication(ApplicationId applicationId,
-                             HoyaYarnClientImpl yarnClient) {
+                             SliderYarnClientImpl yarnClient) {
     assert applicationId != null;
     assert yarnClient != null;
     this.applicationId = applicationId;
     this.yarnClient = yarnClient;
   }
 
-  public LaunchedApplication(HoyaYarnClientImpl yarnClient,
+  public LaunchedApplication(SliderYarnClientImpl yarnClient,
                              ApplicationReport report) {
     this.yarnClient = yarnClient;
     this.applicationId = report.getApplicationId();

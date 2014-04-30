@@ -52,7 +52,7 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenIdentifier;
 import org.apache.hadoop.yarn.util.ConverterUtils;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.ErrorStrings;
@@ -225,7 +225,7 @@ public class RpcBinder {
     int port = application.getRpcPort();
     String address = host + ":" + port;
     if (host == null || 0 == port) {
-      throw new SliderException(HoyaExitCodes.EXIT_CONNECTIVITY_PROBLEM,
+      throw new SliderException(SliderExitCodes.EXIT_CONNECTIVITY_PROBLEM,
                               "Slider instance " + application.getName()
                               + " isn't providing a valid address for the" +
                               " Slider RPC protocol: " + address);

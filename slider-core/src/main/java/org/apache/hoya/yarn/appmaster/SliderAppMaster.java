@@ -56,7 +56,7 @@ import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.webapp.WebApps;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.HoyaClusterProtocol;
@@ -83,7 +83,7 @@ import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.tools.HoyaVersionInfo;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaAMPolicyProvider;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaClusterProtocolPBImpl;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
@@ -94,7 +94,7 @@ import org.apache.hoya.yarn.appmaster.state.ContainerReleaseOperation;
 import org.apache.hoya.yarn.appmaster.state.RMOperationHandler;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
-import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp;
+import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp;
 import org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer;
 import org.apache.hoya.yarn.appmaster.web.SliderAmIpFilter;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
@@ -143,7 +143,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   implements AMRMClientAsync.CallbackHandler,
              NMClientAsync.CallbackHandler,
              RunService,
-             HoyaExitCodes,
+    SliderExitCodes,
              HoyaKeys,
              HoyaClusterProtocol,
              ServiceStateChangeListener,
@@ -274,7 +274,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   private String hadoop_user_name;
   private String service_user_name;
   
-  private HoyaAMWebApp webApp;
+  private SliderAMWebApp webApp;
   private InetSocketAddress rpcServiceAddress;
 
   /**
@@ -374,10 +374,10 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     String action = serviceArgs.getAction();
     List<String> actionArgs = serviceArgs.getActionArgs();
     int exitCode = EXIT_SUCCESS;
-    if (action.equals(HoyaActions.ACTION_HELP)) {
+    if (action.equals(SliderActions.ACTION_HELP)) {
       log.info(getName() + serviceArgs.usage());
-      exitCode = HoyaExitCodes.EXIT_USAGE;
-    } else if (action.equals(HoyaActions.ACTION_CREATE)) {
+      exitCode = SliderExitCodes.EXIT_USAGE;
+    } else if (action.equals(SliderActions.ACTION_CREATE)) {
       exitCode = createAndRunCluster(actionArgs.get(0));
     } else {
       throw new SliderException("Unimplemented: " + action);
@@ -553,14 +553,14 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       providerRoles.addAll(HoyaAMClientProvider.ROLES);
 
       // Start up the WebApp and track the URL for it
-      webApp = new HoyaAMWebApp(registry);
+      webApp = new SliderAMWebApp(registry);
       WebApps.$for("hoyaam", WebAppApi.class,
                             new WebAppApiImpl(this, appState, providerService), "ws")
                       .with(serviceConf)
                       .start(webApp);
       appMasterTrackingUrl = "http://" + appMasterHostname + ":" + webApp.port();
-      WebAppService<HoyaAMWebApp> webAppService =
-        new WebAppService<HoyaAMWebApp>("hoya", webApp);
+      WebAppService<SliderAMWebApp> webAppService =
+        new WebAppService<SliderAMWebApp>("hoya", webApp);
 
       webAppService.init(conf);
       webAppService.start();

@@ -21,9 +21,9 @@ package org.apache.hoya.funtest.commands
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell
-import org.apache.hoya.yarn.HoyaActions
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.SliderShell
+import org.apache.hoya.yarn.SliderActions
 import org.junit.Test
 
 @CompileStatic
@@ -32,13 +32,13 @@ public class TestSimpleCommands extends CommandTestBase {
 
   @Test
   public void testVersion() throws Throwable {
-    Shell shell = slider([HoyaActions.ACTION_VERSION])
+    Shell shell = slider([SliderActions.ACTION_VERSION])
     assertSuccess(shell)
   }
 
   @Test
   public void testUsage() throws Throwable {
-    SliderShell shell = slider(0, [HoyaActions.ACTION_USAGE])
+    SliderShell shell = slider(0, [SliderActions.ACTION_USAGE])
     assertSuccess(shell)
   }
   

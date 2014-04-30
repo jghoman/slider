@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
@@ -48,7 +48,7 @@ class TestFreezeUnknownCluster extends HBaseMiniClusterTestBase {
     try {
       ServiceLauncher command = execSliderCommand(conf,
                                                 [
-                                                    HoyaActions.ACTION_FREEZE,
+                                                    SliderActions.ACTION_FREEZE,
                                                     "no-such-cluster"
                                                 ]);
       fail("Expected an error, got an exit code of ${command.serviceExitCode}")

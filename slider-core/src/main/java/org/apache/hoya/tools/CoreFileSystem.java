@@ -32,7 +32,7 @@ import org.apache.hadoop.yarn.api.records.LocalResourceType;
 import org.apache.hadoop.yarn.api.records.LocalResourceVisibility;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.core.persist.Filenames;
@@ -230,7 +230,7 @@ public class CoreFileSystem {
           IOException,
       SliderException {
     if (fileSystem.exists(clusterDirectory)) {
-      throw new SliderException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+      throw new SliderException(SliderExitCodes.EXIT_INSTANCE_EXISTS,
               ErrorStrings.PRINTF_E_INSTANCE_ALREADY_EXISTS, clustername,
               clusterDirectory);
     }
@@ -250,7 +250,7 @@ public class CoreFileSystem {
       log.error("Dir {} exists: {}",
                 clusterDirectory,
                 listFSDir(clusterDirectory));
-      throw new SliderException(HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+      throw new SliderException(SliderExitCodes.EXIT_INSTANCE_EXISTS,
               ErrorStrings.PRINTF_E_INSTANCE_DIR_ALREADY_EXISTS,
               clusterDirectory);
     }

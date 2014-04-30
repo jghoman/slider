@@ -20,15 +20,15 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_GETCONF},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_GETCONF)
+@Parameters(commandNames = {SliderActions.ACTION_GETCONF},
+            commandDescription = SliderActions.DESCRIBE_ACTION_GETCONF)
 
 public class ActionGetConfArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_GETCONF;
+    return SliderActions.ACTION_GETCONF;
   }
 
   //--format 

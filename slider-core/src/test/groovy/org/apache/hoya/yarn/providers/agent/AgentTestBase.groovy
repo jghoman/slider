@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
@@ -111,7 +111,7 @@ public abstract class AgentTestBase extends YarnZKMiniClusterTestBase {
     ]
 
     return createOrBuildCluster(
-        create ? HoyaActions.ACTION_CREATE : HoyaActions.ACTION_BUILD,
+        create ? SliderActions.ACTION_CREATE : SliderActions.ACTION_BUILD,
         clustername,
         roles,
         extraArgs,

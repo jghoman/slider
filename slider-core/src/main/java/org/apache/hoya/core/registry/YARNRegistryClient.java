@@ -21,7 +21,7 @@ package org.apache.hoya.core.registry;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
+import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,12 +32,12 @@ import java.util.List;
  */
 public class YARNRegistryClient {
 
-  final HoyaYarnClientImpl yarnClient;
+  final SliderYarnClientImpl yarnClient;
   final String username;
   final Configuration conf;
 
 
-  public YARNRegistryClient(HoyaYarnClientImpl yarnClient,
+  public YARNRegistryClient(SliderYarnClientImpl yarnClient,
                             String username,
                             Configuration conf) {
     this.yarnClient = yarnClient;

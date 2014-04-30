@@ -32,7 +32,7 @@ import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.params.*
 import org.junit.Assert
 import org.junit.Test
@@ -43,7 +43,7 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 
-class TestCommonArgParsing implements HoyaActions, Arguments {
+class TestCommonArgParsing implements SliderActions, Arguments {
 
 
   public static final String CLUSTERNAME = "clustername"

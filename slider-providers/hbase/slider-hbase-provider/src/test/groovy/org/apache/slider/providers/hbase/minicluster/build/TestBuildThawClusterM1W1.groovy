@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.build
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -44,7 +44,7 @@ class TestBuildThawClusterM1W1 extends HBaseMiniClusterTestBase {
     describe "verify that a built cluster can be thawed"
 
     ServiceLauncher launcher = createOrBuildCluster(
-        HoyaActions.ACTION_BUILD,
+        SliderActions.ACTION_BUILD,
         clustername,
         [
             (HBaseKeys.ROLE_MASTER): 1,

@@ -22,17 +22,17 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
 import java.io.File;
 
-@Parameters(commandNames = {HoyaActions.ACTION_REGISTRY},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_REGISTRY)
+@Parameters(commandNames = {SliderActions.ACTION_REGISTRY},
+            commandDescription = SliderActions.DESCRIBE_ACTION_REGISTRY)
 
 public class ActionRegistryArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_REGISTRY;
+    return SliderActions.ACTION_REGISTRY;
   }
 
 

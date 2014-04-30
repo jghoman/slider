@@ -21,19 +21,16 @@ package org.apache.hoya.core.launch;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
-import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.api.records.ApplicationSubmissionContext;
 import org.apache.hadoop.yarn.api.records.Priority;
 import org.apache.hadoop.yarn.api.records.Resource;
-import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.client.api.YarnClientApplication;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.hoya.tools.CoreFileSystem;
-import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.HoyaUtils;
-import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
+import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +54,7 @@ public class AppMasterLauncher extends AbstractLauncher {
   private String queue = YarnConfiguration.DEFAULT_QUEUE_NAME;
   private int priority = 1;
   private final Resource resource = Records.newRecord(Resource.class);
-  private final HoyaYarnClientImpl yarnClient;
+  private final SliderYarnClientImpl yarnClient;
 
   /**
    * Build the AM Launcher
@@ -74,7 +71,7 @@ public class AppMasterLauncher extends AbstractLauncher {
                            String type,
                            Configuration conf,
                            CoreFileSystem fs,
-                           HoyaYarnClientImpl yarnClient,
+                           SliderYarnClientImpl yarnClient,
                            boolean secureCluster,
                            Map<String, String> options
                           ) throws IOException, YarnException {

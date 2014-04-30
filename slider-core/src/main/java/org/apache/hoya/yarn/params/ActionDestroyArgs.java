@@ -19,14 +19,14 @@
 package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_DESTROY},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_DESTROY)
+@Parameters(commandNames = {SliderActions.ACTION_DESTROY},
+            commandDescription = SliderActions.DESCRIBE_ACTION_DESTROY)
 
 public class ActionDestroyArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_DESTROY;
+    return SliderActions.ACTION_DESTROY;
   }
 }

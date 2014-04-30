@@ -20,15 +20,15 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_STATUS},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_STATUS)
+@Parameters(commandNames = {SliderActions.ACTION_STATUS},
+            commandDescription = SliderActions.DESCRIBE_ACTION_STATUS)
 
 public class ActionStatusArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_STATUS;
+    return SliderActions.ACTION_STATUS;
   }
 
   @Parameter(names = {ARG_OUTPUT, ARG_OUTPUT_SHORT},

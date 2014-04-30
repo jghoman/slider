@@ -19,10 +19,10 @@
 package org.apache.hoya.exceptions;
 
 import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 
 public class SliderException extends ServiceLaunchException implements
-                                                          HoyaExitCodes {
+    SliderExitCodes {
   public SliderException() {
     super(EXIT_EXCEPTION_THROWN, "SliderException");
   }

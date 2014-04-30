@@ -34,7 +34,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.service.launcher.RunService;
 import org.apache.hoya.Constants;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.ClusterNode;
@@ -74,7 +74,7 @@ import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.tools.HoyaVersionInfo;
 import org.apache.hoya.yarn.Arguments;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.apache.hoya.yarn.params.AbstractClusterBuildingActionArgs;
 import org.apache.hoya.yarn.params.ActionAMSuicideArgs;
@@ -117,7 +117,7 @@ import java.util.Properties;
  */
 
 public class SliderClient extends AbstractSliderLaunchedService implements RunService,
-                                                          HoyaExitCodes,
+    SliderExitCodes,
                                                           HoyaKeys,
                                                           ErrorStrings {
   private static final Logger log = LoggerFactory.getLogger(SliderClient.class);
@@ -137,7 +137,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   /**
    * Yarn client service
    */
-  private HoyaYarnClientImpl yarnClient;
+  private SliderYarnClientImpl yarnClient;
   private YARNRegistryClient YARNRegistryClient;
   private AggregateConf launchedInstanceDefinition;
   private RegistryBinderService<ServiceInstanceData> registry;
@@ -171,7 +171,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       HoyaUtils.initProcessSecurity(conf);
     }
     //create the YARN client
-    yarnClient = new HoyaYarnClientImpl();
+    yarnClient = new SliderYarnClientImpl();
     addService(yarnClient);
 
     super.serviceInit(conf);
@@ -195,45 +195,45 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     int exitCode = EXIT_SUCCESS;
     String clusterName = serviceArgs.getClusterName();
     // actions
-    if (HoyaActions.ACTION_BUILD.equals(action)) {
+    if (SliderActions.ACTION_BUILD.equals(action)) {
       exitCode = actionBuild(clusterName, serviceArgs.getActionBuildArgs());
-    } else if (HoyaActions.ACTION_CREATE.equals(action)) {
+    } else if (SliderActions.ACTION_CREATE.equals(action)) {
       exitCode = actionCreate(clusterName, serviceArgs.getActionCreateArgs());
-    } else if (HoyaActions.ACTION_FREEZE.equals(action)) {
+    } else if (SliderActions.ACTION_FREEZE.equals(action)) {
       exitCode = actionFreeze(clusterName,
                               serviceArgs.getActionFreezeArgs());
-    } else if (HoyaActions.ACTION_THAW.equals(action)) {
+    } else if (SliderActions.ACTION_THAW.equals(action)) {
       exitCode = actionThaw(clusterName, serviceArgs.getActionThawArgs());
-    } else if (HoyaActions.ACTION_DESTROY.equals(action)) {
+    } else if (SliderActions.ACTION_DESTROY.equals(action)) {
       exitCode = actionDestroy(clusterName);
-    } else if (HoyaActions.ACTION_EXISTS.equals(action)) {
+    } else if (SliderActions.ACTION_EXISTS.equals(action)) {
       exitCode = actionExists(clusterName,
                               serviceArgs.getActionExistsArgs().live);
-    } else if (HoyaActions.ACTION_FLEX.equals(action)) {
+    } else if (SliderActions.ACTION_FLEX.equals(action)) {
       exitCode = actionFlex(clusterName, serviceArgs.getActionFlexArgs());
-    } else if (HoyaActions.ACTION_GETCONF.equals(action)) {
+    } else if (SliderActions.ACTION_GETCONF.equals(action)) {
       exitCode = actionGetConf(clusterName, serviceArgs.getActionGetConfArgs());
-    } else if (HoyaActions.ACTION_HELP.equals(action) ||
-               HoyaActions.ACTION_USAGE.equals(action)) {
+    } else if (SliderActions.ACTION_HELP.equals(action) ||
+               SliderActions.ACTION_USAGE.equals(action)) {
       log.info(serviceArgs.usage());
 
-    } else if (HoyaActions.ACTION_KILL_CONTAINER.equals(action)) {
+    } else if (SliderActions.ACTION_KILL_CONTAINER.equals(action)) {
       exitCode = actionKillContainer(clusterName,
                                      serviceArgs.getActionKillContainerArgs());
 
-    } else if (HoyaActions.ACTION_AM_SUICIDE.equals(action)) {
+    } else if (SliderActions.ACTION_AM_SUICIDE.equals(action)) {
       exitCode = actionAmSuicide(clusterName,
                                  serviceArgs.getActionAMSuicideArgs());
 
-    } else if (HoyaActions.ACTION_LIST.equals(action)) {
+    } else if (SliderActions.ACTION_LIST.equals(action)) {
       exitCode = actionList(clusterName);
-    } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {     
+    } else if (SliderActions.ACTION_REGISTRY.equals(action)) {     
       exitCode = actionRegistry(
           serviceArgs.getActionRegistryArgs());
-    } else if (HoyaActions.ACTION_STATUS.equals(action)) {     
+    } else if (SliderActions.ACTION_STATUS.equals(action)) {     
       exitCode = actionStatus(clusterName,
                               serviceArgs.getActionStatusArgs());
-    } else if (HoyaActions.ACTION_VERSION.equals(action)) {
+    } else if (SliderActions.ACTION_VERSION.equals(action)) {
       
       exitCode = actionVersion();
     } else {
@@ -844,7 +844,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     commandLine.add(HoyaAMArgs.CLASSNAME);
 
     // create action and the cluster name
-    commandLine.add(HoyaActions.ACTION_CREATE, clustername);
+    commandLine.add(SliderActions.ACTION_CREATE, clustername);
 
     // debug
     if (debugAM) {
@@ -1423,7 +1423,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                 Constants.CONNECT_TIMEOUT,
                                 Constants.RPC_TIMEOUT);
     } catch (InterruptedException e) {
-      throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
+      throw new SliderException(SliderExitCodes.EXIT_TIMED_OUT,
                               e,
                               "Interrupted waiting for communications with the Slider AM");
     }

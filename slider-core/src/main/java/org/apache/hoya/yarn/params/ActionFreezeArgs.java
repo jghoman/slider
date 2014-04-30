@@ -21,16 +21,16 @@ package org.apache.hoya.yarn.params;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_FREEZE},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_FREEZE)
+@Parameters(commandNames = {SliderActions.ACTION_FREEZE},
+            commandDescription = SliderActions.DESCRIBE_ACTION_FREEZE)
 
 public class ActionFreezeArgs extends AbstractActionArgs implements
                                                          WaitTimeAccessor {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_FREEZE;
+    return SliderActions.ACTION_FREEZE;
   }
   
   public static final String FREEZE_COMMAND_ISSUED = "freeze command issued";

@@ -19,15 +19,15 @@
 package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_HELP, HoyaActions.ACTION_USAGE},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_LIST)
+@Parameters(commandNames = {SliderActions.ACTION_HELP, SliderActions.ACTION_USAGE},
+            commandDescription = SliderActions.DESCRIBE_ACTION_LIST)
 
 public class ActionHelpArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_HELP;
+    return SliderActions.ACTION_HELP;
   }
 
   /**

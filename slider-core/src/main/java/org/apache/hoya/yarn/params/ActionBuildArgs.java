@@ -19,15 +19,15 @@
 package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_BUILD},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_BUILD)
+@Parameters(commandNames = {SliderActions.ACTION_BUILD},
+            commandDescription = SliderActions.DESCRIBE_ACTION_BUILD)
 
 public class ActionBuildArgs extends AbstractClusterBuildingActionArgs {
 
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_BUILD;
+    return SliderActions.ACTION_BUILD;
   }
 }

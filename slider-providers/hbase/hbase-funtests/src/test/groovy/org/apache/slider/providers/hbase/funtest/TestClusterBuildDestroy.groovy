@@ -27,7 +27,7 @@ import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.AfterClass
 import org.junit.BeforeClass
@@ -69,7 +69,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
     clusterFS.delete(clusterDirPath, true)
     slider(0,
         [
-            HoyaActions.ACTION_BUILD,
+            SliderActions.ACTION_BUILD,
             CLUSTER,
             ARG_ZKHOSTS,
             SLIDER_CONFIG.get(HoyaXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),

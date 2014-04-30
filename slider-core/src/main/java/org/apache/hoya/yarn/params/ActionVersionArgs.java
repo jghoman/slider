@@ -19,15 +19,15 @@
 package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_VERSION},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_VERSION)
+@Parameters(commandNames = {SliderActions.ACTION_VERSION},
+            commandDescription = SliderActions.DESCRIBE_ACTION_VERSION)
 
 public class ActionVersionArgs extends AbstractActionArgs {
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_VERSION;
+    return SliderActions.ACTION_VERSION;
   }
 
   public int getMinParams() {

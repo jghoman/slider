@@ -45,7 +45,7 @@ import org.apache.hoya.tools.Duration
 import org.apache.hoya.tools.HoyaFileSystem
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.appmaster.SliderAppMaster
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.params.ActionFreezeArgs
@@ -395,7 +395,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
       boolean blockUntilRunning,
       Map<String, String> clusterOps) {
     createOrBuildCluster(
-        HoyaActions.ACTION_CREATE,
+        SliderActions.ACTION_CREATE,
         clustername,
         roles,
         extraArgs,
@@ -406,7 +406,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
   /**
    * Create or build a hoya cluster (the action is set by the first verb)
-   * @param action operation to invoke: HoyaActions.ACTION_CREATE or HoyaActions.ACTION_BUILD
+   * @param action operation to invoke: SliderActions.ACTION_CREATE or SliderActions.ACTION_BUILD
    * @param clustername cluster name
    * @param roles map of rolename to count
    * @param extraArgs list of extra args to add to the creation command
@@ -591,7 +591,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     assert miniCluster != null
 
     List<String> argsList = [
-        HoyaActions.ACTION_THAW, clustername,
+        SliderActions.ACTION_THAW, clustername,
         Arguments.ARG_MANAGER, RMAddr,
         Arguments.ARG_WAIT, WAIT_TIME_ARG,
         Arguments.ARG_FILESYSTEM, fsDefaultName,

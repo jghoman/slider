@@ -24,7 +24,7 @@ import org.apache.hoya.HoyaXmlConfKeys;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
 import java.util.Collection;
 
@@ -174,53 +174,53 @@ public class ClientArgs extends CommonArgs {
   @Override
   public void applyAction() throws SliderException {
     String action = getAction();
-    if (HoyaActions.ACTION_BUILD.equals(action)) {
+    if (SliderActions.ACTION_BUILD.equals(action)) {
       bindCoreAction(actionBuildArgs);
       //its a builder, so set those actions too
       buildingActionArgs = actionBuildArgs;
-    } else if (HoyaActions.ACTION_CREATE.equals(action)) {
+    } else if (SliderActions.ACTION_CREATE.equals(action)) {
       bindCoreAction(actionCreateArgs);
       //its a builder, so set those actions too
       buildingActionArgs = actionCreateArgs;
 
-    } else if (HoyaActions.ACTION_FREEZE.equals(action)) {
+    } else if (SliderActions.ACTION_FREEZE.equals(action)) {
       bindCoreAction(actionFreezeArgs);
 
-    } else if (HoyaActions.ACTION_THAW.equals(action)) {
+    } else if (SliderActions.ACTION_THAW.equals(action)) {
       bindCoreAction(actionThawArgs);
 
-    } else if (HoyaActions.ACTION_AM_SUICIDE.equals(action)) {
+    } else if (SliderActions.ACTION_AM_SUICIDE.equals(action)) {
       bindCoreAction(actionAMSuicideArgs);
 
-    } else if (HoyaActions.ACTION_DESTROY.equals(action)) {
+    } else if (SliderActions.ACTION_DESTROY.equals(action)) {
       bindCoreAction(actionDestroyArgs);
 
-    } else if (HoyaActions.ACTION_EXISTS.equals(action)) {
+    } else if (SliderActions.ACTION_EXISTS.equals(action)) {
       bindCoreAction(actionExistsArgs);
 
-    } else if (HoyaActions.ACTION_FLEX.equals(action)) {
+    } else if (SliderActions.ACTION_FLEX.equals(action)) {
       bindCoreAction(actionFlexArgs);
 
-    } else if (HoyaActions.ACTION_GETCONF.equals(action)) {
+    } else if (SliderActions.ACTION_GETCONF.equals(action)) {
       bindCoreAction(actionGetConfArgs);
 
-    } else if (HoyaActions.ACTION_HELP.equals(action) ||
-               HoyaActions.ACTION_USAGE.equals(action)) {
+    } else if (SliderActions.ACTION_HELP.equals(action) ||
+               SliderActions.ACTION_USAGE.equals(action)) {
       bindCoreAction(actionHelpArgs);
 
-    } else if (HoyaActions.ACTION_KILL_CONTAINER.equals(action)) {
+    } else if (SliderActions.ACTION_KILL_CONTAINER.equals(action)) {
       bindCoreAction(actionKillContainerArgs);
 
-    } else if (HoyaActions.ACTION_LIST.equals(action)) {
+    } else if (SliderActions.ACTION_LIST.equals(action)) {
       bindCoreAction(actionListArgs);
 
-    } else if (HoyaActions.ACTION_REGISTRY.equals(action)) {
+    } else if (SliderActions.ACTION_REGISTRY.equals(action)) {
       bindCoreAction(actionRegistryArgs);
 
-    } else if (HoyaActions.ACTION_STATUS.equals(action)) {
+    } else if (SliderActions.ACTION_STATUS.equals(action)) {
       bindCoreAction(actionStatusArgs);
 
-    } else if (HoyaActions.ACTION_VERSION.equals(action)) {
+    } else if (SliderActions.ACTION_VERSION.equals(action)) {
       bindCoreAction(actionVersionArgs);
 
     } else if (action == null || action.isEmpty()) {

@@ -17,7 +17,7 @@
 package org.apache.hoya.yarn.appmaster.web.view;
 
 import org.apache.hadoop.yarn.webapp.view.HtmlBlock;
-import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp;
+import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class HoyaNavBlock extends HtmlBlock {
         h3("Slider").
         ul().
           li().a(this.prefix(), "Overview")._().
-          li().a(this.prefix() + HoyaAMWebApp.CONTAINER_STATS, "Statistics")._().
-          li().a(this.prefix() + HoyaAMWebApp.CLUSTER_SPEC, "Specification")._()._()._();
+          li().a(this.prefix() + SliderAMWebApp.CONTAINER_STATS, "Statistics")._().
+          li().a(this.prefix() + SliderAMWebApp.CLUSTER_SPEC, "Specification")._()._()._();
   }
 }

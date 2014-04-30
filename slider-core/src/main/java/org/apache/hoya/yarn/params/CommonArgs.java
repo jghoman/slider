@@ -28,7 +28,7 @@ import org.apache.hoya.exceptions.ErrorStrings;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.tools.HoyaUtils;
 import org.apache.hoya.yarn.Arguments;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +45,7 @@ import java.util.Map;
  * in the range allowed
  */
 
-public abstract class CommonArgs extends ArgOps implements HoyaActions,
+public abstract class CommonArgs extends ArgOps implements SliderActions,
                                                            Arguments {
 
   protected static final Logger log = LoggerFactory.getLogger(CommonArgs.class);

@@ -26,7 +26,7 @@ import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.ClusterDescription
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.slider.providers.accumulo.AccumuloKeys
-import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp
+import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.apache.slider.core.registry.zk.ZKIntegration
@@ -86,7 +86,7 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
     
     String url = appReport.getTrackingUrl();
     
-    // Should redirect to (or at least serve content from) HoyaAMWebApp.BASE_PATH 
+    // Should redirect to (or at least serve content from) SliderAMWebApp.BASE_PATH 
     fetchWebPageWithoutError(url);
     
     // TrackingUrl has a trailing slash on it already for us (which is apparently very important)
@@ -95,12 +95,12 @@ class TestAccumuloAMWebApp extends AccumuloTestBase {
       url = url + '/';
     }
     
-    url = url + HoyaAMWebApp.BASE_PATH;
+    url = url + SliderAMWebApp.BASE_PATH;
     
     // This should also give us content
     fetchWebPageWithoutError(url);
     
-    url = url + HoyaAMWebApp.CONTAINER_STATS;
+    url = url + SliderAMWebApp.CONTAINER_STATS;
     
     fetchWebPageWithoutError(url);
     

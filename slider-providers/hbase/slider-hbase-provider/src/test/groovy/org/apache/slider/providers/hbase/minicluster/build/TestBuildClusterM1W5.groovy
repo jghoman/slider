@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -47,7 +47,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
     describe "verify that a build cluster is created but not started"
 
     ServiceLauncher launcher = createOrBuildCluster(
-        HoyaActions.ACTION_BUILD,
+        SliderActions.ACTION_BUILD,
         clustername,
         [
             (HBaseKeys.ROLE_MASTER): 1,
@@ -76,7 +76,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
     //and a second attempt will fail as the cluster now exists
     try {
       createOrBuildCluster(
-          HoyaActions.ACTION_BUILD,
+          SliderActions.ACTION_BUILD,
           clustername,
           [
               (HBaseKeys.ROLE_MASTER): 1,

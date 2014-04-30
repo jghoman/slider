@@ -24,7 +24,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hoya.api.StatusKeys
-import org.apache.hoya.yarn.appmaster.web.HoyaAMWebApp
+import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationResponse
 import org.apache.hoya.yarn.appmaster.web.rest.agent.RegistrationStatus
 import org.apache.hoya.yarn.client.SliderClient
@@ -42,7 +42,7 @@ import static org.apache.hoya.yarn.providers.agent.AgentTestUtils.createTestClie
 @Slf4j
 class TestAgentAMManagementWS extends AgentTestBase {
 
-  public static final String MANAGEMENT_URI = HoyaAMWebApp.BASE_PATH +"/ws/v1/slider/mgmt/";
+  public static final String MANAGEMENT_URI = SliderAMWebApp.BASE_PATH +"/ws/v1/slider/mgmt/";
   public static final String AGENT_URI = "ws/v1/slider/agents/";
 
   @Test

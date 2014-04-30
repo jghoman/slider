@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.actions
 import groovy.util.logging.Slf4j
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -51,7 +51,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         [
-            HoyaActions.ACTION_LIST,
+            SliderActions.ACTION_LIST,
             Arguments.ARG_MANAGER, RMAddr
         ]
     )
@@ -67,7 +67,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         [
-            HoyaActions.ACTION_LIST,
+            SliderActions.ACTION_LIST,
             Arguments.ARG_MANAGER, RMAddr,
         ]
     )
@@ -87,7 +87,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         [
-            HoyaActions.ACTION_LIST,
+            SliderActions.ACTION_LIST,
         ]
     )
     assert launcher.serviceExitCode == 0
@@ -106,7 +106,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
         new YarnConfiguration(miniCluster.config),
         //varargs list of command line params
         [
-            HoyaActions.ACTION_LIST, clustername
+            SliderActions.ACTION_LIST, clustername
         ]
     )
 
@@ -127,7 +127,7 @@ class TestActionList extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-              HoyaActions.ACTION_LIST,
+              SliderActions.ACTION_LIST,
               "testStatusMissingCluster"
           ]
       )

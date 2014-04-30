@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.appmaster;
 
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 
 public class AMUtils {
   /**
@@ -33,7 +33,7 @@ public class AMUtils {
         return LauncherExitCodes.EXIT_SUCCESS;
       //remap from a planned shutdown to a failure
       case LauncherExitCodes.EXIT_CLIENT_INITIATED_SHUTDOWN:
-        return HoyaExitCodes.EXIT_PROCESS_FAILED;
+        return SliderExitCodes.EXIT_PROCESS_FAILED;
       default:
         return exitCode;
     }

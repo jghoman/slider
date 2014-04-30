@@ -20,10 +20,10 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_THAW},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_THAW)
+@Parameters(commandNames = {SliderActions.ACTION_THAW},
+            commandDescription = SliderActions.DESCRIBE_ACTION_THAW)
 public class ActionThawArgs extends AbstractActionArgs implements
                                                        WaitTimeAccessor,
                                                        LaunchArgsAccessor {
@@ -31,7 +31,7 @@ public class ActionThawArgs extends AbstractActionArgs implements
 
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_THAW;
+    return SliderActions.ACTION_THAW;
   }
 
   @Override

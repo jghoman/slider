@@ -20,11 +20,11 @@ package org.apache.hoya.core.launch;
 
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.api.HoyaClusterProtocol;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
-import org.apache.hoya.yarn.client.HoyaYarnClientImpl;
+import org.apache.hoya.yarn.client.SliderYarnClientImpl;
 
 import static org.apache.hoya.Constants.*;
 
@@ -37,7 +37,7 @@ import java.io.IOException;
 public class RunningApplication extends LaunchedApplication {
 
   private final ApplicationReport applicationReport;
-  public RunningApplication(HoyaYarnClientImpl yarnClient,
+  public RunningApplication(SliderYarnClientImpl yarnClient,
                             ApplicationReport applicationReport) {
     super(yarnClient, applicationReport);
     this.applicationReport = applicationReport;
@@ -66,7 +66,7 @@ public class RunningApplication extends LaunchedApplication {
                                 CONNECT_TIMEOUT,
                                 RPC_TIMEOUT);
     } catch (InterruptedException e) {
-      throw new SliderException(HoyaExitCodes.EXIT_TIMED_OUT,
+      throw new SliderException(SliderExitCodes.EXIT_TIMED_OUT,
           e,
           "Interrupted waiting for communications with the Application Master");
     }

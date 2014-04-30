@@ -26,7 +26,7 @@ import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.junit.After
 import org.junit.Before
@@ -97,7 +97,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
     try {
       slider(0,
            [
-               HoyaActions.ACTION_STATUS, CLUSTER,
+               SliderActions.ACTION_STATUS, CLUSTER,
                ARG_OUTPUT, jsonStatus.canonicalPath
            ])
 
@@ -119,7 +119,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       //freeze
       slider(0, [
-          HoyaActions.ACTION_FREEZE, CLUSTER,
+          SliderActions.ACTION_FREEZE, CLUSTER,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
           ARG_MESSAGE, "freeze-in-testHBaseCreateCluster"
       ])
@@ -134,12 +134,12 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
 
       slider(0,
            [
-               HoyaActions.ACTION_THAW, CLUSTER,
+               SliderActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
            ])
       exists(0, CLUSTER)
       slider(0, [
-          HoyaActions.ACTION_FREEZE, CLUSTER,
+          SliderActions.ACTION_FREEZE, CLUSTER,
           ARG_FORCE,
           ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),
           ARG_MESSAGE, "forced-freeze-in-test"
@@ -156,7 +156,7 @@ public class TestClusterLifecycle extends HBaseCommandTestBase
       describe "the kill/restart phase may fail if yarn.resourcemanager.am.max-attempts is too low"
       slider(0,
            [
-               HoyaActions.ACTION_THAW, CLUSTER,
+               SliderActions.ACTION_THAW, CLUSTER,
                ARG_WAIT, Integer.toString(THAW_WAIT_TIME),
                ARG_DEFINE, HoyaXmlConfKeys.KEY_AM_RESTART_LIMIT + "=3"
            ])

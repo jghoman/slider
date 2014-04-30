@@ -31,7 +31,7 @@ import org.apache.hadoop.yarn.api.records.impl.pb.ContainerPBImpl;
 import org.apache.hadoop.yarn.client.api.AMRMClient;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
-import org.apache.hoya.HoyaExitCodes;
+import org.apache.hoya.SliderExitCodes;
 import org.apache.hoya.HoyaKeys;
 import org.apache.hoya.api.ClusterDescription;
 import org.apache.hoya.api.ClusterDescriptionKeys;
@@ -1398,7 +1398,7 @@ public class AppState implements StateAccessForProviders {
 
     if (failures > failureThreshold) {
       throw new TriggerClusterTeardownException(
-        HoyaExitCodes.EXIT_DEPLOYMENT_FAILED,
+        SliderExitCodes.EXIT_DEPLOYMENT_FAILED,
         ErrorStrings.E_UNSTABLE_CLUSTER +
         " - failed with role %s failing %d times (%d in startup); threshold is %d - last failure: %s",
         role.getName(),

@@ -20,17 +20,17 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_CREATE},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_CREATE)
+@Parameters(commandNames = {SliderActions.ACTION_CREATE},
+            commandDescription = SliderActions.DESCRIBE_ACTION_CREATE)
 
 public class ActionCreateArgs extends AbstractClusterBuildingActionArgs
   implements WaitTimeAccessor, LaunchArgsAccessor {
   
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_CREATE;
+    return SliderActions.ACTION_CREATE;
   }
   
   @ParametersDelegate

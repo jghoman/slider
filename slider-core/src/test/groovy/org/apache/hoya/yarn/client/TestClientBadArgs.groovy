@@ -23,7 +23,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.junit.Test
 
 /**
@@ -53,7 +53,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
     launchExpectingException(SliderClient,
                              new Configuration(),
                              ErrorStrings.ERROR_NOT_ENOUGH_ARGUMENTS,
-                             [HoyaActions.ACTION_THAW])
+                             [SliderActions.ACTION_THAW])
   }
 
   @Test
@@ -61,7 +61,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
     launchExpectingException(SliderClient,
                              new Configuration(),
                              ErrorStrings.ERROR_TOO_MANY_ARGUMENTS,
-                             [HoyaActions.ACTION_HELP,
+                             [SliderActions.ACTION_HELP,
                              "hello, world"])
   }
   
@@ -70,7 +70,7 @@ class TestClientBadArgs extends ServiceLauncherBaseTest {
     launchExpectingException(SliderClient,
                              new Configuration(),
                              "Unknown option: --image",
-                            [HoyaActions.ACTION_HELP,
+                            [SliderActions.ACTION_HELP,
                              Arguments.ARG_IMAGE])
   }
 

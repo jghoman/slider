@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
-import org.apache.hoya.yarn.HoyaActions
+import org.apache.hoya.yarn.SliderActions
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
@@ -55,7 +55,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           "unknown-cluster",
           Arguments.ARG_MANAGER, RMAddr
           ],
@@ -81,7 +81,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           clustername,
           Arguments.ARG_MANAGER, RMAddr
           ],
@@ -94,7 +94,7 @@ class TestActionExists extends HBaseMiniClusterTestBase {
           new YarnConfiguration(miniCluster.config),
           //varargs list of command line params
           [
-          HoyaActions.ACTION_EXISTS,
+          SliderActions.ACTION_EXISTS,
           clustername,
           Arguments.ARG_LIVE,
           Arguments.ARG_MANAGER, RMAddr

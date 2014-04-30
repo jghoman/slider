@@ -21,19 +21,19 @@ package org.apache.hoya.yarn.params;
 import com.beust.jcommander.Parameters;
 import com.beust.jcommander.ParametersDelegate;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
 import java.util.List;
 import java.util.Map;
 
-@Parameters(commandNames = {HoyaActions.ACTION_FLEX},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_FLEX)
+@Parameters(commandNames = {SliderActions.ACTION_FLEX},
+            commandDescription = SliderActions.DESCRIBE_ACTION_FLEX)
 
 public class ActionFlexArgs extends AbstractActionArgs {
 
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_FLEX;
+    return SliderActions.ACTION_FLEX;
   }
   
   @ParametersDelegate

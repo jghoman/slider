@@ -20,16 +20,16 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
 
-@Parameters(commandNames = {HoyaActions.ACTION_AM_SUICIDE},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_AM_SUICIDE)
+@Parameters(commandNames = {SliderActions.ACTION_AM_SUICIDE},
+            commandDescription = SliderActions.DESCRIBE_ACTION_AM_SUICIDE)
 public class ActionAMSuicideArgs extends AbstractActionArgs {
   
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_AM_SUICIDE;
+    return SliderActions.ACTION_AM_SUICIDE;
   }
   
   @Parameter(names = {ARG_MESSAGE},

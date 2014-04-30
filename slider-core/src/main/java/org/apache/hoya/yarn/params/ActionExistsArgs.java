@@ -20,16 +20,16 @@ package org.apache.hoya.yarn.params;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import org.apache.hoya.yarn.HoyaActions;
+import org.apache.hoya.yarn.SliderActions;
 
-@Parameters(commandNames = {HoyaActions.ACTION_EXISTS},
-            commandDescription = HoyaActions.DESCRIBE_ACTION_EXISTS)
+@Parameters(commandNames = {SliderActions.ACTION_EXISTS},
+            commandDescription = SliderActions.DESCRIBE_ACTION_EXISTS)
 
 public class ActionExistsArgs extends AbstractActionArgs {
 
   @Override
   public String getActionName() {
-    return HoyaActions.ACTION_EXISTS;
+    return SliderActions.ACTION_EXISTS;
   }
   @Parameter(names = {ARG_LIVE},
              description = "verify that the cluster is running")
