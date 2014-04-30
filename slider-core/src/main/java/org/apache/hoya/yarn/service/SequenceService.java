@@ -185,7 +185,7 @@ public class SequenceService extends AbstractService implements Parent,
       //did the service fail? if so: propagate
       Throwable failureCause = service.getFailureCause();
       if (failureCause != null) {
-        Exception e = HoyaServiceUtils.convertToException(failureCause);
+        Exception e = SliderServiceUtils.convertToException(failureCause);
         noteFailure(e);
         stop();
       }

@@ -29,7 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class HoyaServiceUtils {
+public class SliderServiceUtils {
 
   public static Exception convertToException(Throwable failureCause) {
     return (failureCause instanceof Exception) ?

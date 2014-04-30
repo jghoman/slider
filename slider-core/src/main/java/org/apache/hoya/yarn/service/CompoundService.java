@@ -87,7 +87,7 @@ public class CompoundService extends CompositeService implements Parent,
       if (failureCause != null) {
         log.info("Child service " + child + " failed", failureCause);
         //failure. Convert to an exception
-        Exception e = HoyaServiceUtils.convertToException(failureCause);
+        Exception e = SliderServiceUtils.convertToException(failureCause);
         //flip ourselves into the failed state
         noteFailure(e);
         stop();

@@ -22,7 +22,7 @@ import org.apache.hadoop.yarn.api.protocolrecords.RegisterApplicationMasterRespo
 import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.RegisterApplicationMasterResponsePBImpl;
 import org.apache.hadoop.yarn.api.records.ApplicationSubmissionContext;
 import org.apache.hadoop.yarn.api.records.Container;
-import org.apache.hoya.yarn.service.HoyaServiceUtils;
+import org.apache.hoya.yarn.service.SliderServiceUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class AMRestartSupport {
   public static final String REGISTER_AM_RESPONSE =
     "RegisterApplicationMasterResponse.getContainersFromPreviousAttempts()";
   private static final Logger
-    log = LoggerFactory.getLogger(HoyaServiceUtils.class);
+    log = LoggerFactory.getLogger(SliderServiceUtils.class);
 
   /**
    * Request that containers are kept across submissions.
