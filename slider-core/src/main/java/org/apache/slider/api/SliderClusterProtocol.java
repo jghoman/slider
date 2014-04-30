@@ -46,7 +46,7 @@ import java.io.IOException;
  */
 @KerberosInfo(
   serverPrincipal = SliderXmlConfKeys.KEY_KERBEROS_PRINCIPAL)
-public interface HoyaClusterProtocol extends VersionedProtocol {
+public interface SliderClusterProtocol extends VersionedProtocol {
   public static final long versionID = 0x01;
 
   /**

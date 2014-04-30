@@ -18,7 +18,7 @@ package org.apache.slider.server.appmaster.web;
 
 import java.util.Map;
 
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.providers.ProviderService;
 import org.apache.slider.server.appmaster.state.AppState;
 import org.apache.slider.server.appmaster.state.RoleStatus;
@@ -41,9 +41,9 @@ public interface WebAppApi {
   public ProviderService getProviderService();
   
   /**
-   * The {@link HoyaClusterProtocol} for the current cluster
+   * The {@link SliderClusterProtocol} for the current cluster
    */
-  public HoyaClusterProtocol getClusterProtocol();
+  public SliderClusterProtocol getClusterProtocol();
   
   /**
    * Generate a mapping from role name to its {@link RoleStatus}. Be aware that this

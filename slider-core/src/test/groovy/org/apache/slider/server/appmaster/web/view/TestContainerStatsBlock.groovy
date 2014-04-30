@@ -29,7 +29,7 @@ import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.TABLE
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.TR
 import org.apache.hadoop.yarn.webapp.hamlet.HamletImpl.EImp
 import org.apache.slider.api.ClusterNode
-import org.apache.slider.api.HoyaClusterProtocol
+import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.state.RoleInstance
@@ -53,7 +53,7 @@ public class TestContainerStatsBlock {
 
   @Before
   public void setup() {
-    HoyaClusterProtocol clusterProto = new MockSliderClusterProtocol();
+    SliderClusterProtocol clusterProto = new MockSliderClusterProtocol();
     AppState appState = new MockAppState(new MockRecordFactory());
     ProviderService providerService = new MockProviderService();
 

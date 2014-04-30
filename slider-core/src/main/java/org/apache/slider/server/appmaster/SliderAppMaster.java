@@ -52,6 +52,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.ipc.YarnRPC;
 import org.apache.hadoop.yarn.security.AMRMTokenIdentifier;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenSecretManager;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.core.main.RunService;
 import org.apache.slider.core.main.ServiceLauncher;
 import org.apache.hadoop.yarn.util.ConverterUtils;
@@ -59,7 +60,6 @@ import org.apache.hadoop.yarn.webapp.WebApps;
 import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
-import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.ResourceKeys;
 import org.apache.slider.api.RoleKeys;
@@ -145,7 +145,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
              RunService,
     SliderExitCodes,
     SliderKeys,
-             HoyaClusterProtocol,
+    SliderClusterProtocol,
              ServiceStateChangeListener,
              RoleKeys,
              EventCallback,
@@ -1102,10 +1102,10 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   }
   
 /* =================================================================== */
-/* HoyaClusterProtocol */
+/* SliderClusterProtocol */
 /* =================================================================== */
 
-  @Override   //HoyaClusterProtocol
+  @Override   //SliderClusterProtocol
   public ProtocolSignature getProtocolSignature(String protocol,
                                                 long clientVersion,
                                                 int clientMethodsHash) throws
@@ -1116,18 +1116,18 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
 
 
 
-  @Override   //HoyaClusterProtocol
+  @Override   //SliderClusterProtocol
   public long getProtocolVersion(String protocol, long clientVersion) throws
                                                                       IOException {
-    return HoyaClusterProtocol.versionID;
+    return SliderClusterProtocol.versionID;
   }
 
   
 /* =================================================================== */
-/* HoyaClusterProtocol */
+/* SliderClusterProtocol */
 /* =================================================================== */
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.StopClusterResponseProto stopCluster(Messages.StopClusterRequestProto request) throws
                                                                                                  IOException,
                                                                                                  YarnException {
@@ -1138,7 +1138,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     return Messages.StopClusterResponseProto.getDefaultInstance();
   }
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.FlexClusterResponseProto flexCluster(Messages.FlexClusterRequestProto request) throws
                                                                                                  IOException,
                                                                                                  YarnException {
@@ -1151,7 +1151,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     return Messages.FlexClusterResponseProto.newBuilder().setResponse(flexed).build();
   }
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.GetJSONClusterStatusResponseProto getJSONClusterStatus(
     Messages.GetJSONClusterStatusRequestProto request) throws
                                                        IOException,
@@ -1212,7 +1212,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
   }
 
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.ListNodeUUIDsByRoleResponseProto listNodeUUIDsByRole(Messages.ListNodeUUIDsByRoleRequestProto request) throws
                                                                                                                          IOException,
                                                                                                                          YarnException {
@@ -1227,7 +1227,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     return builder.build();
   }
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.GetNodeResponseProto getNode(Messages.GetNodeRequestProto request) throws
                                                                                      IOException,
                                                                                      YarnException {
@@ -1239,7 +1239,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
                    .build();
   }
 
-  @Override //HoyaClusterProtocol
+  @Override //SliderClusterProtocol
   public Messages.GetClusterNodesResponseProto getClusterNodes(Messages.GetClusterNodesRequestProto request) throws
                                                                                                              IOException,
                                                                                                              YarnException {

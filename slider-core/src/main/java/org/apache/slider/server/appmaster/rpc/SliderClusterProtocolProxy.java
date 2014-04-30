@@ -38,17 +38,17 @@ import org.apache.hadoop.ipc.ProtobufHelper;
 import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.api.proto.Messages;
 
 import java.io.IOException;
 
-public class HoyaClusterProtocolProxy implements HoyaClusterProtocol {
+public class SliderClusterProtocolProxy implements SliderClusterProtocol {
 
   final SliderClusterProtocolPB endpoint;
   private static final RpcController NULL_CONTROLLER = null;
   
-  public HoyaClusterProtocolProxy(SliderClusterProtocolPB endpoint) {
+  public SliderClusterProtocolProxy(SliderClusterProtocolPB endpoint) {
     this.endpoint = endpoint;
   }
 
@@ -185,13 +185,13 @@ public class HoyaClusterProtocolProxy implements HoyaClusterProtocol {
 
     return ProtocolSignature.getProtocolSignature(clientMethodsHash,
                                                   RPC.getProtocolVersion(
-                                                    HoyaClusterProtocol.class),
-                                                  HoyaClusterProtocol.class);
+                                                    SliderClusterProtocol.class),
+                                                  SliderClusterProtocol.class);
   }
 
   @Override
   public long getProtocolVersion(String protocol, long clientVersion) throws
                                                                       IOException {
-    return HoyaClusterProtocol.versionID;
+    return SliderClusterProtocol.versionID;
   }
 }

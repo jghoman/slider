@@ -23,7 +23,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
 import org.apache.slider.api.ClusterDescription
-import org.apache.slider.api.HoyaClusterProtocol
+import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
 import org.apache.slider.server.appmaster.state.AbstractRecordFactory
 import org.apache.slider.server.appmaster.state.AppState
@@ -44,7 +44,7 @@ public class TestClusterSpecificationBlock {
 
   @Before
   public void setup() {
-    HoyaClusterProtocol clusterProto = new MockSliderClusterProtocol();
+    SliderClusterProtocol clusterProto = new MockSliderClusterProtocol();
     AppState appState = new MyAppState(new MockRecordFactory());
     ProviderService providerService = new MockProviderService();
 

@@ -21,7 +21,7 @@ package org.apache.slider.core.launch;
 import org.apache.hadoop.yarn.api.records.ApplicationReport;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.slider.common.SliderExitCodes;
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.server.appmaster.rpc.RpcBinder;
 import org.apache.slider.client.SliderYarnClientImpl;
@@ -55,7 +55,7 @@ public class RunningApplication extends LaunchedApplication {
    * @throws YarnException
    * @throws IOException
    */
-  public HoyaClusterProtocol connect(ApplicationReport app) throws
+  public SliderClusterProtocol connect(ApplicationReport app) throws
                                                              YarnException,
                                                              IOException {
 

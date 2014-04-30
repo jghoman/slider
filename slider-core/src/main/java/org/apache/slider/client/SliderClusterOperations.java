@@ -22,7 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.slider.api.ClusterDescription;
 import org.apache.slider.api.ClusterNode;
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.api.proto.Messages;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTree;
@@ -48,9 +48,9 @@ public class SliderClusterOperations {
   protected static final Logger
     log = LoggerFactory.getLogger(SliderClusterOperations.class);
   
-  private final HoyaClusterProtocol appMaster;
+  private final SliderClusterProtocol appMaster;
 
-  public SliderClusterOperations(HoyaClusterProtocol appMaster) {
+  public SliderClusterOperations(SliderClusterProtocol appMaster) {
     this.appMaster = appMaster;
   }
 

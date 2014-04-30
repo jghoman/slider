@@ -52,7 +52,7 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenIdentifier;
 import org.apache.hadoop.yarn.util.ConverterUtils;
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.common.tools.Duration;
 import org.apache.slider.core.exceptions.BadClusterStateException;
@@ -126,7 +126,7 @@ public class RpcBinder {
   }
 
 
-  public static HoyaClusterProtocol connectToServer(InetSocketAddress addr,
+  public static SliderClusterProtocol connectToServer(InetSocketAddress addr,
                                                     UserGroupInformation currentUser,
                                                     Configuration conf,
                                                     int rpcTimeout) throws IOException {
@@ -144,7 +144,7 @@ public class RpcBinder {
                            rpcTimeout,
                            null);
     SliderClusterProtocolPB endpoint = protoProxy.getProxy();
-    return new HoyaClusterProtocolProxy(endpoint);
+    return new SliderClusterProtocolProxy(endpoint);
   }
 
 
@@ -165,7 +165,7 @@ public class RpcBinder {
    * the cluster to respond is interrupted.
    */
   @SuppressWarnings("NestedAssignment")
-  public static HoyaClusterProtocol getProxy(final Configuration conf,
+  public static SliderClusterProtocol getProxy(final Configuration conf,
                                       final ApplicationClientProtocol rmClient,
                                       ApplicationReport application,
                                       final int connectTimeout,
@@ -214,7 +214,7 @@ public class RpcBinder {
                             ErrorStrings.E_FINISHED_APPLICATION, appId, state );
   }
 
-  public static HoyaClusterProtocol getProxy(final Configuration conf,
+  public static SliderClusterProtocol getProxy(final Configuration conf,
       ApplicationReport application,
       final int rpcTimeout) throws
       IOException,
@@ -236,7 +236,7 @@ public class RpcBinder {
       currentUser.getUserName());
     final InetSocketAddress serviceAddr = NetUtils.createSocketAddrForHost(
       application.getHost(), application.getRpcPort());
-    HoyaClusterProtocol realProxy;
+    SliderClusterProtocol realProxy;
 
     log.debug("Connecting to {}", serviceAddr);
     if (UserGroupInformation.isSecurityEnabled()) {
@@ -246,9 +246,9 @@ public class RpcBinder {
         ConverterUtils.convertFromYarn(clientToAMToken, serviceAddr);
       newUgi.addToken(token);
       realProxy =
-        newUgi.doAs(new PrivilegedExceptionAction<HoyaClusterProtocol>() {
+        newUgi.doAs(new PrivilegedExceptionAction<SliderClusterProtocol>() {
           @Override
-          public HoyaClusterProtocol run() throws IOException {
+          public SliderClusterProtocol run() throws IOException {
             return connectToServer(serviceAddr, newUgi, conf,
                                    rpcTimeout);
           }

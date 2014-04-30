@@ -32,13 +32,13 @@ import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.YarnApplicationState;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnException;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.core.main.RunService;
 import org.apache.slider.common.Constants;
 import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
 import org.apache.slider.api.ClusterNode;
-import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.ResourceKeys;
 import org.apache.slider.api.proto.Messages;
@@ -1412,7 +1412,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @throws YarnException
    * @throws IOException
    */
-  private HoyaClusterProtocol connect(ApplicationReport app) throws
+  private SliderClusterProtocol connect(ApplicationReport app) throws
                                                               YarnException,
                                                               IOException {
 
@@ -1512,7 +1512,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                        ": " + text);
     } else {
       try {
-        HoyaClusterProtocol appMaster = connect(app);
+        SliderClusterProtocol appMaster = connect(app);
         Messages.StopClusterRequestProto r =
           Messages.StopClusterRequestProto
                   .newBuilder()
@@ -1701,7 +1701,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     ApplicationReport instance = findInstance(clustername);
     if (instance != null) {
       log.info("Flexing running cluster");
-      HoyaClusterProtocol appMaster = connect(instance);
+      SliderClusterProtocol appMaster = connect(instance);
       SliderClusterOperations clusterOps = new SliderClusterOperations(appMaster);
       if (clusterOps.flex(instanceDefinition.getResources())) {
         log.info("Cluster size updated");
@@ -1834,7 +1834,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @return the AM RPC client
    * @throws SliderException if the cluster is unkown
    */
-  private HoyaClusterProtocol bondToCluster(String clustername) throws
+  private SliderClusterProtocol bondToCluster(String clustername) throws
                                                                   YarnException,
                                                                   IOException {
     verifyBindingsDefined();
@@ -1858,7 +1858,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   private SliderClusterOperations createClusterOperations(String clustername) throws
                                                                             YarnException,
                                                                             IOException {
-    HoyaClusterProtocol hoyaAM = bondToCluster(clustername);
+    SliderClusterProtocol hoyaAM = bondToCluster(clustername);
     return new SliderClusterOperations(hoyaAM);
   }
 

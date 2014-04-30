@@ -16,7 +16,7 @@ package org.apache.slider.server.appmaster.rpc;
 
 import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.api.proto.Messages;
 
 import java.io.IOException;
@@ -27,9 +27,9 @@ import java.io.IOException;
  */
 public class SliderClusterProtocolPBImpl implements SliderClusterProtocolPB {
 
-  private HoyaClusterProtocol real;
+  private SliderClusterProtocol real;
 
-  public SliderClusterProtocolPBImpl(HoyaClusterProtocol real) {
+  public SliderClusterProtocolPBImpl(SliderClusterProtocol real) {
     this.real = real;
   }
 
@@ -42,7 +42,7 @@ public class SliderClusterProtocolPBImpl implements SliderClusterProtocolPB {
 
   public long getProtocolVersion(String protocol, long clientVersion) throws
                                                                       IOException {
-    return HoyaClusterProtocol.versionID;
+    return SliderClusterProtocol.versionID;
   }
   
   @Override

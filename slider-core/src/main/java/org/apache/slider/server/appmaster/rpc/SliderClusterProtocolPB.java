@@ -32,10 +32,10 @@
 
 package org.apache.slider.server.appmaster.rpc;
 
-import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.api.proto.SliderClusterAPI;
 
 public interface SliderClusterProtocolPB extends SliderClusterAPI.SliderClusterProtocolPB.BlockingInterface{
 
-  public static final long versionID = HoyaClusterProtocol.versionID;
+  public static final long versionID = SliderClusterProtocol.versionID;
 }

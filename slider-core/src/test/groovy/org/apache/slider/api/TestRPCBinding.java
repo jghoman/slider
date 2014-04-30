@@ -55,7 +55,7 @@ public class TestRPCBinding {
   public void testGetProxy() throws Throwable {
     Configuration conf = new Configuration();
     InetSocketAddress saddr= new InetSocketAddress("127.0.0.1",9000);
-    HoyaClusterProtocol proxy =
+    SliderClusterProtocol proxy =
       RpcBinder.connectToServer(saddr, null, conf, 1000);
   }
 }

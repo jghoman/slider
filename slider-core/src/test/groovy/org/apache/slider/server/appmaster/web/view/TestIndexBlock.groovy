@@ -24,7 +24,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.Priority
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
-import org.apache.slider.api.HoyaClusterProtocol
+import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.web.WebAppApi
@@ -43,7 +43,7 @@ public class TestIndexBlock {
 
   @Before
   public void setup() {
-    HoyaClusterProtocol clusterProto = new MockSliderClusterProtocol();
+    SliderClusterProtocol clusterProto = new MockSliderClusterProtocol();
     AppState appState = new MockAppState(new MockRecordFactory());
     ProviderService providerService = new MockProviderService();
 

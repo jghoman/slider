@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.common.SliderKeys;
-import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.providers.ProviderService;
 import org.apache.slider.server.appmaster.state.RoleStatus;
@@ -42,11 +42,11 @@ public class WebAppApiImpl implements WebAppApi {
 
   protected static final ProviderRole HOYA_AM_ROLE = new ProviderRole("Slider Application Master", SliderKeys.ROLE_HOYA_AM_PRIORITY_INDEX);
 
-  protected final HoyaClusterProtocol clusterProto;
+  protected final SliderClusterProtocol clusterProto;
   protected final StateAccessForProviders appState;
   protected final ProviderService provider;
   
-  public WebAppApiImpl(HoyaClusterProtocol clusterProto,
+  public WebAppApiImpl(SliderClusterProtocol clusterProto,
                        StateAccessForProviders appState, ProviderService provider) {
     checkNotNull(clusterProto);
     checkNotNull(appState);
@@ -77,7 +77,7 @@ public class WebAppApiImpl implements WebAppApi {
    * @see org.apache.hoya.yarn.appmaster.web.WebAppApi#getClusterProtocol()
    */
   @Override
-  public HoyaClusterProtocol getClusterProtocol() {
+  public SliderClusterProtocol getClusterProtocol() {
     return clusterProto;
   }
   

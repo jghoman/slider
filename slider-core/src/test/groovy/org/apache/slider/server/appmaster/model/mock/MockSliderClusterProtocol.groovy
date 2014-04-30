@@ -18,7 +18,7 @@ package org.apache.slider.server.appmaster.model.mock
 
 import org.apache.hadoop.ipc.ProtocolSignature
 import org.apache.hadoop.yarn.exceptions.YarnException
-import org.apache.slider.api.HoyaClusterProtocol
+import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.api.proto.Messages
 import org.apache.slider.api.proto.Messages.AMSuicideRequestProto
 import org.apache.slider.api.proto.Messages.AMSuicideResponseProto
@@ -42,7 +42,7 @@ import org.apache.slider.api.proto.Messages.StopClusterResponseProto
 /**
  * 
  */
-class MockSliderClusterProtocol implements HoyaClusterProtocol {
+class MockSliderClusterProtocol implements SliderClusterProtocol {
 
   @Override
   public long getProtocolVersion(String protocol, long clientVersion) throws IOException {
