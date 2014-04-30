@@ -103,7 +103,7 @@ public abstract class SliderProviderFactory extends Configured {
 
   public static Configuration loadSliderConfiguration() {
     Configuration conf = new Configuration();
-    conf.addResource(SliderKeys.HOYA_XML);
+    conf.addResource(SliderKeys.SLIDER_XML);
     return conf;
   }
 }
