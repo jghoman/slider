@@ -19,9 +19,9 @@
 package org.apache.slider.server.appmaster.web.rest.publisher;
 
 import org.apache.hadoop.yarn.webapp.NotFoundException;
-import org.apache.slider.server.appmaster.web.WebAppApi;
 import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 import org.apache.slider.core.registry.docstore.PublishedConfiguration;
+import org.apache.slider.server.appmaster.web.WebAppApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

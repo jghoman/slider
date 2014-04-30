@@ -16,12 +16,12 @@
  */
 package org.apache.slider.server.appmaster.web.rest.agent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

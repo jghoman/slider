@@ -16,14 +16,6 @@
  */
 package org.apache.slider.server.appmaster.web;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
 import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.providers.ProviderRole;
@@ -33,6 +25,14 @@ import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * 

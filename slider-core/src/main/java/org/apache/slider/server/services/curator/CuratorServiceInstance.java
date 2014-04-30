@@ -20,7 +20,6 @@ package org.apache.slider.server.services.curator;
 
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.ServiceType;
-import org.apache.curator.x.discovery.UriSpec;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 

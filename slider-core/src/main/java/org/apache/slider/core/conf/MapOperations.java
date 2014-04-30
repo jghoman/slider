@@ -18,8 +18,8 @@
 
 package org.apache.slider.core.conf;
 
-import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

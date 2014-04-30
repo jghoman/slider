@@ -35,12 +35,12 @@ import org.apache.hadoop.yarn.util.Records;
 import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.common.SliderXmlConfKeys;
-import org.apache.slider.core.persist.Filenames;
-import org.apache.slider.core.persist.InstancePaths;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException;
+import org.apache.slider.core.persist.Filenames;
+import org.apache.slider.core.persist.InstancePaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +51,8 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.slider.common.SliderXmlConfKeys.DEFAULT_CLUSTER_DIRECTORY_PERMISSIONS;
 import static org.apache.slider.common.SliderXmlConfKeys.CLUSTER_DIRECTORY_PERMISSIONS;
+import static org.apache.slider.common.SliderXmlConfKeys.DEFAULT_CLUSTER_DIRECTORY_PERMISSIONS;
 
 public class CoreFileSystem {
   private static final Logger

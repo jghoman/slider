@@ -19,12 +19,12 @@
 package org.apache.slider.core.build;
 
 import org.apache.hadoop.fs.Path;
+import org.apache.slider.common.tools.CoreFileSystem;
 import org.apache.slider.core.conf.AggregateConf;
-import org.apache.slider.core.persist.ConfPersister;
-import org.apache.slider.core.persist.LockAcquireFailedException;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.CoreFileSystem;
+import org.apache.slider.core.persist.ConfPersister;
+import org.apache.slider.core.persist.LockAcquireFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

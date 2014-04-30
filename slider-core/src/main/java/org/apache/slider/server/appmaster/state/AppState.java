@@ -31,8 +31,6 @@ import org.apache.hadoop.yarn.api.records.impl.pb.ContainerPBImpl;
 import org.apache.hadoop.yarn.client.api.AMRMClient;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
-import org.apache.slider.common.SliderExitCodes;
-import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
 import org.apache.slider.api.ClusterDescriptionKeys;
 import org.apache.slider.api.ClusterDescriptionOperations;
@@ -42,6 +40,10 @@ import org.apache.slider.api.ResourceKeys;
 import org.apache.slider.api.RoleKeys;
 import org.apache.slider.api.StatusKeys;
 import org.apache.slider.api.proto.Messages;
+import org.apache.slider.common.SliderExitCodes;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTree;
 import org.apache.slider.core.conf.ConfTreeOperations;
@@ -49,13 +51,11 @@ import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.core.exceptions.ErrorStrings;
-import org.apache.slider.core.exceptions.SliderInternalStateException;
 import org.apache.slider.core.exceptions.NoSuchNodeException;
+import org.apache.slider.core.exceptions.SliderInternalStateException;
 import org.apache.slider.core.exceptions.TriggerClusterTeardownException;
-import org.apache.slider.providers.ProviderRole;
-import org.apache.slider.common.tools.ConfigHelper;
-import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.registry.docstore.PublishedConfigSet;
+import org.apache.slider.providers.ProviderRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,12 +73,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.apache.slider.api.ResourceKeys.DEF_YARN_CORES;
 import static org.apache.slider.api.ResourceKeys.DEF_YARN_MEMORY;
+import static org.apache.slider.api.ResourceKeys.YARN_CORES;
+import static org.apache.slider.api.ResourceKeys.YARN_MEMORY;
 import static org.apache.slider.api.RoleKeys.ROLE_FAILED_INSTANCES;
 import static org.apache.slider.api.RoleKeys.ROLE_FAILED_STARTING_INSTANCES;
 import static org.apache.slider.api.RoleKeys.ROLE_RELEASING_INSTANCES;
 import static org.apache.slider.api.RoleKeys.ROLE_REQUESTED_INSTANCES;
-import static org.apache.slider.api.ResourceKeys.YARN_CORES;
-import static org.apache.slider.api.ResourceKeys.YARN_MEMORY;
 
 
 /**

@@ -18,17 +18,17 @@
 
 package org.apache.slider.api;
 
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTree;
 import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.providers.SliderProviderFactory;
-import org.apache.slider.common.tools.SliderUtils;
 
 import java.util.Map;
 
-import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
 import static org.apache.slider.api.OptionKeys.ZOOKEEPER_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
 
 /**
  * Operations on Cluster Descriptions

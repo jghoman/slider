@@ -16,14 +16,14 @@
  */
 package org.apache.slider.server.appmaster.web;
 
-import java.util.Map;
-
 import org.apache.slider.api.SliderClusterProtocol;
 import org.apache.slider.providers.ProviderService;
 import org.apache.slider.server.appmaster.state.AppState;
 import org.apache.slider.server.appmaster.state.RoleStatus;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
+
+import java.util.Map;
 
 /**
  * Interface to pass information from the Slider AppMaster to the WebApp

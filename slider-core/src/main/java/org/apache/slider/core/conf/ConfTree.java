@@ -18,8 +18,8 @@
 
 package org.apache.slider.core.conf;
 
-import org.apache.slider.core.persist.PersistKeys;
 import org.apache.slider.core.persist.ConfTreeSerDeser;
+import org.apache.slider.core.persist.PersistKeys;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.JsonMappingException;

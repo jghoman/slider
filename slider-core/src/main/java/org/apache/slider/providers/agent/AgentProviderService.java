@@ -25,23 +25,24 @@ import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.hadoop.yarn.api.records.LocalResourceType;
-import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
 import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.StatusKeys;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.conf.MapOperations;
-import org.apache.slider.core.launch.CommandLineBuilder;
-import org.apache.slider.core.launch.ContainerLauncher;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.core.launch.CommandLineBuilder;
+import org.apache.slider.core.launch.ContainerLauncher;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.providers.AbstractProviderService;
 import org.apache.slider.providers.ProviderCore;
 import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.providers.ProviderUtils;
-import org.apache.slider.common.tools.SliderFileSystem;
-import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentCommandType;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
@@ -53,10 +54,8 @@ import org.apache.slider.server.appmaster.web.rest.agent.Register;
 import org.apache.slider.server.appmaster.web.rest.agent.RegistrationResponse;
 import org.apache.slider.server.appmaster.web.rest.agent.RegistrationStatus;
 import org.apache.slider.server.appmaster.web.rest.agent.StatusCommand;
-import org.apache.slider.server.services.docstore.utility.EventCallback;
-import org.apache.slider.core.registry.info.ServiceInstanceData;
-import static org.apache.slider.core.registry.info.RegistryFields.*;
 import org.apache.slider.server.services.curator.CuratorServiceInstance;
+import org.apache.slider.server.services.docstore.utility.EventCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,6 +73,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.apache.slider.core.registry.info.RegistryFields.DESCRIPTION;
+import static org.apache.slider.core.registry.info.RegistryFields.ENDPOINTS;
+import static org.apache.slider.core.registry.info.RegistryFields.EXTERNAL_VIEW;
+import static org.apache.slider.core.registry.info.RegistryFields.PROTOCOL;
+import static org.apache.slider.core.registry.info.RegistryFields.VALUE;
 
 /** This class implements the server-side aspects of an agent deployment */
 public class AgentProviderService extends AbstractProviderService implements

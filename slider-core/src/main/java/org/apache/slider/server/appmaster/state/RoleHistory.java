@@ -24,11 +24,11 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.Resource;
 import org.apache.hadoop.yarn.client.api.AMRMClient;
-import org.apache.slider.server.avro.RoleHistoryHeader;
-import org.apache.slider.server.avro.RoleHistoryWriter;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.providers.ProviderRole;
-import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.server.avro.RoleHistoryHeader;
+import org.apache.slider.server.avro.RoleHistoryWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

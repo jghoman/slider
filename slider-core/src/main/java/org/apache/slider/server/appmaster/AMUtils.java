@@ -18,8 +18,8 @@
 
 package org.apache.slider.server.appmaster;
 
-import org.apache.slider.core.main.LauncherExitCodes;
 import org.apache.slider.common.SliderExitCodes;
+import org.apache.slider.core.main.LauncherExitCodes;
 
 public class AMUtils {
   /**

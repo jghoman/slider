@@ -21,12 +21,12 @@ package org.apache.slider.server.services.docstore.utility;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.AbstractService;
 import org.apache.hadoop.service.ServiceStateException;
+import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.core.main.ExitCodeProvider;
 import org.apache.slider.core.main.ServiceLaunchException;
-import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.server.exec.ApplicationEventHandler;
 import org.apache.slider.server.exec.RunLongLivedApp;
-import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -19,8 +19,8 @@
 package org.apache.slider.core.registry.docstore;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;

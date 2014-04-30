@@ -20,17 +20,18 @@ package org.apache.slider.server.services.docstore.utility;
 
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import static org.apache.slider.common.SliderXmlConfKeys.*;
-
 import org.apache.slider.common.SliderXmlConfKeys;
-import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.apache.slider.server.services.curator.CuratorHelper;
 import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.apache.slider.common.SliderXmlConfKeys.DEFAULT_REGISTRY_PATH;
+import static org.apache.slider.common.SliderXmlConfKeys.REGISTRY_PATH;
 
 /**
  * Base service for the standard slider client/server services

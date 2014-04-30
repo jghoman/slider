@@ -24,22 +24,22 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DFSConfigKeys;
-import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.StatusKeys;
+import org.apache.slider.common.SliderXmlConfKeys;
+import org.apache.slider.common.tools.CoreFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.conf.MapOperations;
-import org.apache.slider.core.persist.ConfPersister;
-import org.apache.slider.core.persist.InstancePaths;
-import org.apache.slider.core.persist.LockAcquireFailedException;
-import org.apache.slider.core.persist.LockHeldAction;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.CoreFileSystem;
-import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.persist.ConfPersister;
+import org.apache.slider.core.persist.InstancePaths;
+import org.apache.slider.core.persist.LockAcquireFailedException;
+import org.apache.slider.core.persist.LockHeldAction;
 import org.apache.slider.core.registry.zk.ZKPathBuilder;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
@@ -48,7 +48,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.apache.slider.api.OptionKeys.*;
+import static org.apache.slider.api.OptionKeys.INTERNAL_AM_TMP_DIR;
+import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_HOME;
+import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH;
+import static org.apache.slider.api.OptionKeys.INTERNAL_DATA_DIR_PATH;
+import static org.apache.slider.api.OptionKeys.INTERNAL_GENERATED_CONF_PATH;
+import static org.apache.slider.api.OptionKeys.INTERNAL_SNAPSHOT_CONF_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_HOSTS;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
 
 /**
  * Build up the instance of a cluster.

@@ -20,8 +20,8 @@ package org.apache.slider.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.slider.providers.AbstractClientProvider;
-import org.apache.slider.providers.SliderProviderFactory;
 import org.apache.slider.providers.ProviderService;
+import org.apache.slider.providers.SliderProviderFactory;
 
 public class AgentProviderFactory extends SliderProviderFactory {
 

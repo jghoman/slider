@@ -35,8 +35,8 @@ package org.apache.slider.api;
 import org.apache.hadoop.ipc.VersionedProtocol;
 import org.apache.hadoop.security.KerberosInfo;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.slider.api.proto.Messages;
+import org.apache.slider.common.SliderXmlConfKeys;
 
 import java.io.IOException;
 

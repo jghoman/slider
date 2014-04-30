@@ -19,8 +19,6 @@
 
 package org.apache.slider.common.params;
 
-import org.apache.slider.server.appmaster.SliderAppMaster;
-
 /**
  * Parameters sent by the Client to the AM
  */

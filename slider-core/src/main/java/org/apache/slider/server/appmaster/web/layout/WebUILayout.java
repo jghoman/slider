@@ -16,13 +16,13 @@
  */
 package org.apache.slider.server.appmaster.web.layout;
 
-import static org.apache.hadoop.yarn.webapp.view.JQueryUI.ACCORDION;
-import static org.apache.hadoop.yarn.webapp.view.JQueryUI.ACCORDION_ID;
-import static org.apache.hadoop.yarn.webapp.view.JQueryUI.initID;
-
 import org.apache.hadoop.yarn.webapp.SubView;
 import org.apache.hadoop.yarn.webapp.view.TwoColumnLayout;
 import org.apache.slider.server.appmaster.web.view.NavBlock;
+
+import static org.apache.hadoop.yarn.webapp.view.JQueryUI.ACCORDION;
+import static org.apache.hadoop.yarn.webapp.view.JQueryUI.ACCORDION_ID;
+import static org.apache.hadoop.yarn.webapp.view.JQueryUI.initID;
 
 /**
  * 

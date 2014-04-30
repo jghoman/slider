@@ -23,7 +23,7 @@ import org.apache.slider.server.appmaster.web.rest.agent.AgentResource;
 import org.apache.slider.server.appmaster.web.rest.management.ManagementResource;
 import org.apache.slider.server.appmaster.web.rest.publisher.PublisherResource;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Path;
 
 /** The available REST services exposed by a slider AM. */
 @Singleton

@@ -28,9 +28,9 @@ import org.apache.hadoop.yarn.client.api.YarnClientApplication;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.util.Records;
+import org.apache.slider.client.SliderYarnClientImpl;
 import org.apache.slider.common.tools.CoreFileSystem;
 import org.apache.slider.common.tools.SliderUtils;
-import org.apache.slider.client.SliderYarnClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

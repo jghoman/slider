@@ -20,8 +20,6 @@ package org.apache.slider.server.services.curator;
 
 import com.google.inject.Singleton;
 import org.apache.curator.x.discovery.ServiceInstance;
-import org.apache.curator.x.discovery.details.InstanceProvider;
-import org.apache.curator.x.discovery.server.entity.ServiceInstances;
 import org.apache.curator.x.discovery.server.rest.DiscoveryContext;
 import org.apache.curator.x.discovery.server.rest.DiscoveryResource;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
@@ -40,9 +38,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 

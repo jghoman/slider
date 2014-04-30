@@ -20,20 +20,20 @@ package org.apache.slider.providers.agent;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.OptionKeys;
 import org.apache.slider.api.ResourceKeys;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.conf.MapOperations;
-import org.apache.slider.core.launch.AbstractLauncher;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.core.exceptions.SliderException;
+import org.apache.slider.core.launch.AbstractLauncher;
 import org.apache.slider.providers.AbstractClientProvider;
 import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.providers.ProviderUtils;
-import org.apache.slider.common.tools.SliderFileSystem;
-import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

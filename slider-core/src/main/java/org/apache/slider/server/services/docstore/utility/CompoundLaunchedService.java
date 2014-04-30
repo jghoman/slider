@@ -21,10 +21,10 @@ package org.apache.slider.server.services.docstore.utility;
 import com.google.common.base.Preconditions;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.Service;
+import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.main.LauncherExitCodes;
 import org.apache.slider.core.main.RunService;
-import org.apache.slider.core.exceptions.BadCommandArgumentsException;
-import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

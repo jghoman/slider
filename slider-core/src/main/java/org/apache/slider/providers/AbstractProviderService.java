@@ -20,21 +20,21 @@ package org.apache.slider.providers;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.Service;
-import org.apache.slider.core.main.ExitCodeProvider;
-import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.common.SliderKeys;
+import org.apache.slider.common.tools.ConfigHelper;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.ConfigHelper;
-import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.core.main.ExitCodeProvider;
+import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
+import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.apache.slider.server.services.docstore.utility.ForkedProcessService;
 import org.apache.slider.server.services.docstore.utility.Parent;
 import org.apache.slider.server.services.docstore.utility.SequenceService;
-import org.apache.slider.core.registry.info.ServiceInstanceData;
-import org.apache.slider.server.services.curator.RegistryBinderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

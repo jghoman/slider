@@ -16,12 +16,8 @@
  */
 package org.apache.slider.server.appmaster.web.view;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.google.inject.Inject;
-import java.net.URL;
-import java.util.Map;
-import java.util.Map.Entry;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.DIV;
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.UL;
@@ -32,6 +28,10 @@ import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.WebAppApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.URL;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 

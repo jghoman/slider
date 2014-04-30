@@ -23,9 +23,9 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.providers.SliderProviderFactory;
-import org.apache.slider.common.tools.SliderUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -37,7 +37,11 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,8 +51,8 @@ import java.util.Set;
 
 import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_HOME;
 import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH;
-import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
 import static org.apache.slider.api.OptionKeys.ZOOKEEPER_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
 
 /**
  * Represents a cluster specification; designed to be sendable over the wire

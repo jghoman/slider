@@ -16,12 +16,12 @@
  */
 package org.apache.slider.server.appmaster.web.rest.agent;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Command to report the status of a list of services in roles.

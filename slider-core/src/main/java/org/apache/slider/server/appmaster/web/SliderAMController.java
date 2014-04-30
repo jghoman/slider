@@ -16,14 +16,13 @@
  */
 package org.apache.slider.server.appmaster.web;
 
-import org.apache.slider.server.appmaster.web.layout.ClusterSpecificationView;
-
+import com.google.inject.Inject;
 import org.apache.hadoop.yarn.webapp.Controller;
 import org.apache.slider.server.appmaster.web.layout.AppLayout;
+import org.apache.slider.server.appmaster.web.layout.ClusterSpecificationView;
 import org.apache.slider.server.appmaster.web.layout.ContainerStatsView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.inject.Inject;
 
 /**
  * 

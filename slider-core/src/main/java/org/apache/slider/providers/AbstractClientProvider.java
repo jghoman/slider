@@ -21,13 +21,13 @@ package org.apache.slider.providers;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.conf.MapOperations;
-import org.apache.slider.core.launch.AbstractLauncher;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.core.launch.AbstractLauncher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

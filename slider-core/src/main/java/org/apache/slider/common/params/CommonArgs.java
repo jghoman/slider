@@ -23,10 +23,10 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
