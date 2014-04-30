@@ -22,7 +22,7 @@ import org.apache.hoya.yarn.appmaster.web.view.IndexBlock;
 /**
  * 
  */
-public class AppLayout extends HoyaLayout {
+public class AppLayout extends WebUILayout {
 
   @Override
   protected Class<? extends SubView> content() {

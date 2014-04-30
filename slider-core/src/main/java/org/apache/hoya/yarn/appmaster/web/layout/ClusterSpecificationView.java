@@ -22,7 +22,7 @@ import org.apache.hoya.yarn.appmaster.web.view.ClusterSpecificationBlock;
 /**
  * 
  */
-public class ClusterSpecificationView extends HoyaLayout {
+public class ClusterSpecificationView extends WebUILayout {
 
   @Override
   protected Class<? extends SubView> content() {

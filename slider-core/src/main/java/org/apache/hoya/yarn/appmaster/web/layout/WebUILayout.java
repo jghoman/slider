@@ -22,12 +22,12 @@ import static org.apache.hadoop.yarn.webapp.view.JQueryUI.initID;
 
 import org.apache.hadoop.yarn.webapp.SubView;
 import org.apache.hadoop.yarn.webapp.view.TwoColumnLayout;
-import org.apache.hoya.yarn.appmaster.web.view.HoyaNavBlock;
+import org.apache.hoya.yarn.appmaster.web.view.NavBlock;
 
 /**
  * 
  */
-public class HoyaLayout extends TwoColumnLayout {
+public class WebUILayout extends TwoColumnLayout {
   
   @Override 
   protected void preHead(Page.HTML<_> html) {
@@ -37,7 +37,7 @@ public class HoyaLayout extends TwoColumnLayout {
   
   @Override
   protected Class<? extends SubView> nav() {
-    return HoyaNavBlock.class;
+    return NavBlock.class;
   }
   
 }

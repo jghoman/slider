@@ -22,7 +22,7 @@ import org.apache.hoya.yarn.appmaster.web.SliderAMWebApp;
 /**
  * 
  */
-public class HoyaNavBlock extends HtmlBlock {
+public class NavBlock extends HtmlBlock {
 
   @Override
   protected void render(Block html) {

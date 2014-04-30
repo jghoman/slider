@@ -24,7 +24,7 @@ import org.apache.hoya.yarn.appmaster.web.view.ContainerStatsBlock;
 /**
  * 
  */
-public class ContainerStatsView extends HoyaLayout {
+public class ContainerStatsView extends WebUILayout {
 
   @Override
   protected Class<? extends SubView> content() {
