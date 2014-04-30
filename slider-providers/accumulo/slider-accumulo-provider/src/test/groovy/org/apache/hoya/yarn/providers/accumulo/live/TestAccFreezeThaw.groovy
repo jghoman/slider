@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.providers.accumulo.live
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.slider.client.SliderClient

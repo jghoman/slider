@@ -25,7 +25,7 @@ import org.apache.hadoop.service.Service.STATE
 import org.apache.hadoop.service.ServiceStateChangeListener
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.conf.MapOperations
 import org.apache.hoya.core.launch.ContainerLauncher

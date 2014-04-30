@@ -22,9 +22,9 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.accumulo.core.client.ZooKeeperInstance
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.ResourceKeys
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.ResourceKeys
 import org.apache.slider.providers.accumulo.AccumuloConfigFileOptions
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase

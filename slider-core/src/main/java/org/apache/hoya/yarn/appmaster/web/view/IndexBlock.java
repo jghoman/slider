@@ -26,7 +26,7 @@ import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.DIV;
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.UL;
 import org.apache.hadoop.yarn.webapp.view.HtmlBlock;
-import org.apache.hoya.api.StatusKeys;
+import org.apache.slider.api.StatusKeys;
 import org.apache.hoya.providers.ProviderService;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;

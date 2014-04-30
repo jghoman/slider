@@ -24,8 +24,8 @@ import org.apache.hadoop.yarn.api.records.ApplicationAttemptId
 import org.apache.hadoop.yarn.api.records.ApplicationId
 import org.apache.hadoop.yarn.api.records.ContainerId
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.ResourceKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.ResourceKeys
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.conf.ConfTree
 import org.apache.hoya.providers.ProviderRole

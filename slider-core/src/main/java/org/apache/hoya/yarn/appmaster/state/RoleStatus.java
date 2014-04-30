@@ -18,7 +18,7 @@
 
 package org.apache.hoya.yarn.appmaster.state;
 
-import org.apache.hoya.api.StatusKeys;
+import org.apache.slider.api.StatusKeys;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 

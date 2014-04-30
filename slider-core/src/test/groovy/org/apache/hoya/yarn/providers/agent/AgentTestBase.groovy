@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.providers.agent
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.hoya.yarn.SliderActions
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase

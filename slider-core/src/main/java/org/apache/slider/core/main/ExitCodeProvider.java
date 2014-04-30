@@ -16,15 +16,17 @@
  *  limitations under the License.
  */
 
-package org.apache.slider.core.launcher;
-
-import org.apache.hoya.yarn.SliderTestBase;
+package org.apache.slider.core.main;
 
 /**
- * Base class for tests that use the service launcher
+ * Get the exit code of an exception. Making it an interface allows
+ * us to retrofit exit codes onto existing classes
  */
-public class ServiceLauncherBaseTest extends SliderTestBase {
+public interface ExitCodeProvider {
 
-
+  /**
+   * Method to get the exit code
+   * @return the exit code
+   */
+  int  getExitCode();
 }
-

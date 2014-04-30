@@ -16,8 +16,8 @@ package org.apache.hoya.yarn.appmaster.rpc;
 
 import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
-import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.proto.Messages;
 
 import java.io.IOException;
 

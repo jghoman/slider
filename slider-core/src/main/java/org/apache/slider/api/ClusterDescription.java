@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -45,10 +45,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.apache.hoya.api.OptionKeys.INTERNAL_APPLICATION_HOME;
-import static org.apache.hoya.api.OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_QUORUM;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PATH;
+import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_HOME;
+import static org.apache.slider.api.OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_PATH;
 
 /**
  * Represents a cluster specification; designed to be sendable over the wire

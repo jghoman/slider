@@ -20,7 +20,7 @@ package org.apache.slider.agent
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.hoya.yarn.Arguments

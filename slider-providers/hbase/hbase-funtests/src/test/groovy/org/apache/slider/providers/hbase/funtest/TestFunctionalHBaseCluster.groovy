@@ -23,8 +23,8 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.yarn.Arguments

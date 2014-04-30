@@ -29,10 +29,10 @@ import org.apache.hadoop.yarn.api.records.YarnApplicationState
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.StatusKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.StatusKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.params.ActionAMSuicideArgs

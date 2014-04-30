@@ -20,7 +20,7 @@ package org.apache.slider.providers.accumulo.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
 

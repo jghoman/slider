@@ -32,8 +32,8 @@
 
 package org.apache.hoya.yarn.appmaster.rpc;
 
-import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.api.proto.HoyaClusterAPI;
+import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.proto.HoyaClusterAPI;
 
 public interface HoyaClusterProtocolPB extends HoyaClusterAPI.HoyaClusterProtocolPB.BlockingInterface{
 

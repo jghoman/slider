@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.providers.accumulo.live
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.hoya.yarn.providers.accumulo.AccumuloTestBase
 import org.junit.Test

@@ -20,10 +20,10 @@ package org.apache.slider.client;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.api.ClusterNode;
-import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.api.ClusterNode;
+import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.proto.Messages;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.persist.ConfTreeSerDeser;

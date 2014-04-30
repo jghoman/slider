@@ -38,8 +38,8 @@ import org.apache.hadoop.ipc.ProtobufHelper;
 import org.apache.hadoop.ipc.ProtocolSignature;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.yarn.exceptions.YarnException;
-import org.apache.hoya.api.HoyaClusterProtocol;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.HoyaClusterProtocol;
+import org.apache.slider.api.proto.Messages;
 
 import java.io.IOException;
 

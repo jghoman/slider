@@ -30,7 +30,7 @@ import org.apache.hadoop.hbase.client.HConnection
 import org.apache.hadoop.hbase.client.HConnectionManager
 import org.apache.hadoop.hbase.client.RetriesExhaustedException
 import org.apache.slider.common.SliderKeys
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.SliderTestUtils

@@ -30,7 +30,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 /**
  * Contains status and statistics keys

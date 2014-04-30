@@ -24,10 +24,10 @@ import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.util.ExitUtil
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.testtools.HoyaTestUtils
 import org.apache.hoya.tools.SliderUtils

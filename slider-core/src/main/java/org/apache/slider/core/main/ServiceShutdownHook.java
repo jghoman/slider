@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.slider.core.launcher;
+package org.apache.slider.core.main;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.model.appstate
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.api.ResourceKeys
+import org.apache.slider.api.ResourceKeys
 import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
 import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.appmaster.state.RoleInstance

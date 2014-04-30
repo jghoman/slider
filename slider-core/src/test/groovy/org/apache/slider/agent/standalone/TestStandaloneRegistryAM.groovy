@@ -22,9 +22,9 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
-import org.apache.hoya.api.ClusterNode
+import org.apache.slider.api.ClusterNode
 import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
 import org.apache.slider.client.SliderClient

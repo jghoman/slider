@@ -23,15 +23,15 @@ import groovy.util.logging.Slf4j
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.RoleKeys
+import org.apache.slider.api.RoleKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.Arguments
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.YarnApplicationState
-import org.apache.slider.core.launcher.ServiceLaunchException
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE

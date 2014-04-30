@@ -18,7 +18,7 @@
 
 package org.apache.slider.common;
 
-import org.apache.slider.core.launcher.LauncherExitCodes;
+import org.apache.slider.core.main.LauncherExitCodes;
 
 public interface SliderExitCodes extends LauncherExitCodes {
 

@@ -25,7 +25,7 @@ import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 /**

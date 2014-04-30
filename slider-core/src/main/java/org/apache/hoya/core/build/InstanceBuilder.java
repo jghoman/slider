@@ -25,8 +25,8 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.DFSConfigKeys;
 import org.apache.slider.common.SliderXmlConfKeys;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.api.StatusKeys;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.api.StatusKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 
-import static org.apache.hoya.api.OptionKeys.*;
+import static org.apache.slider.api.OptionKeys.*;
 
 /**
  * Build up the instance of a cluster.

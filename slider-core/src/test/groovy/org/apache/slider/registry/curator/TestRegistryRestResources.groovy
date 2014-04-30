@@ -25,9 +25,9 @@ import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.curator.x.discovery.ServiceType
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
-import org.apache.hoya.api.StatusKeys
+import org.apache.slider.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.providers.agent.AgentTestBase

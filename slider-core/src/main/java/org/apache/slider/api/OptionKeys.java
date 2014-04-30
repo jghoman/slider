@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 /**
  *  Keys for entries in the <code>options</code> section

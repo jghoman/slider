@@ -21,8 +21,8 @@ package org.apache.hoya.yarn.appmaster.state;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.ContainerId;
 import org.apache.hadoop.yarn.api.records.NodeId;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.api.proto.Messages;
 import org.apache.hoya.tools.SliderUtils;
 
 import java.util.Arrays;

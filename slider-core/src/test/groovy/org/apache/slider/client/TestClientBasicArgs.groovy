@@ -18,8 +18,8 @@
 
 package org.apache.slider.client
 
-import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.slider.core.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.SliderUtils

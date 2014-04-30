@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
 import org.apache.slider.common.SliderExitCodes
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
@@ -31,7 +31,7 @@ import org.apache.hoya.yarn.params.ClientArgs
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 

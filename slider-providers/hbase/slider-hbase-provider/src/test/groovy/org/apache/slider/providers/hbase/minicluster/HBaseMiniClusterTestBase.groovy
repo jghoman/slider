@@ -23,12 +23,12 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hadoop.hbase.client.HConnection
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.api.ResourceKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.ClusterNode
+import org.apache.slider.api.ResourceKeys
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.client.SliderClient
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 

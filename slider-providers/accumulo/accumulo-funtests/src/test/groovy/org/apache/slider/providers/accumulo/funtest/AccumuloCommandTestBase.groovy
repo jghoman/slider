@@ -20,7 +20,7 @@ package org.apache.slider.providers.accumulo.funtest
 
 import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_APPCONF
 import static SliderXMLConfKeysForTesting.KEY_TEST_ACCUMULO_TAR
-import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY
+import static org.apache.slider.api.ResourceKeys.YARN_MEMORY
 import static org.apache.slider.providers.accumulo.AccumuloKeys.*
 import static org.apache.hoya.yarn.Arguments.ARG_PROVIDER
 import static org.apache.hoya.yarn.Arguments.ARG_RES_COMP_OPT

@@ -29,7 +29,7 @@ import org.apache.hadoop.io.Text
 import org.apache.hadoop.util.ToolRunner
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.api.ClusterDescription
 import org.apache.hoya.funtest.framework.CommandTestBase
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.funtest.framework.PortAssignments

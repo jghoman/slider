@@ -18,7 +18,7 @@
 
 package org.apache.slider;
 
-import org.apache.slider.core.launcher.ServiceLauncher;
+import org.apache.slider.core.main.ServiceLauncher;
 import org.apache.slider.client.SliderClient;
 
 import java.util.ArrayList;

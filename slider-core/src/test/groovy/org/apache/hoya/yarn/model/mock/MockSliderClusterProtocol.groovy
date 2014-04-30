@@ -18,26 +18,26 @@ package org.apache.hoya.yarn.model.mock
 
 import org.apache.hadoop.ipc.ProtocolSignature
 import org.apache.hadoop.yarn.exceptions.YarnException
-import org.apache.hoya.api.HoyaClusterProtocol
-import org.apache.hoya.api.proto.Messages
-import org.apache.hoya.api.proto.Messages.AMSuicideRequestProto
-import org.apache.hoya.api.proto.Messages.AMSuicideResponseProto
-import org.apache.hoya.api.proto.Messages.EchoRequestProto
-import org.apache.hoya.api.proto.Messages.EchoResponseProto
-import org.apache.hoya.api.proto.Messages.FlexClusterRequestProto
-import org.apache.hoya.api.proto.Messages.FlexClusterResponseProto
-import org.apache.hoya.api.proto.Messages.GetClusterNodesRequestProto
-import org.apache.hoya.api.proto.Messages.GetClusterNodesResponseProto
-import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusRequestProto
-import org.apache.hoya.api.proto.Messages.GetJSONClusterStatusResponseProto
-import org.apache.hoya.api.proto.Messages.GetNodeRequestProto
-import org.apache.hoya.api.proto.Messages.GetNodeResponseProto
-import org.apache.hoya.api.proto.Messages.KillContainerRequestProto
-import org.apache.hoya.api.proto.Messages.KillContainerResponseProto
-import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleRequestProto
-import org.apache.hoya.api.proto.Messages.ListNodeUUIDsByRoleResponseProto
-import org.apache.hoya.api.proto.Messages.StopClusterRequestProto
-import org.apache.hoya.api.proto.Messages.StopClusterResponseProto
+import org.apache.slider.api.HoyaClusterProtocol
+import org.apache.slider.api.proto.Messages
+import org.apache.slider.api.proto.Messages.AMSuicideRequestProto
+import org.apache.slider.api.proto.Messages.AMSuicideResponseProto
+import org.apache.slider.api.proto.Messages.EchoRequestProto
+import org.apache.slider.api.proto.Messages.EchoResponseProto
+import org.apache.slider.api.proto.Messages.FlexClusterRequestProto
+import org.apache.slider.api.proto.Messages.FlexClusterResponseProto
+import org.apache.slider.api.proto.Messages.GetClusterNodesRequestProto
+import org.apache.slider.api.proto.Messages.GetClusterNodesResponseProto
+import org.apache.slider.api.proto.Messages.GetJSONClusterStatusRequestProto
+import org.apache.slider.api.proto.Messages.GetJSONClusterStatusResponseProto
+import org.apache.slider.api.proto.Messages.GetNodeRequestProto
+import org.apache.slider.api.proto.Messages.GetNodeResponseProto
+import org.apache.slider.api.proto.Messages.KillContainerRequestProto
+import org.apache.slider.api.proto.Messages.KillContainerResponseProto
+import org.apache.slider.api.proto.Messages.ListNodeUUIDsByRoleRequestProto
+import org.apache.slider.api.proto.Messages.ListNodeUUIDsByRoleResponseProto
+import org.apache.slider.api.proto.Messages.StopClusterRequestProto
+import org.apache.slider.api.proto.Messages.StopClusterResponseProto
 
 /**
  * 

@@ -19,9 +19,9 @@
 package org.apache.slider.providers.hbase.funtest
 
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.RoleKeys
-import org.apache.hoya.api.StatusKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.RoleKeys
+import org.apache.slider.api.StatusKeys
 import org.apache.slider.client.SliderClient
 import org.apache.hoya.yarn.params.ActionKillContainerArgs
 import org.apache.slider.providers.hbase.HBaseKeys

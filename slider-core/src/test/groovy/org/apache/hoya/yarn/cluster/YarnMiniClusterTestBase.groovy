@@ -34,11 +34,11 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.MiniYARNCluster
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
-import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.slider.core.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterNode
+import org.apache.slider.api.ClusterNode
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.tools.Duration

@@ -16,10 +16,10 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 import org.apache.hadoop.yarn.api.records.ContainerId;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.proto.Messages;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;

@@ -22,8 +22,8 @@ import com.google.inject.Injector
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.HoyaClusterProtocol
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.HoyaClusterProtocol
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.yarn.appmaster.state.AbstractRecordFactory
 import org.apache.hoya.yarn.appmaster.state.AppState

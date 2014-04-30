@@ -33,15 +33,15 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
 import org.apache.slider.common.SliderExitCodes;
 import org.apache.slider.common.SliderKeys;
-import org.apache.hoya.api.ClusterDescription;
-import org.apache.hoya.api.ClusterDescriptionKeys;
-import org.apache.hoya.api.ClusterDescriptionOperations;
-import org.apache.hoya.api.ClusterNode;
-import org.apache.hoya.api.OptionKeys;
-import org.apache.hoya.api.ResourceKeys;
-import org.apache.hoya.api.RoleKeys;
-import org.apache.hoya.api.StatusKeys;
-import org.apache.hoya.api.proto.Messages;
+import org.apache.slider.api.ClusterDescription;
+import org.apache.slider.api.ClusterDescriptionKeys;
+import org.apache.slider.api.ClusterDescriptionOperations;
+import org.apache.slider.api.ClusterNode;
+import org.apache.slider.api.OptionKeys;
+import org.apache.slider.api.ResourceKeys;
+import org.apache.slider.api.RoleKeys;
+import org.apache.slider.api.StatusKeys;
+import org.apache.slider.api.proto.Messages;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
@@ -71,14 +71,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.apache.hoya.api.ResourceKeys.DEF_YARN_CORES;
-import static org.apache.hoya.api.ResourceKeys.DEF_YARN_MEMORY;
-import static org.apache.hoya.api.RoleKeys.ROLE_FAILED_INSTANCES;
-import static org.apache.hoya.api.RoleKeys.ROLE_FAILED_STARTING_INSTANCES;
-import static org.apache.hoya.api.RoleKeys.ROLE_RELEASING_INSTANCES;
-import static org.apache.hoya.api.RoleKeys.ROLE_REQUESTED_INSTANCES;
-import static org.apache.hoya.api.ResourceKeys.YARN_CORES;
-import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY;
+import static org.apache.slider.api.ResourceKeys.DEF_YARN_CORES;
+import static org.apache.slider.api.ResourceKeys.DEF_YARN_MEMORY;
+import static org.apache.slider.api.RoleKeys.ROLE_FAILED_INSTANCES;
+import static org.apache.slider.api.RoleKeys.ROLE_FAILED_STARTING_INSTANCES;
+import static org.apache.slider.api.RoleKeys.ROLE_RELEASING_INSTANCES;
+import static org.apache.slider.api.RoleKeys.ROLE_REQUESTED_INSTANCES;
+import static org.apache.slider.api.ResourceKeys.YARN_CORES;
+import static org.apache.slider.api.ResourceKeys.YARN_MEMORY;
 
 
 /**

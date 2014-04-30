@@ -22,8 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.StatusKeys
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.StatusKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions

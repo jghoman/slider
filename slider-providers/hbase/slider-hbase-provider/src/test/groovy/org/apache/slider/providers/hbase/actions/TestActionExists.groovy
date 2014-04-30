@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.actions
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.slider.core.launcher.LauncherExitCodes
+import org.apache.slider.core.main.LauncherExitCodes
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
@@ -28,7 +28,7 @@ import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Before
 import org.junit.Test
 

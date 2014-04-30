@@ -34,11 +34,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static org.apache.hoya.api.ResourceKeys.COMPONENT_INSTANCES;
-import static org.apache.hoya.api.ResourceKeys.DEF_YARN_CORES;
-import static org.apache.hoya.api.ResourceKeys.DEF_YARN_MEMORY;
-import static org.apache.hoya.api.ResourceKeys.YARN_CORES;
-import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY;
+import static org.apache.slider.api.ResourceKeys.COMPONENT_INSTANCES;
+import static org.apache.slider.api.ResourceKeys.DEF_YARN_CORES;
+import static org.apache.slider.api.ResourceKeys.DEF_YARN_MEMORY;
+import static org.apache.slider.api.ResourceKeys.YARN_CORES;
+import static org.apache.slider.api.ResourceKeys.YARN_MEMORY;
 
 public abstract class AbstractClientProvider extends Configured {
   private static final Logger log =

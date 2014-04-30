@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.Priority
 import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.hoya.api.ResourceKeys
+import org.apache.slider.api.ResourceKeys
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.yarn.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest

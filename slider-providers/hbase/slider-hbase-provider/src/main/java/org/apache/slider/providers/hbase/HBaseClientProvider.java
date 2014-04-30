@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.common.SliderXmlConfKeys;
-import org.apache.hoya.api.OptionKeys;
+import org.apache.slider.api.OptionKeys;
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;

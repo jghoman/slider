@@ -18,7 +18,7 @@ package org.apache.hoya.yarn.appmaster.web;
 
 import java.util.Map;
 
-import org.apache.hoya.api.HoyaClusterProtocol;
+import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.hoya.providers.ProviderService;
 import org.apache.hoya.yarn.appmaster.state.AppState;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;

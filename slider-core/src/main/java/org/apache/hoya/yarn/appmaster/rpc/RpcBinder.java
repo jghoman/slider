@@ -53,7 +53,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.security.client.ClientToAMTokenIdentifier;
 import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.slider.common.SliderExitCodes;
-import org.apache.hoya.api.HoyaClusterProtocol;
+import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;

@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.api.records.Container
-import org.apache.hoya.api.StatusKeys
+import org.apache.slider.api.StatusKeys
 import org.apache.hoya.yarn.appmaster.state.*
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest
 import org.apache.hoya.yarn.model.mock.MockRecordFactory

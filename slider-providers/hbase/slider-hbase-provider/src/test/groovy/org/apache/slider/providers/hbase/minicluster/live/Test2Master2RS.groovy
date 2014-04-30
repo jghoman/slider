@@ -22,8 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.api.ClusterDescription
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.api.ClusterDescription
 import org.apache.slider.providers.hbase.HBaseTestUtils
 import org.apache.hoya.tools.Duration
 import org.apache.slider.client.SliderClient

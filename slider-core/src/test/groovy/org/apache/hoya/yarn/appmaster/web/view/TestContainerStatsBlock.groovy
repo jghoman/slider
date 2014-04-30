@@ -28,8 +28,8 @@ import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.DIV
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.TABLE
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet.TR
 import org.apache.hadoop.yarn.webapp.hamlet.HamletImpl.EImp
-import org.apache.hoya.api.ClusterNode
-import org.apache.hoya.api.HoyaClusterProtocol
+import org.apache.slider.api.ClusterNode
+import org.apache.slider.api.HoyaClusterProtocol
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.appmaster.state.RoleInstance

@@ -29,10 +29,10 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileStatus
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.launcher.ServiceLaunchException
-import org.apache.slider.core.launcher.ServiceLauncher
-import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.api.ClusterNode
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.api.ClusterDescription
+import org.apache.slider.api.ClusterNode
 import org.apache.hoya.core.conf.AggregateConf
 import org.apache.hoya.core.persist.JsonSerDeser
 import org.apache.slider.core.exceptions.BadClusterStateException

@@ -23,9 +23,9 @@ import groovy.util.logging.Slf4j
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
-import org.apache.slider.core.launcher.LauncherExitCodes
-import org.apache.slider.core.launcher.ServiceLaunchException
-import org.apache.slider.core.launcher.ServiceLauncher
+import org.apache.slider.core.main.LauncherExitCodes
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
 import static HBaseKeys.PROVIDER_HBASE

@@ -33,7 +33,7 @@
 package org.apache.hoya.yarn.api;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hoya.api.HoyaClusterProtocol;
+import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaClusterProtocolPB;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
 import org.junit.Test;

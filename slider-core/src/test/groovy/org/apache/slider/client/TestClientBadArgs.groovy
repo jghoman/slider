@@ -20,7 +20,7 @@ package org.apache.slider.client
 
 import groovy.transform.CompileStatic
 import org.apache.hadoop.conf.Configuration
-import org.apache.slider.core.launcher.ServiceLauncherBaseTest
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions

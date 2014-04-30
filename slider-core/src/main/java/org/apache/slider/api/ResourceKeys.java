@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 /**
  * These are the keys valid in resource options

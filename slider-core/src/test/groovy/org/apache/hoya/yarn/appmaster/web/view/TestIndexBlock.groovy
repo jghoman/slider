@@ -24,7 +24,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.Priority
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
-import org.apache.hoya.api.HoyaClusterProtocol
+import org.apache.slider.api.HoyaClusterProtocol
 import org.apache.hoya.providers.ProviderService
 import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.appmaster.web.WebAppApi

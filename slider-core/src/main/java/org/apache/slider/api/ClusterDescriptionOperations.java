@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.api;
+package org.apache.slider.api;
 
 import org.apache.hoya.core.conf.AggregateConf;
 import org.apache.hoya.core.conf.ConfTree;
@@ -27,8 +27,8 @@ import org.apache.hoya.tools.SliderUtils;
 
 import java.util.Map;
 
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_QUORUM;
-import static org.apache.hoya.api.OptionKeys.ZOOKEEPER_PATH;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_QUORUM;
+import static org.apache.slider.api.OptionKeys.ZOOKEEPER_PATH;
 
 /**
  * Operations on Cluster Descriptions
