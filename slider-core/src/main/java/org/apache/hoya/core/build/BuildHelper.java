@@ -19,8 +19,7 @@
 package org.apache.hoya.core.build;
 
 import org.apache.hadoop.util.VersionInfo;
-import org.apache.hoya.core.conf.MapOperations;
-import org.apache.hoya.tools.HoyaVersionInfo;
+import org.apache.hoya.tools.SliderVersionInfo;
 
 import java.util.Map;
 import java.util.Properties;
@@ -36,14 +35,14 @@ public class BuildHelper {
    */
   public static void addBuildMetadata(Map dest, String prefix) {
 
-    Properties props = HoyaVersionInfo.loadVersionProperties();
-    dest.put(prefix + "." + HoyaVersionInfo.APP_BUILD_INFO,
+    Properties props = SliderVersionInfo.loadVersionProperties();
+    dest.put(prefix + "." + SliderVersionInfo.APP_BUILD_INFO,
              props.getProperty(
-      HoyaVersionInfo.APP_BUILD_INFO));
-    dest.put(prefix + "." + HoyaVersionInfo.HADOOP_BUILD_INFO,
-             props.getProperty(HoyaVersionInfo.HADOOP_BUILD_INFO));
+      SliderVersionInfo.APP_BUILD_INFO));
+    dest.put(prefix + "." + SliderVersionInfo.HADOOP_BUILD_INFO,
+             props.getProperty(SliderVersionInfo.HADOOP_BUILD_INFO));
 
-    dest.put(prefix + "." + HoyaVersionInfo.HADOOP_DEPLOYED_INFO,
+    dest.put(prefix + "." + SliderVersionInfo.HADOOP_DEPLOYED_INFO,
              VersionInfo.getBranch() + " @" + VersionInfo.getSrcChecksum());
   }
 }

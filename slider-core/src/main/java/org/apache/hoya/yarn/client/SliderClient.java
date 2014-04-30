@@ -72,7 +72,7 @@ import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.Duration;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.SliderUtils;
-import org.apache.hoya.tools.HoyaVersionInfo;
+import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.hoya.yarn.Arguments;
 import org.apache.hoya.yarn.SliderActions;
 import org.apache.hoya.yarn.appmaster.rpc.RpcBinder;
@@ -1460,7 +1460,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @return exit code
    */
   public int actionVersion() {
-    HoyaVersionInfo.loadAndPrintVersionInfo(log);
+    SliderVersionInfo.loadAndPrintVersionInfo(log);
     return EXIT_SUCCESS;
   }
 

@@ -1231,13 +1231,13 @@ public final class SliderUtils {
    */
   public static void addBuildInfo(Map<String, String> info, String prefix) {
 
-    Properties props = HoyaVersionInfo.loadVersionProperties();
-    info.put(prefix + "." + HoyaVersionInfo.APP_BUILD_INFO, props.getProperty(
-      HoyaVersionInfo.APP_BUILD_INFO));
-    info.put(prefix + "." + HoyaVersionInfo.HADOOP_BUILD_INFO,
-             props.getProperty(HoyaVersionInfo.HADOOP_BUILD_INFO));
+    Properties props = SliderVersionInfo.loadVersionProperties();
+    info.put(prefix + "." + SliderVersionInfo.APP_BUILD_INFO, props.getProperty(
+      SliderVersionInfo.APP_BUILD_INFO));
+    info.put(prefix + "." + SliderVersionInfo.HADOOP_BUILD_INFO,
+             props.getProperty(SliderVersionInfo.HADOOP_BUILD_INFO));
 
-    info.put(prefix + "." + HoyaVersionInfo.HADOOP_DEPLOYED_INFO,
+    info.put(prefix + "." + SliderVersionInfo.HADOOP_DEPLOYED_INFO,
              VersionInfo.getBranch() + " @" + VersionInfo.getSrcChecksum());
   }
 

@@ -82,7 +82,7 @@ import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.tools.SliderUtils;
-import org.apache.hoya.tools.HoyaVersionInfo;
+import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.hoya.yarn.SliderActions;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaAMPolicyProvider;
 import org.apache.hoya.yarn.appmaster.rpc.HoyaClusterProtocolPBImpl;
@@ -362,7 +362,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
    */
   @Override
   public int runService() throws Throwable {
-    HoyaVersionInfo.loadAndPrintVersionInfo(log);
+    SliderVersionInfo.loadAndPrintVersionInfo(log);
 
     //dump the system properties if in debug mode
     if (log.isDebugEnabled()) {

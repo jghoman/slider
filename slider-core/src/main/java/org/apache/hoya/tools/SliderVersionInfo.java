@@ -51,8 +51,8 @@ import java.util.Properties;
  * 
  * Note: the values will change and more properties added.
  */
-public class HoyaVersionInfo {
-  private static final Logger log = LoggerFactory.getLogger(HoyaVersionInfo.class);
+public class SliderVersionInfo {
+  private static final Logger log = LoggerFactory.getLogger(SliderVersionInfo.class);
 
   /**
    * Name of the resource containing the filled-in-at-runtime props
@@ -72,7 +72,7 @@ public class HoyaVersionInfo {
 
   public static Properties loadVersionProperties()  {
     Properties props = new Properties();
-    URL resURL = HoyaVersionInfo.class.getClassLoader()
+    URL resURL = SliderVersionInfo.class.getClassLoader()
                                    .getResource(VERSION_RESOURCE);
     assert resURL != null : "Null resource " + VERSION_RESOURCE;
 
