@@ -38,7 +38,7 @@ import org.apache.slider.server.appmaster.web.WebAppApiImpl
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.ClusterNodeNameComparator
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.TableAnchorContent
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.TableContent
-import org.apache.hoya.yarn.model.mock.*
+import org.apache.slider.server.appmaster.model.mock.*
 import org.junit.Before
 import org.junit.Test
 

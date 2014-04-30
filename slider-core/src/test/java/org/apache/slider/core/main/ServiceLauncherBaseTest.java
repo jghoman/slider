@@ -18,7 +18,7 @@
 
 package org.apache.slider.core.main;
 
-import org.apache.hoya.yarn.SliderTestBase;
+import org.apache.slider.test.SliderTestBase;
 
 /**
  * Base class for tests that use the service launcher

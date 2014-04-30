@@ -20,8 +20,8 @@ package org.apache.slider.registry.curator
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.common.SliderKeys
-import org.apache.hoya.testtools.SliderTestUtils
-import org.apache.hoya.yarn.MicroZKCluster
+import org.apache.slider.test.SliderTestUtils
+import org.apache.slider.test.MicroZKCluster
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorHelper
 import org.apache.slider.server.services.curator.RegistryBinderService

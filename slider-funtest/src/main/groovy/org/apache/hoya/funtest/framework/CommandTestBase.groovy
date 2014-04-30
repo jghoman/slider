@@ -29,7 +29,7 @@ import org.apache.slider.common.SliderKeys
 import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.hoya.testtools.HoyaTestUtils
+import org.apache.slider.test.HoyaTestUtils
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient

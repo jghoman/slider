@@ -26,7 +26,7 @@ import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.core.conf.ConfTree
 import org.apache.slider.core.conf.ExampleConfResources
 import org.apache.slider.common.tools.CoreFileSystem
-import org.apache.hoya.yarn.cluster.YarnMiniClusterTestBase
+import org.apache.slider.test.YarnMiniClusterTestBase
 import org.junit.BeforeClass
 import org.junit.Test
 

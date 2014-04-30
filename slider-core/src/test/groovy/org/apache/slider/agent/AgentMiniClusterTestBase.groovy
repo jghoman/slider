@@ -25,7 +25,7 @@ import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.slider.providers.agent.AgentKeys
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
-import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
+import org.apache.slider.test.YarnZKMiniClusterTestBase
 import org.junit.BeforeClass
 
 /**

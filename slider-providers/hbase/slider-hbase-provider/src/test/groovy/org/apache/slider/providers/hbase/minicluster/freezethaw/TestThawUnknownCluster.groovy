@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
+import org.apache.slider.test.YarnZKMiniClusterTestBase
 import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 

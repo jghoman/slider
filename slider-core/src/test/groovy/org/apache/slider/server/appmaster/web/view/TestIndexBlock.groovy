@@ -29,7 +29,7 @@ import org.apache.slider.providers.ProviderService
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.web.WebAppApi
 import org.apache.slider.server.appmaster.web.WebAppApiImpl
-import org.apache.hoya.yarn.model.mock.*
+import org.apache.slider.server.appmaster.model.mock.*
 import org.junit.Before
 import org.junit.Test
 

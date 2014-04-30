@@ -29,10 +29,10 @@ import org.apache.slider.server.appmaster.state.AbstractRecordFactory
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.web.WebAppApi
 import org.apache.slider.server.appmaster.web.WebAppApiImpl
-import org.apache.hoya.yarn.model.mock.MockAppState
-import org.apache.hoya.yarn.model.mock.MockProviderService
-import org.apache.hoya.yarn.model.mock.MockRecordFactory
-import org.apache.hoya.yarn.model.mock.MockSliderClusterProtocol
+import org.apache.slider.server.appmaster.model.mock.MockAppState
+import org.apache.slider.server.appmaster.model.mock.MockProviderService
+import org.apache.slider.server.appmaster.model.mock.MockRecordFactory
+import org.apache.slider.server.appmaster.model.mock.MockSliderClusterProtocol
 import org.junit.Before
 import org.junit.Test
 

@@ -30,10 +30,10 @@ import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.client.SliderClient
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.providers.hbase.HBaseTestUtils
-import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
+import org.apache.slider.test.YarnZKMiniClusterTestBase
 
 import static org.apache.slider.common.params.Arguments.*
-import static org.apache.hoya.testtools.SliderTestUtils.*
+import static org.apache.slider.test.SliderTestUtils.*
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
 import static HBaseKeys.*
 /**
