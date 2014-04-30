@@ -1,4 +1,4 @@
-package org.apache.hoya.funtest.framework
+package org.apache.slider.funtest.framework
 
 import groovy.transform.CompileStatic
 import org.apache.slider.common.SliderXMLConfKeysForTesting

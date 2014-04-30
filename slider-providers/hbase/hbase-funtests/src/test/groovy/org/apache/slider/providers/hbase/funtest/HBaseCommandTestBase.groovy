@@ -18,9 +18,9 @@
 
 package org.apache.slider.providers.hbase.funtest
 
-import org.apache.hoya.funtest.categories.FunctionalTests
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
+import org.apache.slider.funtest.categories.FunctionalTests
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.SliderShell
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.providers.hbase.HBaseClientProvider
 import org.apache.slider.providers.hbase.HBaseKeys

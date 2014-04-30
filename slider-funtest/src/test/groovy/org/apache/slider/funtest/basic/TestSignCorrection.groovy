@@ -16,7 +16,28 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest;
+package org.apache.slider.funtest.basic
 
-public class StubToForceGroovySrcToCompile {
+import org.junit.Test
+
+import static org.apache.slider.funtest.framework.SliderShell.signCorrect
+
+/**
+ * This just verifies the two's complement sign correction that will
+ * be applied after the return code is picked up from the shell
+ */
+class TestSignCorrection {
+
+  @Test
+  public void test255ToMinus1() throws Throwable {
+    assert -1 == signCorrect(255) 
+  }
+  @Test
+  public void test74To74() throws Throwable {
+    assert 74 == signCorrect(74) 
+  }
+  @Test
+  public void test1To1() throws Throwable {
+    assert 1 == signCorrect(1) 
+  }
 }

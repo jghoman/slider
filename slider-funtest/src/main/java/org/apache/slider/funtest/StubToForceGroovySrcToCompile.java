@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.framework
+package org.apache.slider.funtest;
 
-/**
- * Here is where all port assignments should be booked, to ensure that no
- * other test suite is using the same ports
- */
-interface PortAssignments {
-  
-  int _testHBaseCreateCluster = 7000;
-  int _testHBaseCreateCluster2 = 7001;
-  int _testAccumuloCI = 62424;
+class StubToForceGroovySrcToCompile {
 }

@@ -18,7 +18,7 @@
 
 package org.apache.slider.providers.hbase.funtest;
 
-import org.apache.hoya.funtest.abstracttests.AbstractTestBuildSetup;
+import org.apache.slider.funtest.abstracttests.AbstractTestBuildSetup;
 
 public class TestBuildSetup extends AbstractTestBuildSetup {
 }

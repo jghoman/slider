@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.abstracttests
+package org.apache.slider.funtest.abstracttests
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.funtest.framework.FuntestProperties
+import org.apache.slider.funtest.framework.FuntestProperties
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.test.SliderTestUtils
 import org.junit.Test

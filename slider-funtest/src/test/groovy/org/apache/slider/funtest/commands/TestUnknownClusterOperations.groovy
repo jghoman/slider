@@ -16,16 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.commands
+package org.apache.slider.funtest.commands
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.slider.common.SliderExitCodes
-import org.apache.hoya.funtest.categories.FunctionalTests
+import org.apache.slider.funtest.categories.FunctionalTests
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.SliderActions
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.SliderShell
 import org.junit.BeforeClass
 import org.junit.Test
 

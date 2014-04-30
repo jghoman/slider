@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.categories;
+package org.apache.slider.funtest.framework
 
 /**
- * Marker interface for JUnit tests in functional category
+ * Here is where all port assignments should be booked, to ensure that no
+ * other test suite is using the same ports
  */
-public interface FunctionalTests {
+interface PortAssignments {
+  
+  int _testHBaseCreateCluster = 7000;
+  int _testHBaseCreateCluster2 = 7001;
+  int _testAccumuloCI = 62424;
 }

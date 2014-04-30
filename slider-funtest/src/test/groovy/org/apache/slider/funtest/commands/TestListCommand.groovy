@@ -16,21 +16,26 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.basic
+package org.apache.slider.funtest.commands
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.funtest.abstracttests.AbstractTestBuildSetup
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.junit.BeforeClass
+import org.junit.Test
 
-/**
- * Simple tests to verify that the build has been set up: if these
- * fail then the arguments to the test run are incomplete.
- *
- * This deliberately doesn't depend on HoyaCommandTestBase,
- * so that individual tests fail with more diagnostics
- * than the @BeforeClass failing
- */
 @CompileStatic
 @Slf4j
-class TestBuildSetup extends AbstractTestBuildSetup {
+public class TestListCommand extends CommandTestBase {
+
+  @BeforeClass
+  public static void prepareCluster() {
+    assumeFunctionalTestsEnabled();
+  }
+  
+  @Test
+  public void testListAll() throws Throwable {
+    assertSuccess(list(null))
+  }
+
 }

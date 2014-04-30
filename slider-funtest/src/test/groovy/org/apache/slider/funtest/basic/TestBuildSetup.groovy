@@ -16,28 +16,21 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.basic
+package org.apache.slider.funtest.basic
 
-import org.junit.Test
-
-import static org.apache.hoya.funtest.framework.SliderShell.signCorrect
+import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
+import org.apache.slider.funtest.abstracttests.AbstractTestBuildSetup
 
 /**
- * This just verifies the two's complement sign correction that will
- * be applied after the return code is picked up from the shell
+ * Simple tests to verify that the build has been set up: if these
+ * fail then the arguments to the test run are incomplete.
+ *
+ * This deliberately doesn't depend on HoyaCommandTestBase,
+ * so that individual tests fail with more diagnostics
+ * than the @BeforeClass failing
  */
-class TestSignCorrection {
-
-  @Test
-  public void test255ToMinus1() throws Throwable {
-    assert -1 == signCorrect(255) 
-  }
-  @Test
-  public void test74To74() throws Throwable {
-    assert 74 == signCorrect(74) 
-  }
-  @Test
-  public void test1To1() throws Throwable {
-    assert 1 == signCorrect(1) 
-  }
+@CompileStatic
+@Slf4j
+class TestBuildSetup extends AbstractTestBuildSetup {
 }

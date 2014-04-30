@@ -16,26 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.commands
+package org.apache.slider.funtest.categories;
 
-import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.junit.BeforeClass
-import org.junit.Test
-
-@CompileStatic
-@Slf4j
-public class TestListCommand extends CommandTestBase {
-
-  @BeforeClass
-  public static void prepareCluster() {
-    assumeFunctionalTestsEnabled();
-  }
-  
-  @Test
-  public void testListAll() throws Throwable {
-    assertSuccess(list(null))
-  }
-
+/**
+ * Marker interface for JUnit tests in functional category
+ */
+public interface FunctionalTests {
 }

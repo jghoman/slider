@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.framework
+package org.apache.slider.funtest.framework
 
 import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell

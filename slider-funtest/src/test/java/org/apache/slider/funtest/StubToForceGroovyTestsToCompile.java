@@ -16,30 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.funtest.commands
+package org.apache.slider.funtest;
 
-import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import org.apache.bigtop.itest.shell.Shell
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
-import org.apache.slider.common.params.SliderActions
-import org.junit.Test
-
-@CompileStatic
-@Slf4j
-public class TestSimpleCommands extends CommandTestBase {
-
-  @Test
-  public void testVersion() throws Throwable {
-    Shell shell = slider([SliderActions.ACTION_VERSION])
-    assertSuccess(shell)
-  }
-
-  @Test
-  public void testUsage() throws Throwable {
-    SliderShell shell = slider(0, [SliderActions.ACTION_USAGE])
-    assertSuccess(shell)
-  }
-  
+public class StubToForceGroovyTestsToCompile {
 }

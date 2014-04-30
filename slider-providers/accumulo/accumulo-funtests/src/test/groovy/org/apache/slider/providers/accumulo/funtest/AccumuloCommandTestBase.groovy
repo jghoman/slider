@@ -34,8 +34,8 @@ import org.apache.hadoop.fs.Path
 import org.apache.hadoop.mapreduce.filecache.DistributedCache
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.common.SliderXMLConfKeysForTesting
-import org.apache.hoya.funtest.framework.CommandTestBase
-import org.apache.hoya.funtest.framework.SliderShell
+import org.apache.slider.funtest.framework.CommandTestBase
+import org.apache.slider.funtest.framework.SliderShell
 import org.apache.slider.providers.accumulo.AccumuloKeys
 import org.apache.slider.common.params.Arguments
 import org.apache.thrift.TException
