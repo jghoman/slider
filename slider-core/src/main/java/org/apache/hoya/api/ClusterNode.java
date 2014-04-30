@@ -50,7 +50,7 @@ public class ClusterNode {
 
 
   /**
-   * UUID of container used in Hoya RPC to refer to instances
+   * UUID of container used in Slider RPC to refer to instances
    */
   public String id;
   

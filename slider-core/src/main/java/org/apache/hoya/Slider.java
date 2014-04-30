@@ -28,10 +28,10 @@ import java.util.List;
 /**
  * This is just the entry point class
  */
-public class Hoya extends SliderClient {
+public class Slider extends SliderClient {
 
 
-  public static final String SERVICE_CLASSNAME = "org.apache.hoya.Hoya";
+  public static final String SERVICE_CLASSNAME = "org.apache.hoya.Slider";
 
   /**
    * This is the main entry point for the service launcher.

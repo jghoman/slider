@@ -34,7 +34,7 @@ public final class RoleInstance implements Cloneable {
 
   public Container container;
   /**
-   * UUID of container used in Hoya RPC to refer to instances. 
+   * UUID of container used in Slider RPC to refer to instances. 
    * The string value of the container ID is used here.
    */
   public final String id;

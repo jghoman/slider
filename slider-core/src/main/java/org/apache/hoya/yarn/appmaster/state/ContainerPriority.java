@@ -24,7 +24,7 @@ import org.apache.hadoop.yarn.util.Records;
 
 /**
  * Class containing the logic to build/split container priorities into the
- * different fields used by Hoya
+ * different fields used by Slider
  *
  * The original design here had a requestID merged with the role, to
  * track outstanding requests. However, this isn't possible, so

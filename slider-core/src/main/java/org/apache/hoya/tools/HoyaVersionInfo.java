@@ -41,12 +41,12 @@ import java.util.Properties;
  * the <code>mvn process-resources</code> target will expand the properties
  * and add the resources to target/classes, which will then look something like
  * <pre>
- *   application.name=Hoya Core
+ *   application.name=Slider Core
  *   application.version=0.7.1-SNAPSHOT
  *   application.build=1dd69
  *   application.build.java.version=1.7.0_45
  *   application.build.user=stevel
- *   application.build.info=Hoya Core-0.7.1-SNAPSHOT Built against 1dd69 on 1.7.0_45 by stevel
+ *   application.build.info=Slider Core-0.7.1-SNAPSHOT Built against 1dd69 on 1.7.0_45 by stevel
  * </pre>
  * 
  * Note: the values will change and more properties added.

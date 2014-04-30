@@ -158,7 +158,7 @@ public class ClusterDescription implements Cloneable {
 
   /**
    * cluster-specific options -to control both
-   * the Hoya AM and the application that it deploys
+   * the Slider AM and the application that it deploys
    */
   public Map<String, String> options =
     new HashMap<String, String>();

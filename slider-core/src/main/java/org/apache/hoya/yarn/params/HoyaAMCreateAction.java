@@ -40,7 +40,7 @@ public class HoyaAMCreateAction extends AbstractActionArgs implements
   public String image;
 
   /**
-   * This is the URI in the FS to the Hoya cluster; the conf file (and any
+   * This is the URI in the FS to the Slider cluster; the conf file (and any
    * other cluster-specifics) can be picked up here
    */
   @Parameter(names = ARG_CLUSTER_URI,

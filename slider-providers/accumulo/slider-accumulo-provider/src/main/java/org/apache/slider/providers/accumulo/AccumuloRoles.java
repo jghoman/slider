@@ -58,7 +58,7 @@ public class AccumuloRoles  {
 
 
   /**
-   * Convert a Hoya role into the service/classname passed down 
+   * Convert a Slider role into the service/classname passed down 
    * to accumulo, (and implicitly , item to grep and kill when force
    * killing services at the end of a test run)
    * @param role role being instantiated

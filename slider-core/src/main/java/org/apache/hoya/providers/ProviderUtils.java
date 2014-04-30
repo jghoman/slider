@@ -78,7 +78,7 @@ public class ProviderUtils implements RoleKeys {
    * @throws FileNotFoundException if the JAR was not found and this is NOT
    * a mini cluster test run
    * @throws IOException IO problems
-   * @throws SliderException any Hoya problem
+   * @throws SliderException any Slider problem
    */
   public static boolean addProviderJar(Map<String, LocalResource> providerResources,
       Object provider,
@@ -118,7 +118,7 @@ public class ProviderUtils implements RoleKeys {
    * @param classes list of classes where classes[i] refers to a class in
    * resources[i]
    * @throws IOException IO problems
-   * @throws SliderException any Hoya problem
+   * @throws SliderException any Slider problem
    */
   public static void addDependencyJars(Map<String, LocalResource> providerResources,
                                        HoyaFileSystem hoyaFileSystem,

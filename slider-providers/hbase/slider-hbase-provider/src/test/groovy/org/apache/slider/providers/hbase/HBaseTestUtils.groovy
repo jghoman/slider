@@ -47,9 +47,9 @@ class HBaseTestUtils extends HoyaTestUtils {
 
   /**
    * Create an (unshared) HConnection talking to the hbase service that
-   * Hoya should be running
+   * Slider should be running
    * @param hoyaClient hoya client
-   * @param clustername the name of the Hoya cluster
+   * @param clustername the name of the Slider cluster
    * @return the connection
    */
   public static HConnection createHConnection(Configuration clientConf) {

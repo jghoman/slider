@@ -529,7 +529,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
       nmClientAsync = new NMClientAsyncImpl("nmclient", this);
       deployChildService(nmClientAsync);
 
-      //bring up the Hoya RPC service
+      //bring up the Slider RPC service
       startHoyaRPCServer();
 
       rpcServiceAddress = rpcService.getConnectAddress();
@@ -1005,8 +1005,8 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     }
 
     // ask for more containers if any failed
-    // In the case of Hoya, we don't expect containers to complete since
-    // Hoya is a long running application. Keep track of how many containers
+    // In the case of Slider, we don't expect containers to complete since
+    // Slider is a long running application. Keep track of how many containers
     // are completing. If too many complete, abort the application
     // TODO: this needs to be better thought about (and maybe something to
     // better handle in Yarn for long running apps)

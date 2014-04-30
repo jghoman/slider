@@ -24,7 +24,7 @@ package org.apache.slider.providers.hbase;
  *
  * A lot of these come from HConstants -the reason they have been copied
  * and pasted in here is to remove dependencies on HBase from
- * the Hoya Client and AM.
+ * the Slider Client and AM.
  */
 public interface HBaseConfigFileOptions {
 

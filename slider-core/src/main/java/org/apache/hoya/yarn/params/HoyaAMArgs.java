@@ -46,7 +46,7 @@ public class HoyaAMArgs extends CommonArgs {
   }
 
   /**
-   * This is the URI in the FS to the Hoya cluster; the conf file (and any
+   * This is the URI in the FS to the Slider cluster; the conf file (and any
    * other cluster-specifics) can be picked up here
    */
   public String getHoyaClusterURI() {

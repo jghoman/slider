@@ -22,7 +22,7 @@ import org.apache.hadoop.security.authorize.Service;
 import org.apache.hoya.SliderXmlConfKeys;
 
 /**
- * {@link PolicyProvider} for Hoya protocols.
+ * {@link PolicyProvider} for Slider protocols.
  */
 
 public class HoyaAMPolicyProvider extends PolicyProvider {

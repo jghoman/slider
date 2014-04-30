@@ -51,7 +51,7 @@ import java.util.TreeSet;
 
 /**
  * Methods to aid in config, both in the Configuration class and
- * with other parts of setting up Hoya-initated processes.
+ * with other parts of setting up Slider-initated processes.
  * 
  * Some of the methods take an argument of a map iterable for their sources; this allows
  * the same method

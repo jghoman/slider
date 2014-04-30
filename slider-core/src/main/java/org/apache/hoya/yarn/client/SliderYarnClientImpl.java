@@ -63,9 +63,9 @@ public class SliderYarnClientImpl extends YarnClientImpl {
 
 
   /**
-   * List Hoya instances belonging to a specific user
+   * List Slider instances belonging to a specific user
    * @param user user: "" means all users
-   * @return a possibly empty list of Hoya AMs
+   * @return a possibly empty list of Slider AMs
    */
   public List<ApplicationReport> listInstances(String user)
     throws YarnException, IOException {

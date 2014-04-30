@@ -29,7 +29,7 @@ import org.apache.hoya.yarn.SliderActions;
 import java.util.Collection;
 
 /**
- * Hoya Client CLI Args
+ * Slider Client CLI Args
  */
 
 public class ClientArgs extends CommonArgs {

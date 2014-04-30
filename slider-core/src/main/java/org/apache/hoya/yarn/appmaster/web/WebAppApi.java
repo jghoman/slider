@@ -26,7 +26,7 @@ import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 
 /**
- * Interface to pass information from the Hoya AppMaster to the WebApp
+ * Interface to pass information from the Slider AppMaster to the WebApp
  */
 public interface WebAppApi {
 

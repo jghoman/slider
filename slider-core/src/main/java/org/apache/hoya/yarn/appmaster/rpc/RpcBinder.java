@@ -114,7 +114,7 @@ public class RpcBinder {
   }
 
   /**
-   * Verify that the conf is set up for protobuf transport of Hoya RPC
+   * Verify that the conf is set up for protobuf transport of Slider RPC
    * @param conf configuration
    * @param hoyaClusterAPIClass class for the API
    * @return
@@ -159,7 +159,7 @@ public class RpcBinder {
    * @param rpcTimeout timeout for RPCs to block during communications
    * @return the proxy
    * @throws IOException IO problems
-   * @throws YarnException Hoya-generated exceptions related to the binding
+   * @throws YarnException Slider-generated exceptions related to the binding
    * failing. This can include the application finishing or timeouts
    * @throws InterruptedException if a sleep operation waiting for
    * the cluster to respond is interrupted.

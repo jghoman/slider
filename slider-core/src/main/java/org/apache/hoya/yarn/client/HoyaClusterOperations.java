@@ -239,7 +239,7 @@ public class HoyaClusterOperations {
    * @return the state. If still in CREATED, the cluster didn't come up
    * in the time period. If LIVE, all is well. If >LIVE, it has shut for a reason
    * @throws IOException IO
-   * @throws SliderException Hoya
+   * @throws SliderException Slider
    * @throws WaitTimeoutException if the wait timed out
    */
   @VisibleForTesting

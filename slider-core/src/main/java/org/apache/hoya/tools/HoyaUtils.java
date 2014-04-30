@@ -381,7 +381,7 @@ public final class HoyaUtils {
   }
 
   /**
-   * Create a configuration with Hoya-specific tuning.
+   * Create a configuration with Slider-specific tuning.
    * This is done rather than doing custom configs.
    * @return the config
    */
@@ -392,7 +392,7 @@ public final class HoyaUtils {
   }
 
   /**
-   * Take an existing conf and patch it for Hoya's needs. Useful
+   * Take an existing conf and patch it for Slider's needs. Useful
    * in Service.init & RunService methods where a shared config is being
    * passed in
    * @param conf configuration
@@ -1030,7 +1030,7 @@ public final class HoyaUtils {
   /**
    * Get the current user -relays to
    * {@link UserGroupInformation#getCurrentUser()}
-   * with any Hoya-specific post processing and exception handling
+   * with any Slider-specific post processing and exception handling
    * @return user info
    * @throws IOException on a failure to get the credentials
    */

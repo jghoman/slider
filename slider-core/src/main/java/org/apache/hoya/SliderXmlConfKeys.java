@@ -66,12 +66,12 @@ public interface SliderXmlConfKeys {
   String FS_DEFAULT_NAME_CLASSIC = "fs.default.name";
 
   /**
-   * Hoya principal
+   * Slider principal
    */
   String KEY_KERBEROS_PRINCIPAL = "slider.kerberos.principal";
 
   /**
-   * Name of the property for ACLs for Hoya AM.
+   * Name of the property for ACLs for Slider AM.
    * {@value}
    */
   String KEY_PROTOCOL_ACL = "security.slider.protocol.acl";

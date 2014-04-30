@@ -20,7 +20,7 @@ package org.apache.hoya;
 
 
 /**
- * Keys and various constants for Hoya
+ * Keys and various constants for Slider
  */
 public interface SliderKeys extends SliderXmlConfKeys {
 
@@ -28,7 +28,7 @@ public interface SliderKeys extends SliderXmlConfKeys {
   String COMPONENT_AM = "slider-appmaster";
   
   /**
-   * Hoya role is "special"
+   * Slider role is "special"
    */
   int ROLE_HOYA_AM_PRIORITY_INDEX = 0;
   
@@ -105,7 +105,7 @@ public interface SliderKeys extends SliderXmlConfKeys {
   String HISTORY_FILENAME_GLOB_PATTERN = HISTORY_FILENAME_PREFIX +"*."+
                                     HISTORY_FILENAME_SUFFIX;
   /**
-   * XML resource listing the standard Hoya providers
+   * XML resource listing the standard Slider providers
    * {@value}
    */
   String HOYA_XML ="org/apache/hoya/hoya.xml";
@@ -124,7 +124,7 @@ public interface SliderKeys extends SliderXmlConfKeys {
   String SUBMITTED_CONF_DIR = "confdir";
 
   /**
-   * name of the Hoya client resource
+   * name of the Slider client resource
    * loaded when the service is loaded.
    */
   String CLIENT_RESOURCE = "slider-client.xml";

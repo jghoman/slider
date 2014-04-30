@@ -91,7 +91,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
    * Build the hdfs-site.xml file
    * This the configuration used by HBase directly
    * @param instanceDescription this is the cluster specification used to define this
-   * @return a map of the dynamic bindings for this Hoya instance
+   * @return a map of the dynamic bindings for this Slider instance
    */
   public Map<String, String> buildSiteConfFromInstance(
     AggregateConf instanceDescription)

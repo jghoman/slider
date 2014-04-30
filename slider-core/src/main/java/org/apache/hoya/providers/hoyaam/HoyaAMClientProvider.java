@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * handles the setup of the Hoya AM.
+ * handles the setup of the Slider AM.
  * This keeps aspects of role, cluster validation and Clusterspec setup
  * out of the core hoya client
  */
@@ -139,7 +139,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
   }
 
   /**
-   * The Hoya AM sets up all the dependency JARs above hoya.jar itself
+   * The Slider AM sets up all the dependency JARs above hoya.jar itself
    * {@inheritDoc}
    */
   public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,

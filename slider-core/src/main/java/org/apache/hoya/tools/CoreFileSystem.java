@@ -121,7 +121,7 @@ public class CoreFileSystem {
   }
 
   /**
-   * Create the Hoya cluster path for a named cluster and all its subdirs
+   * Create the Slider cluster path for a named cluster and all its subdirs
    * This is a directory; a mkdirs() operation is executed
    * to ensure that it is there.
    *
@@ -142,7 +142,7 @@ public class CoreFileSystem {
   }
   
   /**
-   * Create the Hoya cluster path for a named cluster and all its subdirs
+   * Create the Slider cluster path for a named cluster and all its subdirs
    * This is a directory; a mkdirs() operation is executed
    * to ensure that it is there.
    *

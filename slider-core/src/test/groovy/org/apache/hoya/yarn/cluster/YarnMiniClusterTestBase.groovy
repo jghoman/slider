@@ -288,7 +288,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
 
 
   /**
-   * Kill all Hoya Services. That i
+   * Kill all Slider Services. That i
    * @param signal
    */
   public void killHoyaAM(int signal) {
@@ -473,11 +473,11 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
   /**
-   * Add arguments to launch Hoya with.
+   * Add arguments to launch Slider with.
    *
    * Extra arguments are added after standard arguments and before roles.
    *
-   * @return additional arguments to launch Hoya with
+   * @return additional arguments to launch Slider with
    */
   protected List<String> getExtraCLIArgs() {
     []

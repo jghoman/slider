@@ -82,7 +82,7 @@ import static org.apache.hoya.api.ResourceKeys.YARN_MEMORY;
 
 
 /**
- * The model of all the ongoing state of a Hoya AM.
+ * The model of all the ongoing state of a Slider AM.
  *
  * concurrency rules: any method which begins with <i>build</i>
  * is not synchronized and intended to be used during
@@ -1291,7 +1291,7 @@ public class AppState implements StateAccessForProviders {
 
 
   /**
-   * Return the percentage done that Hoya is to have YARN display in its
+   * Return the percentage done that Slider is to have YARN display in its
    * Web UI
    * @return an number from 0 to 100
    */

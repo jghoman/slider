@@ -49,7 +49,7 @@ public class RunningApplication extends LaunchedApplication {
 
 
   /**
-   * Connect to a Hoya AM
+   * Connect to a Slider AM
    * @param app application report providing the details on the application
    * @return an instance
    * @throws YarnException

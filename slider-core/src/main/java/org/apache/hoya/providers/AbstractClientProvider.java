@@ -98,7 +98,7 @@ public abstract class AbstractClientProvider extends Configured {
    * Any provider-side alteration of a configuration can take place here.
    * @param aggregateConf config to patch
    * @throws IOException IO problems
-   * @throws SliderException Hoya-specific issues
+   * @throws SliderException Slider-specific issues
    */
   public void prepareInstanceConfiguration(AggregateConf aggregateConf) throws
       SliderException,

@@ -212,7 +212,7 @@ class HoyaTestUtils extends Assert {
   }
 
   /**
-   * Spin waiting for the Hoya role count to match expected
+   * Spin waiting for the Slider role count to match expected
    * @param client client
    * @param role role to look for
    * @param desiredCount RS count
@@ -227,7 +227,7 @@ class HoyaTestUtils extends Assert {
   }
 
   /**
-   * Spin waiting for the Hoya role count to match expected
+   * Spin waiting for the Slider role count to match expected
    * @param client client
    * @param roles map of roles to look for
    * @param desiredCount RS count
@@ -323,7 +323,7 @@ class HoyaTestUtils extends Assert {
 
   
   /**
-   * Fetch the current site config from the Hoya AM, from the 
+   * Fetch the current site config from the Slider AM, from the 
    * <code>clientProperties</code> field of the ClusterDescription
    * @param client client
    * @param clustername name of the cluster

@@ -126,9 +126,9 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   
   /**
    * Create an (unshared) HConnection talking to the hbase service that
-   * Hoya should be running
+   * Slider should be running
    * @param hoyaClient hoya client
-   * @param clustername the name of the Hoya cluster
+   * @param clustername the name of the Slider cluster
    * @return the connection
    */
   public static HConnection createHConnection(Configuration clientConf) {
@@ -337,7 +337,7 @@ public abstract class HBaseMiniClusterTestBase extends YarnZKMiniClusterTestBase
   }
 
   /**
-   * Spin waiting for the Hoya worker count to match expected
+   * Spin waiting for the Slider worker count to match expected
    * @param hoyaClient client
    * @param desiredCount RS count
    * @param timeout timeout

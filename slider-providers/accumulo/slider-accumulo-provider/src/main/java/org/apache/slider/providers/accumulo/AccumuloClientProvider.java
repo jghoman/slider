@@ -114,7 +114,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * Build the accumulo-site.xml file
    * This the configuration used by Accumulo directly
    * @param instanceDescription this is the cluster specification used to define this
-   * @return a map of the dynamic bindings for this Hoya instance
+   * @return a map of the dynamic bindings for this Slider instance
    */
   public Map<String, String> buildSiteConfFromInstance(
     AggregateConf instanceDescription)
@@ -194,7 +194,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * @param libdir relative directory to place resources
    * @param tempPath path in the cluster FS for temp files
    * @throws IOException IO problems
-   * @throws SliderException Hoya-specific issues
+   * @throws SliderException Slider-specific issues
    */
   private void addAccumuloDependencyJars(Map<String, LocalResource> providerResources,
                                             HoyaFileSystem hoyaFileSystem,

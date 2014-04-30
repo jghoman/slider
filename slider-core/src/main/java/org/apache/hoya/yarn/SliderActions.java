@@ -20,7 +20,7 @@ package org.apache.hoya.yarn;
 
 /**
  * Actions.
- * Only some of these are supported by specific Hoya Services; they
+ * Only some of these are supported by specific Slider Services; they
  * are listed here to ensure the names are consistent
  */
 public interface SliderActions {

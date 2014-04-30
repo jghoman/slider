@@ -113,7 +113,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Client service for Hoya
+ * Client service for Slider
  */
 
 public class SliderClient extends AbstractSliderLaunchedService implements RunService,
@@ -635,7 +635,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     Configuration config = getConfig();
     lookupZKQuorum();
     boolean clusterSecure = HoyaUtils.isClusterSecure(config);
-    //create the Hoya AM provider -this helps set up the AM
+    //create the Slider AM provider -this helps set up the AM
     HoyaAMClientProvider hoyaAM = new HoyaAMClientProvider(config);
 
     instanceDefinition.resolve();
@@ -882,7 +882,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     amLauncher.addCommandLine(commandLine);
 
-    // the Hoya AM gets to configure the AM requirements, not the custom provider
+    // the Slider AM gets to configure the AM requirements, not the custom provider
     hoyaAM.prepareAMResourceRequirements(hoyaAMResourceComponent, amLauncher.getResource());
 
 
@@ -1188,9 +1188,9 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   }
 
   /**
-   * List Hoya instances belonging to a specific user
+   * List Slider instances belonging to a specific user
    * @param user user: "" means all users
-   * @return a possibly empty list of Hoya AMs
+   * @return a possibly empty list of Slider AMs
    */
   @VisibleForTesting
   public List<ApplicationReport> listHoyaInstances(String user)
@@ -1406,7 +1406,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   }
 
   /**
-   * Connect to a Hoya AM
+   * Connect to a Slider AM
    * @param app application report providing the details on the application
    * @return an instance
    * @throws YarnException
@@ -1886,7 +1886,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @return the state. If still in CREATED, the cluster didn't come up
    * in the time period. If LIVE, all is well. If >LIVE, it has shut for a reason
    * @throws IOException IO
-   * @throws SliderException Hoya
+   * @throws SliderException Slider
    * @throws WaitTimeoutException if the wait timed out
    */
   @VisibleForTesting

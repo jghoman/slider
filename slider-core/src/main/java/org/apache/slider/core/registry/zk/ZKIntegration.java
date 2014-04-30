@@ -42,7 +42,7 @@ public class ZKIntegration implements Watcher {
  */
   public static String ZK_SERVICES = "services";
   /**
-   * Base path for all Hoya references
+   * Base path for all Slider references
    */
   public static String ZK_SLIDER = "slider";
   public static String ZK_USERS = "users";

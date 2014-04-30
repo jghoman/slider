@@ -36,7 +36,7 @@ import org.apache.hadoop.yarn.api.records.NodeId
  *
  * Important: container IDs will be reused as containers get recycled. This
  * is not an attempt to realistically mimic a real YARN cluster, just 
- * simulate it enough for Hoya to explore node re-use and its handling
+ * simulate it enough for Slider to explore node re-use and its handling
  * of successful and unsuccessful allocations.
  *
  * There is little or no checking of valid parameters in here -this is for

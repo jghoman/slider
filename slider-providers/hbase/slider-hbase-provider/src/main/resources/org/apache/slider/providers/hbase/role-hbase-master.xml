@@ -19,7 +19,7 @@
   -->
 
   <!--
-  These are the default cluster options for a Hoya cluster
+  These are the default cluster options for a Slider cluster
   -->
 <configuration>
   <property>

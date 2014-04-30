@@ -19,5 +19,5 @@
 package org.apache.hoya;
 
 /**
- Hoya: HBase on YARN
+ Slider: HBase on YARN
  */
