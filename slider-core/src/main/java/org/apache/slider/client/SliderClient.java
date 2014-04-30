@@ -67,7 +67,7 @@ import org.apache.slider.core.exceptions.WaitTimeoutException;
 import org.apache.slider.providers.AbstractClientProvider;
 import org.apache.slider.providers.SliderProviderFactory;
 import org.apache.slider.providers.agent.AgentKeys;
-import org.apache.slider.providers.hoyaam.SliderAMClientProvider;
+import org.apache.slider.providers.slideram.SliderAMClientProvider;
 import org.apache.slider.common.tools.ConfigHelper;
 import org.apache.slider.common.tools.Duration;
 import org.apache.slider.common.tools.SliderFileSystem;

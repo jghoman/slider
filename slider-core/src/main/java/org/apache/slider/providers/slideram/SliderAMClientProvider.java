@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.slider.providers.hoyaam;
+package org.apache.slider.providers.slideram;
 
 import com.beust.jcommander.JCommander;
 import com.google.gson.GsonBuilder;
@@ -71,7 +71,7 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
   protected static final String NAME = "SliderAM";
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   public static final String INSTANCE_RESOURCE_BASE = PROVIDER_RESOURCE_BASE_ROOT +
-                                                       "hoyaam/instance/";
+                                                       "slideram/instance/";
   public static final String INTERNAL_JSON =
     INSTANCE_RESOURCE_BASE + "internal.json";
   public static final String APPCONF_JSON =
@@ -80,7 +80,7 @@ public class SliderAMClientProvider extends AbstractClientProvider implements
     INSTANCE_RESOURCE_BASE + "resources.json";
 
   public static final String AM_ROLE_CONFIG_RESOURCE =
-    PROVIDER_RESOURCE_BASE +"hoyaam/role-am.xml";
+    PROVIDER_RESOURCE_BASE +"slideram/role-am.xml";
 
   public SliderAMClientProvider(Configuration conf) {
     super(conf);

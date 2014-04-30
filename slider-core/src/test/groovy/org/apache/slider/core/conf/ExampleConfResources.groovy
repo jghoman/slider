@@ -19,7 +19,7 @@
 package org.apache.slider.core.conf
 
 import org.apache.slider.core.persist.JsonSerDeser
-import org.apache.slider.providers.hoyaam.SliderAMClientProvider
+import org.apache.slider.providers.slideram.SliderAMClientProvider
 
 /*
   names of the example configs
@@ -37,7 +37,7 @@ class ExampleConfResources {
   static final String resources = "resources.json"
   static final String empty = "empty.json"
 
-  static final String PACKAGE = "/org/apache/hoya/core/conf/examples/"
+  static final String PACKAGE = "/org/apache/slider/core/conf/examples/"
 
 
   static

@@ -78,7 +78,7 @@ import org.apache.slider.core.exceptions.TriggerClusterTeardownException;
 import org.apache.slider.providers.SliderProviderFactory;
 import org.apache.slider.providers.ProviderRole;
 import org.apache.slider.providers.ProviderService;
-import org.apache.slider.providers.hoyaam.SliderAMClientProvider;
+import org.apache.slider.providers.slideram.SliderAMClientProvider;
 import org.apache.slider.common.tools.ConfigHelper;
 import org.apache.slider.common.tools.SliderFileSystem;
 import org.apache.slider.common.tools.SliderUtils;

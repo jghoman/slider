@@ -24,7 +24,7 @@
 <configuration>
   <property>
     <name>role.name</name>
-    <value>hoya</value>
+    <value>slider</value>
   </property>
   
   <property>

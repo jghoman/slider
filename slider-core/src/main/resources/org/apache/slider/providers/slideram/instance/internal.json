@@ -5,8 +5,8 @@
   },
 
   "global": {
-    "hoya.container.failure.shortlife": "60000",
-    "hoya.container.failure.threshold": "5",
+    "internal.container.failure.shortlife": "60000",
+    "internal.container.failure.threshold": "5",
     "slider.cluster.directory.permissions": "0770",
     "slider.data.directory.permissions": "0770"
   },
