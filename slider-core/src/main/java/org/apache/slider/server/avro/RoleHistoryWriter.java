@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.avro;
+package org.apache.slider.server.avro;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.avro.AvroTypeException;
@@ -36,6 +36,10 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.GlobFilter;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
+import org.apache.hoya.avro.NodeEntryRecord;
+import org.apache.hoya.avro.RoleHistoryFooter;
+import org.apache.hoya.avro.RoleHistoryHeader;
+import org.apache.hoya.avro.RoleHistoryRecord;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.common.tools.SliderUtils;

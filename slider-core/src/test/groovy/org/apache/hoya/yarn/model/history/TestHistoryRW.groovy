@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.FSDataOutputStream
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.avro.RoleHistoryWriter
+import org.apache.slider.server.avro.RoleHistoryWriter
 import org.apache.slider.server.appmaster.state.NodeEntry
 import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.slider.server.appmaster.state.RoleHistory

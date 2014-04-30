@@ -23,7 +23,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.slider.api.ResourceKeys
-import org.apache.hoya.avro.RoleHistoryWriter
+import org.apache.slider.server.avro.RoleHistoryWriter
 import org.apache.slider.core.conf.ConfTreeOperations
 import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.slider.server.appmaster.state.AppState
