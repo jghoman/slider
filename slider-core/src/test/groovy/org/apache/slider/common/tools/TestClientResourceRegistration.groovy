@@ -44,9 +44,8 @@ class TestClientResourceRegistration {
    * Origin of a hoya resource -again, internal tracking 
    * rather than something to set by hand.
    */
-  private final static String KEY_RESOURCE_ORIGIN = "test" +
-                                                    ".client.resource.origin";
-  
+  private final static String KEY_RESOURCE_ORIGIN = "slider.client.resource.origin";
+
   @Test
   public void testRegistration() throws Throwable {
     assert SliderUtils.registerClientResource();

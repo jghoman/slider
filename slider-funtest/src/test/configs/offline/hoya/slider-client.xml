@@ -19,7 +19,7 @@
 -->
 <configuration>
   <property>
-    <name>hoya.client.resource.origin</name>
+    <name>slider.client.resource.origin</name>
     <value>configs/sandbox/hoya</value>
     <description>This is just for diagnostics</description>
   </property>
