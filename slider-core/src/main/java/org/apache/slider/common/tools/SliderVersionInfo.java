@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.hoya.tools;
+package org.apache.slider.common.tools;
 
 import org.apache.hadoop.util.VersionInfo;
 import org.slf4j.Logger;

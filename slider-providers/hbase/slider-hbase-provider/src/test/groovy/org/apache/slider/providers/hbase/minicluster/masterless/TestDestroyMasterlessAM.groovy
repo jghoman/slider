@@ -23,7 +23,7 @@ import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderFileSystem
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.ActionEchoArgs
 import org.apache.slider.common.params.CommonArgs

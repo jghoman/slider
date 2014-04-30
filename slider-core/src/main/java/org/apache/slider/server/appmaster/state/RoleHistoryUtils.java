@@ -20,7 +20,7 @@ package org.apache.slider.server.appmaster.state;
 
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.NodeId;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 
 public class RoleHistoryUtils {
 

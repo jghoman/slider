@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hdfs.MiniDFSCluster
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.tools.CoreFileSystem
+import org.apache.slider.common.tools.CoreFileSystem
 import org.apache.hoya.yarn.cluster.YarnMiniClusterTestBase
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 

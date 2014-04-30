@@ -20,7 +20,7 @@ package org.apache.slider.server.services.docstore.utility;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.service.AbstractService;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 
 /**
  * A security checker service, which validates that the service

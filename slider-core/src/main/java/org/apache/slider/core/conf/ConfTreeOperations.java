@@ -21,7 +21,7 @@ package org.apache.slider.core.conf;
 import org.apache.slider.core.persist.PersistKeys;
 import org.apache.slider.core.persist.ConfTreeSerDeser;
 import org.apache.slider.core.exceptions.BadConfigException;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.JsonMappingException;

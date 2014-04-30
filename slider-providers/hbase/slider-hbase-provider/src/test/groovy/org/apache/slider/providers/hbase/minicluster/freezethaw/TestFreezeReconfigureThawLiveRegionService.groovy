@@ -30,9 +30,9 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.OptionKeys
 import org.apache.slider.core.build.InstanceIO
 import org.apache.slider.providers.hbase.HBaseKeys
-import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.ConfigHelper
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.junit.Test

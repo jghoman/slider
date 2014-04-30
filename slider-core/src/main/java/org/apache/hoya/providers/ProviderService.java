@@ -29,7 +29,7 @@ import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.launch.ContainerLauncher;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.slider.server.services.docstore.utility.EventCallback;

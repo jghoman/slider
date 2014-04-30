@@ -26,7 +26,7 @@ import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
-import org.apache.hoya.tools.ConfigHelper
+import org.apache.slider.common.tools.ConfigHelper
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.HBaseConfigFileOptions

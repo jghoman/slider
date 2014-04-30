@@ -29,8 +29,8 @@ import org.apache.hadoop.yarn.api.records.ContainerState
 import org.apache.hadoop.yarn.api.records.ContainerStatus
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.core.main.LauncherExitCodes
-import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
 import org.apache.hoya.yarn.SliderTestBase
 import org.apache.slider.server.appmaster.state.*
 import org.junit.Before

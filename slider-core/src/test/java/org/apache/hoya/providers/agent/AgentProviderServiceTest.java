@@ -34,7 +34,7 @@ import org.apache.slider.core.conf.ConfTree;
 import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.apache.slider.server.appmaster.state.StateAccessForProviders;
 import org.apache.slider.server.appmaster.web.rest.agent.HeartBeat;
 import org.apache.slider.server.appmaster.web.rest.agent.HeartBeatResponse;

@@ -22,7 +22,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.util.StringUtils;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -38,7 +38,7 @@ import org.apache.slider.core.persist.JsonSerDeser
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException
-import org.apache.hoya.tools.Duration
+import org.apache.slider.common.tools.Duration
 import org.apache.slider.common.params.Arguments
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.slider.client.SliderClient

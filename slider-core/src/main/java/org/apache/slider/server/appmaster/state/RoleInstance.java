@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.api.records.ContainerId;
 import org.apache.hadoop.yarn.api.records.NodeId;
 import org.apache.slider.api.ClusterDescription;
 import org.apache.slider.api.proto.Messages;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 
 import java.util.Arrays;
 

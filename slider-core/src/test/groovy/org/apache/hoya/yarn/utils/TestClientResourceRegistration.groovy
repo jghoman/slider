@@ -35,8 +35,8 @@ package org.apache.hoya.yarn.utils
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.ConfigHelper
+import org.apache.slider.common.tools.SliderUtils
 import org.junit.Test
 
 @Slf4j

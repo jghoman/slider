@@ -19,7 +19,7 @@
 package org.apache.hoya.yarn.utils
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderUtils
 import org.junit.Assert
 import org.junit.Test
 

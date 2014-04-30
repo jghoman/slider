@@ -21,7 +21,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.hoya.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderFileSystem
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 

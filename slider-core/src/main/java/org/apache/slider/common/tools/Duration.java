@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.tools;
+package org.apache.slider.common.tools;
 
 /**
  * A duration in milliseconds

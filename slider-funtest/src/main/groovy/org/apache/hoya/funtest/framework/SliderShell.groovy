@@ -21,7 +21,7 @@ package org.apache.hoya.funtest.framework
 import groovy.util.logging.Slf4j
 import org.apache.bigtop.itest.shell.Shell
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderUtils
 
 @Slf4j
 

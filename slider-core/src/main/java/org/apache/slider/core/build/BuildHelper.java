@@ -19,7 +19,7 @@
 package org.apache.slider.core.build;
 
 import org.apache.hadoop.util.VersionInfo;
-import org.apache.hoya.tools.SliderVersionInfo;
+import org.apache.slider.common.tools.SliderVersionInfo;
 
 import java.util.Map;
 import java.util.Properties;

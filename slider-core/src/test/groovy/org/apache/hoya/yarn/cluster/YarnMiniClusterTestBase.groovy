@@ -41,9 +41,9 @@ import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterNode
 import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.core.exceptions.SliderException
-import org.apache.hoya.tools.Duration
-import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.Duration
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.SliderActions
 import org.apache.slider.server.appmaster.SliderAppMaster

@@ -31,8 +31,8 @@ import org.apache.hadoop.yarn.util.Records;
 import org.apache.slider.api.ResourceKeys;
 import org.apache.slider.api.RoleKeys;
 import org.apache.slider.core.conf.MapOperations;
-import org.apache.hoya.tools.CoreFileSystem;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.CoreFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

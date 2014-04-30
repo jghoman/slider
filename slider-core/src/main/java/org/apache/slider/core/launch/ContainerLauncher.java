@@ -25,7 +25,7 @@ import org.apache.hadoop.security.token.Token;
 import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.security.ContainerTokenIdentifier;
 import org.apache.hadoop.yarn.util.ConverterUtils;
-import org.apache.hoya.tools.CoreFileSystem;
+import org.apache.slider.common.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

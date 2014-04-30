@@ -30,7 +30,7 @@ import org.apache.slider.core.persist.ConfTreeSerDeser;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.core.exceptions.NoSuchNodeException;
 import org.apache.slider.core.exceptions.WaitTimeoutException;
-import org.apache.hoya.tools.Duration;
+import org.apache.slider.common.tools.Duration;
 import org.codehaus.jackson.JsonParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -30,7 +30,7 @@ import org.apache.slider.api.ResourceKeys
 import org.apache.slider.api.RoleKeys
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.core.exceptions.ErrorStrings
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.SliderActions
 import org.apache.slider.common.params.*

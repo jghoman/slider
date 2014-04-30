@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.zookeeper.MiniZooKeeperCluster
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderUtils
 
 @Slf4j
 @CompileStatic

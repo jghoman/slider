@@ -34,8 +34,8 @@ import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.BadConfigException;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.slider.core.exceptions.SliderInternalStateException;
-import org.apache.hoya.tools.SliderFileSystem;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 
 import java.io.File;

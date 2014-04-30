@@ -37,7 +37,7 @@ import org.apache.slider.core.conf.ConfTree;
 import org.apache.slider.core.persist.JsonSerDeser;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.BadConfigException;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.server.appmaster.state.AppState;
 import org.apache.slider.server.appmaster.web.WebAppApi;
 import org.apache.slider.server.appmaster.web.WebAppApiImpl;

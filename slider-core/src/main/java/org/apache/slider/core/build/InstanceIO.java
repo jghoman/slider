@@ -24,7 +24,7 @@ import org.apache.slider.core.persist.ConfPersister;
 import org.apache.slider.core.persist.LockAcquireFailedException;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.CoreFileSystem;
+import org.apache.slider.common.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

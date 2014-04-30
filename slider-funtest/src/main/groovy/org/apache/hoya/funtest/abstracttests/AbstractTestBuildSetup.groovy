@@ -25,7 +25,7 @@ import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hoya.funtest.framework.FuntestProperties
 import org.apache.hoya.testtools.HoyaTestUtils
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderUtils
 import org.junit.Test
 
 /**

@@ -37,8 +37,8 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.ClusterDescription
-import org.apache.hoya.tools.SliderFileSystem
-import org.apache.hoya.tools.SliderUtils
+import org.apache.slider.common.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
 import org.apache.hadoop.yarn.api.records.ApplicationReport

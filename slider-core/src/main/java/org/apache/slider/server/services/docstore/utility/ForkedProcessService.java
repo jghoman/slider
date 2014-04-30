@@ -24,9 +24,9 @@ import org.apache.hadoop.service.ServiceStateException;
 import org.apache.slider.core.main.ExitCodeProvider;
 import org.apache.slider.core.main.ServiceLaunchException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.exec.ApplicationEventHandler;
-import org.apache.hoya.exec.RunLongLivedApp;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.server.exec.ApplicationEventHandler;
+import org.apache.slider.server.exec.RunLongLivedApp;
+import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

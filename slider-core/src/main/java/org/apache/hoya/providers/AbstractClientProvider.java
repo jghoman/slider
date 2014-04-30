@@ -27,7 +27,7 @@ import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.launch.AbstractLauncher;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -32,8 +32,8 @@ import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
-import org.apache.hoya.tools.Duration;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.Duration;
+import org.apache.slider.common.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exec;
+package org.apache.slider.server.exec;
 
 import org.apache.hadoop.io.IOUtils;
 import org.apache.slider.core.exceptions.SliderException;

@@ -57,7 +57,7 @@ import org.apache.slider.api.HoyaClusterProtocol;
 import org.apache.slider.core.exceptions.BadClusterStateException;
 import org.apache.slider.core.exceptions.ErrorStrings;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.Duration;
+import org.apache.slider.common.tools.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -34,8 +34,8 @@ import org.apache.slider.api.ClusterDescription
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException
 import org.apache.hoya.testtools.SliderTestUtils
-import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.Duration
+import org.apache.slider.common.tools.ConfigHelper
+import org.apache.slider.common.tools.Duration
 import org.apache.slider.client.SliderClient
 
 /**

@@ -24,7 +24,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.exceptions.SliderException;
-import org.apache.hoya.tools.CoreFileSystem;
+import org.apache.slider.common.tools.CoreFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

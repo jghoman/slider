@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.utils
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderFileSystem
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 

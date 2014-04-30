@@ -33,7 +33,7 @@ import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
-import org.apache.hoya.tools.SliderFileSystem
+import org.apache.slider.common.tools.SliderFileSystem
 import org.apache.slider.server.appmaster.state.StateAccessForProviders
 import org.apache.slider.server.appmaster.web.rest.agent.*
 import org.apache.slider.server.services.docstore.utility.EventCallback

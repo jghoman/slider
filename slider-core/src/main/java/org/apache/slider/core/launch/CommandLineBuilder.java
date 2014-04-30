@@ -20,7 +20,7 @@ package org.apache.slider.core.launch;
 
 import com.google.common.base.Preconditions;
 import org.apache.hadoop.yarn.api.ApplicationConstants;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 
 import java.util.ArrayList;
 import java.util.List;

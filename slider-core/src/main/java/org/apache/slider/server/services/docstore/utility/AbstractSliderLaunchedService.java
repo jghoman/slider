@@ -24,7 +24,7 @@ import static org.apache.slider.common.SliderXmlConfKeys.*;
 
 import org.apache.slider.common.SliderXmlConfKeys;
 import org.apache.slider.core.exceptions.BadConfigException;
-import org.apache.hoya.tools.SliderUtils;
+import org.apache.slider.common.tools.SliderUtils;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.apache.slider.server.services.curator.CuratorHelper;

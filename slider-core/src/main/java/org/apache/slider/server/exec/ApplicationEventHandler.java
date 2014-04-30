@@ -16,7 +16,7 @@
  *  limitations under the License.
  */
 
-package org.apache.hoya.exec;
+package org.apache.slider.server.exec;
 
 /**
  * Callback when a long-lived application exits

@@ -26,7 +26,7 @@ import org.apache.slider.core.conf.MapOperations;
 import org.apache.slider.core.launch.ContainerLauncher;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;
-import org.apache.hoya.tools.SliderFileSystem;
+import org.apache.slider.common.tools.SliderFileSystem;
 import org.apache.slider.server.appmaster.state.RoleInstance;
 import org.apache.slider.server.appmaster.state.RoleStatus;
 import org.slf4j.Logger;
