@@ -20,7 +20,7 @@ package org.apache.hoya;
 
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes;
 
-public interface HoyaExitCodes extends LauncherExitCodes {
+public interface SliderExitCodes extends LauncherExitCodes {
 
   /**
    * starting point for exit codes; not an exception itself

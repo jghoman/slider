@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.HoyaKeys
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.RoleKeys
@@ -69,7 +69,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_YARN_SERVICE_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)
     }
     
   }
@@ -105,7 +105,7 @@ class TestBadArguments extends HBaseMiniClusterTestBase {
       assert report.yarnApplicationState == YarnApplicationState.FAILED
       
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_YARN_SERVICE_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)
     }
     
   }

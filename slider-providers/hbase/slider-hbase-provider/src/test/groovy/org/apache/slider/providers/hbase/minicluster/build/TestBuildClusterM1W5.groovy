@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.build
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.SliderException
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.yarn.HoyaActions
@@ -89,7 +89,7 @@ class TestBuildClusterM1W5 extends HBaseMiniClusterTestBase {
           false,
           [:])
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_INSTANCE_EXISTS
+      assert e.exitCode == SliderExitCodes.EXIT_INSTANCE_EXISTS
     }
   }
 

@@ -21,8 +21,8 @@ package org.apache.slider.providers.hbase.minicluster.freezethaw
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaKeys
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.exceptions.SliderException
@@ -70,7 +70,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
       SliderClient cluster3 = launcher3.service as SliderClient
       fail("expected a failure, got ${cluster3}")
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE;
+      assert e.exitCode == SliderExitCodes.EXIT_APPLICATION_IN_USE;
     }
     
     
@@ -92,7 +92,7 @@ class TestFreezeThawLiveRegionService extends HBaseMiniClusterTestBase {
       SliderClient cluster3 = launcher3.service as SliderClient
       fail("expected a failure, got ${cluster3}")
     } catch (SliderException e) {
-      assert e.exitCode == HoyaExitCodes.EXIT_APPLICATION_IN_USE
+      assert e.exitCode == SliderExitCodes.EXIT_APPLICATION_IN_USE
     }
   }
 

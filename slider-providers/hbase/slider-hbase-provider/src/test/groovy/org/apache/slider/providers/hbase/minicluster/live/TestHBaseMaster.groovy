@@ -21,7 +21,7 @@ package org.apache.slider.providers.hbase.minicluster.live
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.hbase.ClusterStatus
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
@@ -106,7 +106,7 @@ class TestHBaseMaster extends HBaseMiniClusterTestBase {
       }
       assert 0 == clustat.servers.size()
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_DEPLOYMENT_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_DEPLOYMENT_FAILED)
     }
   }
 }

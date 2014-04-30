@@ -20,7 +20,7 @@ package org.apache.hoya.funtest.commands
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.funtest.categories.FunctionalTests
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.HoyaActions
@@ -52,7 +52,7 @@ public class TestUnknownClusterOperations extends CommandTestBase {
 
   @Test
   public void testFreezeUnknownClusterWithMessage() throws Throwable {
-      slider(HoyaExitCodes.EXIT_UNKNOWN_INSTANCE,
+      slider(SliderExitCodes.EXIT_UNKNOWN_INSTANCE,
          [
         HoyaActions.ACTION_FREEZE, UNKNOWN,
         Arguments.ARG_WAIT, Integer.toString(FREEZE_WAIT_TIME),

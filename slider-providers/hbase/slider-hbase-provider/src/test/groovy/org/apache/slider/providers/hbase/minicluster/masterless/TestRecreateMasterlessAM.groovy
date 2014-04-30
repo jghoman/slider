@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.minicluster.masterless
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.yarn.client.SliderClient
@@ -56,7 +56,7 @@ class TestRecreateMasterlessAM extends HBaseMiniClusterTestBase {
       fail("expected a failure")
     } catch (SliderException e) {
       assertExceptionDetails(e,
-                             HoyaExitCodes.EXIT_INSTANCE_EXISTS,
+                             SliderExitCodes.EXIT_INSTANCE_EXISTS,
                              ErrorStrings.E_ALREADY_EXISTS)
     }
 

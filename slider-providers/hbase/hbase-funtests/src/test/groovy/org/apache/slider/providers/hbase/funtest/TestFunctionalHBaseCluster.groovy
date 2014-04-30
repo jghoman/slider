@@ -21,8 +21,8 @@ package org.apache.slider.providers.hbase.funtest
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
-import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.hoya.funtest.framework.FuntestProperties
@@ -42,7 +42,7 @@ import static org.apache.slider.providers.hbase.HBaseKeys.ROLE_WORKER
 @CompileStatic
 @Slf4j
 public class TestFunctionalHBaseCluster extends HBaseCommandTestBase
-    implements FuntestProperties, Arguments, HoyaExitCodes {
+    implements FuntestProperties, Arguments, SliderExitCodes {
 
 
   public static final String HBASE_HEAP = "96m"

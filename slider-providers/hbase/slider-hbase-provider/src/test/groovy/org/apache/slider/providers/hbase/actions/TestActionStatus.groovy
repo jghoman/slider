@@ -19,7 +19,7 @@
 package org.apache.slider.providers.hbase.actions
 
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.exceptions.BadClusterStateException
 import org.apache.hoya.exceptions.ErrorStrings
@@ -90,7 +90,7 @@ class TestActionStatus extends HBaseMiniClusterTestBase {
 
     ActionStatusArgs statusArgs = new ActionStatusArgs()
     int status = hoyaClient.actionStatus(clustername, statusArgs)
-    assert status == HoyaExitCodes.EXIT_SUCCESS
+    assert status == SliderExitCodes.EXIT_SUCCESS
 
     //now exec the status command
     ServiceLauncher statusLauncher = launchClientAgainstMiniMR(

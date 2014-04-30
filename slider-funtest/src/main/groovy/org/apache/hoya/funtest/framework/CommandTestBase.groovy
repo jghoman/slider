@@ -39,7 +39,7 @@ import org.junit.Rule
 import org.junit.rules.Timeout
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import static org.apache.hoya.HoyaExitCodes.*
+import static org.apache.hoya.SliderExitCodes.*
 import static FuntestProperties.*
 import static org.apache.hoya.yarn.Arguments.*
 import static org.apache.hoya.yarn.HoyaActions.*

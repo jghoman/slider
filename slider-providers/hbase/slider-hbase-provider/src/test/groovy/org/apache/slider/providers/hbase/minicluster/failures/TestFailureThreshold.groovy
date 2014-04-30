@@ -24,7 +24,7 @@ import org.apache.hadoop.hbase.ClusterStatus
 import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.api.records.FinalApplicationStatus
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.OptionKeys
 import org.apache.hoya.exceptions.BadClusterStateException
@@ -129,7 +129,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
             
           } catch (BadClusterStateException e) {
             assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
-            assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
+            assert e.exitCode == SliderExitCodes.EXIT_BAD_STATE
             //success
             break;
           }
@@ -137,7 +137,7 @@ class TestFailureThreshold extends HBaseMiniClusterTestBase {
       }
     } catch (BadClusterStateException e) {
       assert e.toString().contains(ErrorStrings.E_APPLICATION_NOT_RUNNING)
-      assert e.exitCode == HoyaExitCodes.EXIT_BAD_STATE
+      assert e.exitCode == SliderExitCodes.EXIT_BAD_STATE
     }
     ApplicationReport report = client.applicationReport
     log.info(report.diagnostics)

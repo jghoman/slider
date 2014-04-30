@@ -139,7 +139,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * This is the AM, which directly implements the callbacks from the AM and NM
  */
-public class HoyaAppMaster extends AbstractSliderLaunchedService 
+public class SliderAppMaster extends AbstractSliderLaunchedService 
   implements AMRMClientAsync.CallbackHandler,
              NMClientAsync.CallbackHandler,
              RunService,
@@ -151,7 +151,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
              EventCallback,
              ContainerStartOperation {
   protected static final Logger log =
-    LoggerFactory.getLogger(HoyaAppMaster.class);
+    LoggerFactory.getLogger(SliderAppMaster.class);
 
   /**
    * log for YARN events
@@ -167,7 +167,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
   public static final int HEARTBEAT_INTERVAL = 1000;
   public static final int NUM_RPC_HANDLERS = 5;
   public static final String SERVICE_CLASSNAME =
-    "org.apache.hoya.yarn.appmaster.HoyaAppMaster";
+    "org.apache.hoya.yarn.appmaster.SliderAppMaster";
 
   /** YARN RPC to communicate with the Resource Manager or Node Manager */
   private YarnRPC yarnRPC;
@@ -280,7 +280,7 @@ public class HoyaAppMaster extends AbstractSliderLaunchedService
   /**
    * Service Constructor
    */
-  public HoyaAppMaster() {
+  public SliderAppMaster() {
     super("AppMasterService");
   }
 

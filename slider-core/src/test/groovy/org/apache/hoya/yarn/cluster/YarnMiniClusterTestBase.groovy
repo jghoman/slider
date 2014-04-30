@@ -36,8 +36,8 @@ import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
-import org.apache.hoya.HoyaExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
@@ -792,7 +792,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
    */
   public static void assertFailureClusterInUse(SliderException e) {
     assertExceptionDetails(e,
-        HoyaExitCodes.EXIT_APPLICATION_IN_USE,
+        SliderExitCodes.EXIT_APPLICATION_IN_USE,
         ErrorStrings.E_CLUSTER_RUNNING)
   }
 

@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.client
 
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncherBaseTest
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.tools.HoyaUtils
 import org.apache.hoya.yarn.Arguments
@@ -51,7 +51,7 @@ class TestClientBasicArgs extends ServiceLauncherBaseTest {
       ServiceLauncher launcher = launch(SliderClient,
                                         HoyaUtils.createConfiguration(),
                                         [])
-      assert HoyaExitCodes.EXIT_COMMAND_ARGUMENT_ERROR == launcher.serviceExitCode
+      assert SliderExitCodes.EXIT_COMMAND_ARGUMENT_ERROR == launcher.serviceExitCode
     } catch (BadCommandArgumentsException ignored) {
       // expected
     }

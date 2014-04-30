@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.ServiceLaunchException
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.RoleKeys
 import org.apache.slider.providers.accumulo.AccumuloKeys
@@ -60,7 +60,7 @@ class TestInvalidMonitorAddress extends AccumuloTestBase {
       ClusterDescription status = hoyaClient.clusterDescription
       dumpClusterDescription("Remote CD", status)
     } catch (ServiceLaunchException e) {
-      assertExceptionDetails(e, HoyaExitCodes.EXIT_YARN_SERVICE_FAILED)
+      assertExceptionDetails(e, SliderExitCodes.EXIT_YARN_SERVICE_FAILED)
     }
     
   }

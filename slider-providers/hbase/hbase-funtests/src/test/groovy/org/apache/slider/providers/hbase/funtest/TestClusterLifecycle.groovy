@@ -20,7 +20,7 @@ package org.apache.slider.providers.hbase.funtest
 
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.hoya.HoyaExitCodes
+import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.HoyaXmlConfKeys
 import org.apache.hoya.api.ClusterDescription
 import org.apache.hoya.api.StatusKeys
@@ -35,7 +35,7 @@ import org.junit.Test
 @CompileStatic
 @Slf4j
 public class TestClusterLifecycle extends HBaseCommandTestBase
-    implements FuntestProperties, Arguments, HoyaExitCodes {
+    implements FuntestProperties, Arguments, SliderExitCodes {
 
 
   static String CLUSTER = "test_cluster_lifecycle"
