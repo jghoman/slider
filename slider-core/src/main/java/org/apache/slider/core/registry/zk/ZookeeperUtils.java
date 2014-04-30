@@ -80,6 +80,9 @@ public class ZookeeperUtils {
     for (HostAndPort hostAndPort : hostAndPorts) {
       sb.append(hostAndPort.getHostText()).append(",");
     }
+    if (sb.length() > 0) {
+      sb.delete(sb.length() - 1, sb.length());
+    }
     return sb.toString();
   }
 
