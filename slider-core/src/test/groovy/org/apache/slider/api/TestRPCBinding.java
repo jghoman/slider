@@ -33,8 +33,8 @@
 package org.apache.slider.api;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.slider.server.appmaster.rpc.SliderClusterProtocolPB;
 import org.apache.slider.server.appmaster.rpc.RpcBinder;
+import org.apache.slider.server.appmaster.rpc.SliderClusterProtocolPB;
 import org.junit.Test;
 
 import java.net.InetSocketAddress;

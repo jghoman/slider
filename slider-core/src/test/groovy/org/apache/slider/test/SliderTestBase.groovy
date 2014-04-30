@@ -19,7 +19,6 @@
 package org.apache.slider.test
 
 import groovy.transform.CompileStatic
-import org.apache.slider.test.SliderTestUtils
 import org.junit.Before
 
 /**

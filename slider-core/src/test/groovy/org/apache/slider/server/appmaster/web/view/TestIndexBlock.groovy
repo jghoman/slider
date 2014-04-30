@@ -26,10 +26,10 @@ import org.apache.hadoop.yarn.api.records.Priority
 import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
 import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
+import org.apache.slider.server.appmaster.model.mock.*
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.web.WebAppApi
 import org.apache.slider.server.appmaster.web.WebAppApiImpl
-import org.apache.slider.server.appmaster.model.mock.*
 import org.junit.Before
 import org.junit.Test
 

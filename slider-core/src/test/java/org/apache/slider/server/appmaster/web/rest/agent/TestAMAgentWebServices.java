@@ -38,19 +38,17 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 import org.apache.hadoop.yarn.webapp.GenericExceptionHandler;
 import org.apache.slider.common.tools.SliderUtils;
+import org.apache.slider.server.appmaster.model.mock.MockFactory;
+import org.apache.slider.server.appmaster.model.mock.MockProviderService;
+import org.apache.slider.server.appmaster.model.mock.MockRecordFactory;
+import org.apache.slider.server.appmaster.model.mock.MockSliderClusterProtocol;
 import org.apache.slider.server.appmaster.state.AppState;
 import org.apache.slider.server.appmaster.web.WebAppApi;
 import org.apache.slider.server.appmaster.web.WebAppApiImpl;
 import org.apache.slider.server.appmaster.web.rest.AMWebServices;
 import org.apache.slider.server.appmaster.web.rest.SliderJacksonJaxbJsonProvider;
-import org.apache.slider.server.appmaster.model.mock.MockFactory;
-import org.apache.slider.server.appmaster.model.mock.MockSliderClusterProtocol;
-import org.apache.slider.server.appmaster.model.mock.MockProviderService;
-import org.apache.slider.server.appmaster.model.mock.MockRecordFactory;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -62,6 +60,8 @@ import java.io.File;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestAMAgentWebServices extends JerseyTest {
   protected static final Logger log =

@@ -24,10 +24,10 @@ import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.slider.api.ResourceKeys
 import org.apache.slider.core.conf.ConfTree
 import org.apache.slider.core.conf.ConfTreeOperations
-import org.apache.slider.server.appmaster.state.AbstractRMOperation
-import org.apache.slider.server.appmaster.state.ContainerRequestOperation
 import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.apache.slider.server.appmaster.model.mock.MockRoles
+import org.apache.slider.server.appmaster.state.AbstractRMOperation
+import org.apache.slider.server.appmaster.state.ContainerRequestOperation
 import org.junit.Test
 
 /**

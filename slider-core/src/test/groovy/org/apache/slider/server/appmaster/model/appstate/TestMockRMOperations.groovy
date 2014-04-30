@@ -21,11 +21,11 @@ package org.apache.slider.server.appmaster.model.appstate
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.client.api.AMRMClient
-import org.apache.slider.server.appmaster.state.*
 import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.apache.slider.server.appmaster.model.mock.MockFactory
 import org.apache.slider.server.appmaster.model.mock.MockRMOperationHandler
 import org.apache.slider.server.appmaster.model.mock.MockRoles
+import org.apache.slider.server.appmaster.state.*
 import org.junit.Test
 
 import static org.apache.slider.server.appmaster.state.ContainerPriority.buildPriority

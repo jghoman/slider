@@ -25,22 +25,22 @@ import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.curator.x.discovery.ServiceType
-import org.apache.slider.core.main.ServiceLauncher
-import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.StatusKeys
-import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.client.SliderClient
-import org.apache.slider.providers.agent.AgentTestBase
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.core.registry.info.ServiceInstanceData
+import org.apache.slider.providers.agent.AgentTestBase
+import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.apache.slider.server.services.curator.CuratorServiceInstances
 import org.junit.Test
 
 import javax.ws.rs.core.MediaType
 
-import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.ARG_OPTION
-import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient;
+import static org.apache.slider.providers.agent.AgentKeys.*
+import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient
 
 @CompileStatic
 @Slf4j

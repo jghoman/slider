@@ -21,9 +21,9 @@ package org.apache.slider.providers.agent
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.main.ServiceLauncher
-import org.apache.slider.common.params.SliderActions
 import org.apache.slider.client.SliderClient
+import org.apache.slider.common.params.SliderActions
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.test.YarnZKMiniClusterTestBase
 
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*

@@ -22,21 +22,21 @@ import com.sun.jersey.api.client.Client
 import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
-import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.StatusKeys
+import org.apache.slider.client.SliderClient
+import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.server.appmaster.web.SliderAMWebApp
 import org.apache.slider.server.appmaster.web.rest.agent.RegistrationResponse
 import org.apache.slider.server.appmaster.web.rest.agent.RegistrationStatus
-import org.apache.slider.client.SliderClient
 import org.junit.Test
 
 import javax.ws.rs.core.MediaType
 
-import static org.apache.slider.providers.agent.AgentKeys.*
-import static org.apache.slider.test.SliderTestUtils.log
 import static org.apache.slider.common.params.Arguments.ARG_OPTION
+import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.providers.agent.AgentTestUtils.createDummyJSONRegister
-import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient;
+import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient
+import static org.apache.slider.test.SliderTestUtils.log
 
 @CompileStatic
 @Slf4j

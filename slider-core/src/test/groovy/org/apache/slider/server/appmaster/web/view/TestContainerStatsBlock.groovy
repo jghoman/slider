@@ -31,6 +31,7 @@ import org.apache.hadoop.yarn.webapp.hamlet.HamletImpl.EImp
 import org.apache.slider.api.ClusterNode
 import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
+import org.apache.slider.server.appmaster.model.mock.*
 import org.apache.slider.server.appmaster.state.AppState
 import org.apache.slider.server.appmaster.state.RoleInstance
 import org.apache.slider.server.appmaster.web.WebAppApi
@@ -38,7 +39,6 @@ import org.apache.slider.server.appmaster.web.WebAppApiImpl
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.ClusterNodeNameComparator
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.TableAnchorContent
 import org.apache.slider.server.appmaster.web.view.ContainerStatsBlock.TableContent
-import org.apache.slider.server.appmaster.model.mock.*
 import org.junit.Before
 import org.junit.Test
 

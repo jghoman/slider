@@ -20,12 +20,12 @@ package org.apache.slider.registry.curator
 
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.common.SliderKeys
-import org.apache.slider.test.SliderTestUtils
-import org.apache.slider.test.MicroZKCluster
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorHelper
 import org.apache.slider.server.services.curator.RegistryBinderService
 import org.apache.slider.server.services.curator.RegistryNaming
+import org.apache.slider.test.MicroZKCluster
+import org.apache.slider.test.SliderTestUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

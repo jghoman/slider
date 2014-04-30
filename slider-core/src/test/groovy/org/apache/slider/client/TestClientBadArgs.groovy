@@ -20,10 +20,10 @@ package org.apache.slider.client
 
 import groovy.transform.CompileStatic
 import org.apache.hadoop.conf.Configuration
-import org.apache.slider.core.main.ServiceLauncherBaseTest
-import org.apache.slider.core.exceptions.ErrorStrings
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.SliderActions
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.junit.Test
 
 /**

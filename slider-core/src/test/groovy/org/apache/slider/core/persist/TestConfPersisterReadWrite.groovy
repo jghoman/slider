@@ -22,10 +22,10 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.slider.common.tools.CoreFileSystem
 import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.core.conf.ConfTree
 import org.apache.slider.core.conf.ExampleConfResources
-import org.apache.slider.common.tools.CoreFileSystem
 import org.apache.slider.test.YarnMiniClusterTestBase
 import org.junit.BeforeClass
 import org.junit.Test

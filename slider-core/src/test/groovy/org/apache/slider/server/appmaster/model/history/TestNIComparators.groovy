@@ -18,9 +18,9 @@
 
 package org.apache.slider.server.appmaster.model.history
 
-import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.apache.slider.server.appmaster.model.mock.MockFactory
+import org.apache.slider.server.appmaster.state.NodeInstance
 import org.junit.Test
 
 /**

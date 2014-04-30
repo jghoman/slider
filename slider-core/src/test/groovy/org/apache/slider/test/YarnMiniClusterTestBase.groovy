@@ -34,28 +34,28 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.server.MiniYARNCluster
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.ResourceScheduler
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
-import org.apache.slider.core.main.ServiceLauncher
-import org.apache.slider.core.main.ServiceLauncherBaseTest
+import org.apache.slider.api.ClusterNode
+import org.apache.slider.client.SliderClient
 import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderXmlConfKeys
-import org.apache.slider.api.ClusterNode
-import org.apache.slider.core.exceptions.ErrorStrings
-import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.common.params.ActionFreezeArgs
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.params.SliderActions
 import org.apache.slider.common.tools.Duration
 import org.apache.slider.common.tools.SliderFileSystem
 import org.apache.slider.common.tools.SliderUtils
-import org.apache.slider.common.params.Arguments
-import org.apache.slider.common.params.SliderActions
-import org.apache.slider.client.SliderClient
-import org.apache.slider.common.params.ActionFreezeArgs
+import org.apache.slider.core.exceptions.ErrorStrings
+import org.apache.slider.core.exceptions.SliderException
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.server.appmaster.SliderAppMaster
 import org.junit.After
 import org.junit.Rule
 import org.junit.rules.Timeout
 
-import static org.apache.slider.test.SliderTestUtils.*
-import static org.apache.slider.test.KeysForTests.*
 import static org.apache.slider.common.SliderXMLConfKeysForTesting.*
+import static org.apache.slider.test.KeysForTests.*
+import static org.apache.slider.test.SliderTestUtils.log
 
 /**
  * Base class for mini cluster tests -creates a field for the

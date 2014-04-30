@@ -18,8 +18,8 @@
 
 package org.apache.slider.test
 
-import org.apache.slider.common.SliderXMLConfKeysForTesting
 import org.apache.slider.common.SliderKeys
+import org.apache.slider.common.SliderXMLConfKeysForTesting
 
 /**
  * Keys shared across tests

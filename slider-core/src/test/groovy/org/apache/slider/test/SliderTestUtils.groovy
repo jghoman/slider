@@ -18,7 +18,6 @@
 
 package org.apache.slider.test
 
-import org.apache.hadoop.fs.FileSystem as HadoopFS
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -27,21 +26,22 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager
 import org.apache.commons.httpclient.methods.GetMethod
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileStatus
+import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
+import org.apache.hadoop.yarn.api.records.ApplicationReport
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.main.ServiceLaunchException
-import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.ClusterNode
+import org.apache.slider.client.SliderClient
+import org.apache.slider.common.params.Arguments
+import org.apache.slider.common.tools.Duration
 import org.apache.slider.core.conf.AggregateConf
-import org.apache.slider.core.persist.JsonSerDeser
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException
-import org.apache.slider.common.tools.Duration
-import org.apache.slider.common.params.Arguments
-import org.apache.hadoop.yarn.api.records.ApplicationReport
-import org.apache.slider.client.SliderClient
+import org.apache.slider.core.main.ServiceLaunchException
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.persist.JsonSerDeser
 import org.apache.slider.core.registry.info.ServiceInstanceData
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.junit.Assert

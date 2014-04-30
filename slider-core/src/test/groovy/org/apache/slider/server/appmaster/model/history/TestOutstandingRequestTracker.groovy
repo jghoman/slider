@@ -18,10 +18,10 @@
 
 package org.apache.slider.server.appmaster.model.history
 
+import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.slider.server.appmaster.state.OutstandingRequest
 import org.apache.slider.server.appmaster.state.OutstandingRequestTracker
-import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.junit.Test
 
 class TestOutstandingRequestTracker extends BaseMockAppStateTest {

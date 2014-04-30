@@ -18,13 +18,13 @@
 
 package org.apache.slider.client
 
-import org.apache.slider.core.main.ServiceLauncher
-import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.apache.slider.common.SliderExitCodes
-import org.apache.slider.core.exceptions.BadCommandArgumentsException
-import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.common.params.Arguments
 import org.apache.slider.common.params.ClientArgs
+import org.apache.slider.common.tools.SliderUtils
+import org.apache.slider.core.exceptions.BadCommandArgumentsException
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.main.ServiceLauncherBaseTest
 import org.junit.Test
 
 /**

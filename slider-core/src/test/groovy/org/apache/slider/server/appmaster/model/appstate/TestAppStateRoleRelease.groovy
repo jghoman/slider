@@ -21,11 +21,11 @@ package org.apache.slider.server.appmaster.model.appstate
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.ContainerId
-import org.apache.slider.server.appmaster.state.AbstractRMOperation
-import org.apache.slider.server.appmaster.state.RoleInstance
 import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
 import org.apache.slider.server.appmaster.model.mock.MockRoles
 import org.apache.slider.server.appmaster.model.mock.MockYarnEngine
+import org.apache.slider.server.appmaster.state.AbstractRMOperation
+import org.apache.slider.server.appmaster.state.RoleInstance
 import org.junit.Test
 
 /**

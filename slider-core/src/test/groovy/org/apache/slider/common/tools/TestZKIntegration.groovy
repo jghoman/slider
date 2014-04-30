@@ -21,9 +21,9 @@ package org.apache.slider.common.tools
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.slider.test.KeysForTests
 import org.apache.slider.test.YarnZKMiniClusterTestBase
-import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.zookeeper.CreateMode
 import org.apache.zookeeper.ZooDefs
 import org.apache.zookeeper.data.Stat

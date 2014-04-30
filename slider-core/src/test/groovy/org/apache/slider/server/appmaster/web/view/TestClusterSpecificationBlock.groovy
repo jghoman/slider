@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.slider.server.appmaster.web.view;
+package org.apache.slider.server.appmaster.web.view
 
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
@@ -25,14 +25,14 @@ import org.apache.hadoop.yarn.webapp.hamlet.Hamlet
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.SliderClusterProtocol
 import org.apache.slider.providers.ProviderService
-import org.apache.slider.server.appmaster.state.AbstractRecordFactory
-import org.apache.slider.server.appmaster.state.AppState
-import org.apache.slider.server.appmaster.web.WebAppApi
-import org.apache.slider.server.appmaster.web.WebAppApiImpl
 import org.apache.slider.server.appmaster.model.mock.MockAppState
 import org.apache.slider.server.appmaster.model.mock.MockProviderService
 import org.apache.slider.server.appmaster.model.mock.MockRecordFactory
 import org.apache.slider.server.appmaster.model.mock.MockSliderClusterProtocol
+import org.apache.slider.server.appmaster.state.AbstractRecordFactory
+import org.apache.slider.server.appmaster.state.AppState
+import org.apache.slider.server.appmaster.web.WebAppApi
+import org.apache.slider.server.appmaster.web.WebAppApiImpl
 import org.junit.Before
 import org.junit.Test
 

@@ -21,13 +21,13 @@ package org.apache.slider.providers.agent
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.ResourceKeys
 import org.apache.slider.client.SliderClient
+import org.apache.slider.core.main.ServiceLauncher
 import org.junit.Test
 
-import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.*
+import static org.apache.slider.providers.agent.AgentKeys.*
 
 /**
  * Tests an echo command

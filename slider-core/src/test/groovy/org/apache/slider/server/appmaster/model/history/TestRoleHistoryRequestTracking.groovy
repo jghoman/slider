@@ -21,13 +21,13 @@ package org.apache.slider.server.appmaster.model.history
 import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.hadoop.yarn.client.api.AMRMClient
 import org.apache.slider.providers.ProviderRole
+import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
+import org.apache.slider.server.appmaster.model.mock.MockContainer
+import org.apache.slider.server.appmaster.model.mock.MockFactory
 import org.apache.slider.server.appmaster.state.NodeInstance
 import org.apache.slider.server.appmaster.state.OutstandingRequest
 import org.apache.slider.server.appmaster.state.RoleHistory
 import org.apache.slider.server.appmaster.state.RoleStatus
-import org.apache.slider.server.appmaster.model.mock.BaseMockAppStateTest
-import org.apache.slider.server.appmaster.model.mock.MockContainer
-import org.apache.slider.server.appmaster.model.mock.MockFactory
 import org.junit.Before
 import org.junit.Test
 

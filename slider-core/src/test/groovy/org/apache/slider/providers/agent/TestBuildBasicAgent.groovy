@@ -21,18 +21,18 @@ package org.apache.slider.providers.agent
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.core.main.ServiceLauncher
-import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.ResourceKeys
 import org.apache.slider.api.RoleKeys
-import org.apache.slider.core.conf.AggregateConf
-import org.apache.slider.core.persist.ConfPersister
-import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.slider.client.SliderClient
+import org.apache.slider.common.SliderKeys
+import org.apache.slider.core.conf.AggregateConf
+import org.apache.slider.core.exceptions.BadConfigException
+import org.apache.slider.core.main.ServiceLauncher
+import org.apache.slider.core.persist.ConfPersister
 import org.junit.Test
 
-import static org.apache.slider.providers.agent.AgentKeys.*
 import static org.apache.slider.common.params.Arguments.*
+import static org.apache.slider.providers.agent.AgentKeys.*
 
 @CompileStatic
 @Slf4j

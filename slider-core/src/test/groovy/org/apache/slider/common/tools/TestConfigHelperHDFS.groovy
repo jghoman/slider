@@ -23,7 +23,6 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.yarn.conf.YarnConfiguration
-import org.apache.slider.common.tools.ConfigHelper
 import org.apache.slider.test.YarnMiniClusterTestBase
 import org.junit.Test
 
