@@ -1,7 +1,7 @@
 package org.apache.hoya.funtest.framework
 
 import groovy.transform.CompileStatic
-import org.apache.hoya.HoyaXMLConfKeysForTesting
+import org.apache.hoya.SliderXMLConfKeysForTesting
 import org.apache.hoya.SliderKeys
 
 /*
@@ -26,7 +26,7 @@ import org.apache.hoya.SliderKeys
  * Properties unique to the functional tests
  */
 @CompileStatic
-public interface FuntestProperties extends HoyaXMLConfKeysForTesting {
+public interface FuntestProperties extends SliderXMLConfKeysForTesting {
 
   /**
    * Maven Property of location of hoya conf dir: {@value}

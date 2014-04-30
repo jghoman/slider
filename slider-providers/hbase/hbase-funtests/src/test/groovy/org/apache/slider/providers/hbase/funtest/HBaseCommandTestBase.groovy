@@ -27,7 +27,7 @@ import org.apache.slider.providers.hbase.HBaseKeys
 import org.junit.Before
 import org.junit.BeforeClass
 
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
+import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 
 /**
  * Anything specific to HBase tests

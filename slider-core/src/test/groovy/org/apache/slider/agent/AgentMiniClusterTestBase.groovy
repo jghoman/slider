@@ -21,7 +21,7 @@ package org.apache.slider.agent
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.service.launcher.ServiceLauncher
-import org.apache.hoya.HoyaXMLConfKeysForTesting
+import org.apache.hoya.SliderXMLConfKeysForTesting
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.client.SliderClient
@@ -76,12 +76,12 @@ public abstract class AgentMiniClusterTestBase
 
   @Override
   String getApplicationHomeKey() {
-    return HoyaXMLConfKeysForTesting.KEY_TEST_AGENT_HOME;
+    return SliderXMLConfKeysForTesting.KEY_TEST_AGENT_HOME;
   }
 
   @Override
   String getArchiveKey() {
-    return HoyaXMLConfKeysForTesting.KEY_TEST_AGENT_TAR;
+    return SliderXMLConfKeysForTesting.KEY_TEST_AGENT_TAR;
   }
 
   /**

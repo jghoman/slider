@@ -21,7 +21,7 @@ package org.apache.hoya;
 /**
  * Keys shared across tests
  */
-public interface HoyaXMLConfKeysForTesting {
+public interface SliderXMLConfKeysForTesting {
 
   String KEY_TEST_HBASE_HOME = "slider.test.hbase.home";
   String KEY_TEST_HBASE_TAR = "slider.test.hbase.tar";

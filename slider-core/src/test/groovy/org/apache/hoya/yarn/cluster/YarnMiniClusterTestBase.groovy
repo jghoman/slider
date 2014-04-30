@@ -55,7 +55,7 @@ import org.junit.rules.Timeout
 
 import static org.apache.hoya.testtools.HoyaTestUtils.*
 import static org.apache.hoya.testtools.KeysForTests.*
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
+import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 
 /**
  * Base class for mini cluster tests -creates a field for the

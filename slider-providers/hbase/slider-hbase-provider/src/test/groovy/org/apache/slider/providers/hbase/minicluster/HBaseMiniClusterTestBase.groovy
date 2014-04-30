@@ -34,7 +34,7 @@ import org.apache.hoya.yarn.cluster.YarnZKMiniClusterTestBase
 
 import static org.apache.hoya.yarn.Arguments.*
 import static org.apache.hoya.testtools.HoyaTestUtils.*
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
+import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 import static HBaseKeys.*
 /**
  * test base for all hbase clusters

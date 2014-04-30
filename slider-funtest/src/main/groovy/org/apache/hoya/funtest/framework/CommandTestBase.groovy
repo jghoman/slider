@@ -43,7 +43,7 @@ import static org.apache.hoya.SliderExitCodes.*
 import static FuntestProperties.*
 import static org.apache.hoya.yarn.Arguments.*
 import static org.apache.hoya.yarn.SliderActions.*
-import static org.apache.hoya.HoyaXMLConfKeysForTesting.*
+import static org.apache.hoya.SliderXMLConfKeysForTesting.*
 
 @CompileStatic
 abstract class CommandTestBase extends HoyaTestUtils {
