@@ -352,7 +352,7 @@ public final class SliderUtils {
       permission = FsPermission.getDirDefault();
     }
     if (!destFS.exists(destDirPath)) {
-      new HoyaFileSystem(destFS, conf).createWithPermissions(destDirPath, permission);
+      new SliderFileSystem(destFS, conf).createWithPermissions(destDirPath, permission);
     }
     Path[] sourcePaths = new Path[srcFileCount];
     for (int i = 0; i < srcFileCount; i++) {
@@ -963,7 +963,7 @@ public final class SliderUtils {
   /**
    * Submit a JAR containing a specific class and map it
    * @param providerResources provider map to build up
-   * @param hoyaFileSystem remote fs
+   * @param sliderFileSystem remote fs
    * @param clazz class to look for
    * @param libdir lib directory
    * @param jarName <i>At the destination</i>
@@ -971,14 +971,14 @@ public final class SliderUtils {
    * @throws IOException trouble copying to HDFS
    */
   public static LocalResource putJar(Map<String, LocalResource> providerResources,
-                              HoyaFileSystem hoyaFileSystem,
+                              SliderFileSystem sliderFileSystem,
                               Class clazz,
                               Path tempPath,
                               String libdir,
                               String jarName
                              )
     throws IOException, SliderException {
-    LocalResource res = hoyaFileSystem.submitJarWithClass(
+    LocalResource res = sliderFileSystem.submitJarWithClass(
             clazz,
             tempPath,
             libdir,

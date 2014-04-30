@@ -29,7 +29,7 @@ import org.apache.hadoop.yarn.api.records.ContainerState
 import org.apache.hadoop.yarn.api.records.ContainerStatus
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.hadoop.yarn.service.launcher.LauncherExitCodes
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.SliderTestBase
 import org.apache.hoya.yarn.appmaster.state.*
@@ -44,7 +44,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
   AppState appState
   MockYarnEngine engine
   protected HadoopFS fs
-  protected HoyaFileSystem hoyaFileSystem
+  protected SliderFileSystem hoyaFileSystem
   protected File historyWorkDir
   protected Path historyPath;
 
@@ -53,7 +53,7 @@ abstract class BaseMockAppStateTest extends SliderTestBase implements MockRoles 
     super.setup()
     YarnConfiguration conf = SliderUtils.createConfiguration()
     fs = HadoopFS.get(new URI("file:///"), conf)
-    hoyaFileSystem = new HoyaFileSystem(fs, conf)
+    hoyaFileSystem = new SliderFileSystem(fs, conf)
     engine = createYarnEngine()
   }
 

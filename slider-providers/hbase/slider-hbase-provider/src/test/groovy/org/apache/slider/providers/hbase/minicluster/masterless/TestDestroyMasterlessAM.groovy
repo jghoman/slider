@@ -23,7 +23,7 @@ import org.apache.hoya.SliderExitCodes
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.exceptions.UnknownApplicationInstanceException
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.params.ActionEchoArgs
 import org.apache.hoya.yarn.params.CommonArgs
@@ -64,7 +64,7 @@ class TestDestroyMasterlessAM extends HBaseMiniClusterTestBase {
     SliderClient hoyaClient = (SliderClient) launcher.service
     addToTeardown(hoyaClient);
 
-    HoyaFileSystem hoyaFileSystem = createHoyaFileSystem()
+    SliderFileSystem hoyaFileSystem = createHoyaFileSystem()
     def hdfs = hoyaFileSystem.fileSystem
     def instanceDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername)
 

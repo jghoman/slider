@@ -35,7 +35,7 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.ZookeeperUtils;
 import org.slf4j.Logger;
@@ -137,7 +137,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   }
 
   @Override //Client
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -146,7 +146,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
                                                     boolean secure) throws
       SliderException,
                                                                     IOException {
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername,
                                                 configuration,
                                                 instanceDefinition,
                                                 clusterDirPath,
@@ -154,7 +154,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
 
     Path templatePath = new Path(generatedConfDirPath, HBaseKeys.SITE_XML);
     //load the HBase site file or fail
-    Configuration siteConf = ConfigHelper.loadConfiguration(hoyaFileSystem.getFileSystem(),
+    Configuration siteConf = ConfigHelper.loadConfiguration(sliderFileSystem.getFileSystem(),
                                                             templatePath);
 
     //core customizations
@@ -242,7 +242,7 @@ public class HBaseClientProvider extends AbstractClientProvider implements
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,

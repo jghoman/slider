@@ -37,7 +37,7 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -160,7 +160,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
   }
 
   @Override 
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -169,7 +169,7 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
                                                     boolean secure) throws
       SliderException,
                                                                     IOException {
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername,
                                                 configuration,
                                                 instanceDefinition,
                                                 clusterDirPath,
@@ -190,14 +190,14 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
    * @see <a href="https://issues.apache.org/;jira/browse/PIG-3285">PIG-3285</a>
    *
    * @param providerResources provider resources to add resource to
-   * @param hoyaFileSystem filesystem
+   * @param sliderFileSystem filesystem
    * @param libdir relative directory to place resources
    * @param tempPath path in the cluster FS for temp files
    * @throws IOException IO problems
    * @throws SliderException Slider-specific issues
    */
   private void addAccumuloDependencyJars(Map<String, LocalResource> providerResources,
-                                            HoyaFileSystem hoyaFileSystem,
+                                            SliderFileSystem sliderFileSystem,
                                             String libdir,
                                             Path tempPath) throws
                                                            IOException,
@@ -211,13 +211,13 @@ public class AccumuloClientProvider extends AbstractClientProvider implements
 /*      org.apache.zookeeper.ClientCnxn.class*/
     };
     
-    ProviderUtils.addDependencyJars(providerResources, hoyaFileSystem, tempPath,
+    ProviderUtils.addDependencyJars(providerResources, sliderFileSystem, tempPath,
                                     libdir, jars,
                                     classes);
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,

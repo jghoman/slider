@@ -42,7 +42,7 @@ import org.apache.hoya.api.ClusterNode
 import org.apache.hoya.exceptions.ErrorStrings
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.tools.Duration
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.Arguments
 import org.apache.hoya.yarn.SliderActions
@@ -421,7 +421,7 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
     assert miniCluster != null
     if (deleteExistingData) {
       HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), miniCluster.config)
-      Path clusterDir = new HoyaFileSystem(dfs, miniCluster.config).buildHoyaClusterDirPath(clustername)
+      Path clusterDir = new SliderFileSystem(dfs, miniCluster.config).buildHoyaClusterDirPath(clustername)
       log.info("deleting customer data at $clusterDir")
       //this is a safety check to stop us doing something stupid like deleting /
       assert clusterDir.toString().contains("/.slider/")
@@ -797,13 +797,13 @@ public abstract class YarnMiniClusterTestBase extends ServiceLauncherBaseTest {
   }
 
   /**
-   * Create a HoyaFileSystem instance bonded to the running FS.
+   * Create a SliderFileSystem instance bonded to the running FS.
    * The YARN cluster must be up and running already
    * @return
    */
-  public HoyaFileSystem createHoyaFileSystem() {
+  public SliderFileSystem createHoyaFileSystem() {
     HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), configuration)
-    HoyaFileSystem hfs = new HoyaFileSystem(dfs, configuration)
+    SliderFileSystem hfs = new SliderFileSystem(dfs, configuration)
     return hfs
   }
 

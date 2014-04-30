@@ -29,7 +29,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.service.EventCallback;
@@ -50,7 +50,7 @@ public interface ProviderService extends ProviderCore, Service,
    * @param instanceDefinition
    * @param container
    * @param role
-   * @param hoyaFileSystem
+   * @param sliderFileSystem
    * @param generatedConfPath
    * @param appComponent
    * @param containerTmpDirPath
@@ -59,7 +59,7 @@ public interface ProviderService extends ProviderCore, Service,
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem hoyaFileSystem,
+      SliderFileSystem sliderFileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,

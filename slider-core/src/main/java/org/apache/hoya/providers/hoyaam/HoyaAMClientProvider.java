@@ -42,7 +42,7 @@ import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.PlacementPolicy;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
@@ -114,7 +114,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
 
 
   @Override //Client
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -124,7 +124,7 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
       SliderException,
                                                                     IOException {
 
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername, configuration, instanceDefinition, clusterDirPath, generatedConfDirPath, secure);
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername, configuration, instanceDefinition, clusterDirPath, generatedConfDirPath, secure);
     //add a check for the directory being writeable by the current user
     String
       dataPath = instanceDefinition.getInternalOperations()
@@ -133,16 +133,16 @@ public class HoyaAMClientProvider extends AbstractClientProvider implements
                                      OptionKeys.INTERNAL_DATA_DIR_PATH);
 
     Path path = new Path(dataPath);
-    hoyaFileSystem.verifyDirectoryWriteAccess(path);
+    sliderFileSystem.verifyDirectoryWriteAccess(path);
     Path historyPath = new Path(clusterDirPath, SliderKeys.HISTORY_DIR_NAME);
-    hoyaFileSystem.verifyDirectoryWriteAccess(historyPath);
+    sliderFileSystem.verifyDirectoryWriteAccess(historyPath);
   }
 
   /**
    * The Slider AM sets up all the dependency JARs above hoya.jar itself
    * {@inheritDoc}
    */
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,

@@ -27,7 +27,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.AbstractLauncher;
 import org.apache.hoya.exceptions.BadClusterStateException;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,7 +122,7 @@ public abstract class AbstractClientProvider extends Configured {
    * @throws IOException
    * @throws SliderException
    */
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,
@@ -185,7 +185,7 @@ public abstract class AbstractClientProvider extends Configured {
    * purely a pre-launch validation of options.
    *
    *
-   * @param hoyaFileSystem filesystem
+   * @param sliderFileSystem filesystem
    * @param clustername name of the cluster
    * @param configuration cluster configuration
    * @param instanceDefinition cluster specification
@@ -195,7 +195,7 @@ public abstract class AbstractClientProvider extends Configured {
    * @throws SliderException on any validation issue
    * @throws IOException on any IO problem
    */
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                       String clustername,
                                                       Configuration configuration,
                                                       AggregateConf instanceDefinition,

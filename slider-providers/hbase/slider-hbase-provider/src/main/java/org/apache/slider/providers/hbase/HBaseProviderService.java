@@ -39,7 +39,7 @@ import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentRestOperations;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
@@ -76,7 +76,7 @@ public class HBaseProviderService extends AbstractProviderService implements
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   private HBaseClientProvider clientProvider;
   private Configuration siteConf;
-  private HoyaFileSystem hoyaFileSystem = null;
+  private SliderFileSystem sliderFileSystem = null;
 
   public HBaseProviderService() {
     super("HBaseProviderService");
@@ -117,13 +117,13 @@ public class HBaseProviderService extends AbstractProviderService implements
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem hoyaFileSystem,
+      SliderFileSystem sliderFileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,
       Path containerTmpDirPath) throws IOException, SliderException {
 
-    this.hoyaFileSystem = hoyaFileSystem;
+    this.sliderFileSystem = sliderFileSystem;
     this.instanceDefinition = instanceDefinition;
     // Set the environment
     launcher.putEnv(SliderUtils.buildEnvMap(appComponent));
@@ -138,13 +138,13 @@ public class HBaseProviderService extends AbstractProviderService implements
     //local resources
 
     //add the configuration resources
-    launcher.addLocalResources(hoyaFileSystem.submitDirectory(
+    launcher.addLocalResources(sliderFileSystem.submitDirectory(
         generatedConfPath,
         SliderKeys.PROPAGATED_CONF_DIR_NAME));
     //Add binaries
     //now add the image if it was set
     String imageURI = instanceDefinition.getInternalOperations().get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
-    hoyaFileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
+    sliderFileSystem.maybeAddImagePath(launcher.getLocalResources(), imageURI);
 
     CommandLineBuilder cli = new CommandLineBuilder();
 

@@ -27,14 +27,14 @@ import java.io.IOException;
  * Extends Core Filesystem with operations to manipulate ClusterDescription
  * persistent state
  */
-public class HoyaFileSystem extends CoreFileSystem {
+public class SliderFileSystem extends CoreFileSystem {
 
-  public HoyaFileSystem(FileSystem fileSystem,
-                        Configuration configuration) {
+  public SliderFileSystem(FileSystem fileSystem,
+      Configuration configuration) {
     super(fileSystem, configuration);
   }
 
-  public HoyaFileSystem(Configuration configuration) throws IOException {
+  public SliderFileSystem(Configuration configuration) throws IOException {
     super(configuration);
   }
 

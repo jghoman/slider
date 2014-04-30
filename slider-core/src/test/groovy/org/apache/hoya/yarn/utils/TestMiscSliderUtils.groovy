@@ -21,7 +21,7 @@ package org.apache.hoya.yarn.utils
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem as HadoopFS
 import org.apache.hadoop.fs.Path
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 
@@ -36,7 +36,7 @@ class TestMiscSliderUtils extends SliderTestBase {
 
     Configuration configuration = new Configuration()
     HadoopFS fs = HadoopFS.get(new URI("file:///"), configuration)
-    HoyaFileSystem hoyaFileSystem = new HoyaFileSystem(fs, configuration)
+    SliderFileSystem hoyaFileSystem = new SliderFileSystem(fs, configuration)
     Path inst = hoyaFileSystem.createHoyaAppInstanceTempPath(CLUSTER1, "001")
 
     assert fs.exists(inst)

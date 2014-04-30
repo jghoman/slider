@@ -70,7 +70,7 @@ import org.apache.hoya.providers.agent.AgentKeys;
 import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
 import org.apache.hoya.tools.Duration;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.hoya.yarn.Arguments;
@@ -132,7 +132,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    */
   private SliderClusterOperations sliderClusterOperations;
 
-  private HoyaFileSystem hoyaFileSystem;
+  private SliderFileSystem sliderFileSystem;
 
   /**
    * Yarn client service
@@ -177,7 +177,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     super.serviceInit(conf);
     
     //here the superclass is inited; getConfig returns a non-null value
-    hoyaFileSystem = new HoyaFileSystem(getConfig());
+    sliderFileSystem = new SliderFileSystem(getConfig());
     YARNRegistryClient =
       new YARNRegistryClient(yarnClient, getUsername(), getConfig());
   }
@@ -259,16 +259,16 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     verifyNoLiveClusters(clustername);
 
     // create the directory path
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
     // delete the directory;
-    boolean exists = hoyaFileSystem.getFileSystem().exists(clusterDirectory);
+    boolean exists = sliderFileSystem.getFileSystem().exists(clusterDirectory);
     if (exists) {
       log.info("Application Instance {} found at {}: destroying", clustername, clusterDirectory);
     } else {
       log.info("Application Instance {} already destroyed", clustername);
     }
     boolean deleted =
-      hoyaFileSystem.getFileSystem().delete(clusterDirectory, true);
+      sliderFileSystem.getFileSystem().delete(clusterDirectory, true);
     if (!deleted) {
       log.warn("Filesystem returned false from delete() operation");
     }
@@ -377,7 +377,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     AbstractClientProvider provider =
       createClientProvider(providerName);
     InstanceBuilder builder =
-      new InstanceBuilder(hoyaFileSystem, 
+      new InstanceBuilder(sliderFileSystem, 
                           getConfig(),
                           clustername);
     
@@ -549,7 +549,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                            LaunchArgsAccessor launchArgs) throws
                                                           YarnException,
                                                           IOException {
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       clustername,
       clusterDirectory);
@@ -578,7 +578,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
     try {
       AggregateConf definition =
-        InstanceIO.loadInstanceDefinitionUnresolved(hoyaFileSystem,
+        InstanceIO.loadInstanceDefinitionUnresolved(sliderFileSystem,
                                                     clusterDirectory);
       return definition;
     } catch (FileNotFoundException e) {
@@ -598,7 +598,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                                       IOException,
       SliderException {
 
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(name);
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(name);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       name,
       clusterDirectory);
@@ -665,7 +665,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // now build up the image path
     // TODO: consider supporting apps that don't have an image path
     Path imagePath =
-      SliderUtils.extractImagePath(hoyaFileSystem, internalOptions);
+      SliderUtils.extractImagePath(sliderFileSystem, internalOptions);
     if (log.isDebugEnabled()) {
       log.debug(instanceDefinition.toString());
     }
@@ -674,7 +674,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     AppMasterLauncher amLauncher = new AppMasterLauncher(clustername,
                                                          SliderKeys.APP_TYPE,
                                                          config,
-                                                         hoyaFileSystem,
+        sliderFileSystem,
                                                          yarnClient,
                                                          clusterSecure,
                                                          hoyaAMResourceComponent);
@@ -686,14 +686,14 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     amLauncher.setMaxAppAttempts(config.getInt(KEY_AM_RESTART_LIMIT,
                                                DEFAULT_AM_RESTART_LIMIT));
 
-    hoyaFileSystem.purgeHoyaAppInstanceTempFiles(clustername);
-    Path tempPath = hoyaFileSystem.createHoyaAppInstanceTempPath(
+    sliderFileSystem.purgeHoyaAppInstanceTempFiles(clustername);
+    Path tempPath = sliderFileSystem.createHoyaAppInstanceTempPath(
       clustername,
       appId.toString() + "/am");
     String libdir = "lib";
     Path libPath = new Path(tempPath, libdir);
-    hoyaFileSystem.getFileSystem().mkdirs(libPath);
-    log.debug("FS={}, tempPath={}, libdir={}", hoyaFileSystem.toString(),
+    sliderFileSystem.getFileSystem().mkdirs(libPath);
+    log.debug("FS={}, tempPath={}, libdir={}", sliderFileSystem.toString(),
               tempPath, libPath);
     // set local resources for the application master
     // local files or archives as needed
@@ -731,7 +731,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       if (remoteConfPath != null) {
         relativeConfDir = SliderKeys.SUBMITTED_CONF_DIR;
         Map<String, LocalResource> submittedConfDir =
-          hoyaFileSystem.submitDirectory(remoteConfPath,
+          sliderFileSystem.submitDirectory(remoteConfPath,
                                          relativeConfDir);
         SliderUtils.mergeMaps(localResources, submittedConfDir);
       }
@@ -751,7 +751,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     // add AM and provider specific artifacts to the resource map
     Map<String, LocalResource> providerResources;
     // standard AM resources
-    hoyaAM.prepareAMAndConfigForLaunch(hoyaFileSystem,
+    hoyaAM.prepareAMAndConfigForLaunch(sliderFileSystem,
                                        config,
                                        amLauncher,
                                        instanceDefinition,
@@ -762,7 +762,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                        tempPath,
                                        usingMiniMRCluster);
     //add provider-specific resources
-    provider.prepareAMAndConfigForLaunch(hoyaFileSystem,
+    provider.prepareAMAndConfigForLaunch(sliderFileSystem,
                                          config,
                                          amLauncher,
                                          instanceDefinition,
@@ -778,7 +778,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     log.debug("Preflight validation of cluster configuration");
 
     
-    hoyaAM.preflightValidateClusterConfiguration(hoyaFileSystem,
+    hoyaAM.preflightValidateClusterConfiguration(sliderFileSystem,
                                                  clustername,
                                                  config,
                                                  instanceDefinition,
@@ -787,7 +787,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                  clusterSecure
                                                 );
 
-    provider.preflightValidateClusterConfiguration(hoyaFileSystem,
+    provider.preflightValidateClusterConfiguration(sliderFileSystem,
                                                    clustername,
                                                    config,
                                                    instanceDefinition,
@@ -798,7 +798,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
 
 
     // now add the image if it was set
-    if (hoyaFileSystem.maybeAddImagePath(localResources, imagePath)) {
+    if (sliderFileSystem.maybeAddImagePath(localResources, imagePath)) {
       log.debug("Registered image path {}", imagePath);
     }
 
@@ -816,7 +816,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       log.debug("AM classpath={}", classpath);
       log.debug("Environment Map:\n{}",
                 SliderUtils.stringifyMap(amLauncher.getEnv()));
-      log.debug("Files in lib path\n{}", hoyaFileSystem.listFSDir(libPath));
+      log.debug("Files in lib path\n{}", sliderFileSystem.listFSDir(libPath));
     }
 
     // rm address
@@ -1028,7 +1028,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   public Path createPathThatMustExist(String uri) throws
       SliderException,
                                                   IOException {
-    return hoyaFileSystem.createPathThatMustExist(uri);
+    return sliderFileSystem.createPathThatMustExist(uri);
   }
 
   /**
@@ -1276,8 +1276,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     log.debug("actionExists({}, {})", name, live);
 
     //initial probe for a cluster in the filesystem
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(name);
-    if (!hoyaFileSystem.getFileSystem().exists(clusterDirectory)) {
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(name);
+    if (!sliderFileSystem.getFileSystem().exists(clusterDirectory)) {
       throw unknownClusterException(name);
     }
     
@@ -1486,7 +1486,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
               forcekill);
     
     //is this actually a known cluster?
-    hoyaFileSystem.locateInstanceDefinition(clustername);
+    sliderFileSystem.locateInstanceDefinition(clustername);
     ApplicationReport app = findInstance(clustername);
     if (app == null) {
       // exit early
@@ -1661,7 +1661,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                    IOException {
     verifyBindingsDefined();
     SliderUtils.validateClusterName(clustername);
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
     AggregateConf instanceDefinition = loadInstanceDefinitionUnresolved(
       clustername,
       clusterDirectory);
@@ -1687,7 +1687,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     int exitCode = EXIT_FALSE;
     // save the specification
     try {
-      InstanceIO.updateInstanceDefinition(hoyaFileSystem, clusterDirectory,instanceDefinition);
+      InstanceIO.updateInstanceDefinition(sliderFileSystem, clusterDirectory,instanceDefinition);
     } catch (LockAcquireFailedException e) {
       // lock failure
       log.debug("Failed to lock dir {}", clusterDirectory, e);
@@ -1727,8 +1727,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                                                            IOException,
       SliderException,
                                                                            LockAcquireFailedException {
-    Path clusterDirectory = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
-    ConfPersister persister = new ConfPersister(hoyaFileSystem, clusterDirectory);
+    Path clusterDirectory = sliderFileSystem.buildHoyaClusterDirPath(clustername);
+    ConfPersister persister = new ConfPersister(sliderFileSystem, clusterDirectory);
     AggregateConf instanceDescription = new AggregateConf();
     persister.load(instanceDescription);
     return instanceDescription;

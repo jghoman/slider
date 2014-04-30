@@ -34,7 +34,7 @@ import org.apache.hoya.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.exceptions.BadConfigException;
 import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.exceptions.SliderInternalStateException;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 
@@ -69,7 +69,7 @@ public class ProviderUtils implements RoleKeys {
    * @param providerResources map of provider resources to add these entries to
    * @param provider provider to add
    * @param jarName name of the jar to use
-   * @param hoyaFileSystem target filesystem
+   * @param sliderFileSystem target filesystem
    * @param tempPath path in the cluster FS for temp files
    * @param libdir relative directory to place resources
    * @param miniClusterTestRun
@@ -83,7 +83,7 @@ public class ProviderUtils implements RoleKeys {
   public static boolean addProviderJar(Map<String, LocalResource> providerResources,
       Object provider,
       String jarName,
-      HoyaFileSystem hoyaFileSystem,
+      SliderFileSystem sliderFileSystem,
       Path tempPath,
       String libdir,
       boolean miniClusterTestRun) throws
@@ -91,7 +91,7 @@ public class ProviderUtils implements RoleKeys {
       SliderException {
     try {
       SliderUtils.putJar(providerResources,
-          hoyaFileSystem,
+          sliderFileSystem,
           provider.getClass(),
           tempPath,
           libdir,
@@ -111,7 +111,7 @@ public class ProviderUtils implements RoleKeys {
    * by copying them from the local classpath to the remote one, then
    * registering them
    * @param providerResources map of provider resources to add these entries to
-   * @param hoyaFileSystem target filesystem
+   * @param sliderFileSystem target filesystem
    * @param tempPath path in the cluster FS for temp files
    * @param libdir relative directory to place resources
    * @param resources list of resource names (e.g. "hbase.jar"
@@ -121,7 +121,7 @@ public class ProviderUtils implements RoleKeys {
    * @throws SliderException any Slider problem
    */
   public static void addDependencyJars(Map<String, LocalResource> providerResources,
-                                       HoyaFileSystem hoyaFileSystem,
+                                       SliderFileSystem sliderFileSystem,
                                        Path tempPath,
                                        String libdir,
                                        String[] resources,
@@ -140,7 +140,7 @@ public class ProviderUtils implements RoleKeys {
       String jarName = resources[i];
       Class clazz = classes[i];
       SliderUtils.putJar(providerResources,
-          hoyaFileSystem,
+          sliderFileSystem,
           clazz,
           tempPath,
           libdir,

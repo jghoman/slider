@@ -80,7 +80,7 @@ import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;
 import org.apache.hoya.providers.hoyaam.HoyaAMClientProvider;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.tools.SliderVersionInfo;
 import org.apache.hoya.yarn.SliderActions;
@@ -412,7 +412,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     String hoyaClusterDir = serviceArgs.getHoyaClusterURI();
     URI hoyaClusterURI = new URI(hoyaClusterDir);
     Path clusterDirPath = new Path(hoyaClusterURI);
-    HoyaFileSystem fs = getClusterFS();
+    SliderFileSystem fs = getClusterFS();
 
     // build up information about the running application -this
     // will be passed down to the cluster status
@@ -815,8 +815,8 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
    * Get the filesystem of this cluster
    * @return the FS of the config
    */
-  public HoyaFileSystem getClusterFS() throws IOException {
-    return new HoyaFileSystem(getConfig());
+  public SliderFileSystem getClusterFS() throws IOException {
+    return new SliderFileSystem(getConfig());
   }
 
   /**

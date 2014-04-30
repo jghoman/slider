@@ -37,7 +37,7 @@ import groovy.util.logging.Slf4j
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.SliderKeys
 import org.apache.hoya.api.ClusterDescription
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
@@ -85,7 +85,7 @@ class TestSliderConfDirToMasterlessAM extends HBaseMiniClusterTestBase {
           1, hbaseClusterStartupTime)
       HadoopFS fs = HadoopFS.getLocal(conf);
       
-      Path clusterDir = new HoyaFileSystem(fs, conf).buildHoyaClusterDirPath(clustername)
+      Path clusterDir = new SliderFileSystem(fs, conf).buildHoyaClusterDirPath(clustername)
       assert fs.exists(clusterDir);
       Path hoyaConfDir = new Path(clusterDir, SliderKeys.SUBMITTED_CONF_DIR)
       assert fs.exists(hoyaConfDir);

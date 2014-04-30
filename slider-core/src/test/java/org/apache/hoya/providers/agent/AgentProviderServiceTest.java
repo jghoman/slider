@@ -34,7 +34,7 @@ import org.apache.hoya.core.conf.ConfTree;
 import org.apache.hoya.core.conf.ConfTreeOperations;
 import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.exceptions.SliderException;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeat;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.HeartBeatResponse;
@@ -85,15 +85,15 @@ public class AgentProviderServiceTest {
 
     Container container = createNiceMock(Container.class);
     String role = "HBASE_MASTER";
-    HoyaFileSystem hoyaFileSystem = createNiceMock(HoyaFileSystem.class);
+    SliderFileSystem sliderFileSystem = createNiceMock(SliderFileSystem.class);
     Path generatedConfPath = new Path(".", "test");
     MapOperations resourceComponent = new MapOperations();
     MapOperations appComponent = new MapOperations();
     Path containerTmpDirPath = new Path(".", "test");
     FileSystem mockFs = new MockFileSystem();
-    expect(hoyaFileSystem.getFileSystem())
+    expect(sliderFileSystem.getFileSystem())
         .andReturn(new FilterFileSystem(mockFs)).anyTimes();
-    expect(hoyaFileSystem.createAmResource(anyObject(Path.class),
+    expect(sliderFileSystem.createAmResource(anyObject(Path.class),
                                            anyObject(LocalResourceType.class)))
         .andReturn(createNiceMock(LocalResource.class)).anyTimes();
     expect(container.getId()).andReturn(new MockContainerId(1)).anyTimes();
@@ -123,14 +123,14 @@ public class AgentProviderServiceTest {
     ConfTreeOperations treeOps = aggConf.getAppConfOperations();
     treeOps.getOrAddComponent("HBASE_MASTER").put(AgentKeys.WAIT_HEARTBEAT, "0");
     expect(access.getInstanceDefinitionSnapshot()).andReturn(aggConf);
-    replay(access, ctx, container, hoyaFileSystem);
+    replay(access, ctx, container, sliderFileSystem);
 
     try {
       mockAps.buildContainerLaunchContext(null,
           instanceDefinition,
                                           container,
                                           role,
-                                          hoyaFileSystem,
+          sliderFileSystem,
                                           generatedConfPath,
                                           resourceComponent,
                                           appComponent,

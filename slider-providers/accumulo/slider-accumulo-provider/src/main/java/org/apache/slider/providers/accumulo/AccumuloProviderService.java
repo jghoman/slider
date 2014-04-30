@@ -42,10 +42,10 @@ import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.slider.core.registry.zk.BlockingZKWatcher;
 import org.apache.hoya.tools.ConfigHelper;
-import org.apache.hoya.tools.HoyaFileSystem;
 import org.apache.hoya.yarn.service.EventCallback;
 import org.apache.hoya.yarn.service.EventNotifyingService;
 import org.apache.hoya.yarn.service.ForkedProcessService;
@@ -78,7 +78,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
   private AccumuloClientProvider clientProvider;
   private static final ProviderUtils providerUtils = new ProviderUtils(log);
   
-  private HoyaFileSystem fileSystem = null;
+  private SliderFileSystem fileSystem = null;
 
   public AccumuloProviderService() {
     super("accumulo");
@@ -120,7 +120,7 @@ public class AccumuloProviderService extends AbstractProviderService implements
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem fileSystem,
+      SliderFileSystem fileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,

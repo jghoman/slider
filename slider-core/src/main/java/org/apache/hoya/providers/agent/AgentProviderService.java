@@ -40,7 +40,7 @@ import org.apache.hoya.providers.AbstractProviderService;
 import org.apache.hoya.providers.ProviderCore;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders;
 import org.apache.hoya.yarn.appmaster.web.rest.agent.AgentCommandType;
@@ -126,7 +126,7 @@ public class AgentProviderService extends AbstractProviderService implements
                                           AggregateConf instanceDefinition,
                                           Container container,
                                           String role,
-                                          HoyaFileSystem fileSystem,
+                                          SliderFileSystem fileSystem,
                                           Path generatedConfPath,
                                           MapOperations resourceComponent,
                                           MapOperations appComponent,

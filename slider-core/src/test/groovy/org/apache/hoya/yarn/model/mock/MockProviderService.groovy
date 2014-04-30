@@ -33,7 +33,7 @@ import org.apache.hoya.exceptions.BadCommandArgumentsException
 import org.apache.hoya.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole
 import org.apache.hoya.providers.ProviderService
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.appmaster.state.StateAccessForProviders
 import org.apache.hoya.yarn.appmaster.web.rest.agent.*
 import org.apache.hoya.yarn.service.EventCallback
@@ -136,7 +136,7 @@ class MockProviderService implements ProviderService {
   }
 
   @Override
-  public void buildContainerLaunchContext(ContainerLaunchContext ctx, HoyaFileSystem hoyaFileSystem, Path generatedConfPath, String role,
+  public void buildContainerLaunchContext(ContainerLaunchContext ctx, SliderFileSystem hoyaFileSystem, Path generatedConfPath, String role,
       ClusterDescription clusterSpec, Map<String,String> roleOptions) throws IOException, SliderException {
   }
 
@@ -179,7 +179,7 @@ class MockProviderService implements ProviderService {
       AggregateConf instanceDefinition,
       Container container,
       String role,
-      HoyaFileSystem hoyaFileSystem,
+      SliderFileSystem hoyaFileSystem,
       Path generatedConfPath,
       MapOperations resourceComponent,
       MapOperations appComponent,

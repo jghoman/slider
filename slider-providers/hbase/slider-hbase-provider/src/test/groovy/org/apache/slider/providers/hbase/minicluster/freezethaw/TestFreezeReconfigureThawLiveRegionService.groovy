@@ -31,7 +31,7 @@ import org.apache.hoya.api.OptionKeys
 import org.apache.hoya.core.build.InstanceIO
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.ConfigHelper
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.tools.SliderUtils
 import org.apache.hoya.yarn.client.SliderClient
 import org.apache.slider.providers.hbase.minicluster.HBaseMiniClusterTestBase
@@ -87,7 +87,7 @@ class TestFreezeReconfigureThawLiveRegionService
 
     //get the location of the cluster
     HadoopFS dfs = HadoopFS.get(new URI(fsDefaultName), miniCluster.config)
-    HoyaFileSystem hoyaFileSystem = new HoyaFileSystem(dfs, miniCluster.config)
+    SliderFileSystem hoyaFileSystem = new SliderFileSystem(dfs, miniCluster.config)
     Path clusterDir = hoyaFileSystem.buildHoyaClusterDirPath(clustername);
     def instanceDefinition = InstanceIO.loadInstanceDefinitionUnresolved(
         hoyaFileSystem,

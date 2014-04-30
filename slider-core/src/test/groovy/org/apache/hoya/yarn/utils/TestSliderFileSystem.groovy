@@ -21,7 +21,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.hoya.SliderXmlConfKeys
-import org.apache.hoya.tools.HoyaFileSystem
+import org.apache.hoya.tools.SliderFileSystem
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 
@@ -41,7 +41,7 @@ class TestSliderFileSystem extends SliderTestBase {
     Configuration configuration = defaultConfiguration()
     FileSystem fileSystem = FileSystem.get(configuration)
 
-    def fs2 = new HoyaFileSystem(fileSystem, configuration)
+    def fs2 = new SliderFileSystem(fileSystem, configuration)
     fs2.baseApplicationPath == new Path(fileSystem.homeDirectory, ".slider")
   }
 
@@ -49,7 +49,7 @@ class TestSliderFileSystem extends SliderTestBase {
   public void testHoyaBasePathCustomValue() throws Throwable {
     Configuration configuration = createConfigurationWithKV(SliderXmlConfKeys.KEY_SLIDER_BASE_PATH, "/slider/cluster")
     FileSystem fileSystem = FileSystem.get(configuration)
-    def fs2 = new HoyaFileSystem(fileSystem, configuration)
+    def fs2 = new SliderFileSystem(fileSystem, configuration)
 
     fs2.baseApplicationPath == new Path("/slider/cluster")
   }

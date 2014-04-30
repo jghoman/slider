@@ -26,7 +26,7 @@ import org.apache.hoya.core.conf.MapOperations;
 import org.apache.hoya.core.launch.ContainerLauncher;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderService;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class RoleLaunchService extends AbstractService {
   /**
    * Filesystem to use for the launch
    */
-  private final HoyaFileSystem fs;
+  private final SliderFileSystem fs;
 
   /**
    * Path in the launch filesystem that refers to a configuration directory
@@ -104,7 +104,7 @@ public class RoleLaunchService extends AbstractService {
    */
   public RoleLaunchService(ContainerStartOperation startOperation,
                            ProviderService provider,
-                           HoyaFileSystem fs,
+                           SliderFileSystem fs,
                            Path generatedConfDirPath,
                            Map<String, String> envVars, Path launcherTmpDirPath) {
     super("RoleLaunchService");

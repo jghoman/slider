@@ -32,7 +32,7 @@ import org.apache.hoya.exceptions.SliderException;
 import org.apache.hoya.providers.AbstractClientProvider;
 import org.apache.hoya.providers.ProviderRole;
 import org.apache.hoya.providers.ProviderUtils;
-import org.apache.hoya.tools.HoyaFileSystem;
+import org.apache.hoya.tools.SliderFileSystem;
 import org.apache.hoya.tools.SliderUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class AgentClientProvider extends AbstractClientProvider
   }
 
   @Override //Client
-  public void preflightValidateClusterConfiguration(HoyaFileSystem hoyaFileSystem,
+  public void preflightValidateClusterConfiguration(SliderFileSystem sliderFileSystem,
                                                     String clustername,
                                                     Configuration configuration,
                                                     AggregateConf instanceDefinition,
@@ -78,7 +78,7 @@ public class AgentClientProvider extends AbstractClientProvider
                                                     boolean secure) throws
       SliderException,
       IOException {
-    super.preflightValidateClusterConfiguration(hoyaFileSystem, clustername,
+    super.preflightValidateClusterConfiguration(sliderFileSystem, clustername,
                                                 configuration,
                                                 instanceDefinition,
                                                 clusterDirPath,
@@ -86,18 +86,18 @@ public class AgentClientProvider extends AbstractClientProvider
 
     String appDef = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.APP_DEF);
-    hoyaFileSystem.verifyFileExists(new Path(appDef));
+    sliderFileSystem.verifyFileExists(new Path(appDef));
 
     String agentConf = instanceDefinition.getAppConfOperations().
         getGlobalOptions().getMandatoryOption(AgentKeys.AGENT_CONF);
-    hoyaFileSystem.verifyFileExists(new Path(agentConf));
+    sliderFileSystem.verifyFileExists(new Path(agentConf));
 
     String appHome = instanceDefinition.getAppConfOperations().
         getGlobalOptions().get(AgentKeys.PACKAGE_PATH);
     if (SliderUtils.isUnset(appHome)) {
       String agentImage = instanceDefinition.getInternalOperations().
           get(OptionKeys.INTERNAL_APPLICATION_IMAGE_PATH);
-      hoyaFileSystem.verifyFileExists(new Path(agentImage));
+      sliderFileSystem.verifyFileExists(new Path(agentImage));
     }
   }
 
@@ -174,7 +174,7 @@ public class AgentClientProvider extends AbstractClientProvider
   }
 
   @Override
-  public void prepareAMAndConfigForLaunch(HoyaFileSystem fileSystem,
+  public void prepareAMAndConfigForLaunch(SliderFileSystem fileSystem,
       Configuration serviceConf,
       AbstractLauncher launcher,
       AggregateConf instanceDescription,
