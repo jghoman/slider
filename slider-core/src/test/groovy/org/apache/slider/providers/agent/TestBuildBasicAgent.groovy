@@ -37,7 +37,7 @@ import static org.apache.slider.common.params.Arguments.*
 @CompileStatic
 @Slf4j
 class TestBuildBasicAgent extends AgentTestBase {
-  static String TEST_FILES = "./src/test/resources/org/apache/hoya/providers/agent/tests/"
+  static String TEST_FILES = "./src/test/resources/org/apache/slider/providers/agent/tests/"
 
   @Override
   void checkTestAssumptions(YarnConfiguration conf) {

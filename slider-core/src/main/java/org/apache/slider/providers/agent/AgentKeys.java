@@ -48,7 +48,7 @@ public interface AgentKeys {
    * no site-specific template
    * {@value}
    */
-  String CONF_RESOURCE = "org/apache/hoya/providers/agent/conf/";
+  String CONF_RESOURCE = "org/apache/slider/providers/agent/conf/";
   /*  URL to talk back to Agent Controller*/
   String CONTROLLER_URL = "agent.controller.url";
   /**
