@@ -26,9 +26,9 @@ import org.apache.hadoop.service.ServiceStateChangeListener
 import org.apache.hadoop.yarn.api.records.Container
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext
 import org.apache.slider.api.ClusterDescription
-import org.apache.hoya.core.conf.AggregateConf
-import org.apache.hoya.core.conf.MapOperations
-import org.apache.hoya.core.launch.ContainerLauncher
+import org.apache.slider.core.conf.AggregateConf
+import org.apache.slider.core.conf.MapOperations
+import org.apache.slider.core.launch.ContainerLauncher
 import org.apache.slider.core.exceptions.BadCommandArgumentsException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.hoya.providers.ProviderRole

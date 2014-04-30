@@ -23,7 +23,7 @@ import org.apache.hadoop.service.Service;
 import org.apache.slider.core.main.ExitCodeProvider;
 import org.apache.slider.common.SliderKeys;
 import org.apache.slider.api.ClusterDescription;
-import org.apache.hoya.core.conf.AggregateConf;
+import org.apache.slider.core.conf.AggregateConf;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.slider.core.exceptions.SliderException;
 import org.apache.hoya.tools.ConfigHelper;

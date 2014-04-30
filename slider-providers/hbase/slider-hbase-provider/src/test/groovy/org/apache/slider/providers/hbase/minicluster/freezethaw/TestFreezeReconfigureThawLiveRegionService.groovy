@@ -28,7 +28,7 @@ import org.apache.hadoop.yarn.conf.YarnConfiguration
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.OptionKeys
-import org.apache.hoya.core.build.InstanceIO
+import org.apache.slider.core.build.InstanceIO
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.hoya.tools.ConfigHelper
 import org.apache.hoya.tools.SliderFileSystem

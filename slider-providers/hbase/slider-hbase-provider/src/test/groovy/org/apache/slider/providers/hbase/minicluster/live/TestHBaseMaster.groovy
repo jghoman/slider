@@ -25,7 +25,7 @@ import org.apache.slider.common.SliderExitCodes
 import org.apache.slider.common.SliderXmlConfKeys
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.RoleKeys
-import org.apache.hoya.core.conf.AggregateConf
+import org.apache.slider.core.conf.AggregateConf
 import org.apache.slider.providers.hbase.HBaseKeys
 import org.apache.slider.core.registry.zk.ZKIntegration
 import org.apache.hoya.yarn.Arguments

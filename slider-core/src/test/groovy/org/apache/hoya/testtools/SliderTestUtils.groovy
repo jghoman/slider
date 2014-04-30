@@ -33,8 +33,8 @@ import org.apache.slider.core.main.ServiceLaunchException
 import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.api.ClusterDescription
 import org.apache.slider.api.ClusterNode
-import org.apache.hoya.core.conf.AggregateConf
-import org.apache.hoya.core.persist.JsonSerDeser
+import org.apache.slider.core.conf.AggregateConf
+import org.apache.slider.core.persist.JsonSerDeser
 import org.apache.slider.core.exceptions.BadClusterStateException
 import org.apache.slider.core.exceptions.SliderException
 import org.apache.slider.core.exceptions.WaitTimeoutException

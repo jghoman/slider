@@ -22,8 +22,8 @@ import org.apache.hadoop.yarn.api.records.Container;
 import org.apache.hadoop.yarn.api.records.ContainerId;
 import org.apache.hadoop.yarn.exceptions.YarnRuntimeException;
 import org.apache.slider.api.ClusterDescription;
-import org.apache.hoya.core.conf.AggregateConf;
-import org.apache.hoya.core.conf.ConfTreeOperations;
+import org.apache.slider.core.conf.AggregateConf;
+import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.exceptions.NoSuchNodeException;
 import org.apache.slider.core.registry.docstore.PublishedConfigSet;
 

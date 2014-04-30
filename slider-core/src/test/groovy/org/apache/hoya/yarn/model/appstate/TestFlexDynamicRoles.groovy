@@ -24,7 +24,7 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.slider.api.ResourceKeys
 import org.apache.hoya.avro.RoleHistoryWriter
-import org.apache.hoya.core.conf.ConfTreeOperations
+import org.apache.slider.core.conf.ConfTreeOperations
 import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.hoya.yarn.appmaster.state.AppState
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest

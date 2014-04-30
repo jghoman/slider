@@ -22,8 +22,8 @@ import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.records.Resource
 import org.apache.slider.api.ResourceKeys
-import org.apache.hoya.core.conf.ConfTree
-import org.apache.hoya.core.conf.ConfTreeOperations
+import org.apache.slider.core.conf.ConfTree
+import org.apache.slider.core.conf.ConfTreeOperations
 import org.apache.hoya.yarn.appmaster.state.AbstractRMOperation
 import org.apache.hoya.yarn.appmaster.state.ContainerRequestOperation
 import org.apache.hoya.yarn.model.mock.BaseMockAppStateTest

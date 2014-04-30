@@ -16,7 +16,7 @@
  */
 package org.apache.hoya.yarn.appmaster.web.rest.management.resources;
 
-import org.apache.hoya.core.conf.AggregateConf;
+import org.apache.slider.core.conf.AggregateConf;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;

@@ -25,8 +25,8 @@ import org.apache.slider.core.main.ServiceLauncher
 import org.apache.slider.common.SliderKeys
 import org.apache.slider.api.ResourceKeys
 import org.apache.slider.api.RoleKeys
-import org.apache.hoya.core.conf.AggregateConf
-import org.apache.hoya.core.persist.ConfPersister
+import org.apache.slider.core.conf.AggregateConf
+import org.apache.slider.core.persist.ConfPersister
 import org.apache.slider.core.exceptions.BadConfigException
 import org.apache.hoya.providers.agent.AgentKeys
 import org.apache.slider.client.SliderClient

@@ -20,7 +20,7 @@ package org.apache.hoya.yarn.utils
 
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.yarn.api.protocolrecords.impl.pb.RegisterApplicationMasterResponsePBImpl
-import org.apache.hoya.core.launch.AMRestartSupport
+import org.apache.slider.core.launch.AMRestartSupport
 import org.apache.hoya.yarn.SliderTestBase
 import org.junit.Test
 

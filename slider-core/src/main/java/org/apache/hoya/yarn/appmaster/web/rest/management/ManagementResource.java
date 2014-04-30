@@ -16,7 +16,7 @@
  */
 package org.apache.hoya.yarn.appmaster.web.rest.management;
 
-import org.apache.hoya.core.conf.AggregateConf;
+import org.apache.slider.core.conf.AggregateConf;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
 import org.apache.hoya.yarn.appmaster.web.rest.RestPaths;
 import org.apache.hoya.yarn.appmaster.web.rest.management.resources.AggregateConfResource;

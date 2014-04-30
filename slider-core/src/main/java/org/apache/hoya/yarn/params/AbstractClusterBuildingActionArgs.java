@@ -22,8 +22,8 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParametersDelegate;
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.hadoop.fs.Path;
-import org.apache.hoya.core.conf.ConfTree;
-import org.apache.hoya.core.conf.ConfTreeOperations;
+import org.apache.slider.core.conf.ConfTree;
+import org.apache.slider.core.conf.ConfTreeOperations;
 import org.apache.slider.core.exceptions.BadCommandArgumentsException;
 import org.apache.hoya.providers.SliderProviderFactory;
 
