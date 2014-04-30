@@ -25,6 +25,7 @@ import com.sun.jersey.api.client.WebResource
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.curator.x.discovery.ServiceType
+import org.apache.hadoop.security.UserGroupInformation
 import org.apache.slider.api.StatusKeys
 import org.apache.slider.client.SliderClient
 import org.apache.slider.common.SliderKeys
@@ -34,6 +35,7 @@ import org.apache.slider.providers.agent.AgentTestBase
 import org.apache.slider.server.appmaster.web.rest.RestPaths
 import org.apache.slider.server.services.curator.CuratorServiceInstance
 import org.apache.slider.server.services.curator.CuratorServiceInstances
+import org.apache.slider.server.services.curator.RegistryNaming
 import org.junit.Test
 
 import javax.ws.rs.core.MediaType
@@ -47,6 +49,17 @@ import static org.apache.slider.providers.agent.AgentTestUtils.createTestClient
 class TestRegistryRestResources extends AgentTestBase {
 
   public static final String REGISTRY_URI = RestPaths.SLIDER_PATH_REGISTRY;
+
+  
+  private String id(String instanceName) {
+
+    RegistryNaming.createUniqueInstanceId(
+        instanceName,
+        UserGroupInformation.getCurrentUser().getUserName(),
+        SliderKeys.APP_TYPE,
+        1);
+  }
+
 
   @Test
   public void testRestURIs() throws Throwable {
@@ -131,7 +144,7 @@ class TestRegistryRestResources extends AgentTestBase {
 
     webResource = client.resource(
         appendToURL(registry_url,
-            "${RestPaths.REGISTRY_SERVICE}/${SliderKeys.APP_TYPE}/test_registryws-1"));
+            "${RestPaths.REGISTRY_SERVICE}/${SliderKeys.APP_TYPE}/"+id("test_registryws")));
     service = webResource.type(MediaType.APPLICATION_JSON)
               .get(CuratorServiceInstance.class);
     validateService(service)
@@ -176,6 +189,6 @@ class TestRegistryRestResources extends AgentTestBase {
   private void validateService(CuratorServiceInstance service) {
     assert service.name.equals(SliderKeys.APP_TYPE)
     assert service.serviceType == ServiceType.DYNAMIC
-    assert service.id.equals("test_registryws-1")
+    assert service.id.contains("test_registryws")
   }
 }

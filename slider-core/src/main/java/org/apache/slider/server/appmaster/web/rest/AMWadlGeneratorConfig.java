@@ -25,6 +25,8 @@ import java.util.List;
  *
  */
 public class AMWadlGeneratorConfig extends WadlGeneratorConfig{
+
+  public static final String CLASSNAME = "org.apache.slider.server.appmaster.web.rest.AMWadlGeneratorConfig";
   @Override
   public List<WadlGeneratorDescription> configure() {
     return generator(AMWadlGenerator.class).descriptions();

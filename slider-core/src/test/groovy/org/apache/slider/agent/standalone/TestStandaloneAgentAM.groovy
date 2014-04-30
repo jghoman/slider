@@ -38,13 +38,13 @@ import org.junit.Test
 @Slf4j
 class TestStandaloneAgentAM  extends AgentMiniClusterTestBase {
   @Test
-  public void testCreateMasterlessAM() throws Throwable {
+  public void testStandaloneAgentAM() throws Throwable {
 
 
     describe "create a masterless AM then get the service and look it up via the AM"
 
     //launch fake master
-    String clustername = "test_create_masterless_am"
+    String clustername = "test_standalone_agent_am"
     createMiniCluster(clustername, configuration, 1, true)
     ServiceLauncher<SliderClient> launcher
     launcher = createMasterlessAM(clustername, 0, true, false)

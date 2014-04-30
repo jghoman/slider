@@ -38,7 +38,7 @@ public class SliderAmFilterInitializer extends FilterInitializer {
   private Configuration configuration;
 
   public static final String NAME =
-    "org.apache.hoya.yarn.appmaster.web.SliderAmFilterInitializer";
+    "org.apache.slider.server.appmaster.web.SliderAmFilterInitializer";
 
   @Override
   public void initFilter(FilterContainer container, Configuration conf) {

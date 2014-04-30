@@ -27,6 +27,7 @@ import org.apache.hadoop.yarn.webapp.Dispatcher;
 import org.apache.hadoop.yarn.webapp.GenericExceptionHandler;
 import org.apache.hadoop.yarn.webapp.WebApp;
 import org.apache.slider.core.registry.info.ServiceInstanceData;
+import org.apache.slider.server.appmaster.web.rest.AMWadlGeneratorConfig;
 import org.apache.slider.server.appmaster.web.rest.AMWebServices;
 import org.apache.slider.server.appmaster.web.rest.SliderJacksonJaxbJsonProvider;
 import org.apache.slider.server.services.curator.CuratorHelper;
@@ -106,7 +107,7 @@ public class SliderAMWebApp extends WebApp {
     //params.put("com.sun.jersey.spi.container.ContainerResponseFilters", "com.sun.jersey.api.container.filter.LoggingFilter");
     //params.put("com.sun.jersey.config.feature.Trace", "true");
     params.put("com.sun.jersey.config.property.WadlGeneratorConfig",
-               "org.apache.hoya.yarn.appmaster.web.rest.AMWadlGeneratorConfig");
+        AMWadlGeneratorConfig.CLASSNAME);
     filter("/*").through(GuiceContainer.class, params);
   }
 }

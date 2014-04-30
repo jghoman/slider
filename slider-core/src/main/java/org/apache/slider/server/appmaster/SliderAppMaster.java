@@ -162,6 +162,12 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
    */
   protected static final Logger LOG_YARN = log;
 
+  public static final String SERVICE_CLASSNAME =
+      "org.apache.slider.server.appmaster.SliderAppMaster";
+  public static final String SERVICE_CLASSNAME_SHORT =
+      "SliderAppMaster";
+
+
   /**
    * time to wait from shutdown signal being rx'd to telling
    * the AM: {@value}
@@ -170,10 +176,6 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
 
   public static final int HEARTBEAT_INTERVAL = 1000;
   public static final int NUM_RPC_HANDLERS = 5;
-  public static final String SERVICE_CLASSNAME =
-    "org.apache.hoya.yarn.appmaster.SliderAppMaster";
-  public static final String SERVICE_CLASSNAME_SHORT =
-    "SliderAppMaster";
 
   /** YARN RPC to communicate with the Resource Manager or Node Manager */
   private YarnRPC yarnRPC;
@@ -560,7 +562,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
 
       // Start up the WebApp and track the URL for it
       webApp = new SliderAMWebApp(registry);
-      WebApps.$for("hoyaam", WebAppApi.class,
+      WebApps.$for(SliderAMWebApp.BASE_PATH, WebAppApi.class,
                             new WebAppApiImpl(this, appState, providerService), "ws")
                       .with(serviceConf)
                       .start(webApp);
