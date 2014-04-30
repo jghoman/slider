@@ -44,13 +44,13 @@ import java.util.List;
 /**
  * Cluster operations at a slightly higher level than the RPC code
  */
-public class HoyaClusterOperations {
+public class SliderClusterOperations {
   protected static final Logger
-    log = LoggerFactory.getLogger(HoyaClusterOperations.class);
+    log = LoggerFactory.getLogger(SliderClusterOperations.class);
   
   private final HoyaClusterProtocol appMaster;
 
-  public HoyaClusterOperations(HoyaClusterProtocol appMaster) {
+  public SliderClusterOperations(HoyaClusterProtocol appMaster) {
     this.appMaster = appMaster;
   }
 

@@ -34,7 +34,7 @@ import org.apache.hoya.api.ClusterNode;
 import org.apache.hoya.yarn.appmaster.state.RoleInstance;
 import org.apache.hoya.yarn.appmaster.state.RoleStatus;
 import org.apache.hoya.yarn.appmaster.web.WebAppApi;
-import org.apache.hoya.yarn.client.HoyaClusterOperations;
+import org.apache.hoya.yarn.client.SliderClusterOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,12 +56,12 @@ public class ContainerStatsBlock extends HtmlBlock {
   protected static final Function<Entry<String,String>,Entry<TableContent,String>> stringStringPairFunc = toTableContentFunction();
 
   private WebAppApi hoya;
-  private HoyaClusterOperations clusterOps;
+  private SliderClusterOperations clusterOps;
 
   @Inject
   public ContainerStatsBlock(WebAppApi hoya) {
     this.hoya = hoya;
-    clusterOps = new HoyaClusterOperations(hoya.getClusterProtocol());
+    clusterOps = new SliderClusterOperations(hoya.getClusterProtocol());
   }
 
   /**

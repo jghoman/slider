@@ -130,7 +130,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * Cluster opaerations against the deployed cluster -will be null
    * if no bonding has yet taken place
    */
-  private HoyaClusterOperations hoyaClusterOperations;
+  private SliderClusterOperations sliderClusterOperations;
 
   private HoyaFileSystem hoyaFileSystem;
 
@@ -294,7 +294,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
                                  ActionAMSuicideArgs args) throws
                                                               YarnException,
                                                               IOException {
-    HoyaClusterOperations clusterOperations =
+    SliderClusterOperations clusterOperations =
       createClusterOperations(clustername);
     clusterOperations.amSuicide(args.message, args.exitcode, args.waittime);
     return EXIT_SUCCESS;
@@ -1327,8 +1327,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
       throw new BadCommandArgumentsException("Missing container id");
     }
     log.info("killingContainer {}:{}", name, id);
-    HoyaClusterOperations clusterOps =
-      new HoyaClusterOperations(bondToCluster(name));
+    SliderClusterOperations clusterOps =
+      new SliderClusterOperations(bondToCluster(name));
     try {
       clusterOps.killContainer(id);
     } catch (NoSuchNodeException e) {
@@ -1353,8 +1353,8 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     if (message == null) {
       throw new BadCommandArgumentsException("missing message");
     }
-    HoyaClusterOperations clusterOps =
-      new HoyaClusterOperations(bondToCluster(name));
+    SliderClusterOperations clusterOps =
+      new SliderClusterOperations(bondToCluster(name));
     return clusterOps.echo(message);
   }
 
@@ -1702,7 +1702,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     if (instance != null) {
       log.info("Flexing running cluster");
       HoyaClusterProtocol appMaster = connect(instance);
-      HoyaClusterOperations clusterOps = new HoyaClusterOperations(appMaster);
+      SliderClusterOperations clusterOps = new SliderClusterOperations(appMaster);
       if (clusterOps.flex(instanceDefinition.getResources())) {
         log.info("Cluster size updated");
         exitCode = EXIT_SUCCESS;
@@ -1743,7 +1743,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
   public ClusterDescription getClusterDescription(String clustername) throws
                                                                  YarnException,
                                                                  IOException {
-    HoyaClusterOperations clusterOperations =
+    SliderClusterOperations clusterOperations =
       createClusterOperations(clustername);
     return clusterOperations.getClusterDescription();
   }
@@ -1855,11 +1855,11 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @throws YarnException YARN issues
    * @throws IOException IO problems
    */
-  private HoyaClusterOperations createClusterOperations(String clustername) throws
+  private SliderClusterOperations createClusterOperations(String clustername) throws
                                                                             YarnException,
                                                                             IOException {
     HoyaClusterProtocol hoyaAM = bondToCluster(clustername);
-    return new HoyaClusterOperations(hoyaAM);
+    return new SliderClusterOperations(hoyaAM);
   }
 
   /**
@@ -1869,14 +1869,14 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
    * @throws YarnException YARN issues
    * @throws IOException IO problems
    */
-  public HoyaClusterOperations createClusterOperations() throws
+  public SliderClusterOperations createClusterOperations() throws
                                                          YarnException,
                                                          IOException {
-    if (hoyaClusterOperations == null) {
-      hoyaClusterOperations =
+    if (sliderClusterOperations == null) {
+      sliderClusterOperations =
         createClusterOperations(getDeployedClusterName());
     }
-    return hoyaClusterOperations;
+    return sliderClusterOperations;
   }
 
   /**
