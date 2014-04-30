@@ -18,7 +18,6 @@ package org.apache.hoya.yarn.appmaster.web;
 
 import org.apache.hoya.yarn.appmaster.web.layout.ClusterSpecificationView;
 
-import java.util.Map;
 import org.apache.hadoop.yarn.webapp.Controller;
 import org.apache.hoya.yarn.appmaster.web.layout.AppLayout;
 import org.apache.hoya.yarn.appmaster.web.layout.ContainerStatsView;
@@ -29,13 +28,13 @@ import com.google.inject.Inject;
 /**
  * 
  */
-public class HoyaAMController extends Controller {
-  private static final Logger log = LoggerFactory.getLogger(HoyaAMController.class);
+public class SliderAMController extends Controller {
+  private static final Logger log = LoggerFactory.getLogger(SliderAMController.class);
 
   private final WebAppApi hoya;
   
   @Inject
-  public HoyaAMController(WebAppApi hoya, RequestContext ctx) {
+  public SliderAMController(WebAppApi hoya, RequestContext ctx) {
     super(ctx);
     this.hoya = hoya;
   }

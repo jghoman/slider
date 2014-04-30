@@ -42,14 +42,14 @@ import java.util.logging.Logger;
 /**
  * 
  */
-public class HoyaAMWebApp extends WebApp {
+public class SliderAMWebApp extends WebApp {
   public static final String BASE_PATH = "hoyaam";
   public static final String CONTAINER_STATS = "/stats";
   public static final String CLUSTER_SPEC = "/spec";
 
   public final RegistryBinderService<ServiceInstanceData> registry;
 
-  public HoyaAMWebApp(RegistryBinderService<ServiceInstanceData> registry) {
+  public SliderAMWebApp(RegistryBinderService<ServiceInstanceData> registry) {
     Preconditions.checkNotNull(registry);
     this.registry = registry;
   }
@@ -78,9 +78,9 @@ public class HoyaAMWebApp extends WebApp {
       new RegistryRestResources(discoveryContext, registry);
     bind(RegistryRestResources.class).toInstance(registryRestResources);
 
-    route("/", HoyaAMController.class);
-    route(CONTAINER_STATS, HoyaAMController.class, "containerStats");
-    route(CLUSTER_SPEC, HoyaAMController.class, "specification");
+    route("/", SliderAMController.class);
+    route(CONTAINER_STATS, SliderAMController.class, "containerStats");
+    route(CLUSTER_SPEC, SliderAMController.class, "specification");
   }
 
   @Override

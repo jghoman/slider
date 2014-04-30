@@ -49,9 +49,9 @@ import java.util.Set;
  * members and data structures, and factors out pure-YARN operations
  * from the hoya entry point service
  */
-public class HoyaYarnClientImpl extends YarnClientImpl {
+public class SliderYarnClientImpl extends YarnClientImpl {
   protected static final Logger
-    log = LoggerFactory.getLogger(HoyaYarnClientImpl.class);
+    log = LoggerFactory.getLogger(SliderYarnClientImpl.class);
 
   /**
    * Get the RM Client RPC interface

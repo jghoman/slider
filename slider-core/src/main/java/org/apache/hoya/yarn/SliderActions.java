@@ -23,7 +23,7 @@ package org.apache.hoya.yarn;
  * Only some of these are supported by specific Hoya Services; they
  * are listed here to ensure the names are consistent
  */
-public interface HoyaActions {
+public interface SliderActions {
   String ACTION_AM_SUICIDE = "am-suicide";
   String ACTION_BUILD = "build";
   String ACTION_CREATE = "create";
