@@ -24,13 +24,13 @@
   
   <property>
     <name>dfs.namenode.name.dir</name>
-    <value>/home/stevel/hdfs/namenode</value>
+    <value>file:///home/stevel/hdfs/namenode</value>
   </property>
 
   
   <property>
     <name>dfs.datanode.data.dir</name>
-    <value>/home/stevel/hdfs/datanode</value>
+    <value>file:///home/stevel/hdfs/datanode</value>
   </property>
 
   <!-- General HDFS security config -->
