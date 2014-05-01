@@ -175,15 +175,13 @@ abstract class CommandTestBase extends SliderTestUtils {
    * @return
    */
   public static Configuration loadSliderConf() {
-    def confURI = SLIDER_CONF_XML.toURI()
-    Configuration conf = ConfLoader.loadSliderConf(confURI)
+    Configuration conf = (new ConfLoader()).loadSliderConf(SLIDER_CONF_XML)
     return conf
   }
 
   public static HadoopFS getClusterFS() {
     return HadoopFS.get(SLIDER_CONFIG)
   }
-
 
   static SliderShell destroy(String name) {
     slider([

@@ -166,7 +166,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
     // init security with our conf
-    if (SliderUtils.isClusterSecure(conf)) {
+    if (SliderUtils.isHadoopClusterSecure(conf)) {
       SliderUtils.forceLogin();
       SliderUtils.initProcessSecurity(conf);
     }
@@ -633,7 +633,7 @@ public class SliderClient extends AbstractSliderLaunchedService implements RunSe
     verifyNoLiveClusters(clustername);
     Configuration config = getConfig();
     lookupZKQuorum();
-    boolean clusterSecure = SliderUtils.isClusterSecure(config);
+    boolean clusterSecure = SliderUtils.isHadoopClusterSecure(config);
     //create the Slider AM provider -this helps set up the AM
     SliderAMClientProvider sliderAM = new SliderAMClientProvider(config);
 

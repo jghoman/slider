@@ -320,7 +320,7 @@ public class SliderAppMaster extends AbstractSliderLaunchedService
     serviceArgs.applyDefinitions(conf);
     serviceArgs.applyFileSystemURL(conf);
     //init security with our conf
-    if (SliderUtils.isClusterSecure(conf)) {
+    if (SliderUtils.isHadoopClusterSecure(conf)) {
       log.info("Secure mode with kerberos realm {}",
                SliderUtils.getKerberosRealm());
       UserGroupInformation.setConfiguration(conf);

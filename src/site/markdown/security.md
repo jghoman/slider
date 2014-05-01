@@ -129,27 +129,29 @@ the caller authenticates itself as the user that has access rights
 to the cluster
 
 To allow the client to freeze a Slider application instance while they are unable to acquire
-a token to authenticate with the AM, the `emergency-force-kill <applicationId>` command
-requests YARN to trigger cluster shutdown, bypassing the AM. The
-`applicationId` can be retrieved from the YARN web UI or the `hoya list` command.
-The special application ID `all` will kill all Slider application instances belonging to that user
--so should only be used for testing or other emergencies.
+a token to authenticate with the AM, use the `--force` option.
 
 ### How to enable a secure Slider client
 
-Slider can be placed into secure mode by setting the property `slider.security.enabled` to
-true. 
+Slider can be placed into secure mode by setting the Hadoop security options:
 
-This can be done in `hoya-client.xml`:
+This can be done in `slider-client.xml`:
 
-      <property>
-        <name>slider.security.enabled</name>
-        <value>true</value>
-      </property>
+
+  <property>
+    <name>hadoop.security.authorization</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>hadoop.security.authentication</name>
+    <value>kerberos</value>
+  </property>
+
 
 Or it can be done on the command line
 
-    -D slider.security.enabled=true
+    -D hadoop.security.authorization=true -D hadoop.security.authentication=kerberos
 
 ### Adding Kerberos binding properties to the Slider Client JVM
 
@@ -181,161 +183,6 @@ This means that the JRE does not have the extended cryptography package
 needed to work with the keys that Kerberos needs. This must be downloaded
 from Oracle (or other supplier of the JVM) and installed according to
 its accompanying instructions.
-
-## Putting it all together: examples
-
-
-### Example 1: creating a secure cluster
-
-
-This example creates a secure 4-HBase-worker-node cluster, specifying
-the JVM kerberos bindings as part of the arguments. 
-
-This binds to a a cluster where the YARN RM, HDFS Namenode,
-Zookeeper and the Kerberos daemon are running on a server called `master`,
-with the Kerberos domain `MINICLUSTER`
-
-The user must have an up to date TGT token from the Kerberos service, as granted
-via a `kinit` call.
-
-      hoya create cluster1 \
-      --manager master:8032 --filesystem hdfs://master:9090 \
-          --role worker 4  --role master 1 \
-          --zkhosts master:2181 \
-          -D slider.security.enabled=true -S java.security.krb5.realm=MINICLUSTER \
-          -S java.security.krb5.kdc=master \
-          --image hdfs://master:9090/hbase.tar \
-          --appconf file:////Users/hoya/Hadoop/configs/master/hbase \
-          --roleopt master app.infoport 8080 \
-          --roleopt master jvm.heap 512 \
-          --roleopt master env.MALLOC_ARENA_MAX 4 \
-          --roleopt worker jvm.heap 512 
-
-The HBase configuration file must contain the definitions of the 
-principals of the cluster
-  
-    <property>
-      <name>hbase.master.kerberos.principal</name>
-      <value>hoya/master@MINICLUSTER</value>
-    </property>
-    
-    <property>
-      <name>hbase.master.keytab.file</name>
-      <value>/home/hoya/conf/hoya.keytab</value>
-    </property>
-  
-    <property>
-      <name>hbase.regionserver.kerberos.principal</name>
-      <value>hoya/master@MINICLUSTER</value>
-    </property>
-    
-    <property>
-      <name>hbase.regionserver.keytab.file</name>
-      <value>/home/hoya/conf/hoya.keytab</value>
-    </property>
-
-
-### Example: listing the status of the cluster
-
-Here the krb5 configuration file is expected to be set up
-to define the realm and kerberos server to use, the JVM system
-properties can be omitted from the command line.
-        
-    bin/slider status cluster1 \
-    --manager master:8032 --filesystem hdfs://master:9090 \
-     -D slider.security.enabled=true \
-     -D yarn.resourcemanager.principal=yarn/master@MINICLUSTER \
-     -D dfs.namenode.kerberos.principal=hdfs/master@MINICLUSTER 
-
-This command uses the Slider Client to AM authentication process -if
-for any reason the client cannot authenticate with the Slider AM, it
-will fail.
-
-
-
-### Example: freezing the cluster
-
-Again the krb5 configuration file is expected to be set up
-to define the realm and kerberos server to use.
-
-        
-    bin/slider freeze cluster1 \
-    --manager master:8032 --filesystem hdfs://master:9090 \
-     -D slider.security.enabled=true \
-     -D yarn.resourcemanager.principal=yarn/master@MINICLUSTER \
-     -D dfs.namenode.kerberos.principal=hdfs/master@MINICLUSTER 
-
-This command also talks to the HoyaAM, so will fail if authentication
-does not succeed.
-
-### Example: listing the active clusters
-
-Listing the clusters is a direct conversation with the YARN RM
-
-    bin/slider list \
-    --manager master:8032 \
-     -D slider.security.enabled=true \
-     -D yarn.resourcemanager.principal=yarn/master@MINICLUSTER \
-     -D dfs.namenode.kerberos.principal=hdfs/master@MINICLUSTER
-
-Although it doesn't talk to the filesystem, the current security checking
-code in the client still tries to verify that this principal is set
--a check done to ensure that operations fail early with a meaningful message,
-rather than later with a more obscure one. 
-
-### Example: setting `hoya-client.xml` up
-
-
-The file `conf/hoya-client.xml` can be set up with the details of the filesystem,
-YARN RM and the relevant security options, allowing them to be dropped from the
-command line
-
-    <property>
-      <name>yarn.resourcemanager.address</name>
-      <value>master:8032</value>
-    </property>
-    
-    <property>
-      <name>fs.defaultFS</name>
-      <value>hdfs://master:9090</value>
-    </property>
-    
-    <property>
-      <name>slider.security.enabled</name>
-      <value>true</value>
-    </property>
-    
-    <property>
-      <name>yarn.resourcemanager.principal</name>
-      <value>yarn/master@MINICLUSTER</value>
-    </property>
-    
-    <property>
-      <name>dfs.namenode.kerberos.principal</name>
-      <value>hdfs/master@MINICLUSTER</value>
-    </property>
-    
-
-### Example : listing the clusters with `hoya-client.xml` set up
-
-
-With the `hoya-client.xml' file set up, configuration is much simpler:
-
-    bin/slider  status cluster1 -D slider.security.enabled=true -S java.security.krb5.realm=COTHAM -S java.security.krb5.kdc=master 
-
-### Example: setting up the JVM options
-
-
-    export SLIDER_JVM_OPTS="-Djava.security.krb5.realm=MINICLUSTER -Djava.security.krb5.kdc=master -Djava.net.preferIPv4Stack=true"
-
-
-### Example: listing the cluster with hoya-client.xml and the JVM options set up
-
-    bin/slider  status cluster1 -D slider.security.enabled=true
-
-### Example: destroying the cluster with hoya-client.xml and the JVM options set up
-
-    bin/slider  destroy cluster1 -D slider.security.enabled=true
 
 ## Useful Links
 

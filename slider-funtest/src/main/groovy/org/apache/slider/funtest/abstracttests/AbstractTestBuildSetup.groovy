@@ -29,6 +29,7 @@ import org.apache.slider.funtest.framework.FuntestProperties
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.test.SliderTestUtils
 import org.junit.Test
+import org.apache.hadoop.fs.FileSystem as HadoopFS 
 
 /**
  * Simple tests to verify that the build has been set up: if these
@@ -86,9 +87,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
    * @return
    */
   public Configuration loadSliderConf() {
-
-    Configuration conf = ConfLoader.loadSliderConf(confXML.toURI())
-    
+    Configuration conf = (new ConfLoader()).loadSliderConf(confXML)
     return conf
   }
 
@@ -133,9 +132,10 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
     assert conf.get(KEY_TEST_CONF_XML)
     String confXml = conf.get(KEY_TEST_CONF_XML)
     URL confURL = new URL(confXml)
+    log.info("$KEY_TEST_CONF_XML = $confXML  -as URL: $confURL")
     Path path = new Path(confURL.toURI())
     
-    def fs = org.apache.hadoop.fs.FileSystem.get(path.toUri(), conf)
+    def fs = HadoopFS.get(path.toUri(), conf)
     assert fs.exists(path)
 
   }
@@ -167,7 +167,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
       log.info("Security enabled")
       SliderUtils.forceLogin()
     }
-    log.info("Login User = ${UserGroupInformation.getLoginUser()}")
+    log.info("Login User = ${UserGroupInformation.loginUser}")
   }
 
 

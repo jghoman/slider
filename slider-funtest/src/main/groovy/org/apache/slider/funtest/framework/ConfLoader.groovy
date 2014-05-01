@@ -20,8 +20,10 @@ package org.apache.slider.funtest.framework
 
 import org.apache.hadoop.conf.Configuration
 
-class ConfLoader {
-  def static Configuration loadSliderConf(URI confURI) {
+public class ConfLoader {
+  
+  Configuration loadSliderConf(File confFile) {
+    URI confURI = confFile.toURI();
     Configuration conf = new Configuration(true)
     def confXmlUrl = confURI.toURL()
     conf.addResource(confXmlUrl)
