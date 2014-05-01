@@ -154,16 +154,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
     log.info("Login User = ${UserGroupInformation.getLoginUser()}")
   }
 
-  @Test
-  public void testHBaseBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadSliderConf();
-    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
 
-    assumeBoolOption(conf, KEY_TEST_HBASE_ENABLED, true)
-
-    assertStringOptionSet(conf, KEY_TEST_HBASE_APPCONF)
-    assertStringOptionSet(conf, KEY_TEST_HBASE_TAR)
-  }
   
   @Test
   public void testAccumuloBuildsHavePathsDefined() throws Throwable {

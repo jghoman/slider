@@ -16,9 +16,22 @@
  * limitations under the License.
  */
 
-package org.apache.slider.providers.hbase.funtest;
+package org.apache.slider.providers.hbase.funtest
 
-import org.apache.slider.funtest.abstracttests.AbstractTestBuildSetup;
+import org.apache.hadoop.conf.Configuration
+import org.apache.slider.funtest.abstracttests.AbstractTestBuildSetup
+import org.junit.Test
 
-public class TestBuildSetup extends AbstractTestBuildSetup {
+class TestHBaseBuildSetup extends AbstractTestBuildSetup {
+
+  @Test
+  public void testHBaseBuildsHavePathsDefined() throws Throwable {
+    Configuration conf = loadSliderConf();
+    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
+
+    assumeBoolOption(conf, KEY_TEST_HBASE_ENABLED, true)
+
+    assertStringOptionSet(conf, KEY_TEST_HBASE_APPCONF)
+    assertStringOptionSet(conf, KEY_TEST_HBASE_TAR)
+  }
 }
