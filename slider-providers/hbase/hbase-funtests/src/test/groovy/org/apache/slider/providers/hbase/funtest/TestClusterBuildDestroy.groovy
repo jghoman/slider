@@ -35,7 +35,7 @@ import org.junit.Test
 
 @CompileStatic
 @Slf4j
-public class TestClusterBuildDestroy extends CommandTestBase
+public class TestClusterBuildDestroy extends HBaseCommandTestBase
     implements FuntestProperties, Arguments {
 
 
@@ -55,15 +55,6 @@ public class TestClusterBuildDestroy extends CommandTestBase
   
   @Test
   public void testBuildAndDestroyCluster() throws Throwable {
-    '''
-  bin/slider build cl1 \\
-    --zkhosts sandbox \\
-     \\
-    --image hdfs://sandbox.hortonworks.com:8020/user/slider/hbase.tar.gz \\
-    --appconf file://./src/test/configs/sandbox/hbase \\
-    --roleopt master app.infoport 8180  \\
-    --role master 1 
-'''
     def clusterDir = SliderKeys.SLIDER_BASE_DIRECTORY + "/cluster/$CLUSTER"
     def clusterDirPath = new Path(clusterFS.homeDirectory, clusterDir)
     clusterFS.delete(clusterDirPath, true)
@@ -71,6 +62,7 @@ public class TestClusterBuildDestroy extends CommandTestBase
         [
             SliderActions.ACTION_BUILD,
             CLUSTER,
+            ARG_PROVIDER, HBaseKeys.PROVIDER_HBASE,
             ARG_ZKHOSTS,
             SLIDER_CONFIG.get(SliderXmlConfKeys.REGISTRY_ZK_QUORUM, DEFAULT_SLIDER_ZK_HOSTS),
             ARG_IMAGE,

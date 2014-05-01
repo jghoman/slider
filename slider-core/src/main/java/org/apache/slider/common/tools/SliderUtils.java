@@ -19,6 +19,7 @@
 package org.apache.slider.common.tools;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
@@ -90,6 +91,9 @@ public final class SliderUtils {
    */
   private static final AtomicBoolean processSecurityAlreadyInitialized =
     new AtomicBoolean(false);
+  public static final String JAVA_SECURITY_KRB5_REALM =
+      "java.security.krb5.realm";
+  public static final String JAVA_SECURITY_KRB5_KDC = "java.security.krb5.kdc";
 
   private SliderUtils() {
   }
@@ -874,7 +878,7 @@ public final class SliderUtils {
    * @param conf configuration to look at
    * @return true if the slider client/service should be in secure mode
    */
-  public static boolean isClusterSecure(Configuration conf) {
+  public static boolean isHadoopClusterSecure(Configuration conf) {
     return conf.getBoolean(SliderXmlConfKeys.KEY_SECURITY_ENABLED, false);
   }
 
@@ -888,10 +892,10 @@ public final class SliderUtils {
   public static boolean maybeInitSecurity(Configuration conf) throws
                                                               IOException,
                                                               BadConfigException {
-    boolean clusterSecure = isClusterSecure(conf);
+    boolean clusterSecure = isHadoopClusterSecure(conf);
     if (clusterSecure) {
       log.debug("Enabling security");
-      SliderUtils.initProcessSecurity(conf);
+      initProcessSecurity(conf);
     }
     return clusterSecure;
   }
@@ -917,9 +921,13 @@ public final class SliderUtils {
     //this gets UGI to reset its previous world view (i.e simple auth)
     //security
     log.debug("java.security.krb5.realm={}",
-              System.getProperty("java.security.krb5.realm", ""));
+              System.getProperty(JAVA_SECURITY_KRB5_REALM, ""));
     log.debug("java.security.krb5.kdc={}",
-              System.getProperty("java.security.krb5.kdc", ""));
+              System.getProperty(JAVA_SECURITY_KRB5_KDC, ""));
+    log.debug("hadoop.security.authentication={}",
+        conf.get(CommonConfigurationKeysPublic.HADOOP_SECURITY_AUTHENTICATION));
+    log.debug("hadoop.security.authorization={}",
+        conf.get(CommonConfigurationKeysPublic.HADOOP_SECURITY_AUTHORIZATION));
     SecurityUtil.setAuthenticationMethod(
         UserGroupInformation.AuthenticationMethod.KERBEROS, conf);
     UserGroupInformation.setConfiguration(conf);
@@ -947,7 +955,7 @@ public final class SliderUtils {
 
   /**
    * Force an early login: This catches any auth problems early rather than
-   * in RPC operatins
+   * in RPC operations
    * @throws IOException if the login fails
    */
   public static void forceLogin() throws IOException {

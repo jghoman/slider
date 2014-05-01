@@ -50,7 +50,6 @@ abstract class CommandTestBase extends SliderTestUtils {
   private static final Logger log =
       LoggerFactory.getLogger(CommandTestBase.class);
   
-  public static final String BASH = '/bin/bash -s'
   public static final String SLIDER_CONF_DIR = sysprop(SLIDER_CONF_DIR_PROP)
   public static final String SLIDER_BIN_DIR = sysprop(SLIDER_BIN_DIR_PROP)
   public static final File SLIDER_BIN_DIRECTORY = new File(
@@ -75,8 +74,7 @@ abstract class CommandTestBase extends SliderTestUtils {
 
 
   static {
-    SLIDER_CONFIG = new YarnConfiguration()
-    SLIDER_CONFIG.addResource(SLIDER_CONF_XML.toURI().toURL())
+    SLIDER_CONFIG = new ConfLoader().loadSliderConf(SLIDER_CONF_XML); 
     THAW_WAIT_TIME = getTimeOptionMillis(SLIDER_CONFIG, 
         KEY_TEST_THAW_WAIT_TIME,
         1000 * DEFAULT_THAW_WAIT_TIME_SECONDS)
@@ -115,6 +113,9 @@ abstract class CommandTestBase extends SliderTestUtils {
     SliderShell.script = SLIDER_SCRIPT
     log.info("Test using ${HadoopFS.getDefaultUri(SLIDER_CONFIG)} " +
              "and YARN RM @ ${SLIDER_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
+    
+    // now patch the settings with the path of the conf direcotry
+    
   }
 
   /**
@@ -173,15 +174,13 @@ abstract class CommandTestBase extends SliderTestUtils {
    * @return
    */
   public static Configuration loadSliderConf() {
-    Configuration conf = new Configuration(true)
-    conf.addResource(SLIDER_CONF_XML.toURI().toURL())
+    Configuration conf = (new ConfLoader()).loadSliderConf(SLIDER_CONF_XML)
     return conf
   }
 
   public static HadoopFS getClusterFS() {
     return HadoopFS.get(SLIDER_CONFIG)
   }
-
 
   static SliderShell destroy(String name) {
     slider([

@@ -325,6 +325,32 @@ the tests appear to hang
 
     mvn test -Dtest=TestBuildSetup
 
+### Using relative paths in test configurations
+
+When you are sharing configurations across machines via SCM or similar,
+its impossible to have absolute paths in the configuration options to
+the location of items in the local filesystem (e.g. configuration directories).
+
+There's two techniques
+
+1. Keep the data in HDFS and refer to it there. This works if there is a shared,
+persistent HDFS cluster.
+
+1. Use the special property `slider.test.conf.dir` that is set to the path
+of the directory, and which can then be used to create an absolute path
+from paths relative to the configuration dir:
+
+    <property>
+      <name>slider.test.hbase.appconf</name>
+      <description>Path to the directory containing the HBase application config
+      </description>
+      <value>file://${slider.test.conf.dir}/../hbase</value>
+    </property>
+
+
+If the actual XML file path is required, a similar property
+`slider.test.conf.xml` is set.
+
 
 ## Parallel execution
 

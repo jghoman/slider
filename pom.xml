@@ -311,6 +311,12 @@
         <configuration>
           <excludes>
             <exclude>**/*.json</exclude>
+            <exclude>**/*.tar</exclude>
+            <exclude>**/build.properties</exclude>
+            <exclude>**/regionservers</exclude>
+            <exclude>**/slaves</exclude>
+            <exclude>**/httpfs-signature.secret</exclude>
+            <exclude>**/dfs.exclude</exclude>
           </excludes>
         </configuration>
       </plugin>

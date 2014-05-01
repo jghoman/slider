@@ -18,6 +18,7 @@
 
 package org.apache.slider.common;
 
+import org.apache.hadoop.fs.CommonConfigurationKeysPublic;
 import org.apache.hadoop.yarn.conf.YarnConfiguration;
 
 /**
@@ -92,7 +93,8 @@ public interface SliderXmlConfKeys {
    * Flag which is set to indicate that security should be enabled
    * when talking to this cluster.
    */
-  String KEY_SECURITY_ENABLED = "slider.security.enabled";
+  String KEY_SECURITY_ENABLED =
+      CommonConfigurationKeysPublic.HADOOP_SECURITY_AUTHORIZATION;
 
   /**
    * queue name

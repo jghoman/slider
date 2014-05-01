@@ -21,12 +21,15 @@ package org.apache.slider.funtest.abstracttests
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.Path
 import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.slider.funtest.framework.ConfLoader
 import org.apache.slider.funtest.framework.FuntestProperties
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.test.SliderTestUtils
 import org.junit.Test
+import org.apache.hadoop.fs.FileSystem as HadoopFS 
 
 /**
  * Simple tests to verify that the build has been set up: if these
@@ -84,8 +87,7 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
    * @return
    */
   public Configuration loadSliderConf() {
-    Configuration conf = new Configuration(true)
-    conf.addResource(confXML.toURI().toURL())
+    Configuration conf = (new ConfLoader()).loadSliderConf(confXML)
     return conf
   }
 
@@ -125,6 +127,20 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   }
 
   @Test
+  public void testConfHasFileURL() throws Throwable {
+    Configuration conf = loadSliderConf()
+    assert conf.get(KEY_TEST_CONF_XML)
+    String confXml = conf.get(KEY_TEST_CONF_XML)
+    URL confURL = new URL(confXml)
+    log.info("$KEY_TEST_CONF_XML = $confXML  -as URL: $confURL")
+    Path path = new Path(confURL.toURI())
+    
+    def fs = HadoopFS.get(path.toUri(), conf)
+    assert fs.exists(path)
+
+  }
+
+  @Test
   public void testConfHasDefaultFS() throws Throwable {
     Configuration conf = loadSliderConf()
     assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
@@ -151,29 +167,8 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
       log.info("Security enabled")
       SliderUtils.forceLogin()
     }
-    log.info("Login User = ${UserGroupInformation.getLoginUser()}")
+    log.info("Login User = ${UserGroupInformation.loginUser}")
   }
 
-  @Test
-  public void testHBaseBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadSliderConf();
-    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
 
-    assumeBoolOption(conf, KEY_TEST_HBASE_ENABLED, true)
-
-    assertStringOptionSet(conf, KEY_TEST_HBASE_APPCONF)
-    assertStringOptionSet(conf, KEY_TEST_HBASE_TAR)
-  }
-  
-  @Test
-  public void testAccumuloBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadSliderConf();
-    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
-
-    assumeBoolOption(conf, KEY_TEST_ACCUMULO_ENABLED, true)
-
-    assertStringOptionSet(conf, KEY_TEST_ACCUMULO_APPCONF)
-    assertStringOptionSet(conf, KEY_TEST_ACCUMULO_TAR)
-  }
-  
 }
