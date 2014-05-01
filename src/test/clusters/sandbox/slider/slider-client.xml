@@ -56,11 +56,13 @@
     <description>Path to the HBase Tar file in HDFS</description>
     <value>hdfs://sandbox.hortonworks.com:8020/hbase-0.98.1-bin.tar.gz</value>
   </property>
-  
+
+
   <property>
     <name>slider.test.hbase.appconf</name>
-    <description>Path to the directory containing the HBase application config</description>
-    <value>file:///Users/stevel/Projects/Hortonworks/Projects/slider/test-configs/sandbox/hbase</value>
+    <description>Path to the directory containing the HBase application config
+    </description>
+    <value>file://${slider.test.conf.dir}/../hbase</value>
   </property>
 
   <property>
