@@ -155,16 +155,4 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   }
 
 
-  
-  @Test
-  public void testAccumuloBuildsHavePathsDefined() throws Throwable {
-    Configuration conf = loadSliderConf();
-    assumeBoolOption(conf, KEY_SLIDER_FUNTESTS_ENABLED, true)
-
-    assumeBoolOption(conf, KEY_TEST_ACCUMULO_ENABLED, true)
-
-    assertStringOptionSet(conf, KEY_TEST_ACCUMULO_APPCONF)
-    assertStringOptionSet(conf, KEY_TEST_ACCUMULO_TAR)
-  }
-  
 }
