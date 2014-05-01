@@ -74,8 +74,7 @@ abstract class CommandTestBase extends SliderTestUtils {
 
 
   static {
-    SLIDER_CONFIG = new YarnConfiguration()
-    SLIDER_CONFIG.addResource(SLIDER_CONF_XML.toURI().toURL())
+    SLIDER_CONFIG = new ConfLoader().loadSliderConf(SLIDER_CONF_XML); 
     THAW_WAIT_TIME = getTimeOptionMillis(SLIDER_CONFIG, 
         KEY_TEST_THAW_WAIT_TIME,
         1000 * DEFAULT_THAW_WAIT_TIME_SECONDS)
