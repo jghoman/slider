@@ -50,7 +50,6 @@ abstract class CommandTestBase extends SliderTestUtils {
   private static final Logger log =
       LoggerFactory.getLogger(CommandTestBase.class);
   
-  public static final String BASH = '/bin/bash -s'
   public static final String SLIDER_CONF_DIR = sysprop(SLIDER_CONF_DIR_PROP)
   public static final String SLIDER_BIN_DIR = sysprop(SLIDER_BIN_DIR_PROP)
   public static final File SLIDER_BIN_DIRECTORY = new File(
