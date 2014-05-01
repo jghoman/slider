@@ -58,4 +58,6 @@ public interface FuntestProperties extends SliderXMLConfKeysForTesting {
   String ENV_SLIDER_CLASSPATH_EXTRA = "SLIDER_CLASSPATH_EXTRA"
 
   String SCRIPT_NAME = "slider"
+  static final String KEY_TEST_CONF_XML = "slider.test.conf.xml"
+  static final String KEY_TEST_CONF_DIR = "slider.test.conf.dir"
 }

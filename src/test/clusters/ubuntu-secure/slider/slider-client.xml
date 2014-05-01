@@ -70,7 +70,7 @@
     <name>slider.test.hbase.appconf</name>
     <description>Path to the directory containing the HBase application config
     </description>
-    <value>file://${user.dir}/src/test/configs/ubuntu-secure/hbase</value>
+    <value>${slider.test.conf.dir}/../hbase</value>
   </property>
 
   <property>

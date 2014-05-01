@@ -114,6 +114,9 @@ abstract class CommandTestBase extends SliderTestUtils {
     SliderShell.script = SLIDER_SCRIPT
     log.info("Test using ${HadoopFS.getDefaultUri(SLIDER_CONFIG)} " +
              "and YARN RM @ ${SLIDER_CONFIG.get(YarnConfiguration.RM_ADDRESS)}")
+    
+    // now patch the settings with the path of the conf direcotry
+    
   }
 
   /**
@@ -172,8 +175,8 @@ abstract class CommandTestBase extends SliderTestUtils {
    * @return
    */
   public static Configuration loadSliderConf() {
-    Configuration conf = new Configuration(true)
-    conf.addResource(SLIDER_CONF_XML.toURI().toURL())
+    def confURI = SLIDER_CONF_XML.toURI()
+    Configuration conf = ConfLoader.loadSliderConf(confURI)
     return conf
   }
 

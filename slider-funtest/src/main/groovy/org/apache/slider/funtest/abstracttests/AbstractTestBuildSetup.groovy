@@ -21,8 +21,10 @@ package org.apache.slider.funtest.abstracttests
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.Path
 import org.apache.hadoop.security.UserGroupInformation
 import org.apache.hadoop.yarn.conf.YarnConfiguration
+import org.apache.slider.funtest.framework.ConfLoader
 import org.apache.slider.funtest.framework.FuntestProperties
 import org.apache.slider.common.tools.SliderUtils
 import org.apache.slider.test.SliderTestUtils
@@ -84,8 +86,9 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
    * @return
    */
   public Configuration loadSliderConf() {
-    Configuration conf = new Configuration(true)
-    conf.addResource(confXML.toURI().toURL())
+
+    Configuration conf = ConfLoader.loadSliderConf(confXML.toURI())
+    
     return conf
   }
 
@@ -122,6 +125,19 @@ abstract class AbstractTestBuildSetup extends SliderTestUtils implements Funtest
   @Test
   public void testConfLoad() throws Throwable {
     Configuration conf = loadSliderConf()
+  }
+
+  @Test
+  public void testConfHasFileURL() throws Throwable {
+    Configuration conf = loadSliderConf()
+    assert conf.get(KEY_TEST_CONF_XML)
+    String confXml = conf.get(KEY_TEST_CONF_XML)
+    URL confURL = new URL(confXml)
+    Path path = new Path(confURL.toURI())
+    
+    def fs = org.apache.hadoop.fs.FileSystem.get(path.toUri(), conf)
+    assert fs.exists(path)
+
   }
 
   @Test
